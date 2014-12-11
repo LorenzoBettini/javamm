@@ -1,0 +1,17 @@
+*.class
+bin/
+*~
+logs.zip
+*.orig
+*.java._trace
+*.smap
+
+src-gen/
+xtend-gen/
+emf-gen/
+
+buildroot
+
+target
+#generated
+generated-sources

@@ -1,0 +1,9 @@
+grammar javamm.Javamm with org.eclipse.xtext.common.Terminals
+
+generate javamm "http://www.Javamm.javamm"
+
+Model:
+	greetings+=Greeting*;
+	
+Greeting:
+	'Hello' name=ID '!';
