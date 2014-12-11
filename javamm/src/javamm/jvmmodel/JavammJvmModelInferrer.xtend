@@ -44,19 +44,19 @@ class JavammJvmModelInferrer extends AbstractModelInferrer {
 	 *            rely on linking using the index if isPreIndexingPhase is
 	 *            <code>true</code>.
 	 */
-   	def dispatch void infer(JavammProgram element, IJvmDeclaredTypeAcceptor acceptor, boolean isPreIndexingPhase) {
-   		// Here you explain how your model is mapped to Java elements, by writing the actual translation code.
-   		
-   		// An implementation for the initial hello world example could look like this:
-//   		acceptor.accept(element.toClass("my.company.greeting.MyGreetings")) [
-//   			for (greeting : element.greetings) {
-//   				members += greeting.toMethod("hello" + greeting.name, typeRef(String)) [
-//   					body = '''
-//							return "Hello «greeting.name»";
-//   					'''
-//   				]
-//   			}
-//   		]
+   	def dispatch void infer(JavammProgram program, IJvmDeclaredTypeAcceptor acceptor, boolean isPreIndexingPhase) {
+   		val main = program.main
+   		val className = program.eResource.URI.trimFileExtension.lastSegment
+   		acceptor.accept(program.toClass(className)) [
+   			// the class gets one main method
+   			members += program.toMethod('main', typeRef(Void.TYPE)) [
+   				parameters += program.toParameter("args", typeRef(String).addArrayTypeDimension)
+   				static = true
+   				varArgs = true
+   				// Associate the script as the body of the main method
+   				body = main
+   			]	
+   		]
    	}
 }
 
