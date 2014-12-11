@@ -1,9 +1,13 @@
-grammar javamm.Javamm with org.eclipse.xtext.common.Terminals
+grammar javamm.Javamm with org.eclipse.xtext.xbase.Xbase
 
 generate javamm "http://www.Javamm.javamm"
 
-Model:
-	greetings+=Greeting*;
-	
-Greeting:
-	'Hello' name=ID '!';
+import "http://www.eclipse.org/xtext/xbase/Xbase"
+
+JavammProgram:
+	main=Main
+;
+
+Main returns XBlockExpression:
+	{Main}
+	(expressions+=XExpressionOrVarDeclaration ';'?)*;

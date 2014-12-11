@@ -32,4 +32,5 @@ Export-Package: javamm,
  javamm.validation,
  javamm.scoping,
  javamm.generator,
- javamm.formatting
+ javamm.formatting,
+ javamm.jvmmodel
