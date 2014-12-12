@@ -4,12 +4,13 @@ import org.eclipse.emf.mwe.utils.*
 import org.eclipse.xtext.generator.*
 import org.eclipse.xtext.ui.generator.*
 
-var grammarURI = "classpath:/javamm/Javamm.xtext"
 var fileExtensions = "javamm"
 var projectName = "javamm"
 var runtimeProject = "../${projectName}"
 var generateXtendStub = true
 var encoding = "UTF-8"
+//var grammarURI = "classpath:/javamm/Javamm.xtext"
+var grammarURI = "platform:/resource/${projectName}/src/javamm/Javamm.xtext"
 
 Workflow {
     bean = StandaloneSetup {

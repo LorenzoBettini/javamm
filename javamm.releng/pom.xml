@@ -7,7 +7,7 @@
 	<packaging>pom</packaging>
 	<modules>
 		<module>../javamm.targetplatform</module>
-<!-- 		<module>../javamm</module> -->
+		<module>../javamm</module>
 	</modules>
 
 	<properties>
@@ -21,6 +21,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<memoryArgs>-Xms256M -Xmx1024M -XX:PermSize=256M -XX:MaxPermSize=256M -XX:+HeapDumpOnOutOfMemoryError</memoryArgs>
 		<xtext.version>2.7.3</xtext.version>
+		<xtext-version>${xtext.version}</xtext-version>
 		<platform-version>[3.9,4.0)</platform-version>
 		<fornax-oaw-m2-plugin-version>3.4.0</fornax-oaw-m2-plugin-version>
 
