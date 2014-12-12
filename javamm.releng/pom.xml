@@ -8,6 +8,7 @@
 	<modules>
 		<module>../javamm.targetplatform</module>
 		<module>../javamm</module>
+		<module>../javamm.ui</module>
 	</modules>
 
 	<properties>
