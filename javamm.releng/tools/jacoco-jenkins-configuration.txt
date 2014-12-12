@@ -1,0 +1,8 @@
+Path to classes:
+xtraitj.runtime.lib/**/classes,xtraitj/**/classes,xtraitj.ui/**/classes
+
+Path to source files:
+xtraitj.runtime.lib/src,xtraitj/src,xtraitj.ui/src,xtraitj/xtend-gen,xtraitj.ui/xtend-gen
+
+Exclusions:
+**/*Internal*,**/*Sequencer*,**/*Abstract*,**/*GrammarAccess*,**/antlr/*.*,**/internal/*.*,**/xtraitj/xtraitj/util/*.*,**/xtraitj/xtraitj/impl/*.*
