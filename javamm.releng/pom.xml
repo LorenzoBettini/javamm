@@ -10,6 +10,7 @@
 		<module>../javamm</module>
 		<module>../javamm.ui</module>
 		<module>../javamm.sdk</module>
+		<module>../javamm.site</module>
 	</modules>
 
 	<properties>
