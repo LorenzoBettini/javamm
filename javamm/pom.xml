@@ -59,6 +59,7 @@
 					</execution>
 				</executions>
 				<configuration>
+					<skip>${mwe2.skip}</skip>
 					<mainClass>org.eclipse.emf.mwe2.launch.runtime.Mwe2Launcher</mainClass>
 					<arguments>
 						<argument>/${project.basedir}/src/javamm/GenerateJavamm.mwe2</argument>

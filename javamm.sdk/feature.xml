@@ -2,6 +2,12 @@
 <feature id="javamm.sdk"
 	label="Javamm SDK Feature "
 	version="1.0.0.qualifier">
+	
+	<requires>
+		<import feature="org.eclipse.xtext.xbase" version="2.7.3" match="compatible"/>
+		<import feature="org.eclipse.xtext.ui" version="2.7.3" match="compatible"/>
+	</requires>
+   
 	<plugin
 			id="javamm"
 			download-size="0"
