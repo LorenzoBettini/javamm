@@ -39,6 +39,26 @@ public class MyFile {
 		]
 	}
 
+	@Test def void testHelloWorldMethod() {
+		helloWorldMethod.compile[
+			assertGeneratedJavaCode(
+'''
+@SuppressWarnings("all")
+public class MyFile {
+  public static void sayHelloWorld(final String m) {
+    System.out.println(m);
+  }
+  
+  public static void main(final String... args) {
+    MyFile.sayHelloWorld("Hello world!");
+  }
+}
+'''
+			)
+			assertGeneratedJavaCodeCompiles
+		]
+	}
+
 	def private assertGeneratedJavaCode(CompilationTestHelper.Result r, CharSequence expected) {
 		expected.toString.assertEquals(r.singleGeneratedCode)
 	}
