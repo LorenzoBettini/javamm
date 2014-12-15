@@ -559,4 +559,15 @@
     </provider>
   </extension>
 
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <wizard
+            category="org.eclipse.xtext.projectwiz"
+            class="javamm.ui.JavammExecutableExtensionFactory:javamm.ui.wizard.JavammNewProjectWizard"
+            id="javamm.ui.wizard.JavammNewProjectWizard"
+            name="Javamm Project"
+            project="true">
+      </wizard>
+   </extension>
+
 </plugin>

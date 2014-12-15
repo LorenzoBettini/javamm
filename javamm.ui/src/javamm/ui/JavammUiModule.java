@@ -3,7 +3,12 @@
  */
 package javamm.ui;
 
+import javamm.ui.wizard.JavammProjectCreatorCustom;
+import javamm.ui.wizard.PluginProjectFactoryCustom;
+
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.eclipse.xtext.ui.util.PluginProjectFactory;
+import org.eclipse.xtext.ui.wizard.IProjectCreator;
 
 /**
  * Use this class to register components to be used within the IDE.
@@ -11,5 +16,14 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 public class JavammUiModule extends javamm.ui.AbstractJavammUiModule {
 	public JavammUiModule(AbstractUIPlugin plugin) {
 		super(plugin);
+	}
+	
+	@Override
+	public Class<? extends IProjectCreator> bindIProjectCreator() {
+		return JavammProjectCreatorCustom.class;
+	}
+
+	public Class<? extends PluginProjectFactory> bindPluginProjectFactory() {
+		return PluginProjectFactoryCustom.class;
 	}
 }
