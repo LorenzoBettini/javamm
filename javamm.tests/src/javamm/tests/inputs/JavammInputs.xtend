@@ -18,5 +18,17 @@ class JavammInputs {
 		'''
 	}
 
+	def javaLikeVariableDeclarations() {
+		'''
+		boolean foo() {
+			int i = 0;
+			return (i > 0);
+		}
+		
+		int i = 0;
+		boolean b = false;
+		boolean cond = (i > 0);
+		'''
+	}
 
 }

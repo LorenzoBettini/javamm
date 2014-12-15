@@ -59,6 +59,29 @@ public class MyFile {
 		]
 	}
 
+	@Test def void testJavaLikeVariableDeclarations() {
+		javaLikeVariableDeclarations.compile[
+			assertGeneratedJavaCode(
+'''
+@SuppressWarnings("all")
+public class MyFile {
+  public static boolean foo() {
+    final int i = 0;
+    return (i > 0);
+  }
+  
+  public static void main(final String... args) {
+    final int i = 0;
+    final boolean b = false;
+    final boolean cond = (i > 0);
+  }
+}
+'''
+			)
+			assertGeneratedJavaCodeCompiles
+		]
+	}
+
 	def private assertGeneratedJavaCode(CompilationTestHelper.Result r, CharSequence expected) {
 		expected.toString.assertEquals(r.singleGeneratedCode)
 	}

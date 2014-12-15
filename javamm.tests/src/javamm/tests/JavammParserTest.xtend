@@ -17,4 +17,8 @@ class JavammParserTest extends JavammAbstractTest {
 	@Test def void testHelloWorld() {
 		helloWorld.parseAndAssertNoErrors
 	}
+
+	@Test def void testJavaLikeVariableDeclarations() {
+		javaLikeVariableDeclarations.parseAndAssertNoErrors
+	}
 }
