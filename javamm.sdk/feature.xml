@@ -1,23 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<feature id="javamm.sdk"
-	label="Javamm SDK Feature "
-	version="1.0.0.qualifier">
-	
-	<requires>
-		<import feature="org.eclipse.xtext.xbase" version="2.7.3" match="compatible"/>
-		<import feature="org.eclipse.xtext.ui" version="2.7.3" match="compatible"/>
-	</requires>
-   
-	<plugin
-			id="javamm"
-			download-size="0"
-			install-size="0"
-			version="0.0.0"
-			unpack="false"/>
-	<plugin
-			id="javamm.ui"
-			download-size="0"
-			install-size="0"
-			version="0.0.0"
-			unpack="false"/>
+<feature
+      id="javamm.sdk"
+      label="Javamm SDK Feature "
+      version="1.0.0.qualifier">
+
+   <requires>
+      <import feature="org.eclipse.xtext.xbase" version="2.7.3" match="compatible"/>
+      <import feature="org.eclipse.xtext.ui" version="2.7.3" match="compatible"/>
+   </requires>
+
+   <plugin
+         id="javamm"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="javamm.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="javamm.runtime"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
 </feature>
