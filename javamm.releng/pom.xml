@@ -9,6 +9,7 @@
 		<module>../javamm.targetplatform</module>
 		<module>../javamm</module>
 		<module>../javamm.ui</module>
+		<module>../javamm.tests</module>
 		<module>../javamm.sdk</module>
 		<module>../javamm.site</module>
 	</modules>
