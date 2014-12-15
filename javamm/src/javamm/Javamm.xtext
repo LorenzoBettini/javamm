@@ -19,5 +19,8 @@ Main returns XBlockExpression:
 	{Main}
 	(expressions+=XExpressionOrVarDeclaration ';'?)*;
 
+XExpressionOrVarDeclaration returns XExpression:
+	=>XVariableDeclaration | XExpression;
+
 XVariableDeclaration returns XVariableDeclaration:
-	=>(type=JvmTypeReference name=ValidID '=') right=XExpression ';';
+	type=JvmTypeReference name=ValidID (';' | '=' right=XExpression ';');
