@@ -5,14 +5,14 @@ generate javamm "http://www.Javamm.javamm"
 import "http://www.eclipse.org/xtext/xbase/Xbase"
 
 JavammProgram:
-	javammMethods+=JavammMethod*
+	(javammMethods+=JavammMethod)*
 	main=Main
 ;
 
 JavammMethod:
-	(=>type=JvmTypeReference name=ValidID 
-		'(' (params+=FullJvmFormalParameter (',' params+=FullJvmFormalParameter)*)? ')' 
-			body=XBlockExpression);
+	=>(type=JvmTypeReference name=ValidID 
+		'(') (params+=FullJvmFormalParameter (',' params+=FullJvmFormalParameter)*)? ')' 
+			body=XBlockExpression;
 
 Main returns XBlockExpression:
 	{Main}
