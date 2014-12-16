@@ -14,18 +14,6 @@ import static extension org.junit.Assert.*
 @InjectWith(typeof(JavammInjectorProvider))
 class JavammParserTest extends JavammAbstractTest {
 
-	@Test def void testEmptyProgram() {
-		"".parseAndAssertNoErrors
-	}
-
-	@Test def void testHelloWorld() {
-		helloWorld.parseAndAssertNoErrors
-	}
-
-	@Test def void testJavaLikeVariableDeclarations() {
-		javaLikeVariableDeclarations.parseAndAssertNoErrors
-	}
-
 	@Test def void testAssignmentIndex() {
 		'''
 		i[0] = 1;
