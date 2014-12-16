@@ -66,14 +66,16 @@ public class MyFile {
 @SuppressWarnings("all")
 public class MyFile {
   public static boolean foo() {
-    final int i = 0;
+    int i = 0;
+    int j = 0;
+    j = 1;
     return (i > 0);
   }
   
   public static void main(final String... args) {
-    final int i = 0;
-    final boolean b = false;
-    final boolean cond = (i > 0);
+    int i = 0;
+    boolean b = false;
+    boolean cond = (i > 0);
   }
 }
 '''

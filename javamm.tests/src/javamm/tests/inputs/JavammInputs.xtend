@@ -22,6 +22,8 @@ class JavammInputs {
 		'''
 		boolean foo() {
 			int i = 0;
+			int j;
+			j = 1
 			return (i > 0);
 		}
 		
