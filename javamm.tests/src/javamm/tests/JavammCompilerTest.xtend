@@ -84,22 +84,44 @@ public class MyFile {
 		]
 	}
 
-	@Test def void testArrayAccess() {
-		arrayAccess.compile[
+	@Test def void testSimpleArrayAccess() {
+		simpleArrayAccess.compile[
 			assertGeneratedJavaCode(
 '''
 @SuppressWarnings("all")
 public class MyFile {
   public static void main(final String... args) {
     String[] a = null;
-    a = "test";
+    a[0] = "test";
   }
 }
 '''
 			)
-			// the above generated code is not valid Java code
-			// we need to customize XbaseCompiler
-			//assertGeneratedJavaCodeCompiles
+			assertGeneratedJavaCodeCompiles
+		]
+	}
+
+	@Test def void testArrayAccess() {
+		arrayAccess.compile[
+			assertGeneratedJavaCode(
+'''
+@SuppressWarnings("all")
+public class MyFile {
+  public static int getIndex() {
+    return 0;
+  }
+  
+  public static void main(final String... args) {
+    String[] a = null;
+    int i = 0;
+    int j = 1;
+    a[(i + j)] = "test";
+    a[((i - MyFile.getIndex()) + 1)] = "test";
+  }
+}
+'''
+			)
+			assertGeneratedJavaCodeCompiles
 		]
 	}
 

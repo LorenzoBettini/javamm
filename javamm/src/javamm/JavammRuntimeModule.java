@@ -3,8 +3,10 @@
  */
 package javamm;
 
+import javamm.compiler.JavammXbaseCompiler;
 import javamm.typesystem.JavammTypeComputer;
 
+import org.eclipse.xtext.xbase.compiler.XbaseCompiler;
 import org.eclipse.xtext.xbase.typesystem.computation.ITypeComputer;
 
 
@@ -16,5 +18,9 @@ public class JavammRuntimeModule extends javamm.AbstractJavammRuntimeModule {
 	@Override
 	public Class<? extends ITypeComputer> bindITypeComputer() {
 		return JavammTypeComputer.class;
+	}
+
+	public Class<? extends XbaseCompiler> bindXbaseCompiler() {
+		return JavammXbaseCompiler.class;
 	}
 }

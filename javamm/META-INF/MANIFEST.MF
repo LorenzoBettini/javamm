@@ -23,15 +23,17 @@ Require-Bundle: org.eclipse.xtext;bundle-version="[2.7.3,2.8.0)";visibility:=ree
 Import-Package: org.apache.log4j
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: javamm,
- javamm.services,
+ javamm.compiler,
+ javamm.formatting,
+ javamm.generator,
  javamm.javamm,
  javamm.javamm.impl,
  javamm.javamm.util,
- javamm.serializer,
+ javamm.jvmmodel,
  javamm.parser.antlr,
  javamm.parser.antlr.internal,
- javamm.validation,
  javamm.scoping,
- javamm.generator,
- javamm.formatting,
- javamm.jvmmodel
+ javamm.serializer,
+ javamm.services,
+ javamm.typesystem,
+ javamm.validation

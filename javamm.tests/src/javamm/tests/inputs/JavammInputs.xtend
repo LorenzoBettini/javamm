@@ -33,10 +33,24 @@ class JavammInputs {
 		'''
 	}
 
-	def arrayAccess() {
+	def simpleArrayAccess() {
 		'''
 		String[] a;
 		a[0] = "test";
+		'''
+	}
+
+	def arrayAccess() {
+		'''
+		int getIndex() {
+			return 0;
+		}
+		
+		String[] a;
+		int i = 0;
+		int j = 1;
+		a[i+j] = "test";
+		a[i-getIndex()+1] = "test";
 		'''
 	}
 }
