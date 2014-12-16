@@ -3,6 +3,7 @@ grammar javamm.Javamm with org.eclipse.xtext.xbase.Xbase
 generate javamm "http://www.Javamm.javamm"
 
 import "http://www.eclipse.org/xtext/xbase/Xbase"
+import "http://www.eclipse.org/xtext/common/JavaVMTypes" as types
 
 JavammProgram:
 	(javammMethods+=JavammMethod)*
@@ -24,3 +25,60 @@ XExpressionOrVarDeclaration returns XExpression:
 
 XVariableDeclaration returns XVariableDeclaration:
 	type=JvmTypeReference name=ValidID (';' | '=' right=XExpression ';');
+
+XFeatureCall returns XExpression:
+	{XFeatureCall}
+	feature=[types::JvmIdentifiableElement|IdOrSuper] 
+	(=>explicitOperationCall?='(' 
+		(
+		    featureCallArguments+=XExpression (',' featureCallArguments+=XExpression)*
+		)? 
+	')')?;
+
+XConstructorCall returns XExpression:
+	{XConstructorCall}
+	'new' constructor=[types::JvmConstructor|QualifiedName] 
+	(=>explicitConstructorCall?='(' 
+		(
+		    arguments+=XExpression (',' arguments+=XExpression)*
+		)? 
+	')')?;
+
+XMemberFeatureCall returns XExpression:
+	XPrimaryExpression
+	(=>({XAssignment.assignable=current} ('.'|explicitStatic?="::") feature=[types::JvmIdentifiableElement|FeatureCallID] OpSingleAssign) value=XAssignment
+	|=>({XMemberFeatureCall.memberCallTarget=current} ".") 
+		feature=[types::JvmIdentifiableElement|IdOrSuper] (
+			=>explicitOperationCall?='(' 
+				(
+				    memberCallArguments+=XExpression (',' memberCallArguments+=XExpression)*
+				)? 
+			')')?
+		)*;
+
+XPrimaryExpression returns XExpression:
+	XConstructorCall |
+	XBlockExpression |
+	XSwitchExpression |
+//	XSynchronizedExpression |
+	XFeatureCall |
+	XLiteral |
+	XIfExpression |
+	XForLoopExpression |
+	XBasicForLoopExpression |
+	XWhileExpression |
+	XDoWhileExpression |
+//	XThrowExpression |
+	XReturnExpression |
+//	XTryCatchFinallyExpression |
+	XParenthesizedExpression;
+
+XLiteral returns XExpression:
+//	XCollectionLiteral |
+//	XClosure |
+	XBooleanLiteral |
+	XNumberLiteral |
+	XNullLiteral |
+	XStringLiteral
+//	XTypeLiteral
+;
