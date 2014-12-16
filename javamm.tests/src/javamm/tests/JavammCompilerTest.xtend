@@ -84,6 +84,45 @@ public class MyFile {
 		]
 	}
 
+	@Test def void testArrayAccess() {
+		arrayAccess.compile[
+			assertGeneratedJavaCode(
+'''
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(final String... args) {
+    String[] a = null;
+    a = "test";
+  }
+}
+'''
+			)
+			// the above generated code is not valid Java code
+			// we need to customize XbaseCompiler
+			//assertGeneratedJavaCodeCompiles
+		]
+	}
+
+	@Test def void testSimpleAccess() {
+		'''
+		int i;
+		i = 0;
+		'''.compile[
+			assertGeneratedJavaCode(
+'''
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(final String... args) {
+    int i = 0;
+    i = 0;
+  }
+}
+'''
+			)
+			assertGeneratedJavaCodeCompiles
+		]
+	}
+
 	def private assertGeneratedJavaCode(CompilationTestHelper.Result r, CharSequence expected) {
 		expected.toString.assertEquals(r.singleGeneratedCode)
 	}

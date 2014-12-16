@@ -33,7 +33,7 @@ class JavammInputs {
 		'''
 	}
 
-	def accessToArgs() {
+	def arrayAccess() {
 		'''
 		String[] a;
 		a[0] = "test";

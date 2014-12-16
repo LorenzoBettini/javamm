@@ -26,8 +26,8 @@ class JavammValidatorTest extends JavammAbstractTest {
 		javaLikeVariableDeclarations.parseAndAssertNoErrors
 	}
 
-	@Test def void testAccessToArgs() {
-		accessToArgs.parseAndAssertNoErrors
+	@Test def void testArrayAccess() {
+		arrayAccess.parseAndAssertNoErrors
 	}
 
 	@Test def void testArrayIndexNotInteger() {
