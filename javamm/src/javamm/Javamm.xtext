@@ -24,4 +24,5 @@ XExpressionOrVarDeclaration returns XExpression:
 	=>XVariableDeclaration | XExpression;
 
 XVariableDeclaration returns XVariableDeclaration:
+	{JavammXVariableDeclaration}
 	type=JvmTypeReference name=ValidID (';' | '=' right=XExpression ';');

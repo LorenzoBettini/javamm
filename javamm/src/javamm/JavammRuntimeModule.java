@@ -3,17 +3,11 @@
  */
 package javamm;
 
-import javamm.jvmmodel.JavammDerivedStateComputer;
-
-import org.eclipse.xtext.resource.IDerivedStateComputer;
 
 /**
  * Use this class to register components to be used at runtime / without the Equinox extension registry.
  */
 public class JavammRuntimeModule extends javamm.AbstractJavammRuntimeModule {
 
-	@Override
-	public Class<? extends IDerivedStateComputer> bindIDerivedStateComputer() {
-		return JavammDerivedStateComputer.class;
-	}
+
 }
