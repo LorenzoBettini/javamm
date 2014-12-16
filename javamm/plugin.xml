@@ -7,7 +7,7 @@
     <package 
        uri = "http://www.Javamm.javamm" 
        class = "javamm.javamm.JavammPackage"
-       genModel = "model/generated/Javamm.genmodel" /> 
+       genModel = "model/custom/Javamm.genmodel" /> 
 	
   </extension>
 

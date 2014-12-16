@@ -3,6 +3,10 @@
 */
 package javamm;
 
+import org.eclipse.emf.ecore.EPackage;
+
+import com.google.inject.Injector;
+
 /**
  * Initialization support for running Xtext languages 
  * without equinox extension registry
@@ -11,6 +15,14 @@ public class JavammStandaloneSetup extends JavammStandaloneSetupGenerated{
 
 	public static void doSetup() {
 		new JavammStandaloneSetup().createInjectorAndDoEMFRegistration();
+	}
+	
+	@Override
+	public void register(Injector injector) {
+		if (!EPackage.Registry.INSTANCE.containsKey("http://www.Javamm.javamm")) {
+			EPackage.Registry.INSTANCE.put("http://www.Javamm.javamm", javamm.javamm.JavammPackage.eINSTANCE);
+		}
+		super.register(injector);
 	}
 }
 

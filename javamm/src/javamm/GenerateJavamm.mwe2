@@ -24,6 +24,10 @@ Workflow {
     component = DirectoryCleaner {
     	directory = "${runtimeProject}/src-gen"
     }
+
+    component = DirectoryCleaner {
+    	directory = "${runtimeProject}/emf-gen"
+    }
     
     component = DirectoryCleaner {
     	directory = "${runtimeProject}/model/generated"
@@ -36,6 +40,11 @@ Workflow {
     component = DirectoryCleaner {
     	directory = "${runtimeProject}.tests/src-gen"
     }
+
+	component = org.eclipse.emf.mwe2.ecore.EcoreGenerator {
+		genModel = "platform:/resource/${projectName}/model/custom/Javamm.genmodel"
+		srcPath = "platform:/resource/${projectName}/src"
+	}
     
     component = Generator {
     	pathRtProject = runtimeProject
@@ -45,13 +54,15 @@ Workflow {
     	projectNameUi = "${projectName}.ui"
     	encoding = encoding
     	language = auto-inject {
+    		loadedResource = "platform:/resource/${projectName}/model/custom/Javamm.ecore"
+    		
     		uri = grammarURI
     
     		// Java API to access grammar elements (required by several other fragments)
     		fragment = grammarAccess.GrammarAccessFragment auto-inject {}
     
     		// generates Java API for the generated EPackages
-    		fragment = ecore.EMFGeneratorFragment auto-inject {}
+//    		fragment = ecore.EMFGeneratorFragment auto-inject {}
     
     		// the old serialization component
     		// fragment = parseTreeConstructor.ParseTreeConstructorFragment auto-inject {}    

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/javamm/emf-gen" editDirectory="/javamm.edit/src"
+    editorDirectory="/javamm.editor/src" modelPluginID="javamm" forceOverwrite="true"
+    modelName="Javamm" updateClasspath="false" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    complianceLevel="5.0" copyrightFields="false" editPluginID="javamm.edit" editorPluginID="javamm.editor"
+    runtimeVersion="2.10" usedGenPackages="../../../org.eclipse.xtext.common.types/model/JavaVMTypes.genmodel#//types ../../../org.eclipse.xtext.xbase/model/Xbase.genmodel#//xbase">
+  <genPackages prefix="Javamm" basePackage="javamm" disposableProviderFactory="true"
+      fileExtensions="javamm" ecorePackage="Javamm.ecore#/">
+    <genClasses ecoreClass="Javamm.ecore#//JavammProgram">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Javamm.ecore#//JavammProgram/javammMethods"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Javamm.ecore#//JavammProgram/main"/>
+    </genClasses>
+    <genClasses ecoreClass="Javamm.ecore#//JavammMethod">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Javamm.ecore#//JavammMethod/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Javamm.ecore#//JavammMethod/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Javamm.ecore#//JavammMethod/params"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Javamm.ecore#//JavammMethod/body"/>
+    </genClasses>
+    <genClasses ecoreClass="Javamm.ecore#//Main"/>
+    <genClasses ecoreClass="Javamm.ecore#//JavammXAssignment">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Javamm.ecore#//JavammXAssignment/feature"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Javamm.ecore#//JavammXAssignment/index"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Javamm.ecore#//JavammXAssignment/value"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

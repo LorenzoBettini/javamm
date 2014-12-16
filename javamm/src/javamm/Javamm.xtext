@@ -1,6 +1,7 @@
 grammar javamm.Javamm with org.eclipse.xtext.xbase.Xbase
 
-generate javamm "http://www.Javamm.javamm"
+//generate javamm "http://www.Javamm.javamm"
+import "http://www.Javamm.javamm"
 
 import "http://www.eclipse.org/xtext/xbase/Xbase"
 
