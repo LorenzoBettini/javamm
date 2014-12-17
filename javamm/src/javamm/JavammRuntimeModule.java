@@ -4,10 +4,12 @@
 package javamm;
 
 import javamm.compiler.JavammXbaseCompiler;
+import javamm.typesystem.JavammExpressionArgumentFactory;
 import javamm.typesystem.JavammTypeComputer;
 
 import org.eclipse.xtext.xbase.compiler.XbaseCompiler;
 import org.eclipse.xtext.xbase.typesystem.computation.ITypeComputer;
+import org.eclipse.xtext.xbase.typesystem.internal.ExpressionArgumentFactory;
 
 
 /**
@@ -22,5 +24,9 @@ public class JavammRuntimeModule extends javamm.AbstractJavammRuntimeModule {
 
 	public Class<? extends XbaseCompiler> bindXbaseCompiler() {
 		return JavammXbaseCompiler.class;
+	}
+
+	public Class<? extends ExpressionArgumentFactory> bindExpressionArgumentFactory() {
+		return JavammExpressionArgumentFactory.class;
 	}
 }
