@@ -1,18 +1,20 @@
 package javamm.tests
 
 import javamm.JavammInjectorProvider
+import javamm.javamm.JavammPackage
 import org.eclipse.xtext.junit4.InjectWith
 import org.eclipse.xtext.junit4.XtextRunner
 import org.eclipse.xtext.xbase.XbasePackage
 import org.eclipse.xtext.xbase.validation.IssueCodes
 import org.junit.Test
 import org.junit.runner.RunWith
+import javamm.validation.JavammValidator
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammInjectorProvider))
 class JavammValidatorTest extends JavammAbstractTest {
 	
-//	val javammPack = JavammPackage.eINSTANCE
+	val javammPack = JavammPackage.eINSTANCE
 
 	@Test def void testEmptyProgram() {
 		"".parseAndAssertNoErrors
@@ -37,6 +39,17 @@ class JavammValidatorTest extends JavammAbstractTest {
 			XbasePackage.eINSTANCE.XBooleanLiteral,
 			IssueCodes.INCOMPATIBLE_TYPES,
 			"Type mismatch: cannot convert from boolean to int"
+		)
+	}
+
+	@Test def void testNotArrayType() {
+		'''
+		int i;
+		i[0] = 0;
+		'''.parse.assertError(
+			javammPack.javammXAssignment,
+			JavammValidator.NOT_ARRAY_TYPE,
+			"The type of the expression must be an array type but it resolved to int"
 		)
 	}
 }

@@ -1,9 +1,16 @@
 package javamm.typesystem
 
 import javamm.javamm.JavammXAssignment
+import org.eclipse.xtext.common.types.JvmIdentifiableElement
 import org.eclipse.xtext.xbase.XExpression
 import org.eclipse.xtext.xbase.typesystem.computation.ITypeComputationState
 import org.eclipse.xtext.xbase.typesystem.computation.XbaseTypeComputer
+import org.eclipse.xtext.xbase.typesystem.internal.ExpressionTypeComputationState
+import org.eclipse.xtext.xbase.typesystem.references.ArrayTypeReference
+import org.eclipse.xtext.validation.EObjectDiagnosticImpl
+import org.eclipse.xtext.diagnostics.Severity
+import javamm.validation.JavammValidator
+import org.eclipse.xtext.xbase.XbasePackage
 
 /**
  * @author Lorenzo Bettini
@@ -24,30 +31,29 @@ class JavammTypeComputer extends XbaseTypeComputer {
 		if (assignment.index != null) {
 			val conditionExpectation = state.withExpectation(getTypeForName(Integer.TYPE, state))
 			conditionExpectation.computeTypes(assignment.index);
-//			val expressionState = state as ExpressionTypeComputationState
-//			val featureType = getDeclaredType(best.feature, expressionState)
-//			if (featureType instanceof ArrayTypeReference) {
-//				val valueExpectation = state.withExpectation(featureType.componentType)
-//				valueExpectation.computeTypes(assignment.value)
-//				
-////				val expectation = expressionState.expectations.head
-////				expectation.acceptActualType(featureType.componentType, ConformanceFlags.UNCHECKED);
-////				expressionState.getStackedResolvedTypes().mergeIntoParent();
-//				expressionState.acceptActualType(featureType.componentType, ConformanceFlags.UNCHECKED);
-//				// the following is required to make resolution of feature work
-//				// executed later from RootResolvedTypes.resolveProxies
-//				expressionState.acceptCandidate(assignment, best)
-//			}
+			val expressionState = state as ExpressionTypeComputationState
+			val featureType = getDeclaredType(best.feature, expressionState)
+			if (!(featureType instanceof ArrayTypeReference)) {
+				val diagnostic = new EObjectDiagnosticImpl(
+					Severity.ERROR,
+					JavammValidator.NOT_ARRAY_TYPE, 
+					"The type of the expression must be an array type but it resolved to " + featureType.simpleName,
+					assignment,
+					XbasePackage.Literals.XASSIGNMENT__ASSIGNABLE,
+					-1,
+					null);
+				state.addDiagnostic(diagnostic);
+			}
 		}
 		best.applyToComputationState();
 	}
 
-//	def private getDeclaredType(JvmIdentifiableElement feature, ExpressionTypeComputationState state) {
-//		val result = state.getResolvedTypes().getActualType(feature);
-//		if (result == null) {
-//			return state.getReferenceOwner().newAnyTypeReference();
-//		}
-//		return result;
-//	}
+	def private getDeclaredType(JvmIdentifiableElement feature, ExpressionTypeComputationState state) {
+		val result = state.getResolvedTypes().getActualType(feature);
+		if (result == null) {
+			return state.getReferenceOwner().newAnyTypeReference();
+		}
+		return result;
+	}
 	
 }

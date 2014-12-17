@@ -17,6 +17,10 @@ import org.eclipse.xtext.xbase.validation.XbaseValidator
  */
 class JavammValidator extends XbaseValidator {
 	
+	public static val PREFIX = "javamm."
+	
+	public static val NOT_ARRAY_TYPE = PREFIX + "NotArrayType"
+	
 	override protected getEPackages() {
 		val result = new ArrayList<EPackage>(super.getEPackages());
 	    result.add(JavammPackage.eINSTANCE);
