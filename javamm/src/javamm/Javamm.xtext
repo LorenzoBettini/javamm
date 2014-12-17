@@ -37,13 +37,14 @@ XAssignment returns XExpression :
 	)?;
 
 XFeatureCall returns XExpression:
-	{XFeatureCall}
+	{JavammXFeatureCall}
 	feature=[types::JvmIdentifiableElement|IdOrSuper] 
 	(=>explicitOperationCall?='(' 
 		(
 		    featureCallArguments+=XExpression (',' featureCallArguments+=XExpression)*
 		)? 
-	')')?;
+	')' =>('[' index=XAssignment ']')?
+	)?;
 
 XConstructorCall returns XExpression:
 	{XConstructorCall}
