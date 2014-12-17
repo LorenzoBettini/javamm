@@ -3,6 +3,7 @@
  */
 package javamm.javamm.impl;
 
+import javamm.javamm.JavammArrayAccess;
 import javamm.javamm.JavammPackage;
 import javamm.javamm.JavammXAssignment;
 
@@ -170,4 +171,43 @@ public class JavammXAssignmentImplCustom extends XAssignmentImplCustom implement
 		}
 		return super.eIsSet(featureID);
 	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass)
+	{
+		if (baseClass == JavammArrayAccess.class)
+		{
+			switch (derivedFeatureID)
+			{
+				case JavammPackage.JAVAMM_XASSIGNMENT__INDEX: return JavammPackage.JAVAMM_ARRAY_ACCESS__INDEX;
+				default: return -1;
+			}
+		}
+		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass)
+	{
+		if (baseClass == JavammArrayAccess.class)
+		{
+			switch (baseFeatureID)
+			{
+				case JavammPackage.JAVAMM_ARRAY_ACCESS__INDEX: return JavammPackage.JAVAMM_XASSIGNMENT__INDEX;
+				default: return -1;
+			}
+		}
+		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
+	}
+
 }
