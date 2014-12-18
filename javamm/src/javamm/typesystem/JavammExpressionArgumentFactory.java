@@ -19,17 +19,12 @@ import org.eclipse.xtext.xbase.typesystem.internal.ExpressionArgumentFactory;
 import org.eclipse.xtext.xbase.typesystem.references.ArrayTypeReference;
 import org.eclipse.xtext.xbase.typesystem.references.LightweightTypeReference;
 
-import com.google.inject.Inject;
-
 /**
  * @author Lorenzo Bettini
  *
  */
 public class JavammExpressionArgumentFactory extends ExpressionArgumentFactory {
 	
-	@Inject
-	private JavammTypingUtil typingUtil;
-
 	@Override
 	public IFeatureCallArguments createExpressionArguments(
 			XExpression expression, AbstractLinkingCandidate<?> candidate) {
