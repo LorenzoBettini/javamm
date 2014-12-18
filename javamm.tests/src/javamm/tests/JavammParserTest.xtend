@@ -11,10 +11,29 @@ import org.eclipse.xtext.xbase.XNumberLiteral
 import static extension org.junit.Assert.*
 import javamm.javamm.JavammXFeatureCall
 import org.eclipse.xtext.xbase.XMemberFeatureCall
+import org.eclipse.xtext.xbase.XFeatureCall
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammInjectorProvider))
 class JavammParserTest extends JavammAbstractTest {
+
+	@Test def void testAssignmentLeft() {
+		'''
+		i = 1;
+		'''.parse => [
+			(main.expressions.head as JavammXAssignment).feature as XFeatureCall
+		]
+	}
+
+	@Test def void testAssignmentRight() {
+		'''
+		int m() { return null; }
+		int i;
+		i = m();
+		'''.parse => [
+			(main.expressions.last as JavammXAssignment).value as XFeatureCall
+		]
+	}
 
 	@Test def void testAssignmentIndex() {
 		'''
