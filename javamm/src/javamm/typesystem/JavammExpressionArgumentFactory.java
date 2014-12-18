@@ -35,11 +35,13 @@ public class JavammExpressionArgumentFactory extends ExpressionArgumentFactory {
 			XExpression expression, AbstractLinkingCandidate<?> candidate) {
 		
 		if (expression instanceof JavammXAssignment) {
+			AssignmentFeatureCallArguments assignmentFeatureCallArguments = (AssignmentFeatureCallArguments) super.createExpressionArguments(expression, candidate);
 			JavammXAssignment assignment = (JavammXAssignment) expression;
-			JvmIdentifiableElement feature = candidate.getFeature();
-			LightweightTypeReference featureType = typingUtil.toLightweightTypeReference(getDeclaredType(feature), expression);
+			LightweightTypeReference featureType = assignmentFeatureCallArguments.getDeclaredType();
 			if (featureType instanceof ArrayTypeReference) {
 				return new AssignmentFeatureCallArguments(assignment.getValue(), ((ArrayTypeReference)featureType).getComponentType());
+			} else {
+				return assignmentFeatureCallArguments;
 			}
 		}
 		
