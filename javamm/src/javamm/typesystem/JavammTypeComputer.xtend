@@ -1,16 +1,19 @@
 package javamm.typesystem
 
 import javamm.javamm.JavammXAssignment
+import javamm.validation.JavammValidator
 import org.eclipse.xtext.common.types.JvmIdentifiableElement
+import org.eclipse.xtext.diagnostics.Severity
+import org.eclipse.xtext.validation.EObjectDiagnosticImpl
 import org.eclipse.xtext.xbase.XExpression
+import org.eclipse.xtext.xbase.XbasePackage
+import org.eclipse.xtext.xbase.typesystem.computation.ILinkingCandidate
 import org.eclipse.xtext.xbase.typesystem.computation.ITypeComputationState
 import org.eclipse.xtext.xbase.typesystem.computation.XbaseTypeComputer
 import org.eclipse.xtext.xbase.typesystem.internal.ExpressionTypeComputationState
 import org.eclipse.xtext.xbase.typesystem.references.ArrayTypeReference
-import org.eclipse.xtext.validation.EObjectDiagnosticImpl
-import org.eclipse.xtext.diagnostics.Severity
-import javamm.validation.JavammValidator
-import org.eclipse.xtext.xbase.XbasePackage
+import javamm.javamm.JavammArrayAccess
+import org.eclipse.emf.ecore.EStructuralFeature
 
 /**
  * @author Lorenzo Bettini
@@ -28,9 +31,16 @@ class JavammTypeComputer extends XbaseTypeComputer {
 	def protected _computeTypes(JavammXAssignment assignment, ITypeComputationState state) {
 		val candidates = state.getLinkingCandidates(assignment);
 		val best = getBestCandidate(candidates);
-		if (assignment.index != null) {
+		best.applyToComputationState();
+		computeTypesOfArrayAccess(assignment, best, state, XbasePackage.Literals.XASSIGNMENT__ASSIGNABLE)
+	}
+	
+	private def computeTypesOfArrayAccess(JavammArrayAccess arrayAccess, 
+		ILinkingCandidate best, ITypeComputationState state, EStructuralFeature featureForError
+	) {
+		if (arrayAccess.index != null) {
 			val conditionExpectation = state.withExpectation(getTypeForName(Integer.TYPE, state))
-			conditionExpectation.computeTypes(assignment.index);
+			conditionExpectation.computeTypes(arrayAccess.index);
 			val expressionState = state as ExpressionTypeComputationState
 			val featureType = getDeclaredType(best.feature, expressionState)
 			if (!(featureType instanceof ArrayTypeReference)) {
@@ -38,14 +48,13 @@ class JavammTypeComputer extends XbaseTypeComputer {
 					Severity.ERROR,
 					JavammValidator.NOT_ARRAY_TYPE, 
 					"The type of the expression must be an array type but it resolved to " + featureType.simpleName,
-					assignment,
-					XbasePackage.Literals.XASSIGNMENT__ASSIGNABLE,
+					arrayAccess,
+					featureForError,
 					-1,
 					null);
 				state.addDiagnostic(diagnostic);
 			}
 		}
-		best.applyToComputationState();
 	}
 
 	def private getDeclaredType(JvmIdentifiableElement feature, ExpressionTypeComputationState state) {

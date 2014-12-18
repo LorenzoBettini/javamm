@@ -41,7 +41,7 @@ public class JavammExpressionArgumentFactory extends ExpressionArgumentFactory {
 			if (featureType instanceof ArrayTypeReference) {
 				return new AssignmentFeatureCallArguments(assignment.getValue(), ((ArrayTypeReference)featureType).getComponentType());
 			}
-		} 
+		}
 		
 		return super.createExpressionArguments(expression, candidate);
 	}
