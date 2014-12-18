@@ -36,6 +36,14 @@ class JavammValidatorTest extends JavammAbstractTest {
 		arrayAccess.parseAndAssertNoErrors
 	}
 
+	@Test def void testArrayAccessInRightHandsideExpression() {
+		arrayAccessInRightHandsideExpression.parseAndAssertNoErrors
+	}
+
+	@Test def void testArrayAccessFromFeatureCall() {
+		arrayAccessFromFeatureCall.parseAndAssertNoErrors
+	}
+
 	@Test def void testArrayIndexNotInteger() {
 		'''
 		args[true] = 0;

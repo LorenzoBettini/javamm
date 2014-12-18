@@ -53,4 +53,23 @@ class JavammInputs {
 		a[i-getIndex()+1] = "test";
 		'''
 	}
+
+	def arrayAccessInRightHandsideExpression() {
+		'''
+		int[] a;
+		int i;
+		i = a[0];
+		'''
+	}
+
+	def arrayAccessFromFeatureCall() {
+		'''
+		int[] getArray() {
+			return null;
+		}
+		
+		int i;
+		i = getArray()[0];
+		'''
+	}
 }
