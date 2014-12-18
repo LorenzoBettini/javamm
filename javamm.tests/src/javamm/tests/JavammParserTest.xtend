@@ -35,6 +35,16 @@ class JavammParserTest extends JavammAbstractTest {
 		]
 	}
 
+	@Test def void testAssignmentRight2() {
+		'''
+		int j;
+		int i;
+		i = j;
+		'''.parse => [
+			(main.expressions.last as JavammXAssignment).value as XFeatureCall
+		]
+	}
+
 	@Test def void testAssignmentIndex() {
 		'''
 		i[0] = 1;
