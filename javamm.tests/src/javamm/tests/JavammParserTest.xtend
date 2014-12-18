@@ -52,6 +52,16 @@ class JavammParserTest extends JavammAbstractTest {
 		]
 	}
 
+	@Test def void testFeatureCallIndex2() {
+		'''
+		int[] m() { return null; }
+		int i;
+		i = m()[0];
+		'''.parse => [
+			assertTrue(((main.expressions.last as JavammXAssignment).value as JavammXFeatureCall).index instanceof XNumberLiteral)
+		]
+	}
+
 	@Test def void testSystemOut() {
 		'''
 		System.out;
