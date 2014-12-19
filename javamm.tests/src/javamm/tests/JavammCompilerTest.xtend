@@ -125,6 +125,24 @@ public class MyFile {
 		]
 	}
 
+	@Test def void testArrayAssign() {
+		arrayAssign.compile[
+			assertGeneratedJavaCode(
+'''
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(final String... args) {
+    String[] a = null;
+    String[] b = null;
+    a = b;
+  }
+}
+'''
+			)
+			assertGeneratedJavaCodeCompiles
+		]
+	}
+
 	@Test def void testSimpleAccess() {
 		'''
 		int i;

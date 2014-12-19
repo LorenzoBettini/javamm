@@ -53,4 +53,12 @@ class JavammInputs {
 		a[i-getIndex()+1] = "test";
 		'''
 	}
+
+	def arrayAssign() {
+		'''
+		String[] a;
+		String[] b;
+		a = b;
+		'''
+	}
 }
