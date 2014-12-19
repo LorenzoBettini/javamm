@@ -36,6 +36,10 @@ class JavammValidatorTest extends JavammAbstractTest {
 		arrayAccess.parseAndAssertNoErrors
 	}
 
+	@Test def void testArrayAssign() {
+		arrayAssign.parseAndAssertNoErrors
+	}
+
 	@Test def void testArrayAccessInRightHandsideExpression() {
 		arrayAccessInRightHandsideExpression.parseAndAssertNoErrors
 	}

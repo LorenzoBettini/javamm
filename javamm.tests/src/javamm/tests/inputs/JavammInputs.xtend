@@ -54,6 +54,14 @@ class JavammInputs {
 		'''
 	}
 
+	def arrayAssign() {
+		'''
+		String[] a;
+		String[] b;
+		a = b;
+		'''
+	}
+
 	def arrayAccessInRightHandsideExpression() {
 		'''
 		int[] a;
