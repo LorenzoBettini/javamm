@@ -30,7 +30,7 @@ XVariableDeclaration returns XVariableDeclaration:
 
 XAssignment returns XExpression :
 	{JavammXAssignment} feature=[types::JvmIdentifiableElement|FeatureCallID] 
-		=>('[' index=XAssignment ']')? 
+		=>('[' index=XExpression ']')? 
 		OpSingleAssign value=XAssignment |	
 	XOrExpression (
 		=>({XBinaryOperation.leftOperand=current} feature=[types::JvmIdentifiableElement|OpMultiAssign]) rightOperand=XAssignment
@@ -43,7 +43,7 @@ XFeatureCall returns XExpression:
 		(
 		    featureCallArguments+=XExpression (',' featureCallArguments+=XExpression)*
 		)? 
-	')' =>('[' index=XAssignment ']')?
+	')' =>('[' index=XExpression ']')?
 	)?;
 
 XConstructorCall returns XExpression:
