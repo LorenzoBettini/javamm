@@ -1,19 +1,21 @@
 package javamm.typesystem
 
+import javamm.javamm.JavammArrayAccess
 import javamm.javamm.JavammXAssignment
+import javamm.javamm.JavammXFeatureCall
 import javamm.validation.JavammValidator
+import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.xtext.common.types.JvmIdentifiableElement
 import org.eclipse.xtext.diagnostics.Severity
 import org.eclipse.xtext.validation.EObjectDiagnosticImpl
 import org.eclipse.xtext.xbase.XExpression
 import org.eclipse.xtext.xbase.XbasePackage
+import org.eclipse.xtext.xbase.typesystem.computation.IFeatureLinkingCandidate
 import org.eclipse.xtext.xbase.typesystem.computation.ILinkingCandidate
 import org.eclipse.xtext.xbase.typesystem.computation.ITypeComputationState
 import org.eclipse.xtext.xbase.typesystem.computation.XbaseTypeComputer
 import org.eclipse.xtext.xbase.typesystem.internal.ExpressionTypeComputationState
 import org.eclipse.xtext.xbase.typesystem.references.ArrayTypeReference
-import javamm.javamm.JavammArrayAccess
-import org.eclipse.emf.ecore.EStructuralFeature
 
 /**
  * @author Lorenzo Bettini
@@ -22,6 +24,8 @@ class JavammTypeComputer extends XbaseTypeComputer {
 	
 	override computeTypes(XExpression expression, ITypeComputationState state) {
 		if (expression instanceof JavammXAssignment) {
+			_computeTypes(expression, state)
+		} else if (expression instanceof JavammXFeatureCall) {
 			_computeTypes(expression, state)
 		} else {
 			super.computeTypes(expression, state)
@@ -34,6 +38,20 @@ class JavammTypeComputer extends XbaseTypeComputer {
 		best.applyToComputationState();
 		computeTypesOfArrayAccess(assignment, best, state, XbasePackage.Literals.XASSIGNMENT__ASSIGNABLE)
 	}
+
+	def protected _computeTypes(JavammXFeatureCall featureCall, ITypeComputationState state) {
+		val candidates = state.getLinkingCandidates(featureCall);
+		val best = getBestCandidate(candidates) as IFeatureLinkingCandidate;
+		val expState = state as ExpressionTypeComputationState
+		val actualType = expState.resolvedTypes.getActualType(best.feature)
+		if (featureCall.index != null) {
+			if (actualType instanceof ArrayTypeReference) {
+				expState.reassignType(best.feature, actualType.componentType)
+			}
+		}
+		super._computeTypes(featureCall, state)
+	}
+
 	
 	private def computeTypesOfArrayAccess(JavammArrayAccess arrayAccess, 
 		ILinkingCandidate best, ITypeComputationState state, EStructuralFeature featureForError
