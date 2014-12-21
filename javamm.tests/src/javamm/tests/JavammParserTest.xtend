@@ -1,17 +1,18 @@
 package javamm.tests
 
 import javamm.JavammInjectorProvider
+import javamm.javamm.JavammXAssignment
+import javamm.javamm.JavammXFeatureCall
 import org.eclipse.xtext.junit4.InjectWith
 import org.eclipse.xtext.junit4.XtextRunner
-import org.junit.runner.RunWith
-import org.junit.Test
-import javamm.javamm.JavammXAssignment
-import org.eclipse.xtext.xbase.XNumberLiteral
-
-import static extension org.junit.Assert.*
-import javamm.javamm.JavammXFeatureCall
-import org.eclipse.xtext.xbase.XMemberFeatureCall
+import org.eclipse.xtext.xbase.XAssignment
 import org.eclipse.xtext.xbase.XFeatureCall
+import org.eclipse.xtext.xbase.XMemberFeatureCall
+import org.eclipse.xtext.xbase.XNumberLiteral
+import org.junit.Test
+import org.junit.runner.RunWith
+
+import static org.junit.Assert.*
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammInjectorProvider))
@@ -21,7 +22,7 @@ class JavammParserTest extends JavammAbstractTest {
 		'''
 		i = 1;
 		'''.parse => [
-			(main.expressions.head as JavammXAssignment).feature as XFeatureCall
+			(main.expressions.head as XAssignment).feature as XFeatureCall
 		]
 	}
 
@@ -31,7 +32,7 @@ class JavammParserTest extends JavammAbstractTest {
 		int i;
 		i = m();
 		'''.parse => [
-			(main.expressions.last as JavammXAssignment).value as XFeatureCall
+			(main.expressions.last as XAssignment).value as XFeatureCall
 		]
 	}
 
@@ -41,7 +42,7 @@ class JavammParserTest extends JavammAbstractTest {
 		int i;
 		i = j;
 		'''.parse => [
-			(main.expressions.last as JavammXAssignment).value as XFeatureCall
+			(main.expressions.last as XAssignment).value as XFeatureCall
 		]
 	}
 
@@ -68,7 +69,7 @@ class JavammParserTest extends JavammAbstractTest {
 		int i;
 		i = m()[0];
 		'''.parse => [
-			assertTrue(((main.expressions.last as JavammXAssignment).value as JavammXFeatureCall).index instanceof XNumberLiteral)
+			assertTrue(((main.expressions.last as XAssignment).value as JavammXFeatureCall).index instanceof XNumberLiteral)
 		]
 	}
 

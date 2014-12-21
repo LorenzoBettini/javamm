@@ -29,9 +29,11 @@ XVariableDeclaration returns XVariableDeclaration:
 	type=JvmTypeReference name=ValidID (';' | '=' right=XExpression ';');
 
 XAssignment returns XExpression :
-	{JavammXAssignment} feature=[types::JvmIdentifiableElement|FeatureCallID] 
-		=>('[' index=XExpression ']')? 
-		OpSingleAssign value=XAssignment |	
+	=>({JavammXAssignment} feature=[types::JvmIdentifiableElement|FeatureCallID] 
+		'[' index=XExpression ']'
+		OpSingleAssign) value=XAssignment |	
+	=>({XAssignment} feature=[types::JvmIdentifiableElement|FeatureCallID] 
+		OpSingleAssign) value=XAssignment |	
 	XOrExpression (
 		=>({XBinaryOperation.leftOperand=current} feature=[types::JvmIdentifiableElement|OpMultiAssign]) rightOperand=XAssignment
 	)?;
@@ -43,8 +45,9 @@ XFeatureCall returns XExpression:
 		(
 		    featureCallArguments+=XExpression (',' featureCallArguments+=XExpression)*
 		)? 
-	')' =>('[' index=XExpression ']')?
-	)?;
+	')' 
+	)?
+	(=>'[' index=XExpression ']')?;
 
 XConstructorCall returns XExpression:
 	{XConstructorCall}
