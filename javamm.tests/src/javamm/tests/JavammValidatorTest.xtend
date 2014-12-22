@@ -48,7 +48,7 @@ class JavammValidatorTest extends JavammAbstractTest {
 		arrayAccessFromFeatureCall.parseAndAssertNoErrors
 	}
 
-	@Test def void testArrayIndexNotInteger() {
+	@Test def void testArrayIndexNotIntegerLeft() {
 		'''
 		args[true] = 0;
 		'''.parse.assertError(
@@ -58,12 +58,33 @@ class JavammValidatorTest extends JavammAbstractTest {
 		)
 	}
 
-	@Test def void testNotArrayType() {
+	@Test def void testArrayIndexNotIntegerRight() {
+		'''
+		String s = args[true];
+		'''.parse.assertError(
+			XbasePackage.eINSTANCE.XBooleanLiteral,
+			IssueCodes.INCOMPATIBLE_TYPES,
+			"Type mismatch: cannot convert from boolean to int"
+		)
+	}
+
+	@Test def void testNotArrayTypeLeft() {
 		'''
 		int i;
 		i[0] = 0;
 		'''.parse.assertError(
 			javammPack.javammXAssignment,
+			JavammValidator.NOT_ARRAY_TYPE,
+			"The type of the expression must be an array type but it resolved to int"
+		)
+	}
+
+	@Test def void testNotArrayTypeRight() {
+		'''
+		int i;
+		i = i[0];
+		'''.parse.assertError(
+			javammPack.javammXFeatureCall,
 			JavammValidator.NOT_ARRAY_TYPE,
 			"The type of the expression must be an array type but it resolved to int"
 		)

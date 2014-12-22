@@ -45,6 +45,7 @@ class JavammTypeComputer extends XbaseTypeComputer {
 		val expState = state as ExpressionTypeComputationState
 		val actualType = expState.resolvedTypes.getActualType(best.feature)
 		if (featureCall.index != null) {
+			computeTypesOfArrayAccess(featureCall, best, state, XbasePackage.Literals.XABSTRACT_FEATURE_CALL__FEATURE)
 			if (actualType instanceof ArrayTypeReference) {
 				expState.reassignType(best.feature, actualType.componentType)
 			}
