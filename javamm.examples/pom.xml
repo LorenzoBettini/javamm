@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<relativePath>../javamm.releng/pom.xml</relativePath>
+		<groupId>javamm</groupId>
+		<artifactId>javamm.releng</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>javamm.examples</artifactId>
+	<packaging>eclipse-plugin</packaging>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-clean-plugin</artifactId>
+				<version>2.5</version>
+				<configuration>
+					<filesets combine.children="append">
+						<fileset>
+							<directory>${basedir}/src-gen</directory>
+						</fileset>
+					</filesets>
+				</configuration>
+			</plugin>
+		
+			<plugin>
+				<groupId>org.eclipse.xtext</groupId>
+				<artifactId>xtext-maven-plugin</artifactId>
+				<version>${xtext.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<failOnValidationError>true</failOnValidationError>
+					<languages>
+						<language>
+							<setup>javamm.JavammStandaloneSetup</setup>
+							<outputConfigurations>
+								<outputConfiguration>
+									<outputDirectory>${basedir}/src-gen</outputDirectory>
+								</outputConfiguration>
+							</outputConfigurations>
+						</language>
+					</languages>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>javamm</groupId>
+						<artifactId>javamm</artifactId>
+						<version>${project.version}</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+
+		</plugins>
+	</build>
+</project>

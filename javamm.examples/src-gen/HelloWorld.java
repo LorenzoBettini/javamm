@@ -1,5 +1,8 @@
 @SuppressWarnings("all")
 public class HelloWorld {
+  /**
+   * This is a function definition
+   */
   public static void sayHelloWorld(final String m) {
     System.out.println(m);
   }
