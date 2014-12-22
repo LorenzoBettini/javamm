@@ -58,6 +58,12 @@ XConstructorCall returns XExpression:
 		)? 
 	')')?;
 
+JavammArrayConstructorCall returns XExpression:
+	=>({JavammArrayConstructorCall}
+	'new'
+	type=[types::JvmType|QualifiedName] '[') index=XExpression ']'
+;
+
 XMemberFeatureCall returns XExpression:
 	XPrimaryExpression
 	(
@@ -75,6 +81,7 @@ XMemberFeatureCall returns XExpression:
 	)*;
 
 XPrimaryExpression returns XExpression:
+	JavammArrayConstructorCall |
 	XConstructorCall |
 	XBlockExpression |
 	XSwitchExpression |
