@@ -6,6 +6,7 @@ package javamm.compiler;
 import java.util.List;
 
 import javamm.javamm.JavammArrayAccess;
+import javamm.javamm.JavammArrayConstructorCall;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.xtext.common.types.JvmField;
@@ -30,6 +31,35 @@ import org.eclipse.xtext.xbase.typesystem.references.LightweightTypeReference;
  *
  */
 public class JavammXbaseCompiler extends XbaseCompiler {
+	
+	@Override
+	protected void doInternalToJavaStatement(XExpression obj,
+			ITreeAppendable appendable, boolean isReferenced) {
+		if (obj instanceof JavammArrayConstructorCall) {
+			_toJavaStatement((JavammArrayConstructorCall) obj, appendable, isReferenced);
+		} else {
+			super.doInternalToJavaStatement(obj, appendable, isReferenced);
+		}
+	}
+	
+	public void _toJavaStatement(JavammArrayConstructorCall call, ITreeAppendable b,
+			boolean isReferenced) {
+		
+	}
+
+	@Override
+	protected void internalToConvertedExpression(XExpression obj, ITreeAppendable appendable) {
+		if (obj instanceof JavammArrayConstructorCall) {
+			_toJavaExpression((JavammArrayConstructorCall) obj, appendable);
+		} else {
+			super.internalToConvertedExpression(obj, appendable);
+		}
+	}
+
+	public void _toJavaExpression(JavammArrayConstructorCall call, ITreeAppendable b) {
+		b.append("new ");
+		b.append(call.getType());
+	}
 
 	@Override
 	protected void assignmentToJavaExpression(XAssignment expr, ITreeAppendable b, boolean isExpressionContext) {

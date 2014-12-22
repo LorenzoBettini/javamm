@@ -101,9 +101,10 @@ class JavammInputs {
 		'''
 	}
 
-	def arrayConstructorCall() {
+	def arrayConstructorCallInVarDecl() {
 		'''
 		int[] i = new int[10];
+		String[] a = new String[args.length];
 		'''
 	}
 }

@@ -250,6 +250,23 @@ public class MyFile {
 		]
 	}
 
+	@Test def void testArrayConstrcutorCallInVarDecl() {
+		arrayConstructorCallInVarDecl.compile[
+			assertGeneratedJavaCode(
+'''
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(final String... args) {
+    int[] i = new int[10];
+    String[] a = new String[args.length];
+  }
+}
+'''
+			)
+			assertGeneratedJavaCodeCompiles
+		]
+	}
+
 	def private assertGeneratedJavaCode(CompilationTestHelper.Result r, CharSequence expected) {
 		expected.toString.assertEquals(r.singleGeneratedCode)
 	}

@@ -56,8 +56,8 @@ class JavammValidatorTest extends JavammAbstractTest {
 		arrayAccessInForLoop.parseAndAssertNoErrors
 	}
 
-	@Test def void testArrayConstrcutorCall() {
-		arrayConstructorCall.parseAndAssertNoErrors
+	@Test def void testArrayConstrcutorCallInVarDecl() {
+		arrayConstructorCallInVarDecl.parseAndAssertNoErrors
 	}
 
 	@Test def void testArrayIndexNotIntegerLeft() {
