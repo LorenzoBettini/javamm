@@ -13,6 +13,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import static org.junit.Assert.*
+import org.eclipse.xtext.xbase.XExpression
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammInjectorProvider))
@@ -21,8 +22,8 @@ class JavammParserTest extends JavammAbstractTest {
 	@Test def void testAssignmentLeft() {
 		'''
 		i = 1;
-		'''.parse => [
-			(main.expressions.head as XAssignment).feature as XFeatureCall
+		'''.assertMainLastExpression [
+			(it as XAssignment).feature as XFeatureCall
 		]
 	}
 
@@ -31,8 +32,8 @@ class JavammParserTest extends JavammAbstractTest {
 		int m() { return null; }
 		int i;
 		i = m();
-		'''.parse => [
-			(main.expressions.last as XAssignment).value as XFeatureCall
+		'''.assertMainLastExpression [
+			(it as XAssignment).value as XFeatureCall
 		]
 	}
 
@@ -41,16 +42,16 @@ class JavammParserTest extends JavammAbstractTest {
 		int j;
 		int i;
 		i = j;
-		'''.parse => [
-			(main.expressions.last as XAssignment).value as XFeatureCall
+		'''.assertMainLastExpression [
+			(it as XAssignment).value as XFeatureCall
 		]
 	}
 
 	@Test def void testAssignmentIndex() {
 		'''
 		i[0] = 1;
-		'''.parse => [
-			assertTrue((main.expressions.head as JavammXAssignment).index instanceof XNumberLiteral)
+		'''.assertMainLastExpression [
+			assertTrue((it as JavammXAssignment).index instanceof XNumberLiteral)
 		]
 	}
 
@@ -68,16 +69,20 @@ class JavammParserTest extends JavammAbstractTest {
 		int[] m() { return null; }
 		int i;
 		i = m()[0];
-		'''.parse => [
-			assertTrue(((main.expressions.last as XAssignment).value as JavammXFeatureCall).index instanceof XNumberLiteral)
+		'''.assertMainLastExpression [
+			assertTrue(((it as XAssignment).value as JavammXFeatureCall).index instanceof XNumberLiteral)
 		]
 	}
 
 	@Test def void testSystemOut() {
 		'''
 		System.out;
-		'''.parse => [
-			main.expressions.head as XMemberFeatureCall
+		'''.assertMainLastExpression [
+			(it as XMemberFeatureCall).memberCallTarget
 		]
+	}
+
+	def private assertMainLastExpression(CharSequence input, (XExpression)=>void tester) {
+		tester.apply(input.parse.main.expressions.last)
 	}
 }
