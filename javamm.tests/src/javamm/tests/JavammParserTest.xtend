@@ -82,6 +82,16 @@ class JavammParserTest extends JavammAbstractTest {
 		]
 	}
 
+	@Test def void testFeatureCallIndexAsArg() {
+		arrayAccessAsArgument.assertMainLastExpression [
+			assertTrue(
+				((it as JavammXFeatureCall).
+					actualArguments.head as JavammXFeatureCall
+				).index instanceof XNumberLiteral
+			)
+		]
+	}
+
 	def private assertMainLastExpression(CharSequence input, (XExpression)=>void tester) {
 		tester.apply(input.parse.main.expressions.last)
 	}

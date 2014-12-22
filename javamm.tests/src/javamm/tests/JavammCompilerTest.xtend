@@ -203,6 +203,27 @@ public class MyFile {
 		]
 	}
 
+	@Test def void testArrayAccessAsArgument() {
+		arrayAccessAsArgument.compile[
+			assertGeneratedJavaCode(
+'''
+@SuppressWarnings("all")
+public class MyFile {
+  public static int getArg(final int i) {
+    return i;
+  }
+  
+  public static void main(final String... args) {
+    int[] j = null;
+    MyFile.getArg(j[0]);
+  }
+}
+'''
+			)
+			assertGeneratedJavaCodeCompiles
+		]
+	}
+
 	def private assertGeneratedJavaCode(CompilationTestHelper.Result r, CharSequence expected) {
 		expected.toString.assertEquals(r.singleGeneratedCode)
 	}

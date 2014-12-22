@@ -69,13 +69,6 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 			if (isArgument) {
 				b.append(")");
 			}
-			
-			// custom implementation starts here
-			if (!b.hasName(expr.getValue())) {
-				// otherwise the array access has already been compiled
-				compileArrayAccess(expr.getValue(), b);
-			}
-			// custom implementation ends here
 		}
 	}
 
@@ -84,6 +77,15 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 			ITreeAppendable b) {
 		super.appendFeatureCall(call, b);
 		compileArrayAccess(call, b);
+	}
+
+	@Override
+	protected void internalToConvertedExpression(XExpression obj,
+			ITreeAppendable appendable, LightweightTypeReference toBeConvertedTo) {
+		super.internalToConvertedExpression(obj, appendable, toBeConvertedTo);
+		if (!appendable.hasName(obj)) {
+			compileArrayAccess(obj, appendable);
+		}
 	}
 
 	private void compileArrayAccess(XExpression expr, ITreeAppendable b) {

@@ -80,4 +80,15 @@ class JavammInputs {
 		i = getArray()[0];
 		'''
 	}
+
+	def arrayAccessAsArgument() {
+		'''
+		int getArg(int i) {
+			return i;
+		}
+		
+		int[] j;
+		getArg(j[0]);
+		'''
+	}
 }
