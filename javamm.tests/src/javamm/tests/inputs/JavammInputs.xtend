@@ -91,4 +91,13 @@ class JavammInputs {
 		getArg(j[0]);
 		'''
 	}
+
+	def arrayAccessInForLoop() {
+		'''
+		int argsNum = args.length()
+		for (int i = 0; i < argsNum; i += 1) {
+			System.out.println("args[" + i + "] = " + args[i] );
+		}
+		'''
+	}
 }

@@ -224,6 +224,32 @@ public class MyFile {
 		]
 	}
 
+	@Test def void testArrayAccessInForLoop() {
+		arrayAccessInForLoop.compile[
+			assertGeneratedJavaCode(
+'''
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(final String... args) {
+    int argsNum = args.length;
+    {
+      int i = 0;
+      boolean _while = (i < argsNum);
+      while (_while) {
+        System.out.println(((("args[" + Integer.valueOf(i)) + "] = ") + args[i]));
+        int _i = i;
+        i = (_i + 1);
+        _while = (i < argsNum);
+      }
+    }
+  }
+}
+'''
+			)
+			assertGeneratedJavaCodeCompiles
+		]
+	}
+
 	def private assertGeneratedJavaCode(CompilationTestHelper.Result r, CharSequence expected) {
 		expected.toString.assertEquals(r.singleGeneratedCode)
 	}
