@@ -11,6 +11,7 @@
 		<module>../javamm</module>
 		<module>../javamm.ui</module>
 		<module>../javamm.examples</module>
+		<module>../javamm.ui.examples</module>
 		<module>../javamm.tests</module>
 		<module>../javamm.sdk</module>
 		<module>../javamm.site</module>

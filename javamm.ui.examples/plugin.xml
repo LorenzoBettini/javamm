@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+	<extension point="org.eclipse.ui.newWizards">
+		<category id="javamm.ui.Examples" 
+				  name="Javamm Examples" 
+				  parentCategory="org.eclipse.ui.Examples" />
+	</extension>
+	<extension point="org.eclipse.ui.newWizards">
+		<category id="javamm.project.Examples" 
+				  name="Examples" 
+				  parentCategory="javamm.ui.category" />
+	</extension>
+
+	<extension point="org.eclipse.ui.newWizards">
+		<wizard	id="javamm.examples.JavammExampleWizard" 
+			name="Some Javamm Examples" 
+			class="org.eclipse.emf.common.ui.wizard.ExampleInstallerWizard" 
+			category="org.eclipse.ui.Examples/javamm.ui.Examples"
+			icon="icons/genproject.gif" 
+			project="true">
+			<description>Some Javamm Examples</description>
+		</wizard>
+	</extension>
+
+	<extension point="org.eclipse.ui.newWizards">
+		<wizard	id="javamm.examples.JavammExampleWizard" 
+			name="Some Javamm Examples" 
+			class="org.eclipse.emf.common.ui.wizard.ExampleInstallerWizard" 
+			category="javamm.ui.category/javamm.project.Examples"
+			icon="icons/genproject.gif" 
+			project="true">
+			<description>Some Javamm Examples</description>
+		</wizard>
+	</extension>
+
+   <extension
+         point="org.eclipse.emf.common.ui.examples">
+      <example
+            pageImage="icons/genproject.gif"
+            wizardID="javamm.examples.JavammExampleWizard">
+         <projectDescriptor
+               contentURI="contents/javamm.examples.zip"
+               description="Some Xtraij Examples"
+               name="javamm.examples">
+         </projectDescriptor>
+      </example>
+   </extension>
+
+</plugin>

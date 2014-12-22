@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="project" default="zip_all_examples">
+
+	<property name="source" location="../" />
+	<property name="target_xtext" location="contents" />
+
+	<macrodef name="zip_example">
+		<attribute name="name" default="default" />
+		<attribute name="target" default="${target_xtext}" />
+		<sequential>
+			<delete file="@{target}/@{name}.zip" />
+			<zip destfile="@{target}/@{name}.zip" 
+				basedir="${source}/@{name}" 
+				excludes="bin,bin/**,**/*._trace,**/*.smap,.antlr-generator*.jar,target,target/**,nodist,nodist/**,old,old/**,**/hs_*.log,**/pom.xml" />
+		</sequential>
+	</macrodef>
+
+	<target name="zip_all_examples">
+		<zip_example name="javamm.examples" />
+	</target>
+
+	<target name="clean">
+		<delete>
+			<fileset dir="${target_xtext}" includes="**/*.zip" />
+		</delete>
+	</target>
+
+</project>
