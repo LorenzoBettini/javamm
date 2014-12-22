@@ -39,6 +39,35 @@ public class MyFile {
 		]
 	}
 
+	@Test def void testMethodJavadoc() {
+		'''
+		/**
+		 * Prints a string to the standard output
+		 */
+		void sayHelloWorld(String m) {
+			System.out.println(m);
+		}
+		'''.compile[
+			assertGeneratedJavaCode(
+'''
+@SuppressWarnings("all")
+public class MyFile {
+  /**
+   * Prints a string to the standard output
+   */
+  public static void sayHelloWorld(final String m) {
+    System.out.println(m);
+  }
+  
+  public static void main(final String... args) {
+  }
+}
+'''
+			)
+			assertGeneratedJavaCodeCompiles
+		]
+	}
+
 	@Test def void testHelloWorldMethod() {
 		helloWorldMethod.compile[
 			assertGeneratedJavaCode(

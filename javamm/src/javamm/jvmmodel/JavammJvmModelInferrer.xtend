@@ -51,6 +51,8 @@ class JavammJvmModelInferrer extends AbstractModelInferrer {
    		acceptor.accept(program.toClass(className)) [
    			for (m : program.javammMethods) {
    				members += m.toMethod(m.name, m.type) [
+   					documentation = m.documentation
+   					
    					static = true
    					
    					for (p : m.params) {
