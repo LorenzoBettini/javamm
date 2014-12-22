@@ -47,7 +47,7 @@ XFeatureCall returns XExpression:
 		)? 
 	')' 
 	)?
-	(=>'[' index=XExpression ']')?;
+	('[' index=XExpression ']')?;
 
 XConstructorCall returns XExpression:
 	{XConstructorCall}
