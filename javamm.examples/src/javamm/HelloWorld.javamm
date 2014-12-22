@@ -1,0 +1,13 @@
+/*
+ * This is an example of Javamm program
+ */
+
+/**
+ * This is a function definition
+ */
+void sayHelloWorld(String m) {
+	System.out.println(m);
+}
+
+// this is the main program
+sayHelloWorld("Hello world!");

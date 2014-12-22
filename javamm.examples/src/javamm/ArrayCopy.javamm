@@ -1,0 +1,27 @@
+/**
+ * @original the array to copy
+ * @return a copy of the passed array
+ */
+String[] copyArray(String[] original) {
+	String[] copy = new String[original.length];
+	
+	for (int i = 0; i < original.length; i += 1) {
+		copy[i] = original[i];
+	}
+	
+	return copy;
+}
+
+/**
+ * Prints the passed array to the standard output
+ */
+void printArray(String[] a) {
+	for (int i = 0; i < a.length; i += 1) {
+		System.out.println("args[" + i + "] = " + a[i] );
+	}
+}
+
+System.out.println("ORIGINAL: ");
+printArray(args);
+System.out.println("COPY: ");
+printArray(copyArray(args));

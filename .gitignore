@@ -6,7 +6,9 @@ logs.zip
 *.java._trace
 *.smap
 
-src-gen/
+# we handle separately in the projects
+# src-gen/
+
 xtend-gen/
 emf-gen/
 
