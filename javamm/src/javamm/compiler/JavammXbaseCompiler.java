@@ -3,7 +3,9 @@
  */
 package javamm.compiler;
 
-import javamm.javamm.JavammXAssignment;
+import java.util.List;
+
+import javamm.javamm.JavammArrayAccess;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.xtext.common.types.JvmField;
@@ -13,8 +15,13 @@ import org.eclipse.xtext.xbase.XAbstractFeatureCall;
 import org.eclipse.xtext.xbase.XAssignment;
 import org.eclipse.xtext.xbase.XExpression;
 import org.eclipse.xtext.xbase.XbasePackage;
+import org.eclipse.xtext.xbase.compiler.Later;
 import org.eclipse.xtext.xbase.compiler.XbaseCompiler;
 import org.eclipse.xtext.xbase.compiler.output.ITreeAppendable;
+import org.eclipse.xtext.xbase.lib.Functions.Function1;
+import org.eclipse.xtext.xbase.lib.IterableExtensions;
+import org.eclipse.xtext.xbase.typesystem.references.CompoundTypeReference;
+import org.eclipse.xtext.xbase.typesystem.references.LightweightTypeReference;
 
 /**
  * @author Lorenzo Bettini
@@ -52,17 +59,7 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 			}
 			
 			// custom implementation starts here
-			
-			if (expr instanceof JavammXAssignment) {
-				JavammXAssignment assignment = (JavammXAssignment) expr;
-				XExpression index = assignment.getIndex();
-				if (index != null) {
-					b.append("[");
-					internalToJavaExpression(index, b);
-					b.append("]");
-				}
-			}
-			
+			compileArrayAccess(expr, b);
 			// custom implementation ends here
 			
 			b.append(" = ");
@@ -70,6 +67,50 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 			if (isArgument) {
 				b.append(")");
 			}
+			
+			compileArrayAccess(expr.getValue(), b);
 		}
+	}
+
+	@Override
+	protected void appendFeatureCall(XAbstractFeatureCall call,
+			ITreeAppendable b) {
+		super.appendFeatureCall(call, b);
+		compileArrayAccess(call, b);
+	}
+
+	private void compileArrayAccess(XExpression expr, ITreeAppendable b) {
+		if (expr instanceof JavammArrayAccess) {
+			JavammArrayAccess assignment = (JavammArrayAccess) expr;
+			XExpression index = assignment.getIndex();
+			if (index != null) {
+				b.append("[");
+				internalToJavaExpression(index, b);
+				b.append("]");
+			}
+		}
+	}
+
+	@Override
+	protected void doConversion(final LightweightTypeReference left,
+			LightweightTypeReference right, ITreeAppendable appendable,
+			XExpression context, Later expression) {
+		if (right instanceof CompoundTypeReference) {
+			CompoundTypeReference compoundTypeRef = (CompoundTypeReference) right;
+			List<LightweightTypeReference> multiTypes = compoundTypeRef
+					.getMultiTypeComponents();
+			if (IterableExtensions.exists(multiTypes,
+					new Function1<LightweightTypeReference, Boolean>() {
+						@Override
+						public Boolean apply(LightweightTypeReference input) {
+							return left.isAssignableFrom(input);
+						}
+					})) {
+				// no conversion needed
+				expression.exec(appendable);
+				return;
+			}
+		}
+		super.doConversion(left, right, appendable, context, expression);
 	}
 }

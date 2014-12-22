@@ -84,6 +84,26 @@ public class MyFile {
 		]
 	}
 
+	@Test def void testSimpleAccess() {
+		'''
+		int i;
+		i = 0;
+		'''.compile[
+			assertGeneratedJavaCode(
+'''
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(final String... args) {
+    int i = 0;
+    i = 0;
+  }
+}
+'''
+			)
+			assertGeneratedJavaCodeCompiles
+		]
+	}
+
 	@Test def void testSimpleArrayAccess() {
 		simpleArrayAccess.compile[
 			assertGeneratedJavaCode(
@@ -125,6 +145,24 @@ public class MyFile {
 		]
 	}
 
+	@Test def void testArrayAccessInRightHandsideExpression() {
+		arrayAccessInRightHandsideExpression.compile[
+			assertGeneratedJavaCode(
+'''
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(final String... args) {
+    int[] a = null;
+    int i = 0;
+    i = a[0];
+  }
+}
+'''
+			)
+			assertGeneratedJavaCodeCompiles
+		]
+	}
+
 	@Test def void testArrayAssign() {
 		arrayAssign.compile[
 			assertGeneratedJavaCode(
@@ -135,26 +173,6 @@ public class MyFile {
     String[] a = null;
     String[] b = null;
     a = b;
-  }
-}
-'''
-			)
-			assertGeneratedJavaCodeCompiles
-		]
-	}
-
-	@Test def void testSimpleAccess() {
-		'''
-		int i;
-		i = 0;
-		'''.compile[
-			assertGeneratedJavaCode(
-'''
-@SuppressWarnings("all")
-public class MyFile {
-  public static void main(final String... args) {
-    int i = 0;
-    i = 0;
   }
 }
 '''
