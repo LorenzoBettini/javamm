@@ -56,6 +56,10 @@ class JavammValidatorTest extends JavammAbstractTest {
 		arrayAccessInForLoop.parseAndAssertNoErrors
 	}
 
+	@Test def void testArrayConstrcutorCall() {
+		arrayConstructorCall.parseAndAssertNoErrors
+	}
+
 	@Test def void testArrayIndexNotIntegerLeft() {
 		'''
 		args[true] = 0;
@@ -69,6 +73,16 @@ class JavammValidatorTest extends JavammAbstractTest {
 	@Test def void testArrayIndexNotIntegerRight() {
 		'''
 		String s = args[true];
+		'''.parse.assertError(
+			XbasePackage.eINSTANCE.XBooleanLiteral,
+			IssueCodes.INCOMPATIBLE_TYPES,
+			"Type mismatch: cannot convert from boolean to int"
+		)
+	}
+
+	@Test def void testArrayIndexNotIntegerInArrayConstructorCall() {
+		'''
+		int[] i = new int[true];
 		'''.parse.assertError(
 			XbasePackage.eINSTANCE.XBooleanLiteral,
 			IssueCodes.INCOMPATIBLE_TYPES,

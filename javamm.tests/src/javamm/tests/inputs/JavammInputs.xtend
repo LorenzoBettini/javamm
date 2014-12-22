@@ -100,4 +100,10 @@ class JavammInputs {
 		}
 		'''
 	}
+
+	def arrayConstructorCall() {
+		'''
+		int[] i = new int[10];
+		'''
+	}
 }

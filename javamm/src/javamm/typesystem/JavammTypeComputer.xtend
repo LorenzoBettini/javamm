@@ -1,6 +1,8 @@
 package javamm.typesystem
 
+import com.google.inject.Inject
 import javamm.javamm.JavammArrayAccess
+import javamm.javamm.JavammArrayConstructorCall
 import javamm.javamm.JavammXAssignment
 import javamm.javamm.JavammXFeatureCall
 import javamm.validation.JavammValidator
@@ -16,16 +18,22 @@ import org.eclipse.xtext.xbase.typesystem.computation.ITypeComputationState
 import org.eclipse.xtext.xbase.typesystem.computation.XbaseTypeComputer
 import org.eclipse.xtext.xbase.typesystem.internal.ExpressionTypeComputationState
 import org.eclipse.xtext.xbase.typesystem.references.ArrayTypeReference
+import org.eclipse.xtext.xbase.typesystem.util.CommonTypeComputationServices
 
 /**
  * @author Lorenzo Bettini
  */
 class JavammTypeComputer extends XbaseTypeComputer {
 	
+	@Inject 
+	private CommonTypeComputationServices services;
+	
 	override computeTypes(XExpression expression, ITypeComputationState state) {
 		if (expression instanceof JavammXAssignment) {
 			_computeTypes(expression, state)
 		} else if (expression instanceof JavammXFeatureCall) {
+			_computeTypes(expression, state)
+		} else if (expression instanceof JavammArrayConstructorCall) {
 			_computeTypes(expression, state)
 		} else {
 			super.computeTypes(expression, state)
@@ -53,13 +61,19 @@ class JavammTypeComputer extends XbaseTypeComputer {
 		super._computeTypes(featureCall, state)
 	}
 
+	def protected _computeTypes(JavammArrayConstructorCall call, ITypeComputationState state) {
+		checkArrayIndexHasTypeInt(call, state)
+		val typeReference = services.typeReferences.createTypeRef(call.type)
+		val lightweight = state.getReferenceOwner().toLightweightTypeReference(typeReference)
+		val arrayTypeRef = state.referenceOwner.newArrayTypeReference(lightweight)
+		state.acceptActualType(arrayTypeRef)
+	}
 	
 	private def computeTypesOfArrayAccess(JavammArrayAccess arrayAccess, 
 		ILinkingCandidate best, ITypeComputationState state, EStructuralFeature featureForError
 	) {
 		if (arrayAccess.index != null) {
-			val conditionExpectation = state.withExpectation(getTypeForName(Integer.TYPE, state))
-			conditionExpectation.computeTypes(arrayAccess.index);
+			checkArrayIndexHasTypeInt(arrayAccess, state);
 			val expressionState = state as ExpressionTypeComputationState
 			val featureType = getDeclaredType(best.feature, expressionState)
 			if (!(featureType instanceof ArrayTypeReference)) {
@@ -74,6 +88,11 @@ class JavammTypeComputer extends XbaseTypeComputer {
 				state.addDiagnostic(diagnostic);
 			}
 		}
+	}
+	
+	private def checkArrayIndexHasTypeInt(JavammArrayAccess arrayAccess, ITypeComputationState state) {
+		val conditionExpectation = state.withExpectation(getTypeForName(Integer.TYPE, state))
+		conditionExpectation.computeTypes(arrayAccess.index)
 	}
 
 	def private getDeclaredType(JvmIdentifiableElement feature, ExpressionTypeComputationState state) {
