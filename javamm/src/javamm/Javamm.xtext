@@ -26,7 +26,7 @@ XExpressionOrVarDeclaration returns XExpression:
 
 XVariableDeclaration returns XVariableDeclaration:
 	{JavammXVariableDeclaration}
-	type=JvmTypeReference name=ValidID (';' | '=' right=XExpression ';');
+	type=JvmTypeReference name=ValidID ('=' right=XExpression)?;
 
 XAssignment returns XExpression :
 	=>({JavammXAssignment} feature=[types::JvmIdentifiableElement|FeatureCallID] 
