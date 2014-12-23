@@ -1,22 +1,23 @@
 package javamm.tests
 
 import javamm.JavammInjectorProvider
+import javamm.javamm.JavammArrayConstructorCall
 import javamm.javamm.JavammXAssignment
 import javamm.javamm.JavammXFeatureCall
 import org.eclipse.xtext.junit4.InjectWith
 import org.eclipse.xtext.junit4.XtextRunner
 import org.eclipse.xtext.xbase.XAssignment
+import org.eclipse.xtext.xbase.XConstructorCall
+import org.eclipse.xtext.xbase.XExpression
 import org.eclipse.xtext.xbase.XFeatureCall
 import org.eclipse.xtext.xbase.XMemberFeatureCall
 import org.eclipse.xtext.xbase.XNumberLiteral
+import org.eclipse.xtext.xbase.XStringLiteral
+import org.eclipse.xtext.xbase.XVariableDeclaration
 import org.junit.Test
 import org.junit.runner.RunWith
 
 import static org.junit.Assert.*
-import org.eclipse.xtext.xbase.XExpression
-import org.eclipse.xtext.xbase.XConstructorCall
-import javamm.javamm.JavammArrayConstructorCall
-import org.eclipse.xtext.xbase.XVariableDeclaration
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammInjectorProvider))
@@ -89,7 +90,13 @@ class JavammParserTest extends JavammAbstractTest {
 		'''
 		System.out.println("a");
 		'''.assertMainLastExpression [
-			(it as XMemberFeatureCall).memberCallTarget
+			// the whole call
+			(it as XMemberFeatureCall) => [
+				// System.out
+				(memberCallTarget as XMemberFeatureCall)
+				// the argument
+				(memberCallArguments.head as XStringLiteral)
+			]
 		]
 	}
 
