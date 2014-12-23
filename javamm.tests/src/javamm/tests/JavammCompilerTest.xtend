@@ -6,6 +6,7 @@ import org.eclipse.xtext.junit4.InjectWith
 import org.eclipse.xtext.junit4.TemporaryFolder
 import org.eclipse.xtext.junit4.XtextRunner
 import org.eclipse.xtext.xbase.compiler.CompilationTestHelper
+import org.eclipse.xtext.xbase.compiler.CompilationTestHelper.Result
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -294,6 +295,42 @@ public class MyFile {
 			)
 			assertGeneratedJavaCodeCompiles
 		]
+	}
+
+	@Test def void testIfThenElseWithoutBlocks() {
+		ifThenElseWithoutBlocks.compile[
+			expectationsForIfThenElse
+		]
+	}
+
+	@Test def void testIfThenElseWithBlocks() {
+		ifThenElseWithBlocks.compile[
+			expectationsForIfThenElse
+		]
+	}
+	
+	/**
+	 * Xbase compiles if then else with blocks even if they're not
+	 * there in the original program
+	 */
+	private def expectationsForIfThenElse(Result it) {
+		assertGeneratedJavaCode(
+			'''
+			@SuppressWarnings("all")
+			public class MyFile {
+			  public static void main(final String... args) {
+			    int _length = args.length;
+			    boolean _equals = (_length == 0);
+			    if (_equals) {
+			      System.out.println("No args");
+			    } else {
+			      System.out.println("Args");
+			    }
+			  }
+			}
+			'''
+		)
+		assertGeneratedJavaCodeCompiles
 	}
 
 	def private assertGeneratedJavaCode(CompilationTestHelper.Result r, CharSequence expected) {
