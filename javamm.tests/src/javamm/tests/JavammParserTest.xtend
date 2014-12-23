@@ -85,6 +85,14 @@ class JavammParserTest extends JavammAbstractTest {
 		]
 	}
 
+	@Test def void testSystemOutPrintln() {
+		'''
+		System.out.println("a");
+		'''.assertMainLastExpression [
+			(it as XMemberFeatureCall).memberCallTarget
+		]
+	}
+
 	@Test def void testConstructorCall() {
 		'''
 		new String();
