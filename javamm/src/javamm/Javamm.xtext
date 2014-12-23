@@ -140,6 +140,11 @@ XIfExpression returns XExpression:
 	then=JavammStatement
 	(=>'else' else=JavammStatement)?;
 
+XWhileExpression returns XExpression:
+	{XWhileExpression}
+	'while' '(' predicate=XExpression ')'
+		body=JavammStatement;
+
 XPrimaryExpression returns XExpression:
 	JavammArrayConstructorCall |
 	XConstructorCall |
