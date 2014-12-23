@@ -16,6 +16,7 @@ import static org.junit.Assert.*
 import org.eclipse.xtext.xbase.XExpression
 import org.eclipse.xtext.xbase.XConstructorCall
 import javamm.javamm.JavammArrayConstructorCall
+import org.eclipse.xtext.xbase.XStringLiteral
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammInjectorProvider))
@@ -88,7 +89,13 @@ class JavammParserTest extends JavammAbstractTest {
 		'''
 		System.out.println("a");
 		'''.assertMainLastExpression [
-			(it as XMemberFeatureCall).memberCallTarget
+			// the whole call
+			(it as XMemberFeatureCall) => [
+				// System.out
+				(memberCallTarget as XMemberFeatureCall)
+				// the argument
+				(memberCallArguments.head as XStringLiteral)
+			]
 		]
 	}
 
