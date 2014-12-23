@@ -107,4 +107,23 @@ class JavammInputs {
 		String[] a = new String[args.length];
 		'''
 	}
+
+	def ifThenElseWithoutBlocks() {
+		'''
+		if (args.length() == 0)
+			System.out.println("No args");
+		else
+			System.out.println("Args");
+		'''
+	}
+
+	def ifThenElseWithBlocks() {
+		'''
+		if (args.length() == 0) {
+			System.out.println("No args");
+		} else {
+			System.out.println("Args");
+		}
+		'''
+	}
 }
