@@ -16,6 +16,7 @@ import static org.junit.Assert.*
 import org.eclipse.xtext.xbase.XExpression
 import org.eclipse.xtext.xbase.XConstructorCall
 import javamm.javamm.JavammArrayConstructorCall
+import org.eclipse.xtext.xbase.XVariableDeclaration
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammInjectorProvider))
@@ -94,9 +95,9 @@ class JavammParserTest extends JavammAbstractTest {
 
 	@Test def void testArrayConstructorCall() {
 		'''
-		new int[0];
+		int[] a = new int[0];
 		'''.assertMainLastExpression [
-			assertTrue((it as JavammArrayConstructorCall).index instanceof XNumberLiteral)
+			assertTrue(((it as XVariableDeclaration).right as JavammArrayConstructorCall).index instanceof XNumberLiteral)
 		]
 	}
 

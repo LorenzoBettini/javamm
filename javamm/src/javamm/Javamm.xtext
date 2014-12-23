@@ -19,7 +19,23 @@ JavammMethod:
 
 Main returns XBlockExpression:
 	{Main}
-	(expressions+=XExpressionOrVarDeclaration ';'?)*;
+	(expressions+=JavammStatement ';'?)*;
+
+JavammStatement returns XExpression:
+//	JavammArrayConstructorCall | not a valid statement
+	=>XVariableDeclaration |
+	JavammAssignmentStatement |
+	XConstructorCall |
+	XBlockExpression |
+	XSwitchExpression |
+	XFeatureCall |
+	XIfExpression |
+	XForLoopExpression |
+	XBasicForLoopExpression |
+	XWhileExpression |
+	XDoWhileExpression |
+	XReturnExpression
+;
 
 XExpressionOrVarDeclaration returns XExpression:
 	=>XVariableDeclaration | XExpression;
@@ -27,6 +43,11 @@ XExpressionOrVarDeclaration returns XExpression:
 XVariableDeclaration returns XVariableDeclaration:
 	{JavammXVariableDeclaration}
 	type=JvmTypeReference name=ValidID ('=' right=XExpression)?;
+
+JavammAssignmentStatement returns XExpression :
+	=>({JavammXAssignment} feature=[types::JvmIdentifiableElement|FeatureCallID] 
+		('[' index=XExpression ']')?
+		OpSingleAssign) value=XAssignment;
 
 XAssignment returns XExpression :
 	=>({JavammXAssignment} feature=[types::JvmIdentifiableElement|FeatureCallID] 
@@ -83,7 +104,7 @@ XMemberFeatureCall returns XExpression:
 XPrimaryExpression returns XExpression:
 	JavammArrayConstructorCall |
 	XConstructorCall |
-	XBlockExpression |
+//	XBlockExpression |
 	XSwitchExpression |
 //	XSynchronizedExpression |
 	XFeatureCall |
