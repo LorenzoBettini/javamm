@@ -333,6 +333,22 @@ public class MyFile {
 		assertGeneratedJavaCodeCompiles
 	}
 
+	@Test def void testArrayLiteral() {
+		arrayLiteral.compile[
+			assertGeneratedJavaCode(
+'''
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(final String... args) {
+    int[] a = { 0, 1, 2 };
+  }
+}
+'''
+			)
+			assertGeneratedJavaCodeCompiles
+		]
+	}
+
 	def private assertGeneratedJavaCode(CompilationTestHelper.Result r, CharSequence expected) {
 		expected.toString.assertEquals(r.singleGeneratedCode)
 	}

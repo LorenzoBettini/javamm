@@ -129,9 +129,7 @@ class JavammParserTest extends JavammAbstractTest {
 	}
 
 	@Test def void testArrayLiteral() {
-		'''
-		int[] a = { 0, 1, 2 };
-		'''.assertMainLastExpression [
+		arrayLiteral.assertMainLastExpression [
 			assertEquals(
 				3,
 				((it as JavammXVariableDeclaration).right

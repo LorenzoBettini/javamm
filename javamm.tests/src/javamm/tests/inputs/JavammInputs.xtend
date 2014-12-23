@@ -126,4 +126,10 @@ class JavammInputs {
 		}
 		'''
 	}
+
+	def arrayLiteral() {
+		'''
+		int[] a = { 0, 1, 2 };
+		'''
+	}
 }

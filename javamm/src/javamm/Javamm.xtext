@@ -170,5 +170,5 @@ XLiteral returns XExpression:
 ;
 
 JavammArrayLiteral returns XListLiteral:
-	{XListLiteral} '{' (elements+=XExpression (',' elements+=XExpression )*)? '}'
+	{JavammArrayLiteral} '{' (elements+=XExpression (',' elements+=XExpression )*)? '}'
 ;
