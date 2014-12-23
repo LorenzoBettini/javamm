@@ -193,6 +193,25 @@ public class MyFile {
 		]
 	}
 
+	@Test def void testArrayAssignElementFinalParameter() {
+		arrayAssignElementFinalParameter.compile[
+			assertGeneratedJavaCode(
+'''
+@SuppressWarnings("all")
+public class MyFile {
+  public static void m(final int[] a) {
+    a[0] = 1;
+  }
+  
+  public static void main(final String... args) {
+  }
+}
+'''
+			)
+			assertGeneratedJavaCodeCompiles
+		]
+	}
+
 	@Test def void testArrayAccessInRightHandsideExpression() {
 		arrayAccessInRightHandsideExpression.compile[
 			assertGeneratedJavaCode(

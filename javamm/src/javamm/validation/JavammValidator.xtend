@@ -4,8 +4,13 @@
 package javamm.validation
 
 import java.util.ArrayList
+import javamm.javamm.JavammArrayAccess
 import javamm.javamm.JavammPackage
 import org.eclipse.emf.ecore.EPackage
+import org.eclipse.emf.ecore.EStructuralFeature
+import org.eclipse.xtext.common.types.JvmFormalParameter
+import org.eclipse.xtext.xbase.XAbstractFeatureCall
+import org.eclipse.xtext.xbase.XExpression
 import org.eclipse.xtext.xbase.validation.XbaseValidator
 
 //import org.eclipse.xtext.validation.Check
@@ -30,14 +35,19 @@ class JavammValidator extends XbaseValidator {
 		return result;
 	}
 
-//  public static val INVALID_NAME = 'invalidName'
-//
-//	@Check
-//	def checkGreetingStartsWithCapital(Greeting greeting) {
-//		if (!Character.isUpperCase(greeting.name.charAt(0))) {
-//			warning('Name should start with a capital', 
-//					MyDslPackage.Literals.GREETING__NAME,
-//					INVALID_NAME)
-//		}
-//	}
+	override protected checkAssignment(XExpression expression, EStructuralFeature feature, boolean simpleAssignment) {
+		if (expression instanceof JavammArrayAccess) {
+			val index = expression.index
+			if (expression instanceof XAbstractFeatureCall) {
+				val assignmentFeature = expression.feature
+				if (assignmentFeature instanceof JvmFormalParameter && index != null) {
+					// assigning to an array element is legal even if the array is a final parameter
+					return;
+				}
+			}
+		}
+		
+		super.checkAssignment(expression, feature, simpleAssignment)
+	}
+	
 }

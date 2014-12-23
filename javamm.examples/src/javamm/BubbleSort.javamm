@@ -1,8 +1,7 @@
 /**
  * Orders the passed array with the bubble sort algorithm
  */
-void bubbleSort(int[] a) {
-	int[] array = a;
+void bubbleSort(int[] array) {
     boolean swapped = true;
     int j = 0;
     int tmp;

@@ -3,8 +3,7 @@ public class BubbleSort {
   /**
    * Orders the passed array with the bubble sort algorithm
    */
-  public static void bubbleSort(final int[] a) {
-    int[] array = a;
+  public static void bubbleSort(final int[] array) {
     boolean swapped = true;
     int j = 0;
     int tmp = 0;

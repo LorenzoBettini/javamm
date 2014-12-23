@@ -62,6 +62,14 @@ class JavammInputs {
 		'''
 	}
 
+	def arrayAssignElementFinalParameter() {
+		'''
+		void m(int[] a) {
+			a[0] = 1;
+		}
+		'''
+	}
+
 	def arrayAccessInRightHandsideExpression() {
 		'''
 		int[] a;
