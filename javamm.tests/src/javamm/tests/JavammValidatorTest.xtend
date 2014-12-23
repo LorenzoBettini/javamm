@@ -2,13 +2,15 @@ package javamm.tests
 
 import javamm.JavammInjectorProvider
 import javamm.javamm.JavammPackage
+import javamm.validation.JavammValidator
+import org.eclipse.emf.ecore.EClass
+import org.eclipse.emf.ecore.EObject
 import org.eclipse.xtext.junit4.InjectWith
 import org.eclipse.xtext.junit4.XtextRunner
 import org.eclipse.xtext.xbase.XbasePackage
 import org.eclipse.xtext.xbase.validation.IssueCodes
 import org.junit.Test
 import org.junit.runner.RunWith
-import javamm.validation.JavammValidator
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammInjectorProvider))
@@ -75,30 +77,30 @@ class JavammValidatorTest extends JavammAbstractTest {
 	@Test def void testArrayIndexNotIntegerLeft() {
 		'''
 		args[true] = 0;
-		'''.parse.assertError(
+		'''.parse.assertTypeMismatch(
 			XbasePackage.eINSTANCE.XBooleanLiteral,
-			IssueCodes.INCOMPATIBLE_TYPES,
-			"Type mismatch: cannot convert from boolean to int"
+			"int",
+			"boolean"
 		)
 	}
 
 	@Test def void testArrayIndexNotIntegerRight() {
 		'''
 		String s = args[true];
-		'''.parse.assertError(
+		'''.parse.assertTypeMismatch(
 			XbasePackage.eINSTANCE.XBooleanLiteral,
-			IssueCodes.INCOMPATIBLE_TYPES,
-			"Type mismatch: cannot convert from boolean to int"
+			"int",
+			"boolean"
 		)
 	}
 
 	@Test def void testArrayIndexNotIntegerInArrayConstructorCall() {
 		'''
 		int[] i = new int[true];
-		'''.parse.assertError(
+		'''.parse.assertTypeMismatch(
 			XbasePackage.eINSTANCE.XBooleanLiteral,
-			IssueCodes.INCOMPATIBLE_TYPES,
-			"Type mismatch: cannot convert from boolean to int"
+			"int",
+			"boolean"
 		)
 	}
 
@@ -121,6 +123,24 @@ class JavammValidatorTest extends JavammAbstractTest {
 			javammPack.javammXFeatureCall,
 			JavammValidator.NOT_ARRAY_TYPE,
 			"The type of the expression must be an array type but it resolved to int"
+		)
+	}
+
+	@Test def void testWrongElementInArrayLiteral() {
+		'''
+		int[] i = {0, true};
+		'''.parse.assertTypeMismatch(
+			XbasePackage.eINSTANCE.XBooleanLiteral,
+			"int",
+			"boolean"
+		)
+	}
+
+	def assertTypeMismatch(EObject o, EClass c, String expectedType, String actualType) {
+		o.assertError(
+			c,
+			IssueCodes.INCOMPATIBLE_TYPES,
+			'''Type mismatch: cannot convert from «actualType» to «expectedType»'''
 		)
 	}
 }
