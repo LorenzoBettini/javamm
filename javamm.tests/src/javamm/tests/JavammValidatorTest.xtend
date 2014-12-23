@@ -94,6 +94,10 @@ class JavammValidatorTest extends JavammAbstractTest {
 		doWhileWithBlock.parseAndAssertNoErrors
 	}
 
+	@Test def void testAdditionalSemicolons() {
+		additionalSemicolons.parseAndAssertNoErrors
+	}
+
 	@Test def void testArrayIndexNotIntegerLeft() {
 		'''
 		args[true] = 0;

@@ -433,6 +433,29 @@ public class MyFile {
 		assertGeneratedJavaCodeCompiles
 	}
 
+	@Test def void testAdditionalSemicolons() {
+		additionalSemicolons.compile[
+			assertGeneratedJavaCode(
+'''
+@SuppressWarnings("all")
+public class MyFile {
+  public static void m() {
+    return;
+  }
+  
+  public static void main(final String... args) {
+    int i = 0;
+    while ((i < 10)) {
+      i = (i + 1);
+    }
+  }
+}
+'''
+			)
+			assertGeneratedJavaCodeCompiles
+		]
+	}
+
 	def private assertGeneratedJavaCode(CompilationTestHelper.Result r, CharSequence expected) {
 		expected.toString.assertEquals(r.singleGeneratedCode)
 	}

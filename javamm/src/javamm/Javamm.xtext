@@ -16,10 +16,13 @@ JavammMethod:
 		'(') (params+=FullJvmFormalParameter (',' params+=FullJvmFormalParameter)*)? ')' 
 			body=XBlockExpression;
 
-
+/* 
+ * The ';' only "eats" possible additional semicolons which is legal in Java.
+ * The required ';' is taken care of in the JavammSemicolonStatement rule
+ */
 Main returns XBlockExpression:
 	{Main}
-	(expressions+=JavammStatementOrBlock ';'?)*;
+	(expressions+=JavammStatementOrBlock ';'*)*;
 
 JavammStatementOrBlock returns XExpression:
 //	JavammArrayConstructorCall | not a valid statement
@@ -36,6 +39,9 @@ JavammSingleStatement returns XExpression:
 	XWhileExpression
 ;
 
+/*
+ * These are the Java statements that require a semicolon at the end
+ */
 JavammSemicolonStatement returns XExpression:
 //	JavammArrayConstructorCall | not a valid statement
 	(=>XVariableDeclaration |
@@ -45,10 +51,14 @@ JavammSemicolonStatement returns XExpression:
 	XReturnExpression) ';'
 ;
 
+/* 
+ * The ';' only "eats" possible additional semicolons which is legal in Java.
+ * The required ';' is taken care of in the JavammSemicolonStatement rule
+ */
 XBlockExpression returns XExpression: 
 	{XBlockExpression}
 	'{'
-		(expressions+=JavammStatementOrBlock ';'?)*
+		(expressions+=JavammStatementOrBlock ';'*)*
 	'}';
 
 XExpressionOrVarDeclaration returns XExpression:
