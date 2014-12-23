@@ -23,7 +23,7 @@ Main returns XBlockExpression:
 
 JavammStatement returns XExpression:
 //	JavammArrayConstructorCall | not a valid statement
-	JavammSingleStatement |
+	=>JavammSingleStatement |
 	XBlockExpression
 ;
 
@@ -164,6 +164,11 @@ XLiteral returns XExpression:
 	XBooleanLiteral |
 	XNumberLiteral |
 	XNullLiteral |
-	XStringLiteral
+	XStringLiteral |
+	JavammArrayLiteral
 //	XTypeLiteral
+;
+
+JavammArrayLiteral returns XListLiteral:
+	{XListLiteral} '{' (elements+=XExpression (',' elements+=XExpression )*)? '}'
 ;

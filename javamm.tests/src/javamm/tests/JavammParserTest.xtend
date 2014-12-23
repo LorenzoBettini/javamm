@@ -18,6 +18,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import static org.junit.Assert.*
+import org.eclipse.xtext.xbase.XListLiteral
+import javamm.javamm.JavammXVariableDeclaration
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammInjectorProvider))
@@ -59,14 +61,14 @@ class JavammParserTest extends JavammAbstractTest {
 		]
 	}
 
-	@Test def void testFeatureCallIndex() {
-		'''
-		int[] m() { return null; }
-		m()[0] = 1;
-		'''.parse => [
-			assertTrue((main.expressions.head as JavammXFeatureCall).index instanceof XNumberLiteral)
-		]
-	}
+//	@Test def void testFeatureCallIndex() {
+//		'''
+//		int[] m() { return null; }
+//		m()[0] = 1;
+//		'''.parse => [
+//			assertTrue((main.expressions.head as JavammXFeatureCall).index instanceof XNumberLiteral)
+//		]
+//	}
 
 	@Test def void testFeatureCallIndex2() {
 		'''
@@ -122,6 +124,19 @@ class JavammParserTest extends JavammAbstractTest {
 				((it as JavammXFeatureCall).
 					actualArguments.head as JavammXFeatureCall
 				).index instanceof XNumberLiteral
+			)
+		]
+	}
+
+	@Test def void testArrayLiteral() {
+		'''
+		int[] a = { 0, 1, 2 };
+		'''.assertMainLastExpression [
+			assertEquals(
+				3,
+				((it as JavammXVariableDeclaration).right
+					as XListLiteral
+				).elements.size
 			)
 		]
 	}
