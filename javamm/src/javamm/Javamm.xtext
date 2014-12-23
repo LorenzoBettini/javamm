@@ -21,14 +21,21 @@ Main returns XBlockExpression:
 	{Main}
 	(expressions+=JavammStatement ';'?)*;
 
+XBlockExpression returns XExpression: 
+	{XBlockExpression}
+	'{'
+		(expressions+=JavammStatement ';'?)*
+	'}';
+
 JavammStatement returns XExpression:
 //	JavammArrayConstructorCall | not a valid statement
 	=>XVariableDeclaration |
 	JavammAssignmentStatement |
-	XConstructorCall |
+	JavammMemberFeatureCallStatement |
+//	XConstructorCall |
 	XBlockExpression |
 	XSwitchExpression |
-	XFeatureCall |
+//	XFeatureCall |
 	XIfExpression |
 	XForLoopExpression |
 	XBasicForLoopExpression |
@@ -48,6 +55,18 @@ JavammAssignmentStatement returns XExpression :
 	=>({JavammXAssignment} feature=[types::JvmIdentifiableElement|FeatureCallID] 
 		('[' index=XExpression ']')?
 		OpSingleAssign) value=XAssignment;
+
+JavammMemberFeatureCallStatement returns XExpression:
+	XPrimaryExpression
+	(
+		=>({XMemberFeatureCall.memberCallTarget=current} ".") 
+			feature=[types::JvmIdentifiableElement|IdOrSuper] (
+				=>explicitOperationCall?='(' 
+					(
+					    memberCallArguments+=XExpression (',' memberCallArguments+=XExpression)*
+					)? 
+				')')?
+	)*;
 
 XAssignment returns XExpression :
 	=>({JavammXAssignment} feature=[types::JvmIdentifiableElement|FeatureCallID] 
@@ -105,17 +124,17 @@ XPrimaryExpression returns XExpression:
 	JavammArrayConstructorCall |
 	XConstructorCall |
 //	XBlockExpression |
-	XSwitchExpression |
+//	XSwitchExpression |
 //	XSynchronizedExpression |
 	XFeatureCall |
 	XLiteral |
-	XIfExpression |
-	XForLoopExpression |
-	XBasicForLoopExpression |
-	XWhileExpression |
-	XDoWhileExpression |
+//	XIfExpression |
+//	XForLoopExpression |
+//	XBasicForLoopExpression |
+//	XWhileExpression |
+//	XDoWhileExpression |
 //	XThrowExpression |
-	XReturnExpression |
+//	XReturnExpression |
 //	XTryCatchFinallyExpression |
 	XParenthesizedExpression;
 
