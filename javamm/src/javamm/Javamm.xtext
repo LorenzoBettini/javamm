@@ -145,6 +145,12 @@ XWhileExpression returns XExpression:
 	'while' '(' predicate=XExpression ')'
 		body=JavammStatement;
 
+XDoWhileExpression returns XExpression:
+	{XDoWhileExpression}
+   'do'
+       body=JavammStatement
+   'while' '(' predicate=XExpression ')';
+
 XPrimaryExpression returns XExpression:
 	JavammArrayConstructorCall |
 	XConstructorCall |

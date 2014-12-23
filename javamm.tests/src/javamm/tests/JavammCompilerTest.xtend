@@ -399,6 +399,40 @@ public class MyFile {
 		assertGeneratedJavaCodeCompiles
 	}
 
+	@Test def void testDoWhileWithoutBlock() {
+		doWhileWithoutBlock.compile[
+			expectationsForDoWhile
+		]
+	}
+
+	@Test def void testDoWhileWithBlock() {
+		doWhileWithBlock.compile[
+			expectationsForDoWhile
+		]
+	}
+
+	/**
+	 * Xbase compiles if while with blocks even if they're not
+	 * there in the original program
+	 */
+	private def expectationsForDoWhile(Result it) {
+		assertGeneratedJavaCode(
+'''
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(final String... args) {
+    int i = 0;
+    do {
+      i = (i + 1);
+    } while((i < 10));
+  }
+}
+'''
+
+		)
+		assertGeneratedJavaCodeCompiles
+	}
+
 	def private assertGeneratedJavaCode(CompilationTestHelper.Result r, CharSequence expected) {
 		expected.toString.assertEquals(r.singleGeneratedCode)
 	}

@@ -127,6 +127,18 @@ class JavammInputs {
 		'''
 	}
 
+	def arrayLiteral() {
+		'''
+		int[] a = { 0, 1, 2 };
+		'''
+	}
+
+	def emptyArrayLiteral() {
+		'''
+		int[] a = {};
+		'''
+	}
+
 	def whileWithoutBlock() {
 		'''
 		int i = 0;
@@ -144,15 +156,22 @@ class JavammInputs {
 		'''
 	}
 
-	def arrayLiteral() {
+	def doWhileWithoutBlock() {
 		'''
-		int[] a = { 0, 1, 2 };
+		int i = 0;
+		do
+			i = i + 1;
+		while (i < 10);
 		'''
 	}
 
-	def emptyArrayLiteral() {
+	def doWhileWithBlock() {
 		'''
-		int[] a = {};
+		int i = 0;
+		do {
+			i = i + 1;
+		} while (i < 10);
 		'''
 	}
+
 }
