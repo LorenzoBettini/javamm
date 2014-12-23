@@ -19,9 +19,9 @@ JavammMethod:
 
 Main returns XBlockExpression:
 	{Main}
-	(expressions+=JavammStatement ';'?)*;
+	(expressions+=JavammStatementOrBlock ';'?)*;
 
-JavammStatement returns XExpression:
+JavammStatementOrBlock returns XExpression:
 //	JavammArrayConstructorCall | not a valid statement
 	=>JavammSingleStatement |
 	XBlockExpression
@@ -48,7 +48,7 @@ JavammSemicolonStatement returns XExpression:
 XBlockExpression returns XExpression: 
 	{XBlockExpression}
 	'{'
-		(expressions+=JavammStatement ';'?)*
+		(expressions+=JavammStatementOrBlock ';'?)*
 	'}';
 
 XExpressionOrVarDeclaration returns XExpression:
@@ -132,23 +132,23 @@ XBasicForLoopExpression returns XExpression:
 	'for' '('(initExpressions+=XExpressionOrVarDeclaration (',' initExpressions+=XExpressionOrVarDeclaration)*)? ';' 
 		expression=XExpression? ';' 
 		(updateExpressions+=XExpression (',' updateExpressions+=XExpression)*)? ')'
-		eachExpression=JavammStatement;
+		eachExpression=JavammStatementOrBlock;
 
 XIfExpression returns XExpression:
 	{XIfExpression}
 	'if' '(' if=XExpression ')'
-	then=JavammStatement
-	(=>'else' else=JavammStatement)?;
+	then=JavammStatementOrBlock
+	(=>'else' else=JavammStatementOrBlock)?;
 
 XWhileExpression returns XExpression:
 	{XWhileExpression}
 	'while' '(' predicate=XExpression ')'
-		body=JavammStatement;
+		body=JavammStatementOrBlock;
 
 XDoWhileExpression returns XExpression:
 	{XDoWhileExpression}
    'do'
-       body=JavammStatement
+       body=JavammStatementOrBlock
    'while' '(' predicate=XExpression ')';
 
 XPrimaryExpression returns XExpression:
