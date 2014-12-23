@@ -74,6 +74,14 @@ class JavammValidatorTest extends JavammAbstractTest {
 		arrayLiteral.parseAndAssertNoErrors
 	}
 
+	@Test def void testWhileWithoutBlock() {
+		whileWithoutBlock.parseAndAssertNoErrors
+	}
+
+	@Test def void testWhileWithBlock() {
+		whileWithBlock.parseAndAssertNoErrors
+	}
+
 	@Test def void testArrayIndexNotIntegerLeft() {
 		'''
 		args[true] = 0;
