@@ -1,0 +1,40 @@
+/**
+ * Orders the passed array with the bubble sort algorithm
+ */
+void bubbleSort(int[] a) {
+	int[] array = a;
+    boolean swapped = true;
+    int j = 0;
+    int tmp;
+    while (swapped) {
+        swapped = false;
+        j = j + 1;
+        for (int i = 0; i < array.length - j; i++) {
+            if (array[i] > array[i + 1]) {
+                tmp = array[i];
+                array[i] = array[i + 1];
+                array[i + 1] = tmp;
+                swapped = true;
+            }
+        }
+    }
+}
+
+/**
+ * Prints the passed array to the standard output
+ */
+void printArray(int[] a) {
+	for (int i = 0; i < a.length; i += 1) {
+		System.out.print(a[i] + " ");
+	}
+	System.out.println("");
+}
+
+int[] test = { 10, 4, 2, 8, 1 };
+printArray(test);
+bubbleSort(test);
+printArray(test);
+test = { 10, 4, 2, 8, 1, 10, 4, 2, 8, 1 };
+printArray(test);
+bubbleSort(test);
+printArray(test);
