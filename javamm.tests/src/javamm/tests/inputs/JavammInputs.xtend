@@ -149,4 +149,10 @@ class JavammInputs {
 		int[] a = { 0, 1, 2 };
 		'''
 	}
+
+	def emptyArrayLiteral() {
+		'''
+		int[] a = {};
+		'''
+	}
 }

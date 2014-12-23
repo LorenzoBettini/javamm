@@ -74,6 +74,10 @@ class JavammValidatorTest extends JavammAbstractTest {
 		arrayLiteral.parseAndAssertNoErrors
 	}
 
+	@Test def void testEmptyArrayLiteral() {
+		emptyArrayLiteral.parseAndAssertNoErrors
+	}
+
 	@Test def void testWhileWithoutBlock() {
 		whileWithoutBlock.parseAndAssertNoErrors
 	}

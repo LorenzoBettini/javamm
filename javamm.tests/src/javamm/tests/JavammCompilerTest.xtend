@@ -349,6 +349,22 @@ public class MyFile {
 		]
 	}
 
+	@Test def void testEmptyArrayLiteral() {
+		emptyArrayLiteral.compile[
+			assertGeneratedJavaCode(
+'''
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(final String... args) {
+    int[] a = {};
+  }
+}
+'''
+			)
+			assertGeneratedJavaCodeCompiles
+		]
+	}
+
 	@Test def void testWhileWithoutBlock() {
 		whileWithoutBlock.compile[
 			expectationsForWhile
