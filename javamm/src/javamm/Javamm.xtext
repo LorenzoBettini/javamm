@@ -21,12 +21,6 @@ Main returns XBlockExpression:
 	{Main}
 	(expressions+=JavammStatement ';'?)*;
 
-XBlockExpression returns XExpression: 
-	{XBlockExpression}
-	'{'
-		(expressions+=JavammStatement ';'?)*
-	'}';
-
 JavammStatement returns XExpression:
 //	JavammArrayConstructorCall | not a valid statement
 	=>XVariableDeclaration |
@@ -43,6 +37,12 @@ JavammStatement returns XExpression:
 	XDoWhileExpression |
 	XReturnExpression
 ;
+
+XBlockExpression returns XExpression: 
+	{XBlockExpression}
+	'{'
+		(expressions+=JavammStatement ';'?)*
+	'}';
 
 XExpressionOrVarDeclaration returns XExpression:
 	=>XVariableDeclaration | XExpression;
@@ -119,6 +119,13 @@ XMemberFeatureCall returns XExpression:
 					)? 
 				')')?
 	)*;
+
+XBasicForLoopExpression returns XExpression:
+	{XBasicForLoopExpression}
+	'for' '('(initExpressions+=XExpressionOrVarDeclaration (',' initExpressions+=XExpressionOrVarDeclaration)*)? ';' 
+		expression=XExpression? ';' 
+		(updateExpressions+=XExpression (',' updateExpressions+=XExpression)*)? ')'
+		eachExpression=JavammStatement;
 
 XPrimaryExpression returns XExpression:
 	JavammArrayConstructorCall |
