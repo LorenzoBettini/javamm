@@ -43,9 +43,10 @@ public class ArrayCopy {
   
   public static void main(final String... args) {
     System.out.println("ORIGINAL: ");
-    ArrayCopy.printArray(args);
+    String[] a = { "one", "two", "three" };
+    ArrayCopy.printArray(a);
     System.out.println("COPY: ");
-    String[] _copyArray = ArrayCopy.copyArray(args);
+    String[] _copyArray = ArrayCopy.copyArray(a);
     ArrayCopy.printArray(_copyArray);
   }
 }

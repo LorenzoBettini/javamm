@@ -22,6 +22,7 @@ void printArray(String[] a) {
 }
 
 System.out.println("ORIGINAL: ");
-printArray(args);
+String[] a = {"one", "two", "three"};
+printArray(a);
 System.out.println("COPY: ");
-printArray(copyArray(args));
+printArray(copyArray(a));
