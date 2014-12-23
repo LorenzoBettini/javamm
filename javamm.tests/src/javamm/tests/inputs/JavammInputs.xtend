@@ -23,7 +23,7 @@ class JavammInputs {
 		boolean foo() {
 			int i = 0;
 			int j;
-			j = 1
+			j = 1;
 			return (i > 0);
 		}
 		
@@ -94,7 +94,7 @@ class JavammInputs {
 
 	def arrayAccessInForLoop() {
 		'''
-		int argsNum = args.length()
+		int argsNum = args.length();
 		for (int i = 0; i < argsNum; i += 1) {
 			System.out.println("args[" + i + "] = " + args[i] );
 		}
