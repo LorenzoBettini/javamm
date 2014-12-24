@@ -3,11 +3,24 @@
 */
 package javamm.ui.outline
 
+import org.eclipse.xtext.ui.editor.outline.impl.DefaultOutlineTreeProvider
+import javamm.javamm.JavammMethod
+import javamm.javamm.Main
+
 /**
  * Customization of the default outline structure.
  *
  * see http://www.eclipse.org/Xtext/documentation.html#outline
+ * 
+ * @author Lorenzo Bettini
  */
-class JavammOutlineTreeProvider extends org.eclipse.xtext.ui.editor.outline.impl.DefaultOutlineTreeProvider {
-	
+class JavammOutlineTreeProvider extends DefaultOutlineTreeProvider {
+
+	def _isLeaf(JavammMethod m) {
+		true
+	}
+
+	def _isLeaf(Main m) {
+		true
+	}	
 }
