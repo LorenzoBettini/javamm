@@ -102,6 +102,10 @@ class JavammValidatorTest extends JavammAbstractTest {
 		additionalSemicolons.parseAndAssertNoErrors
 	}
 
+	@Test def void testAssignToParam() {
+		assignToParam.parseAndAssertNoErrors
+	}
+
 	@Test def void testArrayIndexNotIntegerLeft() {
 		'''
 		args[true] = 0;
@@ -161,18 +165,6 @@ class JavammValidatorTest extends JavammAbstractTest {
 			XbasePackage.eINSTANCE.XBooleanLiteral,
 			"int",
 			"boolean"
-		)
-	}
-
-	@Test def void testWrongArrayAssignFinalParameter() {
-		'''
-		void m(int[] a) {
-			a = new int[10];
-		}
-		'''.parse.assertError(
-			javammPack.javammXAssignment,
-			IssueCodes.ASSIGNMENT_TO_FINAL,
-			'''Assignment to final parameter'''
 		)
 	}
 

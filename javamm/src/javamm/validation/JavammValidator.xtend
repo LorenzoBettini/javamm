@@ -4,7 +4,6 @@
 package javamm.validation
 
 import java.util.ArrayList
-import javamm.javamm.JavammArrayAccess
 import javamm.javamm.JavammPackage
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EStructuralFeature
@@ -36,14 +35,11 @@ class JavammValidator extends XbaseValidator {
 	}
 
 	override protected checkAssignment(XExpression expression, EStructuralFeature feature, boolean simpleAssignment) {
-		if (expression instanceof JavammArrayAccess) {
-			val index = expression.index
-			if (expression instanceof XAbstractFeatureCall) {
-				val assignmentFeature = expression.feature
-				if (assignmentFeature instanceof JvmFormalParameter && index != null) {
-					// assigning to an array element is legal even if the array is a final parameter
-					return;
-				}
+		if (expression instanceof XAbstractFeatureCall) {
+			val assignmentFeature = expression.feature
+			if (assignmentFeature instanceof JvmFormalParameter) {
+				// all parameters are considered NOT final
+				return;
 			}
 		}
 		

@@ -191,4 +191,13 @@ class JavammInputs {
 		};
 		'''
 	}
+
+	def assignToParam() {
+		'''
+		void m(int a) {
+			a = 1;
+		}
+		'''
+	}
+	
 }
