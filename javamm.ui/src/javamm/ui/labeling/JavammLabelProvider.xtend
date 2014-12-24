@@ -4,26 +4,33 @@
 package javamm.ui.labeling
 
 import com.google.inject.Inject
+import javamm.javamm.JavammMethod
+import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider
+import org.eclipse.xtext.xbase.jvmmodel.IJvmModelAssociations
+import org.eclipse.xtext.xbase.ui.labeling.XbaseLabelProvider
 
 /**
- * Provides labels for a EObjects.
+ * Provides labels for a EObjects.  For method definitions simply
+ * delegates to XbaseLabelProvider, passing the corresponding inferred JvmOperation.
  * 
  * see http://www.eclipse.org/Xtext/documentation.html#labelProvider
+ * 
+ * @author Lorenzo Bettini
  */
-class JavammLabelProvider extends org.eclipse.xtext.ui.label.DefaultEObjectLabelProvider {
+class JavammLabelProvider extends XbaseLabelProvider {
+	
+	@Inject extension IJvmModelAssociations
 
 	@Inject
-	new(org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider delegate) {
+	new(AdapterFactoryLabelProvider delegate) {
 		super(delegate);
 	}
 
-	// Labels and icons can be computed like this:
-	
-//	def text(Greeting ele) {
-//		'A greeting to ' + ele.name
-//	}
-//
-//	def image(Greeting ele) {
-//		'Greeting.gif'
-//	}
+	def text(JavammMethod m) {
+		text(m.jvmElements.head)
+	}
+
+	def image(JavammMethod m) {
+		imageDescriptor(m.jvmElements.head)
+	}
 }
