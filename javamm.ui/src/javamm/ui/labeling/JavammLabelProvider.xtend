@@ -8,6 +8,8 @@ import javamm.javamm.JavammMethod
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider
 import org.eclipse.xtext.xbase.jvmmodel.IJvmModelAssociations
 import org.eclipse.xtext.xbase.ui.labeling.XbaseLabelProvider
+import javamm.javamm.Main
+import org.eclipse.xtext.common.types.JvmOperation
 
 /**
  * Provides labels for a EObjects.  For method definitions simply
@@ -32,5 +34,13 @@ class JavammLabelProvider extends XbaseLabelProvider {
 
 	def image(JavammMethod m) {
 		imageDescriptor(m.jvmElements.head)
+	}
+
+	def text(Main m) {
+		text(m.eContainer.jvmElements.filter(JvmOperation).head)
+	}
+
+	def image(Main m) {
+		imageDescriptor(m.eContainer.jvmElements.filter(JvmOperation).head)
 	}
 }
