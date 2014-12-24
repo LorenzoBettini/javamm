@@ -5,11 +5,12 @@ package javamm.ui.labeling
 
 import com.google.inject.Inject
 import javamm.javamm.JavammMethod
+import javamm.javamm.Main
+import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider
+import org.eclipse.xtext.common.types.JvmOperation
 import org.eclipse.xtext.xbase.jvmmodel.IJvmModelAssociations
 import org.eclipse.xtext.xbase.ui.labeling.XbaseLabelProvider
-import javamm.javamm.Main
-import org.eclipse.xtext.common.types.JvmOperation
 
 /**
  * Provides labels for a EObjects.  For method definitions simply
@@ -29,18 +30,23 @@ class JavammLabelProvider extends XbaseLabelProvider {
 	}
 
 	def text(JavammMethod m) {
-		text(m.jvmElements.head)
+		text(m.inferredJavaMethod)
 	}
 
 	def image(JavammMethod m) {
-		imageDescriptor(m.jvmElements.head)
+		imageDescriptor(m.inferredJavaMethod)
 	}
 
 	def text(Main m) {
-		text(m.eContainer.jvmElements.filter(JvmOperation).head)
+		text(m.eContainer.inferredJavaMethod)
+	}
+	
+	def image(Main m) {
+		imageDescriptor(m.eContainer.inferredJavaMethod)
 	}
 
-	def image(Main m) {
-		imageDescriptor(m.eContainer.jvmElements.filter(JvmOperation).head)
+	private def inferredJavaMethod(EObject e) {
+		e.jvmElements.filter(JvmOperation).head
 	}
+
 }
