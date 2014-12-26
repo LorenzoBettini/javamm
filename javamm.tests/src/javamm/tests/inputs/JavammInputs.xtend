@@ -207,4 +207,11 @@ class JavammInputs {
 		j++;
 		'''
 	}
+
+	def multiAssign() {
+		'''
+		int i = 0;
+		i += 2;
+		'''
+	}
 }

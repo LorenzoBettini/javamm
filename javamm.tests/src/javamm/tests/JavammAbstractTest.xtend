@@ -1,10 +1,12 @@
 package javamm.tests
 
 import com.google.inject.Inject
-import org.eclipse.xtext.junit4.util.ParseHelper
 import javamm.javamm.JavammProgram
-import org.eclipse.xtext.junit4.validation.ValidationTestHelper
 import javamm.tests.inputs.JavammInputs
+import org.eclipse.xtext.junit4.util.ParseHelper
+import org.eclipse.xtext.junit4.validation.ValidationTestHelper
+
+import static org.junit.Assert.*
 
 abstract class JavammAbstractTest {
 	@Inject protected extension ParseHelper<JavammProgram>
@@ -15,5 +17,9 @@ abstract class JavammAbstractTest {
 		input.parse => [
 			assertNoErrors
 		]
+	}
+
+	def protected assertEqualsStrings(CharSequence expected, CharSequence actual) {
+		assertEquals(expected.toString().replaceAll("\r", ""), actual.toString());
 	}
 }

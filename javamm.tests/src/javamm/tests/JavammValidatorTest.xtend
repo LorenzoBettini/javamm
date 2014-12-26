@@ -110,6 +110,10 @@ class JavammValidatorTest extends JavammAbstractTest {
 		postIncrement.parseAndAssertNoErrors
 	}
 
+	@Test def void testMultiAssign() {
+		multiAssign.parseAndAssertNoErrors
+	}
+
 	@Test def void testArrayIndexNotIntegerLeft() {
 		'''
 		args[true] = 0;
@@ -172,11 +176,40 @@ class JavammValidatorTest extends JavammAbstractTest {
 		)
 	}
 
-	def assertTypeMismatch(EObject o, EClass c, String expectedType, String actualType) {
+	@Test def void testStringLiteralAsStatement() {
+		'''
+		"test";
+		'''.parse.assertNoSideEffectError(XbasePackage.eINSTANCE.XStringLiteral)
+	}
+
+	@Test def void testBooleanExpressionAsStatement() {
+		'''
+		"test" != "a";
+		'''.parse => [
+			assertNoSideEffectError(XbasePackage.eINSTANCE.XBinaryOperation)
+			assertErrorsAsStrings("This expression is not allowed in this context, since it doesn't cause any side effects.")
+		]
+	}
+
+	def private assertTypeMismatch(EObject o, EClass c, String expectedType, String actualType) {
 		o.assertError(
 			c,
 			IssueCodes.INCOMPATIBLE_TYPES,
 			'''Type mismatch: cannot convert from «actualType» to «expectedType»'''
 		)
 	}
+
+	def private assertNoSideEffectError(EObject o, EClass c) {
+		o.assertError(
+			c,
+			IssueCodes.INVALID_INNER_EXPRESSION,
+			'''This expression is not allowed in this context, since it doesn't cause any side effects.'''
+		)
+	}
+
+	def private assertErrorsAsStrings(EObject o, CharSequence expected) {
+		expected.toString.trim.assertEqualsStrings(
+			o.validate.map[message].join("\n"))
+	}
+	
 }

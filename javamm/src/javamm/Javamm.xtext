@@ -45,8 +45,7 @@ JavammSingleStatement returns XExpression:
 JavammSemicolonStatement returns XExpression:
 //	JavammArrayConstructorCall | not a valid statement
 	(=>XVariableDeclaration |
-	JavammAssignmentStatement |
-	JavammPostfixOperationStatement |
+	XExpression |
 	XDoWhileExpression |
 	XReturnExpression) ';'
 ;

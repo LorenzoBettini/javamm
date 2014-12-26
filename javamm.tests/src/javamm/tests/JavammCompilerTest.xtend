@@ -512,6 +512,24 @@ public class MyFile {
 		]
 	}
 
+	@Test def void testMultiAssign() {
+		multiAssign.compile[
+			assertGeneratedJavaCode(
+'''
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String... args) {
+    int i = 0;
+    int _i = i;
+    i = (_i + 2);
+  }
+}
+'''
+			)
+			assertGeneratedJavaCodeCompiles
+		]
+	}
+
 	def private assertGeneratedJavaCode(CompilationTestHelper.Result r, CharSequence expected) {
 		expected.toString.assertEquals(r.singleGeneratedCode)
 	}
