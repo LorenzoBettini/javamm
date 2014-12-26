@@ -30,7 +30,7 @@ class JavammCompilerTest extends JavammAbstractTest {
 '''
 @SuppressWarnings("all")
 public class MyFile {
-  public static void main(String... args) {
+  public static void main(String[] args) {
     System.out.println("Hello world!");
   }
 }
@@ -60,7 +60,7 @@ public class MyFile {
     System.out.println(m);
   }
   
-  public static void main(String... args) {
+  public static void main(String[] args) {
   }
 }
 '''
@@ -79,7 +79,7 @@ public class MyFile {
     System.out.println(m);
   }
   
-  public static void main(String... args) {
+  public static void main(String[] args) {
     MyFile.sayHelloWorld("Hello world!");
   }
 }
@@ -102,7 +102,7 @@ public class MyFile {
     return (i > 0);
   }
   
-  public static void main(String... args) {
+  public static void main(String[] args) {
     int i = 0;
     boolean b = false;
     boolean cond = (i > 0);
@@ -123,7 +123,7 @@ public class MyFile {
 '''
 @SuppressWarnings("all")
 public class MyFile {
-  public static void main(String... args) {
+  public static void main(String[] args) {
     int i = 0;
     i = 0;
   }
@@ -140,7 +140,7 @@ public class MyFile {
 '''
 @SuppressWarnings("all")
 public class MyFile {
-  public static void main(String... args) {
+  public static void main(String[] args) {
     String[] a = null;
     a[0] = "test";
   }
@@ -161,7 +161,7 @@ public class MyFile {
     return 0;
   }
   
-  public static void main(String... args) {
+  public static void main(String[] args) {
     String[] a = null;
     int i = 0;
     int j = 1;
@@ -181,7 +181,7 @@ public class MyFile {
 '''
 @SuppressWarnings("all")
 public class MyFile {
-  public static void main(String... args) {
+  public static void main(String[] args) {
     String[] a = null;
     String[] b = null;
     a = b;
@@ -203,7 +203,7 @@ public class MyFile {
     a[0] = 1;
   }
   
-  public static void main(String... args) {
+  public static void main(String[] args) {
   }
 }
 '''
@@ -218,7 +218,7 @@ public class MyFile {
 '''
 @SuppressWarnings("all")
 public class MyFile {
-  public static void main(String... args) {
+  public static void main(String[] args) {
     int[] a = null;
     int i = 0;
     i = a[0];
@@ -240,7 +240,7 @@ public class MyFile {
     return null;
   }
   
-  public static void main(String... args) {
+  public static void main(String[] args) {
     int i = 0;
     int _array = MyFile.getArray()[0];
     i = _array;
@@ -262,7 +262,7 @@ public class MyFile {
     return i;
   }
   
-  public static void main(String... args) {
+  public static void main(String[] args) {
     int[] j = null;
     MyFile.getArg(j[0]);
   }
@@ -279,7 +279,7 @@ public class MyFile {
 '''
 @SuppressWarnings("all")
 public class MyFile {
-  public static void main(String... args) {
+  public static void main(String[] args) {
     int argsNum = args.length;
     {
       int i = 0;
@@ -305,7 +305,7 @@ public class MyFile {
 '''
 @SuppressWarnings("all")
 public class MyFile {
-  public static void main(String... args) {
+  public static void main(String[] args) {
     int[] i = new int[10];
     String[] a = new String[args.length];
   }
@@ -337,7 +337,7 @@ public class MyFile {
 			'''
 			@SuppressWarnings("all")
 			public class MyFile {
-			  public static void main(String... args) {
+			  public static void main(String[] args) {
 			    int _length = args.length;
 			    boolean _equals = (_length == 0);
 			    if (_equals) {
@@ -358,7 +358,7 @@ public class MyFile {
 '''
 @SuppressWarnings("all")
 public class MyFile {
-  public static void main(String... args) {
+  public static void main(String[] args) {
     int[] a = { 0, 1, 2 };
   }
 }
@@ -374,7 +374,7 @@ public class MyFile {
 '''
 @SuppressWarnings("all")
 public class MyFile {
-  public static void main(String... args) {
+  public static void main(String[] args) {
     int[] a = {};
   }
 }
@@ -405,7 +405,7 @@ public class MyFile {
 '''
 @SuppressWarnings("all")
 public class MyFile {
-  public static void main(String... args) {
+  public static void main(String[] args) {
     int i = 0;
     while ((i < 10)) {
       i = (i + 1);
@@ -439,7 +439,7 @@ public class MyFile {
 '''
 @SuppressWarnings("all")
 public class MyFile {
-  public static void main(String... args) {
+  public static void main(String[] args) {
     int i = 0;
     do {
       i = (i + 1);
@@ -462,7 +462,7 @@ public class MyFile {
     return;
   }
   
-  public static void main(String... args) {
+  public static void main(String[] args) {
     int i = 0;
     while ((i < 10)) {
       i = (i + 1);
@@ -485,7 +485,7 @@ public class MyFile {
     a = 1;
   }
   
-  public static void main(String... args) {
+  public static void main(String[] args) {
   }
 }
 '''
@@ -500,7 +500,7 @@ public class MyFile {
 '''
 @SuppressWarnings("all")
 public class MyFile {
-  public static void main(String... args) {
+  public static void main(String[] args) {
     int i = 0;
     int j = i++;
     j++;
@@ -518,7 +518,7 @@ public class MyFile {
 '''
 @SuppressWarnings("all")
 public class MyFile {
-  public static void main(String... args) {
+  public static void main(String[] args) {
     int i = 0;
     int _i = i;
     i = (_i + 2);

@@ -67,7 +67,6 @@ class JavammJvmModelInferrer extends AbstractModelInferrer {
    			members += program.toMethod('main', typeRef(Void.TYPE)) [
    				parameters += program.toParameter("args", typeRef(String).addArrayTypeDimension)
    				static = true
-   				varArgs = true
    				// Associate the script as the body of the main method
    				body = main
    			]	
