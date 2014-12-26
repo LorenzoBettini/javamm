@@ -106,6 +106,10 @@ class JavammValidatorTest extends JavammAbstractTest {
 		assignToParam.parseAndAssertNoErrors
 	}
 
+	@Test def void testPostIncrement() {
+		postIncrement.parseAndAssertNoErrors
+	}
+
 	@Test def void testArrayIndexNotIntegerLeft() {
 		'''
 		args[true] = 0;

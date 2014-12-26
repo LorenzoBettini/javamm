@@ -494,6 +494,24 @@ public class MyFile {
 		]
 	}
 
+	@Test def void testPostIncrement() {
+		postIncrement.compile[
+			assertGeneratedJavaCode(
+'''
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String... args) {
+    int i = 0;
+    int j = i++;
+    j++;
+  }
+}
+'''
+			)
+			assertGeneratedJavaCodeCompiles
+		]
+	}
+
 	def private assertGeneratedJavaCode(CompilationTestHelper.Result r, CharSequence expected) {
 		expected.toString.assertEquals(r.singleGeneratedCode)
 	}

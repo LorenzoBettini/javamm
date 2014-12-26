@@ -46,7 +46,7 @@ JavammSemicolonStatement returns XExpression:
 //	JavammArrayConstructorCall | not a valid statement
 	(=>XVariableDeclaration |
 	JavammAssignmentStatement |
-	JavammMemberFeatureCallStatement |
+	JavammPostfixOperationStatement |
 	XDoWhileExpression |
 	XReturnExpression) ';'
 ;
@@ -72,6 +72,10 @@ JavammAssignmentStatement returns XExpression :
 	=>({JavammXAssignment} feature=[types::JvmIdentifiableElement|FeatureCallID] 
 		('[' index=XExpression ']')?
 		OpSingleAssign) value=XAssignment;
+
+JavammPostfixOperationStatement returns XExpression:
+	JavammMemberFeatureCallStatement =>({XPostfixOperation.operand=current} feature=[types::JvmIdentifiableElement|OpPostfix])?
+;
 
 JavammMemberFeatureCallStatement returns XExpression:
 	XPrimaryExpression
