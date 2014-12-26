@@ -67,27 +67,6 @@ XVariableDeclaration returns XVariableDeclaration:
 	{JavammXVariableDeclaration}
 	type=JvmTypeReference name=ValidID ('=' right=XExpression)?;
 
-JavammAssignmentStatement returns XExpression :
-	=>({JavammXAssignment} feature=[types::JvmIdentifiableElement|FeatureCallID] 
-		('[' index=XExpression ']')?
-		OpSingleAssign) value=XAssignment;
-
-JavammPostfixOperationStatement returns XExpression:
-	JavammMemberFeatureCallStatement =>({XPostfixOperation.operand=current} feature=[types::JvmIdentifiableElement|OpPostfix])?
-;
-
-JavammMemberFeatureCallStatement returns XExpression:
-	XPrimaryExpression
-	(
-		=>({XMemberFeatureCall.memberCallTarget=current} ".") 
-			feature=[types::JvmIdentifiableElement|IdOrSuper] (
-				=>explicitOperationCall?='(' 
-					(
-					    memberCallArguments+=XExpression (',' memberCallArguments+=XExpression)*
-					)? 
-				')')?
-	)*;
-
 XAssignment returns XExpression :
 	=>({JavammXAssignment} feature=[types::JvmIdentifiableElement|FeatureCallID] 
 		'[' index=XExpression ']'
