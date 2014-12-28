@@ -66,6 +66,24 @@ class JavammFormatter extends XbaseFormatter {
 		c.setNoSpace().before(ele.getRightParenthesisKeyword_4());
 	}
 
+	override configureXWhileExpression(FormattingConfig c, XbaseGrammarAccess.XWhileExpressionElements _ele) {
+		super.configureXWhileExpression(c, _ele)
+		
+		// the following must be repeated for our parenthesis keywords
+		val ele = XWhileExpressionAccess
+		c.setNoSpace().after(ele.getLeftParenthesisKeyword_2());
+		c.setNoSpace().before(ele.getRightParenthesisKeyword_4());
+	}
+
+	override configureXDoWhileExpression(FormattingConfig c, XbaseGrammarAccess.XDoWhileExpressionElements _ele) {
+		super.configureXDoWhileExpression(c, _ele)
+		
+		// the following must be repeated for our parenthesis keywords
+		val ele = XDoWhileExpressionAccess
+		c.setNoSpace().after(ele.getLeftParenthesisKeyword_4());
+		c.setNoSpace().before(ele.getRightParenthesisKeyword_6());
+	}
+
 	def private configureJavammSemicolonStatement(FormattingConfig c, JavammSemicolonStatementElements ele) {
 		c.setLinewrap().after(ele.semicolonKeyword_1);
 		c.setNoSpace().before(ele.semicolonKeyword_1);
