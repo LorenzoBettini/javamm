@@ -23,6 +23,16 @@ class JavammFormatterTest extends JavammAbstractTest {
 		'''.assertFormattedAs("int i = 1;")
 	}
 
+	@Test def void testMain() {
+		'''
+		int  i  = 1 ;int  k  = 1 ;
+		'''.assertFormattedAs(
+		'''
+		int i = 1;
+		int k = 1;'''
+		)
+	}
+
 	@Test def void testBlock() {
 		'''
 		{ int i = 1; boolean b ; }
@@ -41,6 +51,21 @@ class JavammFormatterTest extends JavammAbstractTest {
 		'''.assertFormattedAs(
 		'''
 		void m(String s, int k) {
+			int i = 1;
+			boolean b;
+		}'''
+		)
+	}
+
+	@Test def void testMethods() {
+		'''
+		void m(  String  s  ,  int  k   ){ int i = 1; boolean b ; }void n(  String  s  ,  int  k   ){ int i = 1; boolean b ; }
+		'''.assertFormattedAs(
+		'''
+		void m(String s, int k) {
+			int i = 1;
+			boolean b;
+		} void n(String s, int k) {
 			int i = 1;
 			boolean b;
 		}'''

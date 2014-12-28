@@ -12,7 +12,7 @@ JavammProgram:
 ;
 
 JavammMethod:
-	=>(type=JvmTypeReference name=ValidID 
+	=>({JavammMethod} type=JvmTypeReference name=ValidID 
 		'(') (params+=FullJvmFormalParameter (',' params+=FullJvmFormalParameter)*)? ')' 
 			body=XBlockExpression;
 

@@ -127,8 +127,8 @@ class JavammFormatter extends XbaseFormatter {
 	}
 
 	def private configureJavammMethod(FormattingConfig c, JavammMethodElements ele) {
-		c.setNoSpace.before(ele.leftParenthesisKeyword_0_0_2)
-		c.setNoSpace.after(ele.leftParenthesisKeyword_0_0_2)
+		c.setNoSpace.before(ele.leftParenthesisKeyword_0_0_3)
+		c.setNoSpace.after(ele.leftParenthesisKeyword_0_0_3)
 		c.setNoSpace.before(ele.rightParenthesisKeyword_2)
 		
 		c.setNoSpace.before(ele.commaKeyword_1_1_0)
