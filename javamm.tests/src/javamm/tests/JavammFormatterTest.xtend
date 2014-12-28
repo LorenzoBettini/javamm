@@ -89,6 +89,17 @@ class JavammFormatterTest extends JavammAbstractTest {
 		)
 	}
 
+	@Test def void testFor() {
+		'''
+		for  (  int i = 0  ; i  <  10; i++  ) {  int  k = i;  }
+		'''.assertFormattedAs(
+		'''
+		for (int i = 0; i < 10; i++) {
+			int k = i;
+		}'''
+		)
+	}
+
 	def private void assertFormattedAs(CharSequence input, CharSequence expected) {
 		expected.toString.assertEquals(
 			(input.parse.eResource as XtextResource).parseResult.rootNode.format(0, input.length).formattedText)

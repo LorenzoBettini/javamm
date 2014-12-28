@@ -84,6 +84,19 @@ class JavammFormatter extends XbaseFormatter {
 		c.setNoSpace().before(ele.getRightParenthesisKeyword_6());
 	}
 
+	override configureXBasicForLoopExpression(FormattingConfig c, XbaseGrammarAccess.XBasicForLoopExpressionElements _ele) {
+		super.configureXBasicForLoopExpression(c, _ele)
+		
+		// the following must be repeated for our parenthesis keywords
+		val ele = XBasicForLoopExpressionAccess
+		c.setNoSpace().after(ele.getLeftParenthesisKeyword_2());
+		c.setNoSpace().before(ele.getCommaKeyword_3_1_0());
+		c.setNoSpace().before(ele.getSemicolonKeyword_4());
+		c.setNoSpace().before(ele.getCommaKeyword_7_1_0());
+		c.setNoSpace().before(ele.getSemicolonKeyword_6());
+		c.setNoSpace().before(ele.getRightParenthesisKeyword_8());
+	}
+
 	def private configureJavammSemicolonStatement(FormattingConfig c, JavammSemicolonStatementElements ele) {
 		c.setLinewrap().after(ele.semicolonKeyword_1);
 		c.setNoSpace().before(ele.semicolonKeyword_1);
