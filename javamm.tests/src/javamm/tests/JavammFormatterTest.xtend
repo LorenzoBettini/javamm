@@ -19,7 +19,7 @@ class JavammFormatterTest extends JavammAbstractTest {
 
 	@Test def void testVariableDeclaration() {
 		'''
-		int i = 1;
+		int  i  = 1 ;
 		'''.assertFormattedAs("int i = 1;")
 	}
 
@@ -29,6 +29,18 @@ class JavammFormatterTest extends JavammAbstractTest {
 		'''.assertFormattedAs(
 		'''
 		{
+			int i = 1;
+			boolean b;
+		}'''
+		)
+	}
+
+	@Test def void testMethod() {
+		'''
+		void m(  String  s  ,  int  k   ){ int i = 1; boolean b ; }
+		'''.assertFormattedAs(
+		'''
+		void m(String s, int k) {
 			int i = 1;
 			boolean b;
 		}'''
