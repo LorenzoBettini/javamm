@@ -17,10 +17,22 @@ class JavammFormatterTest extends JavammAbstractTest {
 	
 	@Inject extension INodeModelFormatter;
 
-	@Test def void testAssignmentLeft() {
+	@Test def void testVariableDeclaration() {
 		'''
 		int i = 1;
-		'''.assertFormattedAs("int i = 1 ;")
+		'''.assertFormattedAs("int i = 1;")
+	}
+
+	@Test def void testBlock() {
+		'''
+		{ int i = 1; boolean b ; }
+		'''.assertFormattedAs(
+		'''
+		{
+			int i = 1;
+			boolean b;
+		}'''
+		)
 	}
 
 	def private void assertFormattedAs(CharSequence input, CharSequence expected) {
