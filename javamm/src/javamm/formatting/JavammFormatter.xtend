@@ -57,6 +57,15 @@ class JavammFormatter extends XbaseFormatter {
 		c.setIndentationDecrement().before(ele.getRightCurlyBracketKeyword_3());
 	}
 
+	override configureXIfExpression(FormattingConfig c, XbaseGrammarAccess.XIfExpressionElements _ele) {
+		super.configureXIfExpression(c, _ele)
+		
+		// the following must be repeated for our parenthesis keywords
+		val ele = XIfExpressionAccess
+		c.setNoSpace().after(ele.getLeftParenthesisKeyword_2());
+		c.setNoSpace().before(ele.getRightParenthesisKeyword_4());
+	}
+
 	def private configureJavammSemicolonStatement(FormattingConfig c, JavammSemicolonStatementElements ele) {
 		c.setLinewrap().after(ele.semicolonKeyword_1);
 		c.setNoSpace().before(ele.semicolonKeyword_1);

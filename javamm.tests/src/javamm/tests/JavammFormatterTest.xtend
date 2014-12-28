@@ -47,6 +47,22 @@ class JavammFormatterTest extends JavammAbstractTest {
 		)
 	}
 
+	@Test def void testIfThenElse() {
+		'''
+		String s = "";
+		if (s != null){ int i = 1; int k = 0; }else{ boolean b; }
+		'''.assertFormattedAs(
+		'''
+		String s = "";
+		if (s != null) {
+			int i = 1;
+			int k = 0;
+		} else {
+			boolean b;
+		}'''
+		)
+	}
+
 	def private void assertFormattedAs(CharSequence input, CharSequence expected) {
 		expected.toString.assertEquals(
 			(input.parse.eResource as XtextResource).parseResult.rootNode.format(0, input.length).formattedText)
