@@ -100,6 +100,39 @@ class JavammFormatterTest extends JavammAbstractTest {
 		)
 	}
 
+	@Test def void testMemberFeatureCall() {
+		'''
+		String s = "";
+		s.length();
+		'''.assertFormattedAs(
+		'''
+		String s = "";
+		s.length();'''
+		)
+	}
+
+	@Test def void testMemberFeatureCall2() {
+		'''
+		String s = "";
+		System.out.println( "s" + s  );
+		'''.assertFormattedAs(
+		'''
+		String s = "";
+		System.out.println("s" + s);'''
+		)
+	}
+
+	@Test def void testFeatureCall() {
+		'''
+		int[] a;
+		a [ 1 ] =  a [ 2 ];
+		'''.assertFormattedAs(
+		'''
+		int [] a;
+		a [ 1 ] = a[2];'''
+		)
+	}
+
 	def private void assertFormattedAs(CharSequence input, CharSequence expected) {
 		expected.toString.assertEquals(
 			(input.parse.eResource as XtextResource).parseResult.rootNode.format(0, input.length).formattedText)

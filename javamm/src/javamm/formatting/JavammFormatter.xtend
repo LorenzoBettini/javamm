@@ -97,6 +97,29 @@ class JavammFormatter extends XbaseFormatter {
 		c.setNoSpace().before(ele.getRightParenthesisKeyword_8());
 	}
 
+	override configureXFeatureCall(FormattingConfig c, XbaseGrammarAccess.XFeatureCallElements _ele) {
+		super.configureXFeatureCall(c, _ele)
+		
+		val ele = XFeatureCallAccess
+		c.setNoSpace().before(ele.commaKeyword_2_1_1_0);
+		c.setNoSpace().around(ele.explicitOperationCallAssignment_2_0);
+		c.setNoSpace().before(ele.rightParenthesisKeyword_2_2);
+		c.setNoSpace().around(ele.leftSquareBracketKeyword_3_0);
+		c.setNoSpace().around(ele.rightSquareBracketKeyword_3_2);
+	}
+
+	override configureXMemberFeatureCall(FormattingConfig c, XbaseGrammarAccess.XMemberFeatureCallElements _ele) {
+		super.configureXMemberFeatureCall(c, _ele)
+		
+		val ele = XMemberFeatureCallAccess
+		c.setNoSpace().around(ele.getFullStopKeyword_1_0_0_0_1_0());
+		c.setNoSpace().around(ele.getExplicitStaticColonColonKeyword_1_0_0_0_1_1_0());
+		c.setNoSpace().around(ele.fullStopKeyword_1_1_0_0_1);
+		c.setNoSpace().before(ele.commaKeyword_1_1_2_1_1_0);
+		c.setNoSpace().around(ele.explicitOperationCallAssignment_1_1_2_0);
+		c.setNoSpace().before(ele.rightParenthesisKeyword_1_1_2_2);
+	}
+
 	def private configureJavammSemicolonStatement(FormattingConfig c, JavammSemicolonStatementElements ele) {
 		c.setLinewrap().after(ele.semicolonKeyword_1);
 		c.setNoSpace().before(ele.semicolonKeyword_1);
