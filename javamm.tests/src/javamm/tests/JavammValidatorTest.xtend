@@ -159,10 +159,10 @@ class JavammValidatorTest extends JavammAbstractTest {
 		'''
 		int i;
 		i = i[0];
-		'''.parse.assertError(
+		'''.parse.assertTypeMismatch(
 			javammPack.javammXFeatureCall,
-			JavammValidator.NOT_ARRAY_TYPE,
-			"The type of the expression must be an array type but it resolved to int"
+			"int[]",
+			"int"
 		)
 	}
 

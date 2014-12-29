@@ -20,6 +20,7 @@ import org.junit.runner.RunWith
 import static org.junit.Assert.*
 import org.eclipse.xtext.xbase.XListLiteral
 import javamm.javamm.JavammXVariableDeclaration
+import javamm.javamm.JavammArrayAccessExpression
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammInjectorProvider))
@@ -76,7 +77,7 @@ class JavammParserTest extends JavammAbstractTest {
 		int i;
 		i = m()[0];
 		'''.assertMainLastExpression [
-			assertTrue(((it as XAssignment).value as JavammXFeatureCall).index instanceof XNumberLiteral)
+			assertTrue(((it as XAssignment).value as JavammArrayAccessExpression).index instanceof XNumberLiteral)
 		]
 	}
 
@@ -122,7 +123,7 @@ class JavammParserTest extends JavammAbstractTest {
 		arrayAccessAsArgument.assertMainLastExpression [
 			assertTrue(
 				((it as JavammXFeatureCall).
-					actualArguments.head as JavammXFeatureCall
+					actualArguments.head as JavammArrayAccessExpression
 				).index instanceof XNumberLiteral
 			)
 		]

@@ -97,16 +97,16 @@ class JavammFormatter extends XbaseFormatter {
 		c.setNoSpace().before(ele.getRightParenthesisKeyword_8());
 	}
 
-	override configureXFeatureCall(FormattingConfig c, XbaseGrammarAccess.XFeatureCallElements _ele) {
-		super.configureXFeatureCall(c, _ele)
-		
-		val ele = XFeatureCallAccess
-		c.setNoSpace().before(ele.commaKeyword_2_1_1_0);
-		c.setNoSpace().around(ele.explicitOperationCallAssignment_2_0);
-		c.setNoSpace().before(ele.rightParenthesisKeyword_2_2);
-		c.setNoSpace().around(ele.leftSquareBracketKeyword_3_0);
-		c.setNoSpace().around(ele.rightSquareBracketKeyword_3_2);
-	}
+//	override configureXFeatureCall(FormattingConfig c, XbaseGrammarAccess.XFeatureCallElements _ele) {
+//		super.configureXFeatureCall(c, _ele)
+//		
+//		val ele = XFeatureCallAccess
+//		c.setNoSpace().before(ele.commaKeyword_2_1_1_0);
+//		c.setNoSpace().around(ele.explicitOperationCallAssignment_2_0);
+//		c.setNoSpace().before(ele.rightParenthesisKeyword_2_2);
+//		c.setNoSpace().around(ele.leftSquareBracketKeyword_3_0);
+//		c.setNoSpace().around(ele.rightSquareBracketKeyword_3_2);
+//	}
 
 	override configureXMemberFeatureCall(FormattingConfig c, XbaseGrammarAccess.XMemberFeatureCallElements _ele) {
 		super.configureXMemberFeatureCall(c, _ele)

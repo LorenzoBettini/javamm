@@ -77,7 +77,7 @@ XAssignment returns XExpression :
 		=>({XBinaryOperation.leftOperand=current} feature=[types::JvmIdentifiableElement|OpMultiAssign]) rightOperand=XAssignment
 	)?;
 
-XFeatureCall returns XExpression:
+XFeatureCall returns XAbstractFeatureCall:
 	{JavammXFeatureCall}
 	feature=[types::JvmIdentifiableElement|IdOrSuper] 
 	(=>explicitOperationCall?='(' 
@@ -85,8 +85,14 @@ XFeatureCall returns XExpression:
 		    featureCallArguments+=XExpression (',' featureCallArguments+=XExpression)*
 		)? 
 	')' 
+	)?;
+
+JavammArrayAccessExpression returns XExpression:
+	XFeatureCall
+	(
+		=>({JavammArrayAccessExpression.featureCall=current} '[' index=XExpression ']')
 	)?
-	('[' index=XExpression ']')?;
+;
 
 XConstructorCall returns XExpression:
 	{XConstructorCall}
@@ -149,7 +155,7 @@ XPrimaryExpression returns XExpression:
 //	XBlockExpression |
 //	XSwitchExpression |
 //	XSynchronizedExpression |
-	XFeatureCall |
+	JavammArrayAccessExpression |
 	XLiteral |
 //	XIfExpression |
 //	XForLoopExpression |

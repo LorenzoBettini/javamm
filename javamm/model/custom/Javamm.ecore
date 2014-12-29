@@ -30,4 +30,8 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass ../../../org.eclipse.xtext.common.types/model/JavaVMTypes.ecore#//JvmType"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="JavammArrayLiteral" eSuperTypes="../../../org.eclipse.xtext.xbase/model/Xbase.ecore#//XListLiteral"/>
+  <eClassifiers xsi:type="ecore:EClass" name="JavammArrayAccessExpression" eSuperTypes="../../../org.eclipse.xtext.xbase/model/Xbase.ecore#//XExpression #//JavammArrayAccess">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="featureCall" eType="ecore:EClass ../../../org.eclipse.xtext.xbase/model/Xbase.ecore#//XAbstractFeatureCall"
+        containment="true"/>
+  </eClassifiers>
 </ecore:EPackage>
