@@ -5,4 +5,4 @@ Path to source files:
 javamm.runtime/src,javamm/src,javamm.ui/src,javamm/xtend-gen,javamm.ui/xtend-gen
 
 Exclusions:
-**/*Internal*,**/*Sequencer*,**/*Abstract*,**/*GrammarAccess*,**/antlr/*.*,**/internal/*.*,**/javamm/javamm/util/*.*,**/javamm/javamm/impl/*.*
+**/*ExtensionFactory*,**/*UiModule*,**/*RuntimeModule*,**/*StandaloneSetup*,**/*Internal*,**/*Sequencer*,**/*Abstract*,**/*GrammarAccess*,**/antlr/*.*,**/internal/*.*,**/javamm/javamm/util/*.*,**/javamm/javamm/impl/*.*
