@@ -5,7 +5,6 @@ import javamm.javamm.JavammArrayAccess
 import javamm.javamm.JavammArrayAccessExpression
 import javamm.javamm.JavammArrayConstructorCall
 import javamm.javamm.JavammXAssignment
-import javamm.javamm.JavammXFeatureCall
 import javamm.validation.JavammValidator
 import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.xtext.common.types.JvmIdentifiableElement
@@ -31,8 +30,6 @@ class JavammTypeComputer extends XbaseTypeComputer {
 	
 	override computeTypes(XExpression expression, ITypeComputationState state) {
 		if (expression instanceof JavammXAssignment) {
-			_computeTypes(expression, state)
-		} else if (expression instanceof JavammXFeatureCall) {
 			_computeTypes(expression, state)
 		} else if (expression instanceof JavammArrayConstructorCall) {
 			_computeTypes(expression, state)

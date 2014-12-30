@@ -1,15 +1,17 @@
 package javamm.tests
 
 import javamm.JavammInjectorProvider
+import javamm.javamm.JavammArrayAccessExpression
 import javamm.javamm.JavammArrayConstructorCall
 import javamm.javamm.JavammXAssignment
-import javamm.javamm.JavammXFeatureCall
+import javamm.javamm.JavammXVariableDeclaration
 import org.eclipse.xtext.junit4.InjectWith
 import org.eclipse.xtext.junit4.XtextRunner
 import org.eclipse.xtext.xbase.XAssignment
 import org.eclipse.xtext.xbase.XConstructorCall
 import org.eclipse.xtext.xbase.XExpression
 import org.eclipse.xtext.xbase.XFeatureCall
+import org.eclipse.xtext.xbase.XListLiteral
 import org.eclipse.xtext.xbase.XMemberFeatureCall
 import org.eclipse.xtext.xbase.XNumberLiteral
 import org.eclipse.xtext.xbase.XStringLiteral
@@ -18,9 +20,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import static org.junit.Assert.*
-import org.eclipse.xtext.xbase.XListLiteral
-import javamm.javamm.JavammXVariableDeclaration
-import javamm.javamm.JavammArrayAccessExpression
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammInjectorProvider))
@@ -122,7 +121,7 @@ class JavammParserTest extends JavammAbstractTest {
 	@Test def void testFeatureCallIndexAsArg() {
 		arrayAccessAsArgument.assertMainLastExpression [
 			assertTrue(
-				((it as JavammXFeatureCall).
+				((it as XFeatureCall).
 					actualArguments.head as JavammArrayAccessExpression
 				).index instanceof XNumberLiteral
 			)

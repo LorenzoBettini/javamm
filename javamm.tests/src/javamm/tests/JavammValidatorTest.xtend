@@ -160,7 +160,7 @@ class JavammValidatorTest extends JavammAbstractTest {
 		int i;
 		i = i[0];
 		'''.parse.assertTypeMismatch(
-			javammPack.javammXFeatureCall,
+			XbasePackage.eINSTANCE.XFeatureCall,
 			"int[]",
 			"int"
 		)

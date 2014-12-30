@@ -78,7 +78,7 @@ XAssignment returns XExpression :
 	)?;
 
 XFeatureCall returns XAbstractFeatureCall:
-	{JavammXFeatureCall}
+	{XFeatureCall}
 	feature=[types::JvmIdentifiableElement|IdOrSuper] 
 	(=>explicitOperationCall?='(' 
 		(
