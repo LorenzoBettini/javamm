@@ -10,6 +10,7 @@ import org.eclipse.xtext.xbase.formatting.XbaseFormatter
 import org.eclipse.xtext.xbase.services.XbaseGrammarAccess
 import javamm.services.JavammGrammarAccess.JavammSemicolonStatementElements
 import javamm.services.JavammGrammarAccess.JavammMethodElements
+import javamm.services.JavammGrammarAccess.JavammArrayAccessExpressionElements
 
 // import com.google.inject.Inject;
 // import javamm.services.JavammGrammarAccess
@@ -39,6 +40,7 @@ class JavammFormatter extends XbaseFormatter {
 		
 		configureJavammSemicolonStatement(c, javammSemicolonStatementAccess)
 		configureJavammMethod(c, javammMethodAccess)
+		configureJavammArrayAccessExpression(c, javammArrayAccessExpressionAccess)
 	}
 
 	override protected getGrammarAccess() {
@@ -132,5 +134,10 @@ class JavammFormatter extends XbaseFormatter {
 		c.setNoSpace.before(ele.rightParenthesisKeyword_2)
 		
 		c.setNoSpace.before(ele.commaKeyword_1_1_0)
+	}
+
+	def private configureJavammArrayAccessExpression(FormattingConfig c, JavammArrayAccessExpressionElements ele) {
+		c.setNoSpace().around(ele.leftSquareBracketKeyword_1_0_1);
+		c.setNoSpace().around(ele.rightSquareBracketKeyword_1_0_3);
 	}
 }
