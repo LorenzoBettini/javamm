@@ -242,8 +242,7 @@ public class MyFile {
   
   public static void main(String[] args) {
     int i = 0;
-    int _array = MyFile.getArray()[0];
-    i = _array;
+    i = MyFile.getArray()[0];
   }
 }
 '''
@@ -285,7 +284,8 @@ public class MyFile {
       int i = 0;
       boolean _while = (i < argsNum);
       while (_while) {
-        System.out.println(((("args[" + Integer.valueOf(i)) + "] = ") + args[i]));
+        String _plus = ((("args[" + Integer.valueOf(i)) + "] = ") + args[i]);
+        System.out.println(_plus);
         int _i = i;
         i = (_i + 1);
         _while = (i < argsNum);

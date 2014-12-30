@@ -6,6 +6,7 @@ package javamm.compiler;
 import java.util.List;
 
 import javamm.javamm.JavammArrayAccess;
+import javamm.javamm.JavammArrayAccessExpression;
 import javamm.javamm.JavammArrayConstructorCall;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -37,6 +38,8 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 			ITreeAppendable appendable, boolean isReferenced) {
 		if (obj instanceof JavammArrayConstructorCall) {
 			_toJavaStatement((JavammArrayConstructorCall) obj, appendable, isReferenced);
+		} else if (obj instanceof JavammArrayAccessExpression) {
+			_toJavaStatement((JavammArrayAccessExpression) obj, appendable, isReferenced);
 		} else {
 			super.doInternalToJavaStatement(obj, appendable, isReferenced);
 		}
@@ -47,10 +50,17 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 		
 	}
 
+	public void _toJavaStatement(JavammArrayAccessExpression access, ITreeAppendable b,
+			boolean isReferenced) {
+		
+	}
+
 	@Override
 	protected void internalToConvertedExpression(XExpression obj, ITreeAppendable appendable) {
 		if (obj instanceof JavammArrayConstructorCall) {
 			_toJavaExpression((JavammArrayConstructorCall) obj, appendable);
+		} else if (obj instanceof JavammArrayAccessExpression) {
+			_toJavaExpression((JavammArrayAccessExpression) obj, appendable);
 		} else {
 			super.internalToConvertedExpression(obj, appendable);
 		}
@@ -59,6 +69,12 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 	public void _toJavaExpression(JavammArrayConstructorCall call, ITreeAppendable b) {
 		b.append("new ");
 		b.append(call.getType());
+		compileArrayAccess(call, b);
+	}
+
+	public void _toJavaExpression(JavammArrayAccessExpression arrayAccess, ITreeAppendable b) {
+		_toJavaExpression(arrayAccess.getFeatureCall(), b);
+		compileArrayAccess(arrayAccess, b);
 	}
 
 	@Override
@@ -99,22 +115,6 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 			if (isArgument) {
 				b.append(")");
 			}
-		}
-	}
-
-	@Override
-	protected void appendFeatureCall(XAbstractFeatureCall call,
-			ITreeAppendable b) {
-		super.appendFeatureCall(call, b);
-		compileArrayAccess(call, b);
-	}
-
-	@Override
-	protected void internalToConvertedExpression(XExpression obj,
-			ITreeAppendable appendable, LightweightTypeReference toBeConvertedTo) {
-		super.internalToConvertedExpression(obj, appendable, toBeConvertedTo);
-		if (!appendable.hasName(obj)) {
-			compileArrayAccess(obj, appendable);
 		}
 	}
 
