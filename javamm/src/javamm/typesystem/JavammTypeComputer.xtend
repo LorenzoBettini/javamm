@@ -64,16 +64,20 @@ class JavammTypeComputer extends XbaseTypeComputer {
 	def protected _computeTypes(JavammArrayAccessExpression arrayAccess, ITypeComputationState state) {
 //		super.computeTypes(arrayAccess.featureCall, state)
 
-		for (expectation : state.expectations) {
-			val expectedType = expectation.expectedType
-			val arrayTypeRef = state.referenceOwner.newArrayTypeReference(expectedType)
-			val actualType = state.withExpectation(arrayTypeRef).computeTypes(arrayAccess.featureCall).actualExpressionType
-			if (actualType.isArray) {
-				state.acceptActualType(actualType.componentType)
-			} else {
-				state.acceptActualType(actualType)
-			}
-		}
+//		for (expectation : state.expectations) {
+//			val expectedType = expectation.expectedType
+//			val arrayTypeRef = state.referenceOwner.newArrayTypeReference(expectedType)
+//			val actualType = state.withExpectation(arrayTypeRef).computeTypes(arrayAccess.featureCall).actualExpressionType
+//			if (actualType.isArray) {
+//				state.acceptActualType(actualType.componentType)
+//			} else {
+//				state.acceptActualType(actualType)
+//			}
+//		}
+		
+		val actualType = state.withNonVoidExpectation.computeTypes(arrayAccess.featureCall).actualExpressionType
+		val type = componentTypeOfArrayAccess(arrayAccess, actualType, state, XbasePackage.Literals.XABSTRACT_FEATURE_CALL__FEATURE)
+		state.acceptActualType(type)
 
 //		val actualType = state.computeTypes(arrayAccess.featureCall).actualExpressionType
 		if (arrayAccess.index != null) {
@@ -98,11 +102,11 @@ class JavammTypeComputer extends XbaseTypeComputer {
 			checkArrayIndexHasTypeInt(arrayAccess, state);
 			val expressionState = state as ExpressionTypeComputationState
 			val featureType = getDeclaredType(best.feature, expressionState)
-			computeTypesOfArrayAccess(arrayAccess, featureType, state, featureForError)
+			componentTypeOfArrayAccess(arrayAccess, featureType, state, featureForError)
 		}
 	}
 	
-	private def computeTypesOfArrayAccess(JavammArrayAccess arrayAccess, LightweightTypeReference featureType, ITypeComputationState state, EStructuralFeature featureForError) {
+	private def componentTypeOfArrayAccess(JavammArrayAccess arrayAccess, LightweightTypeReference featureType, ITypeComputationState state, EStructuralFeature featureForError) {
 		if (featureType instanceof ArrayTypeReference) {
 			return featureType.componentType
 		} else {

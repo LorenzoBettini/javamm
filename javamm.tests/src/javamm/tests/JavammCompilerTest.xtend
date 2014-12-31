@@ -299,6 +299,23 @@ public class MyFile {
 		]
 	}
 
+	@Test def void testArrayAccessInBinaryOp() {
+		arrayAccessInBinaryOp.compile[
+			assertGeneratedJavaCode(
+'''
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int[] a = null;
+    boolean result = (a[1] > a[2]);
+  }
+}
+'''
+			)
+			assertGeneratedJavaCodeCompiles
+		]
+	}
+
 	@Test def void testArrayConstrcutorCallInVarDecl() {
 		arrayConstructorCallInVarDecl.compile[
 			assertGeneratedJavaCode(
@@ -522,6 +539,42 @@ public class MyFile {
     int i = 0;
     int _i = i;
     i = (_i + 2);
+  }
+}
+'''
+			)
+			assertGeneratedJavaCodeCompiles
+		]
+	}
+
+	@Test def void testBubbleSort() {
+		bubbleSort.compile[
+			assertGeneratedJavaCode(
+'''
+@SuppressWarnings("all")
+public class MyFile {
+  public static void bubbleSort(int[] array) {
+    boolean swapped = true;
+    int j = 0;
+    int tmp = 0;
+    while (swapped) {
+      {
+        swapped = false;
+        j = (j + 1);
+        for (int i = 0; (i < (array.length - j)); i++) {
+          boolean _greaterThan = (array[i] > array[(i + 1)]);
+          if (_greaterThan) {
+            tmp = array[i];
+            array[i] = array[(i + 1)];
+            array[(i + 1)] = tmp;
+            swapped = true;
+          }
+        }
+      }
+    }
+  }
+  
+  public static void main(String[] args) {
   }
 }
 '''

@@ -109,6 +109,13 @@ class JavammInputs {
 		'''
 	}
 
+	def arrayAccessInBinaryOp() {
+		'''
+		int[] a;
+		boolean result = a[1] > a[2];
+		'''
+	}
+
 	def arrayConstructorCallInVarDecl() {
 		'''
 		int[] i = new int[10];
@@ -213,5 +220,27 @@ class JavammInputs {
 		int i = 0;
 		i += 2;
 		'''
+	}
+
+	def bubbleSort() {
+'''
+void bubbleSort(int[] array) {
+    boolean swapped = true;
+    int j = 0;
+    int tmp;
+    while (swapped) {
+        swapped = false;
+        j = j + 1;
+        for (int i = 0; i < array.length - j; i++) {
+            if (array[i] > array[i + 1]) {
+                tmp = array[i];
+                array[i] = array[i + 1];
+                array[i + 1] = tmp;
+                swapped = true;
+            }
+        }
+    }
+}
+'''
 	}
 }

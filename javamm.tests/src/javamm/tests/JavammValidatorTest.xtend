@@ -62,6 +62,10 @@ class JavammValidatorTest extends JavammAbstractTest {
 		arrayAccessInForLoop.parseAndAssertNoErrors
 	}
 
+	@Test def void testArrayAccessInBinaryOp() {
+		arrayAccessInBinaryOp.parseAndAssertNoErrors
+	}
+
 	@Test def void testArrayConstrcutorCallInVarDecl() {
 		arrayConstructorCallInVarDecl.parseAndAssertNoErrors
 	}
@@ -114,6 +118,10 @@ class JavammValidatorTest extends JavammAbstractTest {
 		multiAssign.parseAndAssertNoErrors
 	}
 
+	@Test def void testBubbleSort() {
+		bubbleSort.parseAndAssertNoErrors
+	}
+
 	@Test def void testArrayIndexNotIntegerLeft() {
 		'''
 		args[true] = 0;
@@ -159,10 +167,10 @@ class JavammValidatorTest extends JavammAbstractTest {
 		'''
 		int i;
 		i = i[0];
-		'''.parse.assertTypeMismatch(
-			XbasePackage.eINSTANCE.XFeatureCall,
-			"int[]",
-			"int"
+		'''.parse.assertError(
+			javammPack.javammArrayAccessExpression,
+			JavammValidator.NOT_ARRAY_TYPE,
+			"The type of the expression must be an array type but it resolved to int"
 		)
 	}
 
