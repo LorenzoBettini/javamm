@@ -87,13 +87,6 @@ XFeatureCall returns XExpression:
 	')' 
 	)?;
 
-JavammArrayAccessExpression returns XExpression:
-	XFeatureCall
-	(
-		=>({JavammArrayAccessExpression.array=current} '[') index=XExpression ']'
-	)?
-;
-
 XConstructorCall returns XExpression:
 	{XConstructorCall}
 	'new' constructor=[types::JvmConstructor|QualifiedName] 
@@ -107,6 +100,15 @@ JavammArrayConstructorCall returns XExpression:
 	=>({JavammArrayConstructorCall}
 	'new'
 	type=[types::JvmType|QualifiedName] '[') index=XExpression ']'
+;
+
+XPostfixOperation returns XExpression:
+	XMemberFeatureCall
+	(
+		=>({XPostfixOperation.operand=current} feature=[types::JvmIdentifiableElement|OpPostfix])
+		|
+		=>({JavammArrayAccessExpression.array=current} '[' index=XExpression ']')
+	)?
 ;
 
 XMemberFeatureCall returns XExpression:
@@ -155,7 +157,7 @@ XPrimaryExpression returns XExpression:
 //	XBlockExpression |
 //	XSwitchExpression |
 //	XSynchronizedExpression |
-	JavammArrayAccessExpression |
+	XFeatureCall |
 	XLiteral |
 //	XIfExpression |
 //	XForLoopExpression |

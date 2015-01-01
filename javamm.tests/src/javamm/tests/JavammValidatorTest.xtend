@@ -66,6 +66,10 @@ class JavammValidatorTest extends JavammAbstractTest {
 		arrayAccessInBinaryOp.parseAndAssertNoErrors
 	}
 
+	@Test def void testArrayAccessInParenthesizedExpression() {
+		arrayAccessInParenthesizedExpression.parseAndAssertNoErrors
+	}
+
 	@Test def void testArrayConstrcutorCallInVarDecl() {
 		arrayConstructorCallInVarDecl.parseAndAssertNoErrors
 	}

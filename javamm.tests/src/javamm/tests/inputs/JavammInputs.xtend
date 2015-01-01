@@ -116,6 +116,14 @@ class JavammInputs {
 		'''
 	}
 
+	def arrayAccessInParenthesizedExpression() {
+		'''
+		int[] a;
+		int i;
+		i = (a)[1];
+		'''
+	}
+
 	def arrayConstructorCallInVarDecl() {
 		'''
 		int[] i = new int[10];

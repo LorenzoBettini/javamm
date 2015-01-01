@@ -80,6 +80,12 @@ class JavammParserTest extends JavammAbstractTest {
 		]
 	}
 
+	@Test def void testArrayAccessInParenthesizedExpression() {
+		arrayAccessInParenthesizedExpression.assertMainLastExpression [
+			assertTrue(((it as XAssignment).value as JavammArrayAccessExpression).index instanceof XNumberLiteral)
+		]
+	}
+
 	@Test def void testSystemOut() {
 		'''
 		System.out;

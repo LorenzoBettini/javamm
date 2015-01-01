@@ -316,6 +316,24 @@ public class MyFile {
 		]
 	}
 
+	@Test def void testArrayAccessInParenthesizedExpression() {
+		arrayAccessInParenthesizedExpression.compile[
+			assertGeneratedJavaCode(
+'''
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int[] a = null;
+    int i = 0;
+    i = a[1];
+  }
+}
+'''
+			)
+			assertGeneratedJavaCodeCompiles
+		]
+	}
+
 	@Test def void testArrayConstrcutorCallInVarDecl() {
 		arrayConstructorCallInVarDecl.compile[
 			assertGeneratedJavaCode(

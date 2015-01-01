@@ -5,12 +5,11 @@ package javamm.formatting
 
 import com.google.inject.Inject
 import javamm.services.JavammGrammarAccess
+import javamm.services.JavammGrammarAccess.JavammMethodElements
+import javamm.services.JavammGrammarAccess.JavammSemicolonStatementElements
 import org.eclipse.xtext.formatting.impl.FormattingConfig
 import org.eclipse.xtext.xbase.formatting.XbaseFormatter
 import org.eclipse.xtext.xbase.services.XbaseGrammarAccess
-import javamm.services.JavammGrammarAccess.JavammSemicolonStatementElements
-import javamm.services.JavammGrammarAccess.JavammMethodElements
-import javamm.services.JavammGrammarAccess.JavammArrayAccessExpressionElements
 
 // import com.google.inject.Inject;
 // import javamm.services.JavammGrammarAccess
@@ -40,7 +39,7 @@ class JavammFormatter extends XbaseFormatter {
 		
 		configureJavammSemicolonStatement(c, javammSemicolonStatementAccess)
 		configureJavammMethod(c, javammMethodAccess)
-		configureJavammArrayAccessExpression(c, javammArrayAccessExpressionAccess)
+		// configureJavammArrayAccessExpression(c, javammArrayAccessExpressionAccess)
 	}
 
 	override protected getGrammarAccess() {
@@ -122,6 +121,16 @@ class JavammFormatter extends XbaseFormatter {
 		c.setNoSpace().before(ele.rightParenthesisKeyword_1_1_2_2);
 	}
 
+	override configureXPostfixOperation(FormattingConfig c, XbaseGrammarAccess.XPostfixOperationElements _ele) {
+		super.configureXPostfixOperation(c, _ele)
+		
+		val ele = XPostfixOperationAccess
+		c.setNoSpace().around(ele.leftSquareBracketKeyword_1_1_0_1);
+		c.setNoSpace().around(ele.rightSquareBracketKeyword_1_1_0_3);
+		
+		c.setNoSpace().before(ele.featureAssignment_1_0_0_1);
+	}
+
 	def private configureJavammSemicolonStatement(FormattingConfig c, JavammSemicolonStatementElements ele) {
 		c.setLinewrap().after(ele.semicolonKeyword_1);
 		c.setNoSpace().before(ele.semicolonKeyword_1);
@@ -136,8 +145,8 @@ class JavammFormatter extends XbaseFormatter {
 		c.setNoSpace.before(ele.commaKeyword_1_1_0)
 	}
 
-	def private configureJavammArrayAccessExpression(FormattingConfig c, JavammArrayAccessExpressionElements ele) {
-		c.setNoSpace().around(ele.leftSquareBracketKeyword_1_0_0_1);
-		c.setNoSpace().around(ele.rightSquareBracketKeyword_1_2);
-	}
+//	def private configureJavammArrayAccessExpression(FormattingConfig c, JavammArrayAccessExpressionElements ele) {
+//		c.setNoSpace().around(ele.leftSquareBracketKeyword_1_0_0_1);
+//		c.setNoSpace().around(ele.rightSquareBracketKeyword_1_2);
+//	}
 }
