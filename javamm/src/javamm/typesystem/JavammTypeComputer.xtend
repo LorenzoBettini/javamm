@@ -48,7 +48,7 @@ class JavammTypeComputer extends XbaseTypeComputer {
 	}
 
 	def protected _computeTypes(JavammArrayAccessExpression arrayAccess, ITypeComputationState state) {
-		val actualType = state.withNonVoidExpectation.computeTypes(arrayAccess.featureCall).actualExpressionType
+		val actualType = state.withNonVoidExpectation.computeTypes(arrayAccess.array).actualExpressionType
 		val type = componentTypeOfArrayAccess(arrayAccess, actualType, state, XbasePackage.Literals.XABSTRACT_FEATURE_CALL__FEATURE)
 		state.acceptActualType(type)
 

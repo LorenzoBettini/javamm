@@ -64,7 +64,7 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 	}
 
 	public void _toJavaExpression(JavammArrayAccessExpression arrayAccess, ITreeAppendable b) {
-		_toJavaExpression(arrayAccess.getFeatureCall(), b);
+		internalToConvertedExpression(arrayAccess.getArray(), b);
 		compileArrayAccess(arrayAccess, b);
 	}
 

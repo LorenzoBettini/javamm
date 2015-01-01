@@ -77,7 +77,7 @@ XAssignment returns XExpression :
 		=>({XBinaryOperation.leftOperand=current} feature=[types::JvmIdentifiableElement|OpMultiAssign]) rightOperand=XAssignment
 	)?;
 
-XFeatureCall returns XAbstractFeatureCall:
+XFeatureCall returns XExpression:
 	{XFeatureCall}
 	feature=[types::JvmIdentifiableElement|IdOrSuper] 
 	(=>explicitOperationCall?='(' 
@@ -90,7 +90,7 @@ XFeatureCall returns XAbstractFeatureCall:
 JavammArrayAccessExpression returns XExpression:
 	XFeatureCall
 	(
-		=>({JavammArrayAccessExpression.featureCall=current} '[') index=XExpression ']'
+		=>({JavammArrayAccessExpression.array=current} '[') index=XExpression ']'
 	)?
 ;
 
