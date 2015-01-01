@@ -20,6 +20,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import static org.junit.Assert.*
+import org.eclipse.xtext.xbase.XBinaryOperation
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammInjectorProvider))
@@ -83,6 +84,14 @@ class JavammParserTest extends JavammAbstractTest {
 	@Test def void testArrayAccessInParenthesizedExpression() {
 		arrayAccessInParenthesizedExpression.assertMainLastExpression [
 			assertTrue(((it as XAssignment).value as JavammArrayAccessExpression).indexes.head instanceof XNumberLiteral)
+		]
+	}
+
+	@Test def void testMultiArrayAccessInRightHandsideExpression() {
+		multiArrayAccessInRightHandsideExpression.assertMainLastExpression [
+			val indexes = ((it as XAssignment).value as JavammArrayAccessExpression).indexes
+			assertTrue(indexes.head instanceof XNumberLiteral)
+			assertTrue(indexes.last instanceof XBinaryOperation)
 		]
 	}
 

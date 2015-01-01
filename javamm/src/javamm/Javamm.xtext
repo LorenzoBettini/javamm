@@ -107,7 +107,7 @@ XPostfixOperation returns XExpression:
 	(
 		=>({XPostfixOperation.operand=current} feature=[types::JvmIdentifiableElement|OpPostfix])
 		|
-		=>({JavammArrayAccessExpression.array=current} '[' indexes+=XExpression ']')
+		=>({JavammArrayAccessExpression.array=current} '[' indexes+=XExpression ']'(=>'[' indexes+=XExpression ']')*)
 	)?
 ;
 
