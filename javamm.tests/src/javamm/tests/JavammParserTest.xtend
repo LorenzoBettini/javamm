@@ -66,7 +66,7 @@ class JavammParserTest extends JavammAbstractTest {
 //		int[] m() { return null; }
 //		m()[0] = 1;
 //		'''.parse => [
-//			assertTrue((main.expressions.head as JavammXFeatureCall).index instanceof XNumberLiteral)
+//			assertTrue((main.expressions.head as JavammXAssignment).index instanceof XNumberLiteral)
 //		]
 //	}
 

@@ -114,6 +114,12 @@ XPostfixOperation returns XExpression:
 XMemberFeatureCall returns XExpression:
 	XPrimaryExpression
 	(
+// we don't need this at the moment
+//		=>({JavammXAssignment.assignable=current} ('.'|explicitStatic?="::") 
+//			feature=[types::JvmIdentifiableElement|FeatureCallID]
+//			'[' index=XExpression ']'
+//			OpSingleAssign) value=XAssignment
+//	|
 		=>({XAssignment.assignable=current} ('.'|explicitStatic?="::") 
 			feature=[types::JvmIdentifiableElement|FeatureCallID] OpSingleAssign)
 				value=XAssignment
