@@ -69,7 +69,7 @@ XVariableDeclaration returns XVariableDeclaration:
 
 XAssignment returns XExpression :
 	=>({JavammXAssignment} feature=[types::JvmIdentifiableElement|FeatureCallID] 
-		'[' index=XExpression ']'
+		'[' indexes+=XExpression ']'
 		OpSingleAssign) value=XAssignment |	
 	=>({XAssignment} feature=[types::JvmIdentifiableElement|FeatureCallID] 
 		OpSingleAssign) value=XAssignment |	
@@ -99,7 +99,7 @@ XConstructorCall returns XExpression:
 JavammArrayConstructorCall returns XExpression:
 	=>({JavammArrayConstructorCall}
 	'new'
-	type=[types::JvmType|QualifiedName] '[') index=XExpression ']'
+	type=[types::JvmType|QualifiedName] '[') indexes+=XExpression ']'
 ;
 
 XPostfixOperation returns XExpression:
@@ -107,7 +107,7 @@ XPostfixOperation returns XExpression:
 	(
 		=>({XPostfixOperation.operand=current} feature=[types::JvmIdentifiableElement|OpPostfix])
 		|
-		=>({JavammArrayAccessExpression.array=current} '[' index=XExpression ']')
+		=>({JavammArrayAccessExpression.array=current} '[' indexes+=XExpression ']')
 	)?
 ;
 

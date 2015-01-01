@@ -112,11 +112,12 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 	private void compileArrayAccess(XExpression expr, ITreeAppendable b) {
 		if (expr instanceof JavammArrayAccess) {
 			JavammArrayAccess assignment = (JavammArrayAccess) expr;
-			XExpression index = assignment.getIndex();
-			if (index != null) {
-				b.append("[");
-				internalToJavaExpression(index, b);
-				b.append("]");
+			for (XExpression index : assignment.getIndexes()) {
+				if (index != null) {
+					b.append("[");
+					internalToJavaExpression(index, b);
+					b.append("]");
+				}
 			}
 		}
 	}

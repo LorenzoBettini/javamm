@@ -66,7 +66,7 @@ class JavammTypeComputer extends XbaseTypeComputer {
 	private def computeTypesOfArrayAccess(JavammArrayAccess arrayAccess, 
 		ILinkingCandidate best, ITypeComputationState state, EStructuralFeature featureForError
 	) {
-		if (arrayAccess.index != null) {
+		if (!arrayAccess.indexes.empty) {
 			checkArrayIndexHasTypeInt(arrayAccess, state);
 			val expressionState = state as ExpressionTypeComputationState
 			val featureType = getDeclaredType(best.feature, expressionState)
@@ -92,8 +92,10 @@ class JavammTypeComputer extends XbaseTypeComputer {
 	}
 	
 	private def checkArrayIndexHasTypeInt(JavammArrayAccess arrayAccess, ITypeComputationState state) {
-		val conditionExpectation = state.withExpectation(getTypeForName(Integer.TYPE, state))
-		conditionExpectation.computeTypes(arrayAccess.index)
+		for (index : arrayAccess.indexes) {
+			val conditionExpectation = state.withExpectation(getTypeForName(Integer.TYPE, state))
+			conditionExpectation.computeTypes(index)
+		}
 	}
 
 	def private getDeclaredType(JvmIdentifiableElement feature, ExpressionTypeComputationState state) {

@@ -57,7 +57,7 @@ class JavammParserTest extends JavammAbstractTest {
 		'''
 		i[0] = 1;
 		'''.assertMainLastExpression [
-			assertTrue((it as JavammXAssignment).index instanceof XNumberLiteral)
+			assertTrue((it as JavammXAssignment).indexes.head instanceof XNumberLiteral)
 		]
 	}
 
@@ -76,13 +76,13 @@ class JavammParserTest extends JavammAbstractTest {
 		int i;
 		i = m()[0];
 		'''.assertMainLastExpression [
-			assertTrue(((it as XAssignment).value as JavammArrayAccessExpression).index instanceof XNumberLiteral)
+			assertTrue(((it as XAssignment).value as JavammArrayAccessExpression).indexes.head instanceof XNumberLiteral)
 		]
 	}
 
 	@Test def void testArrayAccessInParenthesizedExpression() {
 		arrayAccessInParenthesizedExpression.assertMainLastExpression [
-			assertTrue(((it as XAssignment).value as JavammArrayAccessExpression).index instanceof XNumberLiteral)
+			assertTrue(((it as XAssignment).value as JavammArrayAccessExpression).indexes.head instanceof XNumberLiteral)
 		]
 	}
 
@@ -120,7 +120,7 @@ class JavammParserTest extends JavammAbstractTest {
 		'''
 		int[] a = new int[0];
 		'''.assertMainLastExpression [
-			assertTrue(((it as XVariableDeclaration).right as JavammArrayConstructorCall).index instanceof XNumberLiteral)
+			assertTrue(((it as XVariableDeclaration).right as JavammArrayConstructorCall).indexes.head instanceof XNumberLiteral)
 		]
 	}
 
@@ -129,7 +129,7 @@ class JavammParserTest extends JavammAbstractTest {
 			assertTrue(
 				((it as XFeatureCall).
 					actualArguments.head as JavammArrayAccessExpression
-				).index instanceof XNumberLiteral
+				).indexes.head instanceof XNumberLiteral
 			)
 		]
 	}

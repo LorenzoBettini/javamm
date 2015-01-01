@@ -3,15 +3,18 @@
  */
 package javamm.javamm.impl;
 
+import java.util.Collection;
+
 import javamm.javamm.JavammArrayAccess;
 import javamm.javamm.JavammPackage;
 import javamm.javamm.JavammXAssignment;
 
-import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.xtext.xbase.XExpression;
 import org.eclipse.xtext.xbase.impl.XAssignmentImplCustom;
 
@@ -22,14 +25,14 @@ import org.eclipse.xtext.xbase.impl.XAssignmentImplCustom;
 public class JavammXAssignmentImplCustom extends XAssignmentImplCustom implements JavammXAssignment {
 
 	/**
-	 * The cached value of the '{@link #getIndex() <em>Index</em>}' containment reference.
+	 * The cached value of the '{@link #getIndexes() <em>Indexes</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getIndex()
+	 * @see #getIndexes()
 	 * @generated
 	 * @ordered
 	 */
-	protected XExpression index;
+	protected EList<XExpression> indexes;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -47,47 +50,13 @@ public class JavammXAssignmentImplCustom extends XAssignmentImplCustom implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public XExpression getIndex()
+	public EList<XExpression> getIndexes()
 	{
-		return index;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetIndex(XExpression newIndex, NotificationChain msgs)
-	{
-		XExpression oldIndex = index;
-		index = newIndex;
-		if (eNotificationRequired())
+		if (indexes == null)
 		{
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, JavammPackage.JAVAMM_XASSIGNMENT__INDEX, oldIndex, newIndex);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			indexes = new EObjectContainmentEList<XExpression>(XExpression.class, this, JavammPackage.JAVAMM_XASSIGNMENT__INDEXES);
 		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setIndex(XExpression newIndex)
-	{
-		if (newIndex != index)
-		{
-			NotificationChain msgs = null;
-			if (index != null)
-				msgs = ((InternalEObject)index).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - JavammPackage.JAVAMM_XASSIGNMENT__INDEX, null, msgs);
-			if (newIndex != null)
-				msgs = ((InternalEObject)newIndex).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - JavammPackage.JAVAMM_XASSIGNMENT__INDEX, null, msgs);
-			msgs = basicSetIndex(newIndex, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, JavammPackage.JAVAMM_XASSIGNMENT__INDEX, newIndex, newIndex));
+		return indexes;
 	}
 
 	/**
@@ -100,8 +69,8 @@ public class JavammXAssignmentImplCustom extends XAssignmentImplCustom implement
 	{
 		switch (featureID)
 		{
-			case JavammPackage.JAVAMM_XASSIGNMENT__INDEX:
-				return basicSetIndex(null, msgs);
+			case JavammPackage.JAVAMM_XASSIGNMENT__INDEXES:
+				return ((InternalEList<?>)getIndexes()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -116,8 +85,8 @@ public class JavammXAssignmentImplCustom extends XAssignmentImplCustom implement
 	{
 		switch (featureID)
 		{
-			case JavammPackage.JAVAMM_XASSIGNMENT__INDEX:
-				return getIndex();
+			case JavammPackage.JAVAMM_XASSIGNMENT__INDEXES:
+				return getIndexes();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -127,13 +96,15 @@ public class JavammXAssignmentImplCustom extends XAssignmentImplCustom implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue)
 	{
 		switch (featureID)
 		{
-			case JavammPackage.JAVAMM_XASSIGNMENT__INDEX:
-				setIndex((XExpression)newValue);
+			case JavammPackage.JAVAMM_XASSIGNMENT__INDEXES:
+				getIndexes().clear();
+				getIndexes().addAll((Collection<? extends XExpression>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -149,8 +120,8 @@ public class JavammXAssignmentImplCustom extends XAssignmentImplCustom implement
 	{
 		switch (featureID)
 		{
-			case JavammPackage.JAVAMM_XASSIGNMENT__INDEX:
-				setIndex((XExpression)null);
+			case JavammPackage.JAVAMM_XASSIGNMENT__INDEXES:
+				getIndexes().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -166,8 +137,8 @@ public class JavammXAssignmentImplCustom extends XAssignmentImplCustom implement
 	{
 		switch (featureID)
 		{
-			case JavammPackage.JAVAMM_XASSIGNMENT__INDEX:
-				return index != null;
+			case JavammPackage.JAVAMM_XASSIGNMENT__INDEXES:
+				return indexes != null && !indexes.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -184,7 +155,7 @@ public class JavammXAssignmentImplCustom extends XAssignmentImplCustom implement
 		{
 			switch (derivedFeatureID)
 			{
-				case JavammPackage.JAVAMM_XASSIGNMENT__INDEX: return JavammPackage.JAVAMM_ARRAY_ACCESS__INDEX;
+				case JavammPackage.JAVAMM_XASSIGNMENT__INDEXES: return JavammPackage.JAVAMM_ARRAY_ACCESS__INDEXES;
 				default: return -1;
 			}
 		}
@@ -203,7 +174,7 @@ public class JavammXAssignmentImplCustom extends XAssignmentImplCustom implement
 		{
 			switch (baseFeatureID)
 			{
-				case JavammPackage.JAVAMM_ARRAY_ACCESS__INDEX: return JavammPackage.JAVAMM_XASSIGNMENT__INDEX;
+				case JavammPackage.JAVAMM_ARRAY_ACCESS__INDEXES: return JavammPackage.JAVAMM_XASSIGNMENT__INDEXES;
 				default: return -1;
 			}
 		}
