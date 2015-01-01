@@ -90,7 +90,7 @@ XFeatureCall returns XAbstractFeatureCall:
 JavammArrayAccessExpression returns XExpression:
 	XFeatureCall
 	(
-		=>({JavammArrayAccessExpression.featureCall=current} '[' index=XExpression ']')
+		=>({JavammArrayAccessExpression.featureCall=current} '[') index=XExpression ']'
 	)?
 ;
 

@@ -137,7 +137,7 @@ class JavammFormatter extends XbaseFormatter {
 	}
 
 	def private configureJavammArrayAccessExpression(FormattingConfig c, JavammArrayAccessExpressionElements ele) {
-		c.setNoSpace().around(ele.leftSquareBracketKeyword_1_0_1);
-		c.setNoSpace().around(ele.rightSquareBracketKeyword_1_0_3);
+		c.setNoSpace().around(ele.leftSquareBracketKeyword_1_0_0_1);
+		c.setNoSpace().around(ele.rightSquareBracketKeyword_1_2);
 	}
 }
