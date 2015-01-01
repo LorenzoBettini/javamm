@@ -74,21 +74,25 @@ class JavammTypeComputer extends XbaseTypeComputer {
 		}
 	}
 	
-	private def componentTypeOfArrayAccess(JavammArrayAccess arrayAccess, LightweightTypeReference featureType, ITypeComputationState state, EStructuralFeature featureForError) {
-		if (featureType instanceof ArrayTypeReference) {
-			return featureType.componentType
-		} else {
-			val diagnostic = new EObjectDiagnosticImpl(
-				Severity.ERROR,
-				JavammValidator.NOT_ARRAY_TYPE, 
-				"The type of the expression must be an array type but it resolved to " + featureType.simpleName,
-				arrayAccess,
-				featureForError,
-				-1,
-				null);
-			state.addDiagnostic(diagnostic);
-			return featureType
+	private def componentTypeOfArrayAccess(JavammArrayAccess arrayAccess, LightweightTypeReference type, ITypeComputationState state, EStructuralFeature featureForError) {
+		var currentType = type
+		for (index : arrayAccess.indexes) {
+			if (currentType instanceof ArrayTypeReference) {
+				currentType = currentType.componentType
+			} else {
+				val diagnostic = new EObjectDiagnosticImpl(
+					Severity.ERROR,
+					JavammValidator.NOT_ARRAY_TYPE, 
+					"The type of the expression must be an array type but it resolved to " + currentType.simpleName,
+					arrayAccess,
+					featureForError,
+					-1,
+					null);
+				state.addDiagnostic(diagnostic);
+				return currentType
+			}
 		}
+		return currentType
 	}
 	
 	private def checkArrayIndexHasTypeInt(JavammArrayAccess arrayAccess, ITypeComputationState state) {

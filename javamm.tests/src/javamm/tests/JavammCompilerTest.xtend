@@ -334,6 +334,24 @@ public class MyFile {
 		]
 	}
 
+	@Test def void testMultiArrayAccessInRightHandsideExpression() {
+		multiArrayAccessInRightHandsideExpression.compile[
+			assertGeneratedJavaCode(
+'''
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int[][] a = null;
+    int i = 0;
+    i = a[0][(1 + 2)];
+  }
+}
+'''
+			)
+			assertGeneratedJavaCodeCompiles
+		]
+	}
+
 	@Test def void testArrayConstrcutorCallInVarDecl() {
 		arrayConstructorCallInVarDecl.compile[
 			assertGeneratedJavaCode(

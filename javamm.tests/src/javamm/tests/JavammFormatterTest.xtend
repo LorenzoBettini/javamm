@@ -158,6 +158,17 @@ class JavammFormatterTest extends JavammAbstractTest {
 		)
 	}
 
+	@Test def void testMultiArrayAccess() {
+		'''
+		int[][] a;
+		a [ 1 ] =  a [ 2 ] [  1 ];
+		'''.assertFormattedAs(
+		'''
+		int [] [] a;
+		a [ 1 ] = a[2][ 1 ];'''
+		)
+	}
+
 	def private void assertFormattedAs(CharSequence input, CharSequence expected) {
 		expected.toString.assertEquals(
 			(input.parse.eResource as XtextResource).parseResult.rootNode.format(0, input.length).formattedText)

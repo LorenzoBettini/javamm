@@ -70,9 +70,9 @@ class JavammValidatorTest extends JavammAbstractTest {
 		arrayAccessInParenthesizedExpression.parseAndAssertNoErrors
 	}
 
-//	@Test def void testMultiArrayAccessInRightHandsideExpression() {
-//		multiArrayAccessInRightHandsideExpression.parseAndAssertNoErrors
-//	}
+	@Test def void testMultiArrayAccessInRightHandsideExpression() {
+		multiArrayAccessInRightHandsideExpression.parseAndAssertNoErrors
+	}
 
 	@Test def void testArrayConstrcutorCallInVarDecl() {
 		arrayConstructorCallInVarDecl.parseAndAssertNoErrors
@@ -175,6 +175,17 @@ class JavammValidatorTest extends JavammAbstractTest {
 		'''
 		int i;
 		i = i[0];
+		'''.parse.assertError(
+			javammPack.javammArrayAccessExpression,
+			JavammValidator.NOT_ARRAY_TYPE,
+			"The type of the expression must be an array type but it resolved to int"
+		)
+	}
+
+	@Test def void testNotMultiArrayTypeRight() {
+		'''
+		int[] i;
+		i = i[0][1];
 		'''.parse.assertError(
 			javammPack.javammArrayAccessExpression,
 			JavammValidator.NOT_ARRAY_TYPE,
