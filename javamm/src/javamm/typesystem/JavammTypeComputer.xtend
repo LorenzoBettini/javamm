@@ -47,44 +47,12 @@ class JavammTypeComputer extends XbaseTypeComputer {
 		computeTypesOfArrayAccess(assignment, best, state, XbasePackage.Literals.XASSIGNMENT__ASSIGNABLE)
 	}
 
-//	def protected _computeTypes(JavammXFeatureCall featureCall, ITypeComputationState state) {
-//		val candidates = state.getLinkingCandidates(featureCall);
-//		val best = getBestCandidate(candidates) as IFeatureLinkingCandidate;
-//		val expState = state as ExpressionTypeComputationState
-//		val actualType = expState.resolvedTypes.getActualType(best.feature)
-//		if (featureCall.index != null) {
-//			computeTypesOfArrayAccess(featureCall, best, state, XbasePackage.Literals.XABSTRACT_FEATURE_CALL__FEATURE)
-//			if (actualType instanceof ArrayTypeReference) {
-//				expState.reassignType(best.feature, actualType.componentType)
-//			}
-//		}
-//		super._computeTypes(featureCall, state)
-//	}
-
 	def protected _computeTypes(JavammArrayAccessExpression arrayAccess, ITypeComputationState state) {
-//		super.computeTypes(arrayAccess.featureCall, state)
-
-//		for (expectation : state.expectations) {
-//			val expectedType = expectation.expectedType
-//			val arrayTypeRef = state.referenceOwner.newArrayTypeReference(expectedType)
-//			val actualType = state.withExpectation(arrayTypeRef).computeTypes(arrayAccess.featureCall).actualExpressionType
-//			if (actualType.isArray) {
-//				state.acceptActualType(actualType.componentType)
-//			} else {
-//				state.acceptActualType(actualType)
-//			}
-//		}
-		
 		val actualType = state.withNonVoidExpectation.computeTypes(arrayAccess.featureCall).actualExpressionType
 		val type = componentTypeOfArrayAccess(arrayAccess, actualType, state, XbasePackage.Literals.XABSTRACT_FEATURE_CALL__FEATURE)
 		state.acceptActualType(type)
 
-//		val actualType = state.computeTypes(arrayAccess.featureCall).actualExpressionType
-		if (arrayAccess.index != null) {
-			checkArrayIndexHasTypeInt(arrayAccess, state);
-//			val type = computeTypesOfArrayAccess(arrayAccess, actualType, state, XbasePackage.Literals.XABSTRACT_FEATURE_CALL__FEATURE)
-//			state.acceptActualType(type)
-		}
+		checkArrayIndexHasTypeInt(arrayAccess, state);
 	}
 
 	def protected _computeTypes(JavammArrayConstructorCall call, ITypeComputationState state) {
