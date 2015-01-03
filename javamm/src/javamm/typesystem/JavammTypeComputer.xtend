@@ -19,6 +19,7 @@ import org.eclipse.xtext.xbase.typesystem.internal.ExpressionTypeComputationStat
 import org.eclipse.xtext.xbase.typesystem.references.ArrayTypeReference
 import org.eclipse.xtext.xbase.typesystem.references.LightweightTypeReference
 import org.eclipse.xtext.xbase.typesystem.util.CommonTypeComputationServices
+import javamm.javamm.JavammBranchingStatement
 
 /**
  * @author Lorenzo Bettini
@@ -34,6 +35,8 @@ class JavammTypeComputer extends XbaseTypeComputer {
 		} else if (expression instanceof JavammArrayConstructorCall) {
 			_computeTypes(expression, state)
 		} else if (expression instanceof JavammArrayAccessExpression) {
+			_computeTypes(expression, state)
+		} else if (expression instanceof JavammBranchingStatement) {
 			_computeTypes(expression, state)
 		} else {
 			super.computeTypes(expression, state)
@@ -61,6 +64,10 @@ class JavammTypeComputer extends XbaseTypeComputer {
 		val lightweight = state.getReferenceOwner().toLightweightTypeReference(typeReference)
 		val arrayTypeRef = state.referenceOwner.newArrayTypeReference(lightweight)
 		state.acceptActualType(arrayTypeRef)
+	}
+
+	def protected _computeTypes(JavammBranchingStatement st, ITypeComputationState state) {
+		state.acceptActualType(state.primitiveVoid)
 	}
 	
 	private def computeTypesOfArrayAccess(JavammArrayAccess arrayAccess, 

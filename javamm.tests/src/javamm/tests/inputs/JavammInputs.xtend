@@ -238,6 +238,18 @@ class JavammInputs {
 		'''
 	}
 
+	def continueInForLoop() {
+		'''
+		int argsNum = args.length();
+		for (int i = 0; i < argsNum; i += 1) {
+			if (argsNum > 0) {
+				continue;
+			} else {
+			}
+		}
+		'''
+	}
+
 	def bubbleSort() {
 '''
 void bubbleSort(int[] array) {
