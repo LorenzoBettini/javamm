@@ -6,6 +6,7 @@ package javamm.compiler;
 import javamm.javamm.JavammArrayAccess;
 import javamm.javamm.JavammArrayAccessExpression;
 import javamm.javamm.JavammArrayConstructorCall;
+import javamm.javamm.JavammBranchingStatement;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.xtext.common.types.JvmField;
@@ -31,6 +32,8 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 			_toJavaStatement((JavammArrayConstructorCall) obj, appendable, isReferenced);
 		} else if (obj instanceof JavammArrayAccessExpression) {
 			_toJavaStatement((JavammArrayAccessExpression) obj, appendable, isReferenced);
+		} else if (obj instanceof JavammBranchingStatement) {
+			_toJavaStatement((JavammBranchingStatement) obj, appendable, isReferenced);
 		} else {
 			super.doInternalToJavaStatement(obj, appendable, isReferenced);
 		}
@@ -44,6 +47,11 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 	public void _toJavaStatement(JavammArrayAccessExpression access, ITreeAppendable b,
 			boolean isReferenced) {
 		
+	}
+
+	public void _toJavaStatement(JavammBranchingStatement st, ITreeAppendable b,
+			boolean isReferenced) {
+		b.newLine().append(st.getInstruction()).append(";");
 	}
 
 	@Override

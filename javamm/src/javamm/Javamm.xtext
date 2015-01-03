@@ -53,7 +53,7 @@ JavammSemicolonStatement returns XExpression:
 ;
 
 JavammContinueStatement returns XExpression:
-	{JavammContinueStatement} "continue"
+	{JavammContinueStatement} instruction="continue"
 ;
 
 /* 

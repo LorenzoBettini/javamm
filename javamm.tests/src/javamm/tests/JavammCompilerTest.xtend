@@ -583,6 +583,37 @@ public class MyFile {
 		]
 	}
 
+	@Test def void testContinueInForLoop() {
+		continueInForLoop.compile[
+			assertGeneratedJavaCode(
+'''
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int argsNum = args.length;
+    {
+      int i = 0;
+      boolean _while = (i < argsNum);
+      while (_while) {
+        if ((argsNum > 0)) {
+          continue;
+        } else {
+          System.out.println("");
+          continue;
+        }
+        int _i = i;
+        i = (_i + 1);
+        _while = (i < argsNum);
+      }
+    }
+  }
+}
+'''
+			)
+			assertGeneratedJavaCodeCompiles
+		]
+	}
+
 	@Test def void testBubbleSort() {
 		bubbleSort.compile[
 			assertGeneratedJavaCode(

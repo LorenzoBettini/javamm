@@ -245,6 +245,8 @@ class JavammInputs {
 			if (argsNum > 0) {
 				continue;
 			} else {
+				System.out.println("");
+				continue;
 			}
 		}
 		'''
