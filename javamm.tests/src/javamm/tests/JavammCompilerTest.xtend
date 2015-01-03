@@ -599,7 +599,6 @@ public class MyFile {
           continue;
         } else {
           System.out.println("");
-          continue;
         }
         int _i = i;
         i = (_i + 1);

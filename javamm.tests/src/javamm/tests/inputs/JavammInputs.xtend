@@ -246,7 +246,6 @@ class JavammInputs {
 				continue;
 			} else {
 				System.out.println("");
-				continue;
 			}
 		}
 		'''
