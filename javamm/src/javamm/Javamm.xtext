@@ -44,10 +44,16 @@ JavammSingleStatement returns XExpression:
  */
 JavammSemicolonStatement returns XExpression:
 //	JavammArrayConstructorCall | not a valid statement
-	(=>XVariableDeclaration |
+	(
+	JavammContinueStatement |
+	=>XVariableDeclaration |
 	XExpression |
 	XDoWhileExpression |
 	XReturnExpression) ';'
+;
+
+JavammContinueStatement returns XExpression:
+	{JavammContinueStatement} "continue"
 ;
 
 /* 
