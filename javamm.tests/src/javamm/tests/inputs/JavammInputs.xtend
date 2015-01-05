@@ -238,7 +238,20 @@ class JavammInputs {
 		'''
 	}
 
-	def continueInForLoop() {
+	def continueInForLoopTranslatedToJavaFor() {
+		'''
+		int argsNum = args.length();
+		for (int i = 0; i < argsNum; i++) {
+			if (argsNum > 0) {
+				continue;
+			} else {
+				System.out.println("");
+			}
+		}
+		'''
+	}
+
+	def continueInForLoopTranslatedToJavaWhile() {
 		'''
 		int argsNum = args.length();
 		for (int i = 0; i < argsNum; i += 1) {

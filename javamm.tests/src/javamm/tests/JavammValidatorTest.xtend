@@ -126,8 +126,12 @@ class JavammValidatorTest extends JavammAbstractTest {
 		multiAssign.parseAndAssertNoErrors
 	}
 
-	@Test def void testContinueInForLoop() {
-		continueInForLoop.parseAndAssertNoErrors
+	@Test def void testContinueInForLoopTranslatedToJavaFor() {
+		continueInForLoopTranslatedToJavaFor.parseAndAssertNoErrors
+	}
+
+	@Test def void testContinueInForLoopTranslatedToJavaWhile() {
+		continueInForLoopTranslatedToJavaWhile.parseAndAssertNoErrors
 	}
 
 	@Test def void testBubbleSort() {

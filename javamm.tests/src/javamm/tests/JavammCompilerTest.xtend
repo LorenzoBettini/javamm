@@ -583,8 +583,31 @@ public class MyFile {
 		]
 	}
 
-	@Test def void testContinueInForLoop() {
-		continueInForLoop.compile[
+	@Test def void testContinueInForLoopTranslatedToJavaFor() {
+		continueInForLoopTranslatedToJavaFor.compile[
+			assertGeneratedJavaCode(
+'''
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int argsNum = args.length;
+    for (int i = 0; (i < argsNum); i++) {
+      if ((argsNum > 0)) {
+        continue;
+      } else {
+        System.out.println("");
+      }
+    }
+  }
+}
+'''
+			)
+			assertGeneratedJavaCodeCompiles
+		]
+	}
+
+	@Test def void testContinueInForLoopTranslatedToJavaWhile() {
+		continueInForLoopTranslatedToJavaWhile.compile[
 			assertGeneratedJavaCode(
 '''
 @SuppressWarnings("all")
