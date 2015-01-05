@@ -222,6 +222,15 @@ class JavammValidatorTest extends JavammAbstractTest {
 		]
 	}
 
+	@Test def void testDeadCodeAfterReturn() {
+		'''
+		void m() {
+			return;
+			System.out.println("");
+		}
+		'''.parse.assertUnreachableExpression(XbasePackage.eINSTANCE.XMemberFeatureCall)
+	}
+
 	def private assertTypeMismatch(EObject o, EClass c, String expectedType, String actualType) {
 		o.assertError(
 			c,
@@ -235,6 +244,14 @@ class JavammValidatorTest extends JavammAbstractTest {
 			c,
 			IssueCodes.INVALID_INNER_EXPRESSION,
 			'''This expression is not allowed in this context, since it doesn't cause any side effects.'''
+		)
+	}
+
+	def private assertUnreachableExpression(EObject o, EClass c) {
+		o.assertError(
+			c,
+			IssueCodes.UNREACHABLE_CODE,
+			'''Unreachable expression.'''
 		)
 	}
 
