@@ -583,6 +583,107 @@ public class MyFile {
 		]
 	}
 
+	@Test def void testForLoopTranslatedToJavaWhileSingleStatement() {
+		forLoopTranslatedToJavaWhileSingleStatement.compile[
+			assertGeneratedJavaCode(
+'''
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int argsNum = args.length;
+    {
+      int i = 0;
+      boolean _while = (i < argsNum);
+      while (_while) {
+        System.out.println(("" + Integer.valueOf(i)));
+        int _i = i;
+        i = (_i + 1);
+        _while = (i < argsNum);
+      }
+    }
+  }
+}
+'''
+			)
+			assertGeneratedJavaCodeCompiles
+		]
+	}
+
+	@Test def void testForLoopTranslatedToJavaWhileInsideIf() {
+		forLoopTranslatedToJavaWhileInsideIf.compile[
+			assertGeneratedJavaCode(
+'''
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int argsNum = args.length;
+    if ((argsNum != 0)) {
+      int i = 0;
+      boolean _while = (i < argsNum);
+      while (_while) {
+        System.out.println(("" + Integer.valueOf(i)));
+        int _i = i;
+        i = (_i + 1);
+        _while = (i < argsNum);
+      }
+    }
+  }
+}
+'''
+			)
+			assertGeneratedJavaCodeCompiles
+		]
+	}
+
+	@Test def void testForLoopTranslatedToJavaWhileNoExpression() {
+		forLoopTranslatedToJavaWhileNoExpression.compile[
+			assertGeneratedJavaCode(
+'''
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int argsNum = args.length;
+    {
+      int i = 0;
+      boolean _while = true;
+      while (_while) {
+        System.out.println(("" + Integer.valueOf(i)));
+        int _i = i;
+        i = (_i + 1);
+        _while = true;
+      }
+    }
+  }
+}
+'''
+			)
+			assertGeneratedJavaCodeCompiles
+		]
+	}
+
+	@Test def void testForLoopTranslatedToJavaWhileEarlyExit() {
+		forLoopTranslatedToJavaWhileEarlyExit.compile[
+			assertGeneratedJavaCode(
+'''
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int argsNum = args.length;
+    {
+      int i = 0;
+      boolean _while = (i < argsNum);
+      while (_while) {
+        return;
+      }
+    }
+  }
+}
+'''
+			)
+			assertGeneratedJavaCodeCompiles
+		]
+	}
+
 	@Test def void testContinueInForLoopTranslatedToJavaFor() {
 		continueInForLoopTranslatedToJavaFor.compile[
 			assertGeneratedJavaCode(

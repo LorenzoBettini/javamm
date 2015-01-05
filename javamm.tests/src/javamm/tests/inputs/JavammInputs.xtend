@@ -238,6 +238,43 @@ class JavammInputs {
 		'''
 	}
 
+	def forLoopTranslatedToJavaWhileSingleStatement() {
+		'''
+		int argsNum = args.length();
+		for (int i = 0; i < argsNum; i += 1)
+			System.out.println(""+i);
+		'''
+	}
+
+	def forLoopTranslatedToJavaWhileInsideIf() {
+		'''
+		int argsNum = args.length();
+		if (argsNum != 0)
+			for (int i = 0; i < argsNum; i += 1)
+				System.out.println(""+i);
+		'''
+	}
+
+	def forLoopTranslatedToJavaWhileNoExpression() {
+		'''
+		int argsNum = args.length();
+		for (int i = 0; ; i += 1)
+			System.out.println(""+i);
+		'''
+	}
+
+	/** 
+	 * this is not valid input since i += 1 is considered not reachable
+	 * we use it only to test the compiler
+	 */
+	def forLoopTranslatedToJavaWhileEarlyExit() {
+		'''
+		int argsNum = args.length();
+		for (int i = 0; i < argsNum; i += 1)
+			return;
+		'''
+	}
+
 	def continueInForLoopTranslatedToJavaFor() {
 		'''
 		int argsNum = args.length();

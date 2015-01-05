@@ -175,16 +175,13 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 		EList<XExpression> initExpressions = expr.getInitExpressions();
 		for (int i = 0; i < initExpressions.size(); i++) {
 			XExpression initExpression = initExpressions.get(i);
-			if (i < initExpressions.size() - 1) {
-				internalToJavaStatement(initExpression, loopAppendable, false);
-			} else {
-				internalToJavaStatement(initExpression, loopAppendable, isReferenced);
-				if (isReferenced) {
-					loopAppendable.newLine().append(getVarName(expr, loopAppendable)).append(" = (");
-					internalToConvertedExpression(initExpression, loopAppendable, getLightweightType(expr));
-					loopAppendable.append(");");
-				}
-			}
+			
+			// custom implementation
+			// since a for statement cannot be used as expression we don't need
+			// any special treatment for the last expression
+			
+			internalToJavaStatement(initExpression, loopAppendable, false);
+			
 		}
 
 		final String varName = loopAppendable.declareSyntheticVariable(expr, "_while");
@@ -210,23 +207,20 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 		// custom implementation:
 		// if the each expression contains sure branching statements then
 		// we must not generate the update expression and the check expression
-		if (!branchingStatementDetector.isSureBranchStatement(eachExpression)) {
+		if (!branchingStatementDetector.isSureBranchStatement(eachExpression) && !isEarlyExit(eachExpression)) {
 			EList<XExpression> updateExpressions = expr.getUpdateExpressions();
-			if (!updateExpressions.isEmpty()) {
-				for (XExpression updateExpression : updateExpressions) {
-					internalToJavaStatement(updateExpression, loopAppendable, false);
-				}
-			}
 			
-			if (!isEarlyExit(eachExpression)) {
-				if (expression != null) {
-					internalToJavaStatement(expression, loopAppendable, true);
-					loopAppendable.newLine().append(varName).append(" = ");
-					internalToJavaExpression(expression, loopAppendable);
-					loopAppendable.append(";");
-				} else {
-					loopAppendable.newLine().append(varName).append(" = true;");
-				}
+			for (XExpression updateExpression : updateExpressions) {
+				internalToJavaStatement(updateExpression, loopAppendable, false);
+			}
+
+			if (expression != null) {
+				internalToJavaStatement(expression, loopAppendable, true);
+				loopAppendable.newLine().append(varName).append(" = ");
+				internalToJavaExpression(expression, loopAppendable);
+				loopAppendable.append(";");
+			} else {
+				loopAppendable.newLine().append(varName).append(" = true;");
 			}
 		}
 		
