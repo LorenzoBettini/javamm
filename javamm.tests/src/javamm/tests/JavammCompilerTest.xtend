@@ -619,12 +619,15 @@ public class MyFile {
       boolean _while = (i < argsNum);
       while (_while) {
         if ((argsNum > 0)) {
+          int _i = i;
+          i = (_i + 1);
+          _while = (i < argsNum);
           continue;
         } else {
           System.out.println("");
         }
-        int _i = i;
-        i = (_i + 1);
+        int _i_1 = i;
+        i = (_i_1 + 1);
         _while = (i < argsNum);
       }
     }

@@ -7,23 +7,32 @@ import javamm.javamm.JavammArrayAccess;
 import javamm.javamm.JavammArrayAccessExpression;
 import javamm.javamm.JavammArrayConstructorCall;
 import javamm.javamm.JavammBranchingStatement;
+import javamm.javamm.JavammContinueStatement;
+import javamm.util.JavammModelUtil;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.xtext.common.types.JvmField;
 import org.eclipse.xtext.common.types.JvmIdentifiableElement;
 import org.eclipse.xtext.common.types.JvmOperation;
 import org.eclipse.xtext.xbase.XAbstractFeatureCall;
 import org.eclipse.xtext.xbase.XAssignment;
+import org.eclipse.xtext.xbase.XBasicForLoopExpression;
 import org.eclipse.xtext.xbase.XExpression;
 import org.eclipse.xtext.xbase.XbasePackage;
 import org.eclipse.xtext.xbase.compiler.XbaseCompiler;
 import org.eclipse.xtext.xbase.compiler.output.ITreeAppendable;
+
+import com.google.inject.Inject;
 
 /**
  * @author Lorenzo Bettini
  *
  */
 public class JavammXbaseCompiler extends XbaseCompiler {
+	
+	@Inject
+	private JavammModelUtil modelUtil;
 	
 	@Override
 	protected void doInternalToJavaStatement(XExpression obj,
@@ -32,8 +41,8 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 			_toJavaStatement((JavammArrayConstructorCall) obj, appendable, isReferenced);
 		} else if (obj instanceof JavammArrayAccessExpression) {
 			_toJavaStatement((JavammArrayAccessExpression) obj, appendable, isReferenced);
-		} else if (obj instanceof JavammBranchingStatement) {
-			_toJavaStatement((JavammBranchingStatement) obj, appendable, isReferenced);
+		} else if (obj instanceof JavammContinueStatement) {
+			_toJavaStatement((JavammContinueStatement) obj, appendable, isReferenced);
 		} else {
 			super.doInternalToJavaStatement(obj, appendable, isReferenced);
 		}
@@ -49,8 +58,39 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 		
 	}
 
-	public void _toJavaStatement(JavammBranchingStatement st, ITreeAppendable b,
+	public void _toJavaStatement(JavammContinueStatement st, ITreeAppendable b,
 			boolean isReferenced) {
+		XBasicForLoopExpression basicForLoop = modelUtil.getContainingForLoop(st);
+		
+		if (!canCompileToJavaBasicForStatement(basicForLoop, b)) {
+			// the for loop is translated into a while statement, so, before
+			// the continue; we must perform the update expressions and then
+			// check the while condition.
+			
+			EList<XExpression> updateExpressions = basicForLoop.getUpdateExpressions();
+			if (!updateExpressions.isEmpty()) {
+				for (XExpression updateExpression : updateExpressions) {
+					internalToJavaStatement(updateExpression, b, false);
+				}
+			}
+			
+			final String varName = b.getName(basicForLoop);
+			
+			XExpression expression = basicForLoop.getExpression();
+			if (expression != null) {
+				internalToJavaStatement(expression, b, true);
+				b.newLine().append(varName).append(" = ");
+				internalToJavaExpression(expression, b);
+				b.append(";");
+			} else {
+				b.newLine().append("boolean ").append(varName).append(" = true;");
+			}
+		}
+		compileBranchingStatement(st, b);
+	}
+
+	private void compileBranchingStatement(JavammBranchingStatement st,
+			ITreeAppendable b) {
 		b.newLine().append(st.getInstruction()).append(";");
 	}
 
