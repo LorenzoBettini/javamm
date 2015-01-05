@@ -24,6 +24,7 @@ Import-Package: org.apache.log4j
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: javamm,
  javamm.compiler,
+ javamm.controlflow,
  javamm.formatting,
  javamm.javamm,
  javamm.javamm.impl,
