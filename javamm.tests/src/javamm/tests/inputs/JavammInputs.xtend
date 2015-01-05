@@ -264,6 +264,42 @@ class JavammInputs {
 		'''
 	}
 
+	def continueInBothIfBranchesInForLoopTranslatedToJavaWhile() {
+		'''
+		int argsNum = args.length();
+		for (int i = 0; i < argsNum; i += 1) {
+			if (argsNum > 0) {
+				continue;
+			} else {
+				continue;
+			}
+		}
+		'''
+	}
+
+	def continueSingleInForLoopTranslatedToJavaWhile() {
+		'''
+		int argsNum = args.length();
+		for (int i = 0; i < argsNum; i += 1)
+			continue;
+		'''
+	}
+
+	def continueInForLoopTranslatedToJavaWhileAndOtherStatementsAfterLoop() {
+		'''
+		int argsNum = args.length();
+		for (int i = 0; i < argsNum; i += 1) {
+			if (argsNum > 0) {
+				continue;
+			} else {
+				System.out.println("");
+			}
+		}
+		int j = 0;
+		System.out.println(j);
+		'''
+	}
+
 	def bubbleSort() {
 '''
 void bubbleSort(int[] array) {

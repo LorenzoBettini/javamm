@@ -134,6 +134,18 @@ class JavammValidatorTest extends JavammAbstractTest {
 		continueInForLoopTranslatedToJavaWhile.parseAndAssertNoErrors
 	}
 
+	@Test def void testContinueInBothIfBranchesInForLoopTranslatedToJavaWhile() {
+		continueInBothIfBranchesInForLoopTranslatedToJavaWhile.parseAndAssertNoErrors
+	}
+
+	@Test def void testContinueSingleInForLoopTranslatedToJavaWhile() {
+		continueSingleInForLoopTranslatedToJavaWhile.parseAndAssertNoErrors
+	}
+
+	@Test def void testContinueInForLoopTranslatedToJavaWhileAndOtherStatementsAfterLoop() {
+		continueInForLoopTranslatedToJavaWhileAndOtherStatementsAfterLoop.parseAndAssertNoErrors
+	}
+
 	@Test def void testBubbleSort() {
 		bubbleSort.parseAndAssertNoErrors
 	}

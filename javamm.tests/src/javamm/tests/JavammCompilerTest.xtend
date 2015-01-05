@@ -639,6 +639,100 @@ public class MyFile {
 		]
 	}
 
+	@Test def void testContinueInBothIfBranchesInForLoopTranslatedToJavaWhile() {
+		continueInBothIfBranchesInForLoopTranslatedToJavaWhile.compile[
+			assertGeneratedJavaCode(
+'''
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int argsNum = args.length;
+    {
+      int i = 0;
+      boolean _while = (i < argsNum);
+      while (_while) {
+        if ((argsNum > 0)) {
+          int _i = i;
+          i = (_i + 1);
+          _while = (i < argsNum);
+          continue;
+        } else {
+          int _i_1 = i;
+          i = (_i_1 + 1);
+          _while = (i < argsNum);
+          continue;
+        }
+      }
+    }
+  }
+}
+'''
+			)
+			assertGeneratedJavaCodeCompiles
+		]
+	}
+
+	@Test def void testContinueSingleInForLoopTranslatedToJavaWhile() {
+		continueSingleInForLoopTranslatedToJavaWhile.compile[
+			assertGeneratedJavaCode(
+'''
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int argsNum = args.length;
+    {
+      int i = 0;
+      boolean _while = (i < argsNum);
+      while (_while) {
+        int _i = i;
+        i = (_i + 1);
+        _while = (i < argsNum);
+        continue;
+      }
+    }
+  }
+}
+'''
+			)
+			assertGeneratedJavaCodeCompiles
+		]
+	}
+
+	@Test def void testContinueInForLoopTranslatedToJavaWhileAndOtherStatementsAfterLoop() {
+		continueInForLoopTranslatedToJavaWhileAndOtherStatementsAfterLoop.compile[
+			assertGeneratedJavaCode(
+'''
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int argsNum = args.length;
+    {
+      int i = 0;
+      boolean _while = (i < argsNum);
+      while (_while) {
+        if ((argsNum > 0)) {
+          int _i = i;
+          i = (_i + 1);
+          _while = (i < argsNum);
+          continue;
+        } else {
+          System.out.println("");
+        }
+        int _i_1 = i;
+        i = (_i_1 + 1);
+        _while = (i < argsNum);
+      }
+    }
+    int j = 0;
+    System.out.println(j);
+  }
+}
+'''
+			)
+			assertGeneratedJavaCodeCompiles
+		]
+	}
+
 	@Test def void testBubbleSort() {
 		bubbleSort.compile[
 			assertGeneratedJavaCode(

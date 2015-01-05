@@ -3,6 +3,7 @@
  */
 package javamm.compiler;
 
+import javamm.controlflow.JavammBranchingStatementDetector;
 import javamm.javamm.JavammArrayAccess;
 import javamm.javamm.JavammArrayAccessExpression;
 import javamm.javamm.JavammArrayConstructorCall;
@@ -33,6 +34,9 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 	
 	@Inject
 	private JavammModelUtil modelUtil;
+	
+	@Inject
+	private JavammBranchingStatementDetector branchingStatementDetector;
 	
 	@Override
 	protected void doInternalToJavaStatement(XExpression obj,
@@ -154,6 +158,84 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 			if (isArgument) {
 				b.append(")");
 			}
+		}
+	}
+
+	@Override
+	protected void toJavaWhileStatement(XBasicForLoopExpression expr,
+			ITreeAppendable b, boolean isReferenced) {
+		ITreeAppendable loopAppendable = b.trace(expr);
+		
+		boolean needBraces = !bracesAreAddedByOuterStructure(expr);
+		if (needBraces) {
+			loopAppendable.newLine().increaseIndentation().append("{");
+			loopAppendable.openPseudoScope();
+		}
+		
+		EList<XExpression> initExpressions = expr.getInitExpressions();
+		for (int i = 0; i < initExpressions.size(); i++) {
+			XExpression initExpression = initExpressions.get(i);
+			if (i < initExpressions.size() - 1) {
+				internalToJavaStatement(initExpression, loopAppendable, false);
+			} else {
+				internalToJavaStatement(initExpression, loopAppendable, isReferenced);
+				if (isReferenced) {
+					loopAppendable.newLine().append(getVarName(expr, loopAppendable)).append(" = (");
+					internalToConvertedExpression(initExpression, loopAppendable, getLightweightType(expr));
+					loopAppendable.append(");");
+				}
+			}
+		}
+
+		final String varName = loopAppendable.declareSyntheticVariable(expr, "_while");
+		
+		XExpression expression = expr.getExpression();
+		if (expression != null) {
+			internalToJavaStatement(expression, loopAppendable, true);
+			loopAppendable.newLine().append("boolean ").append(varName).append(" = ");
+			internalToJavaExpression(expression, loopAppendable);
+			loopAppendable.append(";");
+		} else {
+			loopAppendable.newLine().append("boolean ").append(varName).append(" = true;");
+		}
+		loopAppendable.newLine();
+		loopAppendable.append("while (");
+		loopAppendable.append(varName);
+		loopAppendable.append(") {").increaseIndentation();
+		loopAppendable.openPseudoScope();
+		
+		XExpression eachExpression = expr.getEachExpression();
+		internalToJavaStatement(eachExpression, loopAppendable, false);
+		
+		// custom implementation:
+		// if the each expression contains sure branching statements then
+		// we must not generate the update expression and the check expression
+		if (!branchingStatementDetector.isSureBranchStatement(eachExpression)) {
+			EList<XExpression> updateExpressions = expr.getUpdateExpressions();
+			if (!updateExpressions.isEmpty()) {
+				for (XExpression updateExpression : updateExpressions) {
+					internalToJavaStatement(updateExpression, loopAppendable, false);
+				}
+			}
+			
+			if (!isEarlyExit(eachExpression)) {
+				if (expression != null) {
+					internalToJavaStatement(expression, loopAppendable, true);
+					loopAppendable.newLine().append(varName).append(" = ");
+					internalToJavaExpression(expression, loopAppendable);
+					loopAppendable.append(";");
+				} else {
+					loopAppendable.newLine().append(varName).append(" = true;");
+				}
+			}
+		}
+		
+		loopAppendable.closeScope();
+		loopAppendable.decreaseIndentation().newLine().append("}");
+		
+		if (needBraces) {
+			loopAppendable.closeScope();
+			loopAppendable.decreaseIndentation().newLine().append("}");
 		}
 	}
 
