@@ -517,6 +517,16 @@ class JavammInputs {
 		}
 		'''
 	}
+
+	def switchStatementWithCaseAndDefault() {
+		'''
+		int argsNum = args.length();
+		switch (argsNum) {
+			case 0 : System.out.println("0");
+			default: System.out.println("default");
+		}
+		'''
+	}
 	
 	def bubbleSort() {
 '''

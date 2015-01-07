@@ -1040,6 +1040,27 @@ public class MyFile {
 			)
 	}
 
+	@Test def void testSwitchStatementWithCaseAndDefault() {
+		switchStatementWithCaseAndDefault.checkCompilation(
+'''
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int argsNum = args.length;
+    switch (argsNum) {
+      case 0:
+        System.out.println("0");
+        break;
+      default:
+        System.out.println("default");
+        break;
+    }
+  }
+}
+'''
+			)
+	}
+
 	@Test def void testBubbleSort() {
 		bubbleSort.checkCompilation(
 '''
