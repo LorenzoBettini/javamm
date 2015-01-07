@@ -115,6 +115,38 @@ class JavammValidatorTest extends JavammAbstractTest {
 		'''.parse.assertUnreachableExpression(XbasePackage.eINSTANCE.XMemberFeatureCall)
 	}
 
+	@Test def void testInvalidContinue() {
+		'''
+		void m() {
+			if (true)
+				continue;
+		}
+		'''.parse.assertInvalidContinueStatement
+	}
+
+	@Test def void testInvalidContinue2() {
+		'''
+		if (true)
+			continue;
+		'''.parse.assertInvalidContinueStatement
+	}
+
+	@Test def void testInvalidBreak() {
+		'''
+		void m() {
+			if (true)
+				break;
+		}
+		'''.parse.assertInvalidBreakStatement
+	}
+
+	@Test def void testInvalidBreak2() {
+		'''
+		if (true)
+			break;
+		'''.parse.assertInvalidBreakStatement
+	}
+
 	def private assertTypeMismatch(EObject o, EClass c, String expectedType, String actualType) {
 		o.assertError(
 			c,
@@ -136,6 +168,22 @@ class JavammValidatorTest extends JavammAbstractTest {
 			c,
 			IssueCodes.UNREACHABLE_CODE,
 			'''Unreachable expression.'''
+		)
+	}
+
+	def private assertInvalidContinueStatement(EObject o) {
+		o.assertError(
+			javammPack.javammContinueStatement,
+			JavammValidator.INVALID_BRANCHING_STATEMENT,
+			"continue cannot be used outside of a loop"
+		)
+	}
+
+	def private assertInvalidBreakStatement(EObject o) {
+		o.assertError(
+			javammPack.javammBreakStatement,
+			JavammValidator.INVALID_BRANCHING_STATEMENT,
+			"break cannot be used outside of a loop"
 		)
 	}
 

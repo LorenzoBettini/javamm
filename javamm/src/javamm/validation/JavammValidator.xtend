@@ -4,11 +4,21 @@
 package javamm.validation
 
 import java.util.ArrayList
+import javamm.javamm.JavammBranchingStatement
+import javamm.javamm.JavammBreakStatement
+import javamm.javamm.JavammContinueStatement
+import javamm.javamm.JavammMethod
 import javamm.javamm.JavammPackage
+import javamm.javamm.Main
+import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.xtext.common.types.JvmFormalParameter
+import org.eclipse.xtext.util.Wrapper
+import org.eclipse.xtext.validation.Check
 import org.eclipse.xtext.xbase.XAbstractFeatureCall
+import org.eclipse.xtext.xbase.XAbstractWhileExpression
+import org.eclipse.xtext.xbase.XBasicForLoopExpression
 import org.eclipse.xtext.xbase.XExpression
 import org.eclipse.xtext.xbase.validation.XbaseValidator
 
@@ -24,6 +34,8 @@ class JavammValidator extends XbaseValidator {
 	public static val PREFIX = "javamm."
 	
 	public static val NOT_ARRAY_TYPE = PREFIX + "NotArrayType"
+	
+	public static val INVALID_BRANCHING_STATEMENT = PREFIX + "InvalidBranchingStatement"
 	
 	override protected getEPackages() {
 		val result = new ArrayList<EPackage>(super.getEPackages());
@@ -46,4 +58,27 @@ class JavammValidator extends XbaseValidator {
 		super.checkAssignment(expression, feature, simpleAssignment)
 	}
 	
+	@Check
+	def void checkContinue(JavammContinueStatement st) {
+		checkBranchingStatementInternal(st, "a loop", XAbstractWhileExpression, XBasicForLoopExpression)
+	}
+
+	@Check
+	def void checkBreak(JavammBreakStatement st) {
+		checkBranchingStatementInternal(st, "a loop", XAbstractWhileExpression, XBasicForLoopExpression)
+	}
+
+	def private checkBranchingStatementInternal(JavammBranchingStatement st, String errorDetails, Class<? extends EObject>... validContainers) {
+		val container = Wrapper.wrap(st.eContainer)
+		while (!((container.get instanceof JavammMethod) || (container.get instanceof Main))) {
+			if (validContainers.exists[c | c.isInstance(container.get)]) {
+				return;
+			}
+			container.set(container.get.eContainer)
+		}
+		error(
+			st.instruction + " cannot be used outside of " + errorDetails,
+			st, null, INVALID_BRANCHING_STATEMENT
+		)
+	}
 }
