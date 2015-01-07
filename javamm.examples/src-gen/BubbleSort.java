@@ -3,7 +3,7 @@ public class BubbleSort {
   /**
    * Orders the passed array with the bubble sort algorithm
    */
-  public static void bubbleSort(final int[] array) {
+  public static void bubbleSort(int[] array) {
     boolean swapped = true;
     int j = 0;
     int tmp = 0;
@@ -12,7 +12,8 @@ public class BubbleSort {
         swapped = false;
         j = (j + 1);
         for (int i = 0; (i < (array.length - j)); i++) {
-          if ((array[i] > array[(i + 1)])) {
+          boolean _greaterThan = (array[i] > array[(i + 1)]);
+          if (_greaterThan) {
             tmp = array[i];
             array[i] = array[(i + 1)];
             array[(i + 1)] = tmp;
@@ -26,14 +27,14 @@ public class BubbleSort {
   /**
    * Prints the passed array to the standard output
    */
-  public static void printArray(final int[] a) {
+  public static void printArray(int[] a) {
     {
       int i = 0;
       int _length = a.length;
       boolean _lessThan = (i < _length);
       boolean _while = _lessThan;
       while (_while) {
-        String _plus = (a[i] + " ");
+        String _plus = (Integer.valueOf(a[i]) + " ");
         System.out.print(_plus);
         int _i = i;
         i = (_i + 1);
@@ -45,7 +46,7 @@ public class BubbleSort {
     System.out.println("");
   }
   
-  public static void main(final String... args) {
+  public static void main(String[] args) {
     int[] test = { 10, 4, 2, 8, 1 };
     BubbleSort.printArray(test);
     BubbleSort.bubbleSort(test);

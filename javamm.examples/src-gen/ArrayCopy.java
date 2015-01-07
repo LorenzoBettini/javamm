@@ -4,7 +4,7 @@ public class ArrayCopy {
    * @original the array to copy
    * @return a copy of the passed array
    */
-  public static String[] copyArray(final String[] original) {
+  public static String[] copyArray(String[] original) {
     String[] copy = new String[original.length];
     {
       int i = 0;
@@ -26,13 +26,14 @@ public class ArrayCopy {
   /**
    * Prints the passed array to the standard output
    */
-  public static void printArray(final String[] a) {
+  public static void printArray(String[] a) {
     int i = 0;
     int _length = a.length;
     boolean _lessThan = (i < _length);
     boolean _while = _lessThan;
     while (_while) {
-      System.out.println(((("args[" + Integer.valueOf(i)) + "] = ") + a[i]));
+      String _plus = ((("args[" + Integer.valueOf(i)) + "] = ") + a[i]);
+      System.out.println(_plus);
       int _i = i;
       i = (_i + 1);
       int _length_1 = a.length;
@@ -41,7 +42,7 @@ public class ArrayCopy {
     }
   }
   
-  public static void main(final String... args) {
+  public static void main(String[] args) {
     System.out.println("ORIGINAL: ");
     String[] a = { "one", "two", "three" };
     ArrayCopy.printArray(a);

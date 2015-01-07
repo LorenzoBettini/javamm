@@ -1,6 +1,6 @@
 @SuppressWarnings("all")
 public class PrintArgs {
-  public static void main(final String... args) {
+  public static void main(String[] args) {
     int _length = args.length;
     boolean _equals = (_length == 0);
     if (_equals) {
@@ -11,7 +11,8 @@ public class PrintArgs {
         int i = 0;
         boolean _while = (i < argsNum);
         while (_while) {
-          System.out.println(((("args[" + Integer.valueOf(i)) + "] = ") + args[i]));
+          String _plus = ((("args[" + Integer.valueOf(i)) + "] = ") + args[i]);
+          System.out.println(_plus);
           int _i = i;
           i = (_i + 1);
           _while = (i < argsNum);
