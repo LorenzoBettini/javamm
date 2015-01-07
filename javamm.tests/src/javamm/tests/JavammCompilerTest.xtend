@@ -6,7 +6,6 @@ import org.eclipse.xtext.junit4.InjectWith
 import org.eclipse.xtext.junit4.TemporaryFolder
 import org.eclipse.xtext.junit4.XtextRunner
 import org.eclipse.xtext.xbase.compiler.CompilationTestHelper
-import org.eclipse.xtext.xbase.compiler.CompilationTestHelper.Result
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -21,12 +20,19 @@ class JavammCompilerTest extends JavammAbstractTest {
 	@Inject extension CompilationTestHelper
 
 	@Test def void testEmptyProgram() {
-		"".compile[assertGeneratedJavaCodeCompiles]
+		"".checkCompilation(
+'''
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+  }
+}
+'''
+		)
 	}
 
 	@Test def void testHelloWorld() {
-		helloWorld.compile[
-			assertGeneratedJavaCode(
+		helloWorld.checkCompilation(
 '''
 @SuppressWarnings("all")
 public class MyFile {
@@ -36,8 +42,6 @@ public class MyFile {
 }
 '''
 			)
-			assertGeneratedJavaCodeCompiles
-		]
 	}
 
 	@Test def void testMethodJavadoc() {
@@ -48,8 +52,7 @@ public class MyFile {
 		void sayHelloWorld(String m) {
 			System.out.println(m);
 		}
-		'''.compile[
-			assertGeneratedJavaCode(
+		'''.checkCompilation(
 '''
 @SuppressWarnings("all")
 public class MyFile {
@@ -65,13 +68,10 @@ public class MyFile {
 }
 '''
 			)
-			assertGeneratedJavaCodeCompiles
-		]
 	}
 
 	@Test def void testHelloWorldMethod() {
-		helloWorldMethod.compile[
-			assertGeneratedJavaCode(
+		helloWorldMethod.checkCompilation(
 '''
 @SuppressWarnings("all")
 public class MyFile {
@@ -85,13 +85,10 @@ public class MyFile {
 }
 '''
 			)
-			assertGeneratedJavaCodeCompiles
-		]
 	}
 
 	@Test def void testJavaLikeVariableDeclarations() {
-		javaLikeVariableDeclarations.compile[
-			assertGeneratedJavaCode(
+		javaLikeVariableDeclarations.checkCompilation(
 '''
 @SuppressWarnings("all")
 public class MyFile {
@@ -110,16 +107,13 @@ public class MyFile {
 }
 '''
 			)
-			assertGeneratedJavaCodeCompiles
-		]
 	}
 
 	@Test def void testSimpleAccess() {
 		'''
 		int i;
 		i = 0;
-		'''.compile[
-			assertGeneratedJavaCode(
+		'''.checkCompilation(
 '''
 @SuppressWarnings("all")
 public class MyFile {
@@ -130,13 +124,10 @@ public class MyFile {
 }
 '''
 			)
-			assertGeneratedJavaCodeCompiles
-		]
 	}
 
 	@Test def void testSimpleArrayAccess() {
-		simpleArrayAccess.compile[
-			assertGeneratedJavaCode(
+		simpleArrayAccess.checkCompilation(
 '''
 @SuppressWarnings("all")
 public class MyFile {
@@ -147,13 +138,10 @@ public class MyFile {
 }
 '''
 			)
-			assertGeneratedJavaCodeCompiles
-		]
 	}
 
 	@Test def void testArrayAccess() {
-		arrayAccess.compile[
-			assertGeneratedJavaCode(
+		arrayAccess.checkCompilation(
 '''
 @SuppressWarnings("all")
 public class MyFile {
@@ -171,13 +159,10 @@ public class MyFile {
 }
 '''
 			)
-			assertGeneratedJavaCodeCompiles
-		]
 	}
 
 	@Test def void testArrayAssign() {
-		arrayAssign.compile[
-			assertGeneratedJavaCode(
+		arrayAssign.checkCompilation(
 '''
 @SuppressWarnings("all")
 public class MyFile {
@@ -189,13 +174,10 @@ public class MyFile {
 }
 '''
 			)
-			assertGeneratedJavaCodeCompiles
-		]
 	}
 
 	@Test def void testArrayAssignElementFinalParameter() {
-		arrayAssignElementFinalParameter.compile[
-			assertGeneratedJavaCode(
+		arrayAssignElementFinalParameter.checkCompilation(
 '''
 @SuppressWarnings("all")
 public class MyFile {
@@ -208,13 +190,10 @@ public class MyFile {
 }
 '''
 			)
-			assertGeneratedJavaCodeCompiles
-		]
 	}
 
 	@Test def void testArrayAccessInRightHandsideExpression() {
-		arrayAccessInRightHandsideExpression.compile[
-			assertGeneratedJavaCode(
+		arrayAccessInRightHandsideExpression.checkCompilation(
 '''
 @SuppressWarnings("all")
 public class MyFile {
@@ -226,13 +205,10 @@ public class MyFile {
 }
 '''
 			)
-			assertGeneratedJavaCodeCompiles
-		]
 	}
 
 	@Test def void testArrayAccessFromFeatureCall() {
-		arrayAccessFromFeatureCall.compile[
-			assertGeneratedJavaCode(
+		arrayAccessFromFeatureCall.checkCompilation(
 '''
 @SuppressWarnings("all")
 public class MyFile {
@@ -247,13 +223,10 @@ public class MyFile {
 }
 '''
 			)
-			assertGeneratedJavaCodeCompiles
-		]
 	}
 
 	@Test def void testArrayAccessAsArgument() {
-		arrayAccessAsArgument.compile[
-			assertGeneratedJavaCode(
+		arrayAccessAsArgument.checkCompilation(
 '''
 @SuppressWarnings("all")
 public class MyFile {
@@ -268,13 +241,10 @@ public class MyFile {
 }
 '''
 			)
-			assertGeneratedJavaCodeCompiles
-		]
 	}
 
 	@Test def void testArrayAccessInForLoop() {
-		arrayAccessInForLoop.compile[
-			assertGeneratedJavaCode(
+		arrayAccessInForLoop.checkCompilation(
 '''
 @SuppressWarnings("all")
 public class MyFile {
@@ -295,13 +265,10 @@ public class MyFile {
 }
 '''
 			)
-			assertGeneratedJavaCodeCompiles
-		]
 	}
 
 	@Test def void testArrayAccessInBinaryOp() {
-		arrayAccessInBinaryOp.compile[
-			assertGeneratedJavaCode(
+		arrayAccessInBinaryOp.checkCompilation(
 '''
 @SuppressWarnings("all")
 public class MyFile {
@@ -312,13 +279,10 @@ public class MyFile {
 }
 '''
 			)
-			assertGeneratedJavaCodeCompiles
-		]
 	}
 
 	@Test def void testArrayAccessInParenthesizedExpression() {
-		arrayAccessInParenthesizedExpression.compile[
-			assertGeneratedJavaCode(
+		arrayAccessInParenthesizedExpression.checkCompilation(
 '''
 @SuppressWarnings("all")
 public class MyFile {
@@ -330,13 +294,10 @@ public class MyFile {
 }
 '''
 			)
-			assertGeneratedJavaCodeCompiles
-		]
 	}
 
 	@Test def void testMultiArrayAccessInRightHandsideExpression() {
-		multiArrayAccessInRightHandsideExpression.compile[
-			assertGeneratedJavaCode(
+		multiArrayAccessInRightHandsideExpression.checkCompilation(
 '''
 @SuppressWarnings("all")
 public class MyFile {
@@ -348,13 +309,10 @@ public class MyFile {
 }
 '''
 			)
-			assertGeneratedJavaCodeCompiles
-		]
 	}
 
 	@Test def void testArrayConstrcutorCallInVarDecl() {
-		arrayConstructorCallInVarDecl.compile[
-			assertGeneratedJavaCode(
+		arrayConstructorCallInVarDecl.checkCompilation(
 '''
 @SuppressWarnings("all")
 public class MyFile {
@@ -365,28 +323,22 @@ public class MyFile {
 }
 '''
 			)
-			assertGeneratedJavaCodeCompiles
-		]
 	}
 
 	@Test def void testIfThenElseWithoutBlocks() {
-		ifThenElseWithoutBlocks.compile[
-			expectationsForIfThenElse
-		]
+		ifThenElseWithoutBlocks.expectationsForIfThenElse
 	}
 
 	@Test def void testIfThenElseWithBlocks() {
-		ifThenElseWithBlocks.compile[
-			expectationsForIfThenElse
-		]
+		ifThenElseWithBlocks.expectationsForIfThenElse
 	}
 	
 	/**
 	 * Xbase compiles if then else with blocks even if they're not
 	 * there in the original program
 	 */
-	private def expectationsForIfThenElse(Result it) {
-		assertGeneratedJavaCode(
+	private def expectationsForIfThenElse(CharSequence input) {
+		input.checkCompilation(
 			'''
 			@SuppressWarnings("all")
 			public class MyFile {
@@ -402,12 +354,10 @@ public class MyFile {
 			}
 			'''
 		)
-		assertGeneratedJavaCodeCompiles
 	}
 
 	@Test def void testArrayLiteral() {
-		arrayLiteral.compile[
-			assertGeneratedJavaCode(
+		arrayLiteral.checkCompilation(
 '''
 @SuppressWarnings("all")
 public class MyFile {
@@ -417,13 +367,10 @@ public class MyFile {
 }
 '''
 			)
-			assertGeneratedJavaCodeCompiles
-		]
 	}
 
 	@Test def void testEmptyArrayLiteral() {
-		emptyArrayLiteral.compile[
-			assertGeneratedJavaCode(
+		emptyArrayLiteral.checkCompilation(
 '''
 @SuppressWarnings("all")
 public class MyFile {
@@ -433,28 +380,22 @@ public class MyFile {
 }
 '''
 			)
-			assertGeneratedJavaCodeCompiles
-		]
 	}
 
 	@Test def void testWhileWithoutBlock() {
-		whileWithoutBlock.compile[
-			expectationsForWhile
-		]
+		whileWithoutBlock.expectationsForWhile
 	}
 
 	@Test def void testWhileWithBlock() {
-		whileWithBlock.compile[
-			expectationsForWhile
-		]
+		whileWithBlock.expectationsForWhile
 	}
 
 	/**
 	 * Xbase compiles if while with blocks even if they're not
 	 * there in the original program
 	 */
-	private def expectationsForWhile(Result it) {
-		assertGeneratedJavaCode(
+	private def expectationsForWhile(CharSequence input) {
+		input.checkCompilation(
 '''
 @SuppressWarnings("all")
 public class MyFile {
@@ -468,27 +409,22 @@ public class MyFile {
 '''
 
 		)
-		assertGeneratedJavaCodeCompiles
 	}
 
 	@Test def void testDoWhileWithoutBlock() {
-		doWhileWithoutBlock.compile[
-			expectationsForDoWhile
-		]
+		doWhileWithoutBlock.expectationsForDoWhile
 	}
 
 	@Test def void testDoWhileWithBlock() {
-		doWhileWithBlock.compile[
-			expectationsForDoWhile
-		]
+		doWhileWithBlock.expectationsForDoWhile
 	}
 
 	/**
 	 * Xbase compiles if while with blocks even if they're not
 	 * there in the original program
 	 */
-	private def expectationsForDoWhile(Result it) {
-		assertGeneratedJavaCode(
+	private def expectationsForDoWhile(CharSequence input) {
+		input.checkCompilation(
 '''
 @SuppressWarnings("all")
 public class MyFile {
@@ -502,12 +438,10 @@ public class MyFile {
 '''
 
 		)
-		assertGeneratedJavaCodeCompiles
 	}
 
 	@Test def void testAdditionalSemicolons() {
-		additionalSemicolons.compile[
-			assertGeneratedJavaCode(
+		additionalSemicolons.checkCompilation(
 '''
 @SuppressWarnings("all")
 public class MyFile {
@@ -524,13 +458,10 @@ public class MyFile {
 }
 '''
 			)
-			assertGeneratedJavaCodeCompiles
-		]
 	}
 
 	@Test def void testAssignToParam() {
-		assignToParam.compile[
-			assertGeneratedJavaCode(
+		assignToParam.checkCompilation(
 '''
 @SuppressWarnings("all")
 public class MyFile {
@@ -543,13 +474,10 @@ public class MyFile {
 }
 '''
 			)
-			assertGeneratedJavaCodeCompiles
-		]
 	}
 
 	@Test def void testPostIncrement() {
-		postIncrement.compile[
-			assertGeneratedJavaCode(
+		postIncrement.checkCompilation(
 '''
 @SuppressWarnings("all")
 public class MyFile {
@@ -561,13 +489,10 @@ public class MyFile {
 }
 '''
 			)
-			assertGeneratedJavaCodeCompiles
-		]
 	}
 
 	@Test def void testMultiAssign() {
-		multiAssign.compile[
-			assertGeneratedJavaCode(
+		multiAssign.checkCompilation(
 '''
 @SuppressWarnings("all")
 public class MyFile {
@@ -579,13 +504,10 @@ public class MyFile {
 }
 '''
 			)
-			assertGeneratedJavaCodeCompiles
-		]
 	}
 
 	@Test def void testForLoopTranslatedToJavaWhileSingleStatement() {
-		forLoopTranslatedToJavaWhileSingleStatement.compile[
-			assertGeneratedJavaCode(
+		forLoopTranslatedToJavaWhileSingleStatement.checkCompilation(
 '''
 @SuppressWarnings("all")
 public class MyFile {
@@ -605,13 +527,10 @@ public class MyFile {
 }
 '''
 			)
-			assertGeneratedJavaCodeCompiles
-		]
 	}
 
 	@Test def void testForLoopTranslatedToJavaWhileInsideIf() {
-		forLoopTranslatedToJavaWhileInsideIf.compile[
-			assertGeneratedJavaCode(
+		forLoopTranslatedToJavaWhileInsideIf.checkCompilation(
 '''
 @SuppressWarnings("all")
 public class MyFile {
@@ -631,13 +550,10 @@ public class MyFile {
 }
 '''
 			)
-			assertGeneratedJavaCodeCompiles
-		]
 	}
 
 	@Test def void testForLoopTranslatedToJavaWhileNoExpression() {
-		forLoopTranslatedToJavaWhileNoExpression.compile[
-			assertGeneratedJavaCode(
+		forLoopTranslatedToJavaWhileNoExpression.checkCompilation(
 '''
 @SuppressWarnings("all")
 public class MyFile {
@@ -657,13 +573,10 @@ public class MyFile {
 }
 '''
 			)
-			assertGeneratedJavaCodeCompiles
-		]
 	}
 
 	@Test def void testForLoopTranslatedToJavaWhileEarlyExit() {
-		forLoopTranslatedToJavaWhileEarlyExit.compile[
-			assertGeneratedJavaCode(
+		forLoopTranslatedToJavaWhileEarlyExit.checkCompilation(
 '''
 @SuppressWarnings("all")
 public class MyFile {
@@ -680,13 +593,10 @@ public class MyFile {
 }
 '''
 			)
-			assertGeneratedJavaCodeCompiles
-		]
 	}
 
 	@Test def void testContinueInForLoopTranslatedToJavaFor() {
-		continueInForLoopTranslatedToJavaFor.compile[
-			assertGeneratedJavaCode(
+		continueInForLoopTranslatedToJavaFor.checkCompilation(
 '''
 @SuppressWarnings("all")
 public class MyFile {
@@ -703,13 +613,10 @@ public class MyFile {
 }
 '''
 			)
-			assertGeneratedJavaCodeCompiles
-		]
 	}
 
 	@Test def void testContinueInForLoopTranslatedToJavaWhile() {
-		continueInForLoopTranslatedToJavaWhile.compile[
-			assertGeneratedJavaCode(
+		continueInForLoopTranslatedToJavaWhile.checkCompilation(
 '''
 @SuppressWarnings("all")
 public class MyFile {
@@ -736,13 +643,10 @@ public class MyFile {
 }
 '''
 			)
-			assertGeneratedJavaCodeCompiles
-		]
 	}
 
 	@Test def void testContinueInBothIfBranchesInForLoopTranslatedToJavaWhile() {
-		continueInBothIfBranchesInForLoopTranslatedToJavaWhile.compile[
-			assertGeneratedJavaCode(
+		continueInBothIfBranchesInForLoopTranslatedToJavaWhile.checkCompilation(
 '''
 @SuppressWarnings("all")
 public class MyFile {
@@ -769,13 +673,10 @@ public class MyFile {
 }
 '''
 			)
-			assertGeneratedJavaCodeCompiles
-		]
 	}
 
 	@Test def void testContinueSingleInForLoopTranslatedToJavaWhile() {
-		continueSingleInForLoopTranslatedToJavaWhile.compile[
-			assertGeneratedJavaCode(
+		continueSingleInForLoopTranslatedToJavaWhile.checkCompilation(
 '''
 @SuppressWarnings("all")
 public class MyFile {
@@ -795,13 +696,10 @@ public class MyFile {
 }
 '''
 			)
-			assertGeneratedJavaCodeCompiles
-		]
 	}
 
 	@Test def void testContinueInForLoopTranslatedToJavaWhileAndOtherStatementsAfterLoop() {
-		continueInForLoopTranslatedToJavaWhileAndOtherStatementsAfterLoop.compile[
-			assertGeneratedJavaCode(
+		continueInForLoopTranslatedToJavaWhileAndOtherStatementsAfterLoop.checkCompilation(
 '''
 @SuppressWarnings("all")
 public class MyFile {
@@ -830,13 +728,10 @@ public class MyFile {
 }
 '''
 			)
-			assertGeneratedJavaCodeCompiles
-		]
 	}
 
 	@Test def void testBubbleSort() {
-		bubbleSort.compile[
-			assertGeneratedJavaCode(
+		bubbleSort.checkCompilation(
 '''
 @SuppressWarnings("all")
 public class MyFile {
@@ -866,6 +761,11 @@ public class MyFile {
 }
 '''
 			)
+	}
+
+	def private checkCompilation(CharSequence input, CharSequence expectedGeneratedJava) {
+		input.compile[
+			assertGeneratedJavaCode(expectedGeneratedJava)
 			assertGeneratedJavaCodeCompiles
 		]
 	}
