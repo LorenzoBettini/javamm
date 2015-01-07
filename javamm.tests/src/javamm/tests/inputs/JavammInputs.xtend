@@ -538,6 +538,23 @@ class JavammInputs {
 		}
 		'''
 	}
+
+	def switchStatementWithBreak() {
+		'''
+		int argsNum = args.length();
+		int i;
+		switch (argsNum) {
+			case 0 : 
+				i = 0;
+				System.out.println("0");
+				break;
+			default: 
+				i = -1; 
+				System.out.println("default");
+				break;
+		}
+		'''
+	}
 	
 	def bubbleSort() {
 '''

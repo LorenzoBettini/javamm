@@ -21,6 +21,7 @@ import org.eclipse.xtext.xbase.XAbstractWhileExpression
 import org.eclipse.xtext.xbase.XBasicForLoopExpression
 import org.eclipse.xtext.xbase.XExpression
 import org.eclipse.xtext.xbase.validation.XbaseValidator
+import org.eclipse.xtext.xbase.XSwitchExpression
 
 //import org.eclipse.xtext.validation.Check
 
@@ -60,12 +61,17 @@ class JavammValidator extends XbaseValidator {
 	
 	@Check
 	def void checkContinue(JavammContinueStatement st) {
-		checkBranchingStatementInternal(st, "a loop", XAbstractWhileExpression, XBasicForLoopExpression)
+		checkBranchingStatementInternal(st, "a loop",
+			XAbstractWhileExpression, XBasicForLoopExpression
+		)
 	}
 
 	@Check
 	def void checkBreak(JavammBreakStatement st) {
-		checkBranchingStatementInternal(st, "a loop", XAbstractWhileExpression, XBasicForLoopExpression)
+		checkBranchingStatementInternal(st, "a loop or a switch",
+			XAbstractWhileExpression, XBasicForLoopExpression,
+			XSwitchExpression
+		)
 	}
 
 	def private checkBranchingStatementInternal(JavammBranchingStatement st, String errorDetails, Class<? extends EObject>... validContainers) {

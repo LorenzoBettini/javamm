@@ -183,7 +183,7 @@ class JavammValidatorTest extends JavammAbstractTest {
 		o.assertError(
 			javammPack.javammBreakStatement,
 			JavammValidator.INVALID_BRANCHING_STATEMENT,
-			"break cannot be used outside of a loop"
+			"break cannot be used outside of a loop or a switch"
 		)
 	}
 
