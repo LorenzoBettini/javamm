@@ -11,6 +11,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import static extension org.junit.Assert.*
+import org.eclipse.xtext.diagnostics.Severity
+import com.google.common.base.Joiner
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammInjectorProvider))
@@ -591,8 +593,12 @@ public class MyFile {
     }
   }
 }
-'''
+''', false 
 			)
+		/** 
+		 * this is not valid input since i += 1 is considered not reachable
+		 * we use it only to test the compiler
+		 */
 	}
 
 	@Test def void testContinueInForLoopTranslatedToJavaFor() {
@@ -764,7 +770,18 @@ public class MyFile {
 	}
 
 	def private checkCompilation(CharSequence input, CharSequence expectedGeneratedJava) {
+		checkCompilation(input, expectedGeneratedJava, true)
+	}
+
+	def private checkCompilation(CharSequence input, CharSequence expectedGeneratedJava, boolean checkValidationErrors) {
 		input.compile[
+			val allErrors = getErrorsAndWarnings.filter[severity == Severity.ERROR]
+			if (checkValidationErrors && !allErrors.empty) {
+				throw new IllegalStateException("One or more resources contained errors : "+
+					Joiner.on(',').join(allErrors)
+				);
+			}
+			
 			assertGeneratedJavaCode(expectedGeneratedJava)
 			assertGeneratedJavaCodeCompiles
 		]
