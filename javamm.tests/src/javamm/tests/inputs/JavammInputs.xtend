@@ -406,6 +406,109 @@ class JavammInputs {
 		'''
 	}
 
+	def breakInForLoopTranslatedToJavaFor() {
+		'''
+		int argsNum = args.length();
+		for (int i = 0; i < argsNum; i++) {
+			if (argsNum > 0) {
+				break;
+			} else {
+				System.out.println("");
+			}
+		}
+		'''
+	}
+
+	def breakInForLoopTranslatedToJavaWhile() {
+		'''
+		int argsNum = args.length();
+		for (int i = 0; i < argsNum; i += 1) {
+			if (argsNum > 0) {
+				break;
+			} else {
+				System.out.println("");
+			}
+		}
+		'''
+	}
+
+	def breakInBothIfBranchesInForLoopTranslatedToJavaWhile() {
+		'''
+		int argsNum = args.length();
+		for (int i = 0; i < argsNum; i += 1) {
+			if (argsNum > 0) {
+				break;
+			} else {
+				break;
+			}
+		}
+		'''
+	}
+
+	def breakSingleInForLoopTranslatedToJavaWhile() {
+		'''
+		int argsNum = args.length();
+		for (int i = 0; i < argsNum; i += 1)
+			break;
+		'''
+	}
+
+	def breakInWhileLoop() {
+		'''
+		int argsNum = args.length();
+		int i = 0;
+		while (i < argsNum) {
+			if (argsNum > 0) {
+				break;
+			} else {
+				System.out.println("");
+			}
+		}
+		'''
+	}
+
+	def breakInBothIfBranchesInWhileLoop() {
+		'''
+		int argsNum = args.length();
+		int i = 0;
+		while (i < argsNum) {
+			if (argsNum > 0) {
+				break;
+			} else {
+				break;
+			}
+		}
+		'''
+	}
+
+	def breakInDoWhileLoop() {
+		'''
+		int argsNum = args.length();
+		int i = 0;
+		do {
+			if (argsNum > 0) {
+				break;
+			} else {
+				System.out.println("");
+			}
+		} while (i < argsNum);
+		'''
+	}
+
+	def breakInBothIfBranchesInDoWhileLoop() {
+		'''
+		int argsNum = args.length();
+		int i = 0;
+		do {
+			if (argsNum > 0) {
+				break;
+			} else {
+				break;
+			}
+		} while (i < argsNum);
+		'''
+	}
+	
 	def bubbleSort() {
 '''
 void bubbleSort(int[] array) {

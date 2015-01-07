@@ -850,6 +850,181 @@ public class MyFile {
 			)
 	}
 
+	@Test def void testBreakInForLoopTranslatedToJavaFor() {
+		breakInForLoopTranslatedToJavaFor.checkCompilation(
+'''
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int argsNum = args.length;
+    for (int i = 0; (i < argsNum); i++) {
+      if ((argsNum > 0)) {
+        break;
+      } else {
+        System.out.println("");
+      }
+    }
+  }
+}
+'''
+			)
+	}
+
+	@Test def void testBreakInForLoopTranslatedToJavaWhile() {
+		breakInForLoopTranslatedToJavaWhile.checkCompilation(
+'''
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int argsNum = args.length;
+    {
+      int i = 0;
+      boolean _while = (i < argsNum);
+      while (_while) {
+        if ((argsNum > 0)) {
+          break;
+        } else {
+          System.out.println("");
+        }
+        int _i = i;
+        i = (_i + 1);
+        _while = (i < argsNum);
+      }
+    }
+  }
+}
+'''
+			)
+	}
+
+	@Test def void testBreakInBothIfBranchesInForLoopTranslatedToJavaWhile() {
+		breakInBothIfBranchesInForLoopTranslatedToJavaWhile.checkCompilation(
+'''
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int argsNum = args.length;
+    {
+      int i = 0;
+      boolean _while = (i < argsNum);
+      while (_while) {
+        if ((argsNum > 0)) {
+          break;
+        } else {
+          break;
+        }
+      }
+    }
+  }
+}
+'''
+			)
+	}
+
+	@Test def void testBreakSingleInForLoopTranslatedToJavaWhile() {
+		breakSingleInForLoopTranslatedToJavaWhile.checkCompilation(
+'''
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int argsNum = args.length;
+    {
+      int i = 0;
+      boolean _while = (i < argsNum);
+      while (_while) {
+        break;
+      }
+    }
+  }
+}
+'''
+			)
+	}
+
+	@Test def void testBreakInWhileLoop() {
+		breakInWhileLoop.checkCompilation(
+'''
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int argsNum = args.length;
+    int i = 0;
+    while ((i < argsNum)) {
+      if ((argsNum > 0)) {
+        break;
+      } else {
+        System.out.println("");
+      }
+    }
+  }
+}
+'''
+			)
+	}
+
+	@Test def void testBreakInBothIfBranchesInWhileLoop() {
+		breakInBothIfBranchesInWhileLoop.checkCompilation(
+'''
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int argsNum = args.length;
+    int i = 0;
+    while ((i < argsNum)) {
+      if ((argsNum > 0)) {
+        break;
+      } else {
+        break;
+      }
+    }
+  }
+}
+'''
+			)
+	}
+
+	@Test def void testBreakInDoWhileLoop() {
+		breakInDoWhileLoop.checkCompilation(
+'''
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int argsNum = args.length;
+    int i = 0;
+    do {
+      if ((argsNum > 0)) {
+        break;
+      } else {
+        System.out.println("");
+      }
+    } while((i < argsNum));
+  }
+}
+'''
+			)
+	}
+
+	@Test def void testBreakInBothIfBranchesInDoWhileLoop() {
+		breakInBothIfBranchesInDoWhileLoop.checkCompilation(
+'''
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int argsNum = args.length;
+    int i = 0;
+    do {
+      if ((argsNum > 0)) {
+        break;
+      } else {
+        break;
+      }
+    } while((i < argsNum));
+  }
+}
+'''
+			)
+	}
+
 	@Test def void testBubbleSort() {
 		bubbleSort.checkCompilation(
 '''

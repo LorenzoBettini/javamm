@@ -38,4 +38,5 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="instruction" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="JavammContinueStatement" eSuperTypes="#//JavammBranchingStatement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="JavammBreakStatement" eSuperTypes="#//JavammBranchingStatement"/>
 </ecore:EPackage>

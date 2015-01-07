@@ -45,15 +45,16 @@ JavammSingleStatement returns XExpression:
 JavammSemicolonStatement returns XExpression:
 //	JavammArrayConstructorCall | not a valid statement
 	(
-	JavammContinueStatement |
+	JavammBranchingStatement |
 	=>XVariableDeclaration |
 	XExpression |
 	XDoWhileExpression |
 	XReturnExpression) ';'
 ;
 
-JavammContinueStatement returns XExpression:
-	{JavammContinueStatement} instruction="continue"
+JavammBranchingStatement returns XExpression:
+	{JavammContinueStatement} instruction="continue" |
+	{JavammBreakStatement} instruction="break"
 ;
 
 /* 

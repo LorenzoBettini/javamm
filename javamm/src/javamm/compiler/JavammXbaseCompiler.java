@@ -8,6 +8,7 @@ import javamm.javamm.JavammArrayAccess;
 import javamm.javamm.JavammArrayAccessExpression;
 import javamm.javamm.JavammArrayConstructorCall;
 import javamm.javamm.JavammBranchingStatement;
+import javamm.javamm.JavammBreakStatement;
 import javamm.javamm.JavammContinueStatement;
 import javamm.util.JavammModelUtil;
 
@@ -47,6 +48,8 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 			_toJavaStatement((JavammArrayAccessExpression) obj, appendable, isReferenced);
 		} else if (obj instanceof JavammContinueStatement) {
 			_toJavaStatement((JavammContinueStatement) obj, appendable, isReferenced);
+		} else if (obj instanceof JavammBreakStatement) {
+			_toJavaStatement((JavammBreakStatement) obj, appendable, isReferenced);
 		} else {
 			super.doInternalToJavaStatement(obj, appendable, isReferenced);
 		}
@@ -88,6 +91,11 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 				b.newLine().append(varName).append(" = true;");
 			}
 		}
+		compileBranchingStatement(st, b);
+	}
+
+	public void _toJavaStatement(JavammBreakStatement st, ITreeAppendable b,
+			boolean isReferenced) {
 		compileBranchingStatement(st, b);
 	}
 
