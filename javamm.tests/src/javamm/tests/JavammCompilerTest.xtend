@@ -1061,6 +1061,32 @@ public class MyFile {
 			)
 	}
 
+	@Test def void testSwitchStatementWithCaseAndDefaultMultipleStatements() {
+		switchStatementWithCaseAndDefaultMultipleStatements.checkCompilation(
+'''
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int argsNum = args.length;
+    int i = 0;
+    switch (argsNum) {
+      case 0:
+        i = 0;
+        System.out.println("0");
+        break;
+      default:
+        {
+          i = (-1);
+          System.out.println("default");
+        }
+        break;
+    }
+  }
+}
+'''
+			)
+	}
+
 	@Test def void testBubbleSort() {
 		bubbleSort.checkCompilation(
 '''

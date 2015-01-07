@@ -168,13 +168,18 @@ XSwitchExpression returns XExpression:
 	{XSwitchExpression}
 	'switch' '(' switch=XExpression ')' '{'
 	(cases+=XCasePart)*
-	('default' ':' default=JavammStatementOrBlock )?
+	('default' ':' default=JavammSwitchStatements )?
 	'}';
 
 XCasePart:
 	{XCasePart}
 	'case' case=XExpression
-		':' then=JavammStatementOrBlock;
+		':' then=JavammSwitchStatements;
+
+JavammSwitchStatements returns XExpression:
+	{XBlockExpression}
+	(expressions+=JavammStatementOrBlock ';'*)*
+;
 
 XPrimaryExpression returns XExpression:
 	JavammArrayConstructorCall |
