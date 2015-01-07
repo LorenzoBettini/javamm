@@ -301,6 +301,19 @@ class JavammInputs {
 		'''
 	}
 
+	def continueInForLoopTranslatedToJavaWhileNoExpression() {
+		'''
+		int argsNum = args.length();
+		for (int i = 0; ; i += 1) {
+			if (argsNum > 0) {
+				continue;
+			} else {
+				System.out.println("");
+			}
+		}
+		'''
+	}
+
 	def continueInBothIfBranchesInForLoopTranslatedToJavaWhile() {
 		'''
 		int argsNum = args.length();
@@ -334,6 +347,62 @@ class JavammInputs {
 		}
 		int j = 0;
 		System.out.println(j);
+		'''
+	}
+
+	def continueInWhileLoop() {
+		'''
+		int argsNum = args.length();
+		int i = 0;
+		while (i < argsNum) {
+			if (argsNum > 0) {
+				continue;
+			} else {
+				System.out.println("");
+			}
+		}
+		'''
+	}
+
+	def continueInBothIfBranchesInWhileLoop() {
+		'''
+		int argsNum = args.length();
+		int i = 0;
+		while (i < argsNum) {
+			if (argsNum > 0) {
+				continue;
+			} else {
+				continue;
+			}
+		}
+		'''
+	}
+
+	def continueInDoWhileLoop() {
+		'''
+		int argsNum = args.length();
+		int i = 0;
+		do {
+			if (argsNum > 0) {
+				continue;
+			} else {
+				System.out.println("");
+			}
+		} while (i < argsNum);
+		'''
+	}
+
+	def continueInBothIfBranchesInDoWhileLoop() {
+		'''
+		int argsNum = args.length();
+		int i = 0;
+		do {
+			if (argsNum > 0) {
+				continue;
+			} else {
+				continue;
+			}
+		} while (i < argsNum);
 		'''
 	}
 

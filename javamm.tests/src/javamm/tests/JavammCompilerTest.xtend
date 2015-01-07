@@ -651,6 +651,36 @@ public class MyFile {
 			)
 	}
 
+	@Test def void testContinueInForLoopTranslatedToJavaWhileNoExpression() {
+		continueInForLoopTranslatedToJavaWhileNoExpression.checkCompilation(
+'''
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int argsNum = args.length;
+    {
+      int i = 0;
+      boolean _while = true;
+      while (_while) {
+        if ((argsNum > 0)) {
+          int _i = i;
+          i = (_i + 1);
+          _while = true;
+          continue;
+        } else {
+          System.out.println("");
+        }
+        int _i_1 = i;
+        i = (_i_1 + 1);
+        _while = true;
+      }
+    }
+  }
+}
+'''
+			)
+	}
+
 	@Test def void testContinueInBothIfBranchesInForLoopTranslatedToJavaWhile() {
 		continueInBothIfBranchesInForLoopTranslatedToJavaWhile.checkCompilation(
 '''
@@ -730,6 +760,90 @@ public class MyFile {
     }
     int j = 0;
     System.out.println(j);
+  }
+}
+'''
+			)
+	}
+
+	@Test def void testContinueInWhileLoop() {
+		continueInWhileLoop.checkCompilation(
+'''
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int argsNum = args.length;
+    int i = 0;
+    while ((i < argsNum)) {
+      if ((argsNum > 0)) {
+        continue;
+      } else {
+        System.out.println("");
+      }
+    }
+  }
+}
+'''
+			)
+	}
+
+	@Test def void testContinueInBothIfBranchesInWhileLoop() {
+		continueInBothIfBranchesInWhileLoop.checkCompilation(
+'''
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int argsNum = args.length;
+    int i = 0;
+    while ((i < argsNum)) {
+      if ((argsNum > 0)) {
+        continue;
+      } else {
+        continue;
+      }
+    }
+  }
+}
+'''
+			)
+	}
+
+	@Test def void testContinueInDoWhileLoop() {
+		continueInDoWhileLoop.checkCompilation(
+'''
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int argsNum = args.length;
+    int i = 0;
+    do {
+      if ((argsNum > 0)) {
+        continue;
+      } else {
+        System.out.println("");
+      }
+    } while((i < argsNum));
+  }
+}
+'''
+			)
+	}
+
+	@Test def void testContinueInBothIfBranchesInDoWhileLoop() {
+		continueInBothIfBranchesInDoWhileLoop.checkCompilation(
+'''
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int argsNum = args.length;
+    int i = 0;
+    do {
+      if ((argsNum > 0)) {
+        continue;
+      } else {
+        continue;
+      }
+    } while((i < argsNum));
   }
 }
 '''

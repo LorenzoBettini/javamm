@@ -66,16 +66,14 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 			boolean isReferenced) {
 		XBasicForLoopExpression basicForLoop = modelUtil.getContainingForLoop(st);
 		
-		if (!canCompileToJavaBasicForStatement(basicForLoop, b)) {
+		if (basicForLoop != null && !canCompileToJavaBasicForStatement(basicForLoop, b)) {
 			// the for loop is translated into a while statement, so, before
 			// the continue; we must perform the update expressions and then
 			// check the while condition.
 			
 			EList<XExpression> updateExpressions = basicForLoop.getUpdateExpressions();
-			if (!updateExpressions.isEmpty()) {
-				for (XExpression updateExpression : updateExpressions) {
-					internalToJavaStatement(updateExpression, b, false);
-				}
+			for (XExpression updateExpression : updateExpressions) {
+				internalToJavaStatement(updateExpression, b, false);
 			}
 			
 			final String varName = b.getName(basicForLoop);
@@ -87,7 +85,7 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 				internalToJavaExpression(expression, b);
 				b.append(";");
 			} else {
-				b.newLine().append("boolean ").append(varName).append(" = true;");
+				b.newLine().append(varName).append(" = true;");
 			}
 		}
 		compileBranchingStatement(st, b);
