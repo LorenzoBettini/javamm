@@ -164,6 +164,18 @@ XDoWhileExpression returns XExpression:
        body=JavammStatementOrBlock
    'while' '(' predicate=XExpression ')';
 
+XSwitchExpression returns XExpression:
+	{XSwitchExpression}
+	'switch' '(' switch=XExpression ')' '{'
+	(cases+=XCasePart)*
+	('default' ':' default=XExpression )?
+	'}';
+
+XCasePart:
+	{XCasePart}
+	'case' case=XExpression
+		':' then=XExpression;
+
 XPrimaryExpression returns XExpression:
 	JavammArrayConstructorCall |
 	XConstructorCall |

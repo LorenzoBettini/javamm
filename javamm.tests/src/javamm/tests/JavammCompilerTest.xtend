@@ -1025,6 +1025,21 @@ public class MyFile {
 			)
 	}
 
+	@Test def void testEmptySwitchStatement() {
+		emptySwitchStatement.checkCompilation(
+'''
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int argsNum = args.length;
+    switch (argsNum) {
+    }
+  }
+}
+'''
+			)
+	}
+
 	@Test def void testBubbleSort() {
 		bubbleSort.checkCompilation(
 '''

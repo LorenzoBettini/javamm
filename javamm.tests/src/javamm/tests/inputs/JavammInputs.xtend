@@ -508,6 +508,15 @@ class JavammInputs {
 		} while (i < argsNum);
 		'''
 	}
+
+	def emptySwitchStatement() {
+		'''
+		int argsNum = args.length();
+		switch (argsNum) {
+			
+		}
+		'''
+	}
 	
 	def bubbleSort() {
 '''
