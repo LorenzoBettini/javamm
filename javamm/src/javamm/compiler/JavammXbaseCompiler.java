@@ -17,10 +17,13 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.xtext.common.types.JvmField;
 import org.eclipse.xtext.common.types.JvmIdentifiableElement;
 import org.eclipse.xtext.common.types.JvmOperation;
+import org.eclipse.xtext.generator.trace.ILocationData;
 import org.eclipse.xtext.xbase.XAbstractFeatureCall;
 import org.eclipse.xtext.xbase.XAssignment;
 import org.eclipse.xtext.xbase.XBasicForLoopExpression;
+import org.eclipse.xtext.xbase.XCasePart;
 import org.eclipse.xtext.xbase.XExpression;
+import org.eclipse.xtext.xbase.XSwitchExpression;
 import org.eclipse.xtext.xbase.XbasePackage;
 import org.eclipse.xtext.xbase.compiler.XbaseCompiler;
 import org.eclipse.xtext.xbase.compiler.output.ITreeAppendable;
@@ -237,6 +240,57 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 			loopAppendable.closeScope();
 			loopAppendable.decreaseIndentation().newLine().append("}");
 		}
+	}
+
+	/**
+	 * Since we want Java switch statement, the compilation is simpler and does
+	 * not append break automatically.
+	 * 
+	 * @see org.eclipse.xtext.xbase.compiler.XbaseCompiler#_toJavaSwitchStatement(org.eclipse.xtext.xbase.XSwitchExpression, org.eclipse.xtext.xbase.compiler.output.ITreeAppendable, boolean)
+	 */
+	@Override
+	protected void _toJavaSwitchStatement(XSwitchExpression expr, ITreeAppendable b, boolean isReferenced) {
+		final String switchResultName = declareSwitchResultVariable(expr, b, isReferenced);
+		internalToJavaStatement(expr.getSwitch(), b, true);
+		final String variableName = declareLocalVariable(expr, b);
+		
+		b.newLine().append("switch (").append(variableName).append(") {").increaseIndentation();
+		for (XCasePart casePart : expr.getCases()) {
+			ITreeAppendable caseAppendable = b.trace(casePart, true);
+			caseAppendable.newLine().increaseIndentation().append("case ");
+			
+			ITreeAppendable conditionAppendable = caseAppendable.trace(casePart.getCase(), true);
+			internalToJavaExpression(casePart.getCase(), conditionAppendable);
+			
+			caseAppendable.append(":");
+			XExpression then = casePart.getThen();
+			if (then != null) {
+				executeThenPart(expr, switchResultName, then, caseAppendable, isReferenced);
+			
+				if (!isEarlyExit(then)) {
+					caseAppendable.newLine().append("break;");
+				}
+			}
+			caseAppendable.decreaseIndentation();
+		}
+		if (expr.getDefault() != null) {
+			ILocationData location = getLocationOfDefault(expr);
+			ITreeAppendable defaultAppendable = location != null ? b.trace(location) : b;
+			
+			defaultAppendable.newLine().increaseIndentation().append("default:");
+
+			if (expr.getDefault() != null) {
+				defaultAppendable.openPseudoScope();
+				executeThenPart(expr, switchResultName, expr.getDefault(), defaultAppendable, isReferenced);
+				defaultAppendable.closeScope();
+			}
+			
+			if (!isEarlyExit(expr.getDefault())) {
+				defaultAppendable.newLine().append("break;");
+			}
+			defaultAppendable.decreaseIndentation();
+		}
+		b.decreaseIndentation().newLine().append("}");
 	}
 
 	private void compileArrayAccess(XExpression expr, ITreeAppendable b) {
