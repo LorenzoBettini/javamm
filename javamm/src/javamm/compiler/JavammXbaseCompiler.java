@@ -266,10 +266,6 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 			XExpression then = casePart.getThen();
 			if (then != null) {
 				executeThenPart(expr, switchResultName, then, caseAppendable, isReferenced);
-			
-				if (!isEarlyExit(then)) {
-					caseAppendable.newLine().append("break;");
-				}
 			}
 			caseAppendable.decreaseIndentation();
 		}
@@ -284,10 +280,7 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 				executeThenPart(expr, switchResultName, expr.getDefault(), defaultAppendable, isReferenced);
 				defaultAppendable.closeScope();
 			}
-			
-			if (!isEarlyExit(expr.getDefault())) {
-				defaultAppendable.newLine().append("break;");
-			}
+
 			defaultAppendable.decreaseIndentation();
 		}
 		b.decreaseIndentation().newLine().append("}");

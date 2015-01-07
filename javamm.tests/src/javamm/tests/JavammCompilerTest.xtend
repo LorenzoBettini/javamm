@@ -1050,10 +1050,8 @@ public class MyFile {
     switch (argsNum) {
       case 0:
         System.out.println("0");
-        break;
       default:
         System.out.println("default");
-        break;
     }
   }
 }
@@ -1073,13 +1071,11 @@ public class MyFile {
       case 0:
         i = 0;
         System.out.println("0");
-        break;
       default:
         {
           i = (-1);
           System.out.println("default");
         }
-        break;
     }
   }
 }
