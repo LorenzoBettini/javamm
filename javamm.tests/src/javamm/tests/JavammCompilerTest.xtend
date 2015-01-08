@@ -13,6 +13,7 @@ import org.junit.runner.RunWith
 import static extension org.junit.Assert.*
 import org.eclipse.xtext.diagnostics.Severity
 import com.google.common.base.Joiner
+import org.junit.Ignore
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammInjectorProvider))
@@ -1093,6 +1094,69 @@ public class MyFile {
     int i = 0;
     switch (argsNum) {
       case 0:
+        i = 0;
+        System.out.println("0");
+        break;
+      default:
+        {
+          i = (-1);
+          System.out.println("default");
+          break;
+        }
+    }
+  }
+}
+'''
+			)
+	}
+
+	/**
+	 * This would work only for Java 1.7 so for the moment we'll not deal with that
+	 */
+	// @Test
+	def void testSwitchStatementWithStrings() {
+		switchStatementWithStrings.checkCompilation(
+'''
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int argsNum = args.length;
+    String arg = args[0];
+    int i = 0;
+    switch (arg) {
+      case "first":
+        i = 0;
+        System.out.println("0");
+        break;
+      default:
+        {
+          i = (-1);
+          System.out.println("default");
+          break;
+        }
+    }
+  }
+}
+'''
+			)
+	}
+
+	/**
+	 * Should be generated as 'f' not "f"
+	 */
+	@Ignore
+	@Test def void testSwitchStatementWithChars() {
+		switchStatementWithChars.checkCompilation(
+'''
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int argsNum = args.length;
+    String firstArg = args[0];
+    char arg = firstArg.toCharArray()[0];
+    int i = 0;
+    switch (arg) {
+      case "f":
         i = 0;
         System.out.println("0");
         break;

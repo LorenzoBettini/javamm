@@ -555,7 +555,48 @@ class JavammInputs {
 		}
 		'''
 	}
-	
+
+	/**
+	 * This would work only for Java 1.7 so for the moment we'll not deal with that
+	 */
+	def switchStatementWithStrings() {
+		'''
+		int argsNum = args.length();
+		String arg = args[0];
+		int i;
+		switch (arg) {
+			case "first" : 
+				i = 0;
+				System.out.println("0");
+				break;
+			default: 
+				i = -1; 
+				System.out.println("default");
+				break;
+		}
+		'''
+	}
+
+	def switchStatementWithChars() {
+		'''
+		int argsNum = args.length();
+		String firstArg = args[0];
+		char arg = firstArg.toCharArray()[0];
+		// char arg = args[0].toCharArray()[0];
+		int i;
+		switch (arg) {
+			case 'f' : 
+				i = 0;
+				System.out.println("0");
+				break;
+			default: 
+				i = -1; 
+				System.out.println("default");
+				break;
+		}
+		'''
+	}
+
 	def bubbleSort() {
 '''
 void bubbleSort(int[] array) {

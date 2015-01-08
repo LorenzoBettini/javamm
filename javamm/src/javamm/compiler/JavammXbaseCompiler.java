@@ -243,6 +243,15 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 	}
 
 	/**
+	 * In our Javamm switch statement we can always compile into Java switch.
+	 * 
+	 * @see org.eclipse.xtext.xbase.compiler.XbaseCompiler#_toJavaStatement(org.eclipse.xtext.xbase.XSwitchExpression, org.eclipse.xtext.xbase.compiler.output.ITreeAppendable, boolean)
+	 */
+	protected void _toJavaStatement(XSwitchExpression expr, ITreeAppendable b, boolean isReferenced) {
+		_toJavaSwitchStatement(expr, b, isReferenced);
+	}
+
+	/**
 	 * Since we want Java switch statement, the compilation is simpler and does
 	 * not append break automatically.
 	 * 
