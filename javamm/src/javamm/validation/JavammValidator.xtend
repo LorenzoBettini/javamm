@@ -22,6 +22,8 @@ import org.eclipse.xtext.xbase.XBasicForLoopExpression
 import org.eclipse.xtext.xbase.XExpression
 import org.eclipse.xtext.xbase.validation.XbaseValidator
 import org.eclipse.xtext.xbase.XSwitchExpression
+import org.eclipse.xtext.xbase.validation.IssueCodes
+import org.eclipse.xtext.xbase.XbasePackage
 
 //import org.eclipse.xtext.validation.Check
 
@@ -72,6 +74,24 @@ class JavammValidator extends XbaseValidator {
 			XAbstractWhileExpression, XBasicForLoopExpression,
 			XSwitchExpression
 		)
+	}
+
+	@Check
+	def void checkSwitch(XSwitchExpression sw) {
+		val switchExpressionType = getActualType(sw.^switch)
+		for (c : sw.cases) {
+			val caseType = getActualType(c.^case)
+			if (!switchExpressionType.isAssignableFrom(caseType)) {
+				error(
+					String.format("Type mismatch: cannot convert from %s to %s",
+						caseType.humanReadableName, switchExpressionType.humanReadableName
+					),
+					c,
+					XbasePackage.eINSTANCE.XCasePart_Case,
+					IssueCodes.INCOMPATIBLE_TYPES	
+				)
+			}
+		}
 	}
 
 	def private checkBranchingStatementInternal(JavammBranchingStatement st, String errorDetails, Class<? extends EObject>... validContainers) {

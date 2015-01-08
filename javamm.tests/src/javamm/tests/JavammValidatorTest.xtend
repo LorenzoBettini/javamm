@@ -165,6 +165,24 @@ class JavammValidatorTest extends JavammAbstractTest {
 		)
 	}
 
+	@Test def void testInvalidSwitchCaseType() {
+		'''
+		String firstArg = args[0];
+		char arg = firstArg.toCharArray()[0];
+		switch (arg) {
+			case "f" : 
+				System.out.println("0");
+				break;
+			default: 
+				System.out.println("default");
+				break;
+		}
+		'''.parse.assertTypeMismatch(
+			XbasePackage.eINSTANCE.XCasePart,
+			"char", "String"
+		)
+	}
+
 	def private assertTypeMismatch(EObject o, EClass c, String expectedType, String actualType) {
 		o.assertError(
 			c,
