@@ -20,6 +20,8 @@ import org.eclipse.xtext.xbase.typesystem.references.ArrayTypeReference
 import org.eclipse.xtext.xbase.typesystem.references.LightweightTypeReference
 import org.eclipse.xtext.xbase.typesystem.util.CommonTypeComputationServices
 import javamm.javamm.JavammBranchingStatement
+import org.eclipse.xtext.xbase.XStringLiteral
+import javamm.javamm.JavammCharLiteral
 
 /**
  * @author Lorenzo Bettini
@@ -38,9 +40,24 @@ class JavammTypeComputer extends XbaseTypeComputer {
 			_computeTypes(expression, state)
 		} else if (expression instanceof JavammBranchingStatement) {
 			_computeTypes(expression, state)
+		} else if (expression instanceof JavammCharLiteral) {
+			_computeTypes(expression, state)
 		} else {
 			super.computeTypes(expression, state)
 		}
+	}
+
+	/**
+	 * In our case an XStringLiteral is always a String
+	 */
+	override protected _computeTypes(XStringLiteral object, ITypeComputationState state) {
+		val result = getTypeForName(String, state);
+		state.acceptActualType(result);
+	}
+
+	def protected _computeTypes(JavammCharLiteral object, ITypeComputationState state) {
+		val result = getTypeForName(Character.TYPE, state);
+		state.acceptActualType(result);
 	}
 	
 	def protected _computeTypes(JavammXAssignment assignment, ITypeComputationState state) {

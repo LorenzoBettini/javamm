@@ -150,7 +150,19 @@ class JavammValidatorTest extends JavammAbstractTest {
 	@Test def void testInvalidCharAssignment() {
 		'''
 		char c = "c";
-		'''.parseAndAssertNoErrors
+		'''.parse.assertTypeMismatch(
+			XbasePackage.eINSTANCE.XStringLiteral,
+			"char", "String"
+		)
+	}
+
+	@Test def void testInvalidStringAssignment() {
+		'''
+		String s = 's';
+		'''.parse.assertTypeMismatch(
+			javammPack.javammCharLiteral,
+			"String", "char"
+		)
 	}
 
 	def private assertTypeMismatch(EObject o, EClass c, String expectedType, String actualType) {
