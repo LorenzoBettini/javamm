@@ -1,7 +1,9 @@
 package javamm.tests
 
+import com.google.common.base.Joiner
 import com.google.inject.Inject
 import javamm.JavammInjectorProvider
+import org.eclipse.xtext.diagnostics.Severity
 import org.eclipse.xtext.junit4.InjectWith
 import org.eclipse.xtext.junit4.TemporaryFolder
 import org.eclipse.xtext.junit4.XtextRunner
@@ -11,9 +13,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import static extension org.junit.Assert.*
-import org.eclipse.xtext.diagnostics.Severity
-import com.google.common.base.Joiner
-import org.junit.Ignore
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammInjectorProvider))
@@ -1141,10 +1140,6 @@ public class MyFile {
 			)
 	}
 
-	/**
-	 * Should be generated as 'f' not "f"
-	 */
-	@Ignore
 	@Test def void testSwitchStatementWithChars() {
 		switchStatementWithChars.checkCompilation(
 '''
@@ -1156,7 +1151,7 @@ public class MyFile {
     char arg = firstArg.toCharArray()[0];
     int i = 0;
     switch (arg) {
-      case "f":
+      case 'f':
         i = 0;
         System.out.println("0");
         break;
