@@ -3,12 +3,16 @@
  */
 package javamm.ui;
 
+import javamm.ui.syntaxcoloring.JavammHighlightingConfiguration;
+import javamm.ui.syntaxcoloring.JavammTokenToAttributeIdMapper;
 import javamm.ui.wizard.JavammProjectCreatorCustom;
 import javamm.ui.wizard.PluginProjectFactoryCustom;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.xtext.common.types.xtext.ui.TypeAwareHyperlinkHelper;
 import org.eclipse.xtext.ui.editor.hyperlinking.IHyperlinkHelper;
+import org.eclipse.xtext.ui.editor.syntaxcoloring.AbstractAntlrTokenToAttributeIdMapper;
+import org.eclipse.xtext.ui.editor.syntaxcoloring.IHighlightingConfiguration;
 import org.eclipse.xtext.ui.util.PluginProjectFactory;
 import org.eclipse.xtext.ui.wizard.IProjectCreator;
 
@@ -33,5 +37,15 @@ public class JavammUiModule extends javamm.ui.AbstractJavammUiModule {
 	public Class<? extends IHyperlinkHelper> bindIHyperlinkHelper() {
 		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=454791
 		return TypeAwareHyperlinkHelper.class;
+	}
+
+	@Override
+	public Class<? extends IHighlightingConfiguration> bindIHighlightingConfiguration() {
+		return JavammHighlightingConfiguration.class;
+	}
+
+	@Override
+	public Class<? extends AbstractAntlrTokenToAttributeIdMapper> bindAbstractAntlrTokenToAttributeIdMapper() {
+		return JavammTokenToAttributeIdMapper.class;
 	}
 }
