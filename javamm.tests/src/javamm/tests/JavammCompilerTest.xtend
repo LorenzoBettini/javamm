@@ -1206,6 +1206,23 @@ public class MyFile {
 			)
 	}
 
+	@Test def void testCharTranslatedToJavaCahr() {
+		'''
+		char c1 = 'c';
+		char c2 = '\n';
+		'''.checkCompilation(
+'''
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    char c1 = 'c';
+    char c2 = '\n';
+  }
+}
+'''
+			)
+	}
+
 	def private checkCompilation(CharSequence input, CharSequence expectedGeneratedJava) {
 		checkCompilation(input, expectedGeneratedJava, true)
 	}
