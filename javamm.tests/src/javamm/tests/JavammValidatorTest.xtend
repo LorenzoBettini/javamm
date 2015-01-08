@@ -147,6 +147,12 @@ class JavammValidatorTest extends JavammAbstractTest {
 		'''.parse.assertInvalidBreakStatement
 	}
 
+	@Test def void testInvalidCharAssignment() {
+		'''
+		char c = "c";
+		'''.parseAndAssertNoErrors
+	}
+
 	def private assertTypeMismatch(EObject o, EClass c, String expectedType, String actualType) {
 		o.assertError(
 			c,

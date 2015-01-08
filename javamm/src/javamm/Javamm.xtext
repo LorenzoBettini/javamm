@@ -205,6 +205,7 @@ XLiteral returns XExpression:
 	XBooleanLiteral |
 	XNumberLiteral |
 	XNullLiteral |
+	XCharLiteral |
 	XStringLiteral |
 	JavammArrayLiteral
 //	XTypeLiteral
@@ -213,3 +214,20 @@ XLiteral returns XExpression:
 JavammArrayLiteral returns XListLiteral:
 	{JavammArrayLiteral} '{' (elements+=XExpression (',' elements+=XExpression )*)? '}'
 ;
+
+/*
+ * We want to tell between string and char literals since we'll treat them
+ * differently from the type computation point of view.
+ */
+
+XCharLiteral returns XExpression:
+	{JavammCharLiteral} value=CHARACTER;
+
+XStringLiteral returns XExpression:
+	{XStringLiteral} value=STRING;
+
+terminal STRING: 
+			'"' ( '\\' . /* ('b'|'t'|'n'|'f'|'r'|'u'|'"'|"'"|'\\') */ | !('\\'|'"') )* '"'?;
+
+terminal CHARACTER: 
+			"'" ( '\\' . /* ('b'|'t'|'n'|'f'|'r'|'u'|'"'|"'"|'\\') */ | !('\\'|"'") )* "'"?;

@@ -5,9 +5,11 @@ package javamm;
 
 import javamm.compiler.JavammJvmModelGenerator;
 import javamm.compiler.JavammXbaseCompiler;
+import javamm.conversion.JavammValueConverterService;
 import javamm.typesystem.JavammExpressionArgumentFactory;
 import javamm.typesystem.JavammTypeComputer;
 
+import org.eclipse.xtext.conversion.IValueConverterService;
 import org.eclipse.xtext.generator.IGenerator;
 import org.eclipse.xtext.xbase.compiler.XbaseCompiler;
 import org.eclipse.xtext.xbase.typesystem.computation.ITypeComputer;
@@ -35,5 +37,10 @@ public class JavammRuntimeModule extends javamm.AbstractJavammRuntimeModule {
 	@Override
 	public Class<? extends IGenerator> bindIGenerator() {
 		return JavammJvmModelGenerator.class;
+	}
+
+	@Override
+	public Class<? extends IValueConverterService> bindIValueConverterService() {
+		return JavammValueConverterService.class;
 	}
 }

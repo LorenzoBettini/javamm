@@ -39,4 +39,5 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="JavammContinueStatement" eSuperTypes="#//JavammBranchingStatement"/>
   <eClassifiers xsi:type="ecore:EClass" name="JavammBreakStatement" eSuperTypes="#//JavammBranchingStatement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="JavammCharLiteral" eSuperTypes="../../../org.eclipse.xtext.xbase/model/Xbase.ecore#//XStringLiteral"/>
 </ecore:EPackage>

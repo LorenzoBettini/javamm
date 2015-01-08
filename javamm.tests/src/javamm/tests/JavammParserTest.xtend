@@ -21,6 +21,7 @@ import org.junit.runner.RunWith
 
 import static org.junit.Assert.*
 import org.eclipse.xtext.xbase.XBinaryOperation
+import javamm.javamm.JavammCharLiteral
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammInjectorProvider))
@@ -151,6 +152,22 @@ class JavammParserTest extends JavammAbstractTest {
 					as XListLiteral
 				).elements.size
 			)
+		]
+	}
+
+	@Test def void testStringLiteral() {
+		'''
+		"a";
+		'''.assertMainLastExpression[
+			assertEquals(1, (it as XStringLiteral).value.length)
+		]
+	}
+
+	@Test def void testCharLiteral() {
+		'''
+		'a';
+		'''.assertMainLastExpression[
+			assertEquals(1, (it as JavammCharLiteral).value.length)
 		]
 	}
 
