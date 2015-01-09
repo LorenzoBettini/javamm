@@ -113,8 +113,8 @@ class JavammFormatter extends XbaseFormatter {
 		super.configureXMemberFeatureCall(c, _ele)
 		
 		val ele = XMemberFeatureCallAccess
-		c.setNoSpace().around(ele.getFullStopKeyword_1_0_0_0_1_0());
-		c.setNoSpace().around(ele.getExplicitStaticColonColonKeyword_1_0_0_0_1_1_0());
+		c.setNoSpace().around(ele.fullStopKeyword_1_0_0_0_1);
+//		c.setNoSpace().around(ele.getExplicitStaticColonColonKeyword_1_0_0_0_1_1_0());
 		c.setNoSpace().around(ele.fullStopKeyword_1_1_0_0_1);
 		c.setNoSpace().before(ele.commaKeyword_1_1_2_1_1_0);
 		c.setNoSpace().around(ele.explicitOperationCallAssignment_1_1_2_0);

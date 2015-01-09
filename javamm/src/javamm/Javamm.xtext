@@ -130,7 +130,7 @@ XMemberFeatureCall returns XExpression:
 //			'[' index=XExpression ']'
 //			OpSingleAssign) value=XAssignment
 //	|
-		=>({XAssignment.assignable=current} ('.'|explicitStatic?="::") 
+		=>({XAssignment.assignable=current} '.'
 			feature=[types::JvmIdentifiableElement|FeatureCallID] OpSingleAssign)
 				value=XAssignment
 	|
