@@ -56,10 +56,10 @@ class JavammBranchingStatementDetectorTest extends JavammAbstractTest {
 	@Test
 	def void testContinueInSingleElseBranch() {
 		'''
-		if (true)
+		if (true) ;
 		else
 			continue;
-		'''.assertIsSureBranchStatement(true)
+		'''.assertIsSureBranchStatement(false)
 	}
 
 	@Test

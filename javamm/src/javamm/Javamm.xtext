@@ -40,7 +40,10 @@ JavammSingleStatement returns XExpression:
 ;
 
 /*
- * These are the Java statements that require a semicolon at the end
+ * These are the Java statements that require a semicolon at the end.
+ * 
+ * The final ; should be optional in order to be able to parse incomplete
+ * expressions and give better content assist.
  */
 JavammSemicolonStatement returns XExpression:
 //	JavammArrayConstructorCall | not a valid statement
@@ -49,7 +52,7 @@ JavammSemicolonStatement returns XExpression:
 	=>XVariableDeclaration |
 	XExpression |
 	XDoWhileExpression |
-	XReturnExpression) ';'
+	XReturnExpression) ->';'?
 ;
 
 JavammBranchingStatement returns XExpression:
@@ -176,6 +179,9 @@ XCasePart:
 	'case' case=XExpression
 		':' then=JavammSwitchStatements;
 
+/**
+ * Java switch's case expression does not require an explicit block { }
+ */
 JavammSwitchStatements returns XExpression:
 	{XBlockExpression}
 	(expressions+=JavammStatementOrBlock ';'*)*

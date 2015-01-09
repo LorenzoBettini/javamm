@@ -19,7 +19,7 @@ import org.eclipse.xtext.xbase.XVariableDeclaration
 import org.junit.Test
 import org.junit.runner.RunWith
 
-import static org.junit.Assert.*
+import static extension org.junit.Assert.*
 import org.eclipse.xtext.xbase.XBinaryOperation
 import javamm.javamm.JavammCharLiteral
 
@@ -168,6 +168,14 @@ class JavammParserTest extends JavammAbstractTest {
 		'a';
 		'''.assertMainLastExpression[
 			assertEquals(1, (it as JavammCharLiteral).value.length)
+		]
+	}
+
+	@Test def void testIncompleteVariableDeclaration() {
+		'''
+		int i = a
+		'''.assertMainLastExpression[
+			(it as JavammXVariableDeclaration).right.assertNotNull
 		]
 	}
 

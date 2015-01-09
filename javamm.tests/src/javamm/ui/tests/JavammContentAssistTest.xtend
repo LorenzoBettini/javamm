@@ -12,10 +12,14 @@ import org.junit.runner.RunWith
 class JavammContentAssistTest extends AbstractContentAssistTest {
 	
 	@Test def void testKeywordInEmptyProgram() {
-		newBuilder.append("w").assertText("while")
+		newBuilder.append("w").assertProposal("while")
 	}
 
 	@Test def void testArgsProposed() {
 		newBuilder.append("while (").assertProposal("args")
+	}
+
+	@Test def void testVariableReferenceInAssignment() {
+		newBuilder.append("int myVar = 0; myVar = my").assertProposal("myVar")
 	}
 }
