@@ -38,4 +38,12 @@ class JavammContentAssistTest extends AbstractContentAssistTest {
 	@Test def void testMethodCallProposalInExpressio() {
 		newBuilder.append("int myMeth() { return 0; } while(my").assertProposal("myMeth")
 	}
+
+	@Test def void testMemberFeatureCallProposalInMethod() {
+		newBuilder.append('void m() { String s = ""; s.to').assertProposal("toString")
+	}
+
+	@Test def void testMemberFeatureCallProposalInMain() {
+		newBuilder.append('String s = ""; s.to').assertProposal("toString")
+	}
 }

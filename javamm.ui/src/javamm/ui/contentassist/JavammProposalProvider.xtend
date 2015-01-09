@@ -3,10 +3,8 @@
  */
 package javamm.ui.contentassist
 
-import javamm.ui.contentassist.AbstractJavammProposalProvider
-
 /**
  * see http://www.eclipse.org/Xtext/documentation.html#contentAssist on how to customize content assistant
  */
-class JavammProposalProvider extends AbstractJavammProposalProvider {
+class JavammProposalProvider extends JavammAbstractXbaseProposalProvider {
 }
