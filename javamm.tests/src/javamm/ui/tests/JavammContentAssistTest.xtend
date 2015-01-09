@@ -22,4 +22,12 @@ class JavammContentAssistTest extends AbstractContentAssistTest {
 	@Test def void testVariableReferenceInAssignment() {
 		newBuilder.append("int myVar = 0; myVar = my").assertProposal("myVar")
 	}
+
+	@Test def void testMethodCallProposalInMain() {
+		newBuilder.append("int myMeth() { return 0; } my").assertProposal("myMeth")
+	}
+
+	@Test def void testMethodCallProposalInExpressio() {
+		newBuilder.append("int myMeth() { return 0; } while(my").assertProposal("myMeth")
+	}
 }

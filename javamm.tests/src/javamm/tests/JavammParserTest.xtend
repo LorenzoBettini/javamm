@@ -179,6 +179,15 @@ class JavammParserTest extends JavammAbstractTest {
 		]
 	}
 
+	@Test def void testIncompleteFeatureCall() {
+		'''
+		void myMeth() {}
+		my
+		'''.assertMainLastExpression[
+			(it as XFeatureCall).actualReceiver.assertNull
+		]
+	}
+
 	def private assertMainLastExpression(CharSequence input, (XExpression)=>void tester) {
 		tester.apply(input.parse.main.expressions.last)
 	}
