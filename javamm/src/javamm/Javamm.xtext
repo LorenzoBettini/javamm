@@ -24,10 +24,17 @@ Main returns XBlockExpression:
 	{Main}
 	(expressions+=JavammStatementOrBlock ';'*)*;
 
+/**
+ * The syntactic predicate on XBlockExpression is required to avoid
+ * ambiguity with array literal.  However, XBlockExpression must come first, to
+ * be able to parse both while(...) {} and while(...) st; for example.
+ * If we put the predicate on single statement, then it does not seem to
+ * be possible to parse incomplete member feature call.
+ */
 JavammStatementOrBlock returns XExpression:
 //	JavammArrayConstructorCall | not a valid statement
-	=>JavammSingleStatement |
-	XBlockExpression
+	=>XBlockExpression |
+	JavammSingleStatement
 ;
 
 JavammSingleStatement returns XExpression:
@@ -52,7 +59,8 @@ JavammSemicolonStatement returns XExpression:
 	=>XVariableDeclaration |
 	XExpression |
 	XDoWhileExpression |
-	XReturnExpression) ->';'?
+	XReturnExpression
+	) ->';'?
 ;
 
 JavammBranchingStatement returns XExpression:

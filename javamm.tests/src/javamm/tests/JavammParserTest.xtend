@@ -3,11 +3,14 @@ package javamm.tests
 import javamm.JavammInjectorProvider
 import javamm.javamm.JavammArrayAccessExpression
 import javamm.javamm.JavammArrayConstructorCall
+import javamm.javamm.JavammCharLiteral
 import javamm.javamm.JavammXAssignment
 import javamm.javamm.JavammXVariableDeclaration
 import org.eclipse.xtext.junit4.InjectWith
 import org.eclipse.xtext.junit4.XtextRunner
 import org.eclipse.xtext.xbase.XAssignment
+import org.eclipse.xtext.xbase.XBinaryOperation
+import org.eclipse.xtext.xbase.XBlockExpression
 import org.eclipse.xtext.xbase.XConstructorCall
 import org.eclipse.xtext.xbase.XExpression
 import org.eclipse.xtext.xbase.XFeatureCall
@@ -20,8 +23,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import static extension org.junit.Assert.*
-import org.eclipse.xtext.xbase.XBinaryOperation
-import javamm.javamm.JavammCharLiteral
+import org.eclipse.xtext.xbase.XWhileExpression
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammInjectorProvider))
@@ -188,7 +190,66 @@ class JavammParserTest extends JavammAbstractTest {
 		]
 	}
 
+	@Test def void testIncompleteFeatureCall2() {
+		'''
+		my
+		'''.assertMainLastExpression[
+			(it as XFeatureCall).actualReceiver.assertNull
+		]
+	}
+
+	@Test def void testIncompleteMemberCall() {
+		'''
+		String s = "";
+		s.m
+		'''.assertMainLastExpression[
+			(it as XMemberFeatureCall).actualReceiver.assertNotNull
+		]
+	}
+
+	@Test def void testIncompleteMemberCall2() {
+		'''
+		s.m
+		'''.assertMainLastExpression[
+			(it as XMemberFeatureCall).actualReceiver.assertNotNull
+		]
+	}
+
+	@Test def void testIncompleteMemberCall3() {
+		'''
+		void m() {
+			s.
+		}
+		'''.assertLastMethodLastExpression[
+			(it as XMemberFeatureCall).actualReceiver.assertNotNull
+		]
+	}
+
+	@Test def void testIncompleteMemberCall4() {
+		'''
+		s.
+		'''.assertMainLastExpression[
+			(it as XMemberFeatureCall).actualReceiver.assertNotNull
+		]
+	}
+
+	@Test def void testWhileWithBlocks() {
+		'''
+		while (i < 10) {
+			i = i + 1;
+		}
+		'''.assertMainLastExpression[
+			(it as XWhileExpression).predicate.assertNotNull
+		]
+	}
+
 	def private assertMainLastExpression(CharSequence input, (XExpression)=>void tester) {
-		tester.apply(input.parse.main.expressions.last)
+		val main = input.parse.main
+		tester.apply(main.expressions.last)
+	}
+
+	def private assertLastMethodLastExpression(CharSequence input, (XExpression)=>void tester) {
+		val method = input.parse.javammMethods.last
+		tester.apply((method.body as XBlockExpression).expressions.last)
 	}
 }
