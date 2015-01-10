@@ -597,6 +597,21 @@ class JavammInputs {
 		'''
 	}
 
+	def varNameSameAsMethodName() {
+'''
+int numOfDigits(int num) {
+  int numOfDigits = 1;
+  while (num/10>0) {
+    numOfDigits = numOfDigits+1;
+    num = num/10;
+  }
+  return numOfDigits;
+}
+
+System.out.println("numOfDigits(3456): " +numOfDigits(3456)); 
+'''
+	}
+
 	def bubbleSort() {
 '''
 void bubbleSort(int[] array) {

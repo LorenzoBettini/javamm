@@ -1168,6 +1168,32 @@ public class MyFile {
 			)
 	}
 
+	@Test def void testVarNameSameAsMethodName() {
+		varNameSameAsMethodName.checkCompilation(
+'''
+@SuppressWarnings("all")
+public class MyFile {
+  public static int numOfDigits(int num) {
+    int numOfDigits = 1;
+    while (((num / 10) > 0)) {
+      {
+        numOfDigits = (numOfDigits + 1);
+        num = (num / 10);
+      }
+    }
+    return numOfDigits;
+  }
+  
+  public static void main(String[] args) {
+    int _numOfDigits = MyFile.numOfDigits(3456);
+    String _plus = ("numOfDigits(3456): " + Integer.valueOf(_numOfDigits));
+    System.out.println(_plus);
+  }
+}
+'''
+			)
+	}
+
 	@Test def void testBubbleSort() {
 		bubbleSort.checkCompilation(
 '''
