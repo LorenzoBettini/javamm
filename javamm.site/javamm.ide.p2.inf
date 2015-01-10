@@ -1,2 +1,0 @@
-instructions.configure=org.eclipse.equinox.p2.touchpoint.eclipse.addRepository(location:http${#58}//master.dl.sourceforge.net/project/javamm/updates/releases/,type:0,name:Javamm,enabled:true); \
-  org.eclipse.equinox.p2.touchpoint.eclipse.addRepository(location:http${#58}//sourceforge.net/projects/javamm/files/updates/releases/,type:1,name:Javamm,enabled:true);
