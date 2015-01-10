@@ -1,3 +1,5 @@
+package javamm;
+
 @SuppressWarnings("all")
 public class SwitchDemo {
   public static void printMonthString(int month) {

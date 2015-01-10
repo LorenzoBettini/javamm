@@ -46,7 +46,7 @@ class JavammJvmModelInferrer extends AbstractModelInferrer {
 	 */
    	def dispatch void infer(JavammProgram program, IJvmDeclaredTypeAcceptor acceptor, boolean isPreIndexingPhase) {
    		val main = program.main
-   		val className = program.eResource.URI.trimFileExtension.lastSegment
+   		val className = "javamm." + program.eResource.URI.trimFileExtension.lastSegment
    		
    		acceptor.accept(program.toClass(className)) [
    			for (m : program.javammMethods) {

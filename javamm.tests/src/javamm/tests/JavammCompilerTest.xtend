@@ -24,6 +24,8 @@ class JavammCompilerTest extends JavammAbstractTest {
 	@Test def void testEmptyProgram() {
 		"".checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static void main(String[] args) {
@@ -36,6 +38,8 @@ public class MyFile {
 	@Test def void testHelloWorld() {
 		helloWorld.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static void main(String[] args) {
@@ -56,6 +60,8 @@ public class MyFile {
 		}
 		'''.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   /**
@@ -75,6 +81,8 @@ public class MyFile {
 	@Test def void testHelloWorldMethod() {
 		helloWorldMethod.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static void sayHelloWorld(String m) {
@@ -92,6 +100,8 @@ public class MyFile {
 	@Test def void testJavaLikeVariableDeclarations() {
 		javaLikeVariableDeclarations.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static boolean foo() {
@@ -117,6 +127,8 @@ public class MyFile {
 		i = 0;
 		'''.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static void main(String[] args) {
@@ -131,6 +143,8 @@ public class MyFile {
 	@Test def void testSimpleArrayAccess() {
 		simpleArrayAccess.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static void main(String[] args) {
@@ -145,6 +159,8 @@ public class MyFile {
 	@Test def void testArrayAccess() {
 		arrayAccess.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static int getIndex() {
@@ -166,6 +182,8 @@ public class MyFile {
 	@Test def void testArrayAssign() {
 		arrayAssign.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static void main(String[] args) {
@@ -181,6 +199,8 @@ public class MyFile {
 	@Test def void testArrayAssignElementFinalParameter() {
 		arrayAssignElementFinalParameter.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static void m(int[] a) {
@@ -197,6 +217,8 @@ public class MyFile {
 	@Test def void testArrayAccessInRightHandsideExpression() {
 		arrayAccessInRightHandsideExpression.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static void main(String[] args) {
@@ -212,6 +234,8 @@ public class MyFile {
 	@Test def void testArrayAccessFromFeatureCall() {
 		arrayAccessFromFeatureCall.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static int[] getArray() {
@@ -230,6 +254,8 @@ public class MyFile {
 	@Test def void testArrayAccessAsArgument() {
 		arrayAccessAsArgument.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static int getArg(int i) {
@@ -248,6 +274,8 @@ public class MyFile {
 	@Test def void testArrayAccessInForLoop() {
 		arrayAccessInForLoop.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static void main(String[] args) {
@@ -272,6 +300,8 @@ public class MyFile {
 	@Test def void testArrayAccessInBinaryOp() {
 		arrayAccessInBinaryOp.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static void main(String[] args) {
@@ -286,6 +316,8 @@ public class MyFile {
 	@Test def void testArrayAccessInParenthesizedExpression() {
 		arrayAccessInParenthesizedExpression.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static void main(String[] args) {
@@ -301,6 +333,8 @@ public class MyFile {
 	@Test def void testMultiArrayAccessInRightHandsideExpression() {
 		multiArrayAccessInRightHandsideExpression.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static void main(String[] args) {
@@ -316,6 +350,8 @@ public class MyFile {
 	@Test def void testArrayConstrcutorCallInVarDecl() {
 		arrayConstructorCallInVarDecl.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static void main(String[] args) {
@@ -342,18 +378,20 @@ public class MyFile {
 	private def expectationsForIfThenElse(CharSequence input) {
 		input.checkCompilation(
 			'''
-			@SuppressWarnings("all")
-			public class MyFile {
-			  public static void main(String[] args) {
-			    int _length = args.length;
-			    boolean _equals = (_length == 0);
-			    if (_equals) {
-			      System.out.println("No args");
-			    } else {
-			      System.out.println("Args");
-			    }
-			  }
-			}
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int _length = args.length;
+    boolean _equals = (_length == 0);
+    if (_equals) {
+      System.out.println("No args");
+    } else {
+      System.out.println("Args");
+    }
+  }
+}
 			'''
 		)
 	}
@@ -361,6 +399,8 @@ public class MyFile {
 	@Test def void testArrayLiteral() {
 		arrayLiteral.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static void main(String[] args) {
@@ -374,6 +414,8 @@ public class MyFile {
 	@Test def void testEmptyArrayLiteral() {
 		emptyArrayLiteral.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static void main(String[] args) {
@@ -399,6 +441,8 @@ public class MyFile {
 	private def expectationsForWhile(CharSequence input) {
 		input.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static void main(String[] args) {
@@ -428,6 +472,8 @@ public class MyFile {
 	private def expectationsForDoWhile(CharSequence input) {
 		input.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static void main(String[] args) {
@@ -445,6 +491,8 @@ public class MyFile {
 	@Test def void testAdditionalSemicolons() {
 		additionalSemicolons.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static void m() {
@@ -465,6 +513,8 @@ public class MyFile {
 	@Test def void testAssignToParam() {
 		assignToParam.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static void m(int a) {
@@ -481,6 +531,8 @@ public class MyFile {
 	@Test def void testPostIncrement() {
 		postIncrement.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static void main(String[] args) {
@@ -496,6 +548,8 @@ public class MyFile {
 	@Test def void testMultiAssign() {
 		multiAssign.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static void main(String[] args) {
@@ -511,6 +565,8 @@ public class MyFile {
 	@Test def void testForLoopTranslatedToJavaWhileSingleStatement() {
 		forLoopTranslatedToJavaWhileSingleStatement.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static void main(String[] args) {
@@ -534,6 +590,8 @@ public class MyFile {
 	@Test def void testForLoopTranslatedToJavaWhileInsideIf() {
 		forLoopTranslatedToJavaWhileInsideIf.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static void main(String[] args) {
@@ -557,6 +615,8 @@ public class MyFile {
 	@Test def void testForLoopTranslatedToJavaWhileNoExpression() {
 		forLoopTranslatedToJavaWhileNoExpression.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static void main(String[] args) {
@@ -580,6 +640,8 @@ public class MyFile {
 	@Test def void testForLoopTranslatedToJavaWhileEarlyExit() {
 		forLoopTranslatedToJavaWhileEarlyExit.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static void main(String[] args) {
@@ -604,6 +666,8 @@ public class MyFile {
 	@Test def void testContinueInForLoopTranslatedToJavaFor() {
 		continueInForLoopTranslatedToJavaFor.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static void main(String[] args) {
@@ -624,6 +688,8 @@ public class MyFile {
 	@Test def void testContinueInForLoopTranslatedToJavaWhile() {
 		continueInForLoopTranslatedToJavaWhile.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static void main(String[] args) {
@@ -654,6 +720,8 @@ public class MyFile {
 	@Test def void testContinueInForLoopTranslatedToJavaWhileNoExpression() {
 		continueInForLoopTranslatedToJavaWhileNoExpression.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static void main(String[] args) {
@@ -684,6 +752,8 @@ public class MyFile {
 	@Test def void testContinueInBothIfBranchesInForLoopTranslatedToJavaWhile() {
 		continueInBothIfBranchesInForLoopTranslatedToJavaWhile.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static void main(String[] args) {
@@ -714,6 +784,8 @@ public class MyFile {
 	@Test def void testContinueSingleInForLoopTranslatedToJavaWhile() {
 		continueSingleInForLoopTranslatedToJavaWhile.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static void main(String[] args) {
@@ -737,6 +809,8 @@ public class MyFile {
 	@Test def void testContinueInForLoopTranslatedToJavaWhileAndOtherStatementsAfterLoop() {
 		continueInForLoopTranslatedToJavaWhileAndOtherStatementsAfterLoop.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static void main(String[] args) {
@@ -769,6 +843,8 @@ public class MyFile {
 	@Test def void testContinueInWhileLoop() {
 		continueInWhileLoop.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static void main(String[] args) {
@@ -790,6 +866,8 @@ public class MyFile {
 	@Test def void testContinueInBothIfBranchesInWhileLoop() {
 		continueInBothIfBranchesInWhileLoop.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static void main(String[] args) {
@@ -811,6 +889,8 @@ public class MyFile {
 	@Test def void testContinueInDoWhileLoop() {
 		continueInDoWhileLoop.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static void main(String[] args) {
@@ -832,6 +912,8 @@ public class MyFile {
 	@Test def void testContinueInBothIfBranchesInDoWhileLoop() {
 		continueInBothIfBranchesInDoWhileLoop.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static void main(String[] args) {
@@ -853,6 +935,8 @@ public class MyFile {
 	@Test def void testBreakInForLoopTranslatedToJavaFor() {
 		breakInForLoopTranslatedToJavaFor.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static void main(String[] args) {
@@ -873,6 +957,8 @@ public class MyFile {
 	@Test def void testBreakInForLoopTranslatedToJavaWhile() {
 		breakInForLoopTranslatedToJavaWhile.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static void main(String[] args) {
@@ -900,6 +986,8 @@ public class MyFile {
 	@Test def void testBreakInBothIfBranchesInForLoopTranslatedToJavaWhile() {
 		breakInBothIfBranchesInForLoopTranslatedToJavaWhile.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static void main(String[] args) {
@@ -924,6 +1012,8 @@ public class MyFile {
 	@Test def void testBreakSingleInForLoopTranslatedToJavaWhile() {
 		breakSingleInForLoopTranslatedToJavaWhile.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static void main(String[] args) {
@@ -944,6 +1034,8 @@ public class MyFile {
 	@Test def void testBreakInWhileLoop() {
 		breakInWhileLoop.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static void main(String[] args) {
@@ -965,6 +1057,8 @@ public class MyFile {
 	@Test def void testBreakInBothIfBranchesInWhileLoop() {
 		breakInBothIfBranchesInWhileLoop.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static void main(String[] args) {
@@ -986,6 +1080,8 @@ public class MyFile {
 	@Test def void testBreakInDoWhileLoop() {
 		breakInDoWhileLoop.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static void main(String[] args) {
@@ -1007,6 +1103,8 @@ public class MyFile {
 	@Test def void testBreakInBothIfBranchesInDoWhileLoop() {
 		breakInBothIfBranchesInDoWhileLoop.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static void main(String[] args) {
@@ -1028,6 +1126,8 @@ public class MyFile {
 	@Test def void testEmptySwitchStatement() {
 		emptySwitchStatement.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static void main(String[] args) {
@@ -1043,6 +1143,8 @@ public class MyFile {
 	@Test def void testSwitchStatementWithCaseAndDefault() {
 		switchStatementWithCaseAndDefault.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static void main(String[] args) {
@@ -1062,6 +1164,8 @@ public class MyFile {
 	@Test def void testSwitchStatementWithCaseAndDefaultMultipleStatements() {
 		switchStatementWithCaseAndDefaultMultipleStatements.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static void main(String[] args) {
@@ -1086,6 +1190,8 @@ public class MyFile {
 	@Test def void testSwitchStatementWithBreak() {
 		switchStatementWithBreak.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static void main(String[] args) {
@@ -1116,6 +1222,8 @@ public class MyFile {
 	def void testSwitchStatementWithStrings() {
 		switchStatementWithStrings.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static void main(String[] args) {
@@ -1143,6 +1251,8 @@ public class MyFile {
 	@Test def void testSwitchStatementWithChars() {
 		switchStatementWithChars.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static void main(String[] args) {
@@ -1171,6 +1281,8 @@ public class MyFile {
 	@Test def void testVarNameSameAsMethodName() {
 		varNameSameAsMethodName.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static int numOfDigits(int num) {
@@ -1197,6 +1309,8 @@ public class MyFile {
 	@Test def void testBubbleSort() {
 		bubbleSort.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static void bubbleSort(int[] array) {
@@ -1233,6 +1347,8 @@ public class MyFile {
 		char c2 = '\n';
 		'''.checkCompilation(
 '''
+package javamm;
+
 @SuppressWarnings("all")
 public class MyFile {
   public static void main(String[] args) {

@@ -1,3 +1,5 @@
+package javamm;
+
 @SuppressWarnings("all")
 public class PrintArgs {
   public static void main(String[] args) {
