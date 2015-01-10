@@ -183,6 +183,65 @@ class JavammValidatorTest extends JavammAbstractTest {
 		)
 	}
 
+	@Test def void testMissingSemicolonInAssignment() {
+		'''
+		int i = 0;
+		i = 1
+		'''.parse.assertMissingSemicolon(XbasePackage.eINSTANCE.XAssignment)
+	}
+
+	@Test def void testMissingSemicolonInVariableDeclaration() {
+		'''
+		int i = 0
+		'''.parse.assertMissingSemicolon(XbasePackage.eINSTANCE.XVariableDeclaration)
+	}
+
+	@Test def void testMissingSemicolonInContinue() {
+		'''
+		continue
+		'''.parse.assertMissingSemicolon(javammPack.javammContinueStatement)
+	}
+
+	@Test def void testMissingSemicolonInBreak() {
+		'''
+		break
+		'''.parse.assertMissingSemicolon(javammPack.javammBreakStatement)
+	}
+
+	@Test def void testMissingSemicolonInReturn() {
+		'''
+		void m() {
+			return
+		}
+		'''.parse.assertMissingSemicolon(XbasePackage.eINSTANCE.XReturnExpression)
+	}
+
+	@Test def void testMissingSemicolonInDoWhile() {
+		'''
+		do {
+			
+		} while (true)
+		'''.parse.assertMissingSemicolon(XbasePackage.eINSTANCE.XDoWhileExpression)
+	}
+
+	@Test def void testMissingSemicolonInFeatureCall() {
+		'''
+		i
+		'''.parse.assertMissingSemicolon(XbasePackage.eINSTANCE.XFeatureCall)
+	}
+
+	@Test def void testMissingSemicolonInFeatureCall2() {
+		'''
+		i()
+		'''.parse.assertMissingSemicolon(XbasePackage.eINSTANCE.XFeatureCall)
+	}
+
+	@Test def void testMissingSemicolonInMemberFeatureCall() {
+		'''
+		System.out.println()
+		'''.parse.assertMissingSemicolon(XbasePackage.eINSTANCE.XMemberFeatureCall)
+	}
+
 	def private assertTypeMismatch(EObject o, EClass c, String expectedType, String actualType) {
 		o.assertError(
 			c,
@@ -227,5 +286,13 @@ class JavammValidatorTest extends JavammAbstractTest {
 		expected.toString.trim.assertEqualsStrings(
 			o.validate.map[message].join("\n"))
 	}
-	
+
+	def private assertMissingSemicolon(EObject o, EClass c) {
+		o.assertError(
+			c,
+			JavammValidator.MISSING_SEMICOLON,
+			'Syntax error, insert ";" to complete Statement'
+		)
+	}
+		
 }

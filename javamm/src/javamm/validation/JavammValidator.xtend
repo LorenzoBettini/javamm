@@ -3,6 +3,7 @@
  */
 package javamm.validation
 
+import com.google.inject.Inject
 import java.util.ArrayList
 import javamm.javamm.JavammBranchingStatement
 import javamm.javamm.JavammBreakStatement
@@ -10,6 +11,7 @@ import javamm.javamm.JavammContinueStatement
 import javamm.javamm.JavammMethod
 import javamm.javamm.JavammPackage
 import javamm.javamm.Main
+import javamm.util.JavammNodeModelUtil
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EStructuralFeature
@@ -18,12 +20,16 @@ import org.eclipse.xtext.util.Wrapper
 import org.eclipse.xtext.validation.Check
 import org.eclipse.xtext.xbase.XAbstractFeatureCall
 import org.eclipse.xtext.xbase.XAbstractWhileExpression
+import org.eclipse.xtext.xbase.XAssignment
 import org.eclipse.xtext.xbase.XBasicForLoopExpression
+import org.eclipse.xtext.xbase.XDoWhileExpression
 import org.eclipse.xtext.xbase.XExpression
-import org.eclipse.xtext.xbase.validation.XbaseValidator
+import org.eclipse.xtext.xbase.XReturnExpression
 import org.eclipse.xtext.xbase.XSwitchExpression
-import org.eclipse.xtext.xbase.validation.IssueCodes
+import org.eclipse.xtext.xbase.XVariableDeclaration
 import org.eclipse.xtext.xbase.XbasePackage
+import org.eclipse.xtext.xbase.validation.IssueCodes
+import org.eclipse.xtext.xbase.validation.XbaseValidator
 
 //import org.eclipse.xtext.validation.Check
 
@@ -39,6 +45,29 @@ class JavammValidator extends XbaseValidator {
 	public static val NOT_ARRAY_TYPE = PREFIX + "NotArrayType"
 	
 	public static val INVALID_BRANCHING_STATEMENT = PREFIX + "InvalidBranchingStatement"
+
+	public static val MISSING_SEMICOLON = PREFIX + "MissingSemicolon"
+	
+	static val xbasePackage = XbasePackage.eINSTANCE;
+	
+	val semicolonStatements = #{
+		JavammBranchingStatement,
+		XVariableDeclaration,
+		XDoWhileExpression,
+		XReturnExpression,
+		XAssignment,
+		XAbstractFeatureCall
+	}
+
+	val featuresForRequiredSemicolon = #{
+		xbasePackage.XBlockExpression_Expressions,
+		xbasePackage.XIfExpression_Then,
+		xbasePackage.XIfExpression_Else,
+		xbasePackage.XCasePart_Then,
+		xbasePackage.XAbstractWhileExpression_Body
+	}
+
+	@Inject extension JavammNodeModelUtil
 	
 	override protected getEPackages() {
 		val result = new ArrayList<EPackage>(super.getEPackages());
@@ -107,4 +136,24 @@ class JavammValidator extends XbaseValidator {
 			st, null, INVALID_BRANCHING_STATEMENT
 		)
 	}
+
+	@Check
+	def checkMissingSemicolon(XExpression e) {
+		if (e.hasToBeCheckedForMissingSemicolon && !e.hasSemicolon) {
+			error(
+				'Syntax error, insert ";" to complete Statement',
+				e, null, MISSING_SEMICOLON
+			)
+		}
+	}
+
+	def private hasToBeCheckedForMissingSemicolon(XExpression e) {
+		val expClass = e.class
+		val containingFeature = e.eContainingFeature
+		semicolonStatements.exists[c | 
+			c.isAssignableFrom(expClass) &&
+			featuresForRequiredSemicolon.exists[f | f == containingFeature]
+		]		
+	}
+
 }
