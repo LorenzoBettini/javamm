@@ -31,7 +31,6 @@
 		<xtext-version>${xtext.version}</xtext-version>
 		<platform-version>[3.9,4.0)</platform-version>
 		<fornax-oaw-m2-plugin-version>3.4.0</fornax-oaw-m2-plugin-version>
-		<p2-site-include-deps>false</p2-site-include-deps>
 
 		<!-- <jacoco.reportPath>../target/jacoco.exec</jacoco.reportPath> -->
 		<!-- <findbugs.reportPath>../target/findbugs</findbugs.reportPath> -->
@@ -71,6 +70,21 @@
 			</properties>
 		</profile>
 
+		<profile>
+			<id>build-ide</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+
+			<properties>
+				<findbugs.skip>true</findbugs.skip>
+				<target-file-name>luna</target-file-name>
+			</properties>
+
+			<modules>
+				<module>../javamm.ide</module>
+			</modules>
+		</profile>
 	</profiles>
 
 	<build>
