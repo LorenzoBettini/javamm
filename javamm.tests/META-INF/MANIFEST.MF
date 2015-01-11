@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Javamm Tests
-Bundle-Vendor: Lorenzo Bettini
+Bundle-Vendor: 
 Bundle-Version: 1.0.0.qualifier
 Bundle-SymbolicName: javamm.tests; singleton:=true
 Bundle-ActivationPolicy: lazy
