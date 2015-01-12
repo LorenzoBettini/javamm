@@ -1,0 +1,14 @@
+/**
+ * Returns a string representation of the passed array.
+ */
+String arrayToString(int[] a) {
+	String buffer = "";
+	for (int i = 0; i < a.length; i++) {
+		if (i > 0)
+			buffer += ", ";
+		buffer += a[i];
+	}
+	return buffer;
+}
+
+System.out.println(arrayToString({ 1, 2, 3 }));

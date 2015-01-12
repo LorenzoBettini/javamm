@@ -1,0 +1,20 @@
+/**
+ * computes the greatest common divisor (gcd) of two integers.
+ */
+int gcd(int a, int b) {
+	while (a > 0 && b > 0) {
+		if (a > b) {
+			a = a % b;
+		} else {
+			b = b % a;
+		}
+	} if (a == 0) {
+		return b;
+	} else {
+		return a;
+	}
+}
+
+// this is the main program
+System.out.println(gcd( 21 , 7 ));
+System.out.println(gcd( 69 , 21 ));
