@@ -242,6 +242,38 @@ class JavammValidatorTest extends JavammAbstractTest {
 		'''.parse.assertMissingSemicolon(XbasePackage.eINSTANCE.XMemberFeatureCall)
 	}
 
+	@Test def void testMissingParenthesesForMemberCall() {
+		'''
+		System.out.println;
+		'''.parse.assertMissingParentheses(XbasePackage.eINSTANCE.XMemberFeatureCall)
+	}
+
+	@Test def void testMissingParenthesesForMemberCall2() {
+		'''
+		System.out.println
+		'''.parse.assertMissingParentheses(XbasePackage.eINSTANCE.XMemberFeatureCall)
+	}
+
+	@Test def void testMissingParenthesesForMethodCall() {
+		'''
+		void m() {}
+		m;
+		'''.parse.assertMissingParentheses(XbasePackage.eINSTANCE.XFeatureCall)
+	}
+
+	@Test def void testMissingParenthesesForMethodCall2() {
+		'''
+		void m() {}
+		m
+		'''.parse.assertMissingParentheses(XbasePackage.eINSTANCE.XFeatureCall)
+	}
+
+	@Test def void testMissingParenthesesForArrayLengthOK() {
+		'''
+		int i = args.length;
+		'''.parseAndAssertNoErrors
+	}
+
 	def private assertTypeMismatch(EObject o, EClass c, String expectedType, String actualType) {
 		o.assertError(
 			c,
@@ -294,5 +326,12 @@ class JavammValidatorTest extends JavammAbstractTest {
 			'Syntax error, insert ";" to complete Statement'
 		)
 	}
-		
+
+	def private assertMissingParentheses(EObject o, EClass c) {
+		o.assertError(
+			c,
+			JavammValidator.MISSING_PARENTHESES,
+			'Syntax error, insert "()" to complete method call'
+		)
+	}	
 }

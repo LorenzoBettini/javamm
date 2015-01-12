@@ -24,12 +24,15 @@ import org.eclipse.xtext.xbase.XAssignment
 import org.eclipse.xtext.xbase.XBasicForLoopExpression
 import org.eclipse.xtext.xbase.XDoWhileExpression
 import org.eclipse.xtext.xbase.XExpression
+import org.eclipse.xtext.xbase.XFeatureCall
 import org.eclipse.xtext.xbase.XReturnExpression
 import org.eclipse.xtext.xbase.XSwitchExpression
 import org.eclipse.xtext.xbase.XVariableDeclaration
 import org.eclipse.xtext.xbase.XbasePackage
 import org.eclipse.xtext.xbase.validation.IssueCodes
 import org.eclipse.xtext.xbase.validation.XbaseValidator
+import org.eclipse.xtext.common.types.JvmOperation
+import org.eclipse.xtext.xbase.XMemberFeatureCall
 
 //import org.eclipse.xtext.validation.Check
 
@@ -47,6 +50,8 @@ class JavammValidator extends XbaseValidator {
 	public static val INVALID_BRANCHING_STATEMENT = PREFIX + "InvalidBranchingStatement"
 
 	public static val MISSING_SEMICOLON = PREFIX + "MissingSemicolon"
+	
+	public static val MISSING_PARENTHESES = PREFIX + "MissingParentheses"
 	
 	static val xbasePackage = XbasePackage.eINSTANCE;
 	
@@ -156,4 +161,26 @@ class JavammValidator extends XbaseValidator {
 		]		
 	}
 
+	@Check
+	def checkMissingParentheses(XFeatureCall call) {
+		checkMissingParenthesesInternal(call, call.isExplicitOperationCall)
+	}
+
+	@Check
+	def checkMissingParentheses(XMemberFeatureCall call) {
+		checkMissingParenthesesInternal(call, call.isExplicitOperationCall)
+	}
+
+	def private checkMissingParenthesesInternal(XAbstractFeatureCall call, boolean explicitOpCall) {
+		// length for arrays is OK without parentheses
+		if (call.feature instanceof JvmOperation && 
+			!explicitOpCall &&
+			call.feature.simpleName != "length"
+		) {
+			error(
+				'Syntax error, insert "()" to complete method call',
+				call, xbasePackage.XAbstractFeatureCall_Feature, MISSING_PARENTHESES
+			)
+		}
+	}
 }
