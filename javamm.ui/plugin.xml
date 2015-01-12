@@ -623,11 +623,11 @@
          point="org.eclipse.debug.ui.launchShortcuts">
       <shortcut
             class="org.eclipse.xtext.xbase.ui.launching.JavaApplicationLaunchShortcut"
-            description="%JavaLaunchShortcut.description"
+            description="Launches a local Java application"
             helpContextId="org.eclipse.jdt.debug.ui.shortcut_local_java_application"
-            icon="$nl$/icons/full/etool16/java_app.gif"
+            icon="icons/etool16/java_app.gif"
             id="javamm.ui.launching.localJavaShortcut"
-            label="%JavaApplicationShortcut.label"
+            label="Java Application"
             modes="run, debug">
          <contextualLaunch>
             <enablement>
@@ -658,11 +658,11 @@
                id="org.eclipse.jdt.launching.localJavaApplication">
          </configurationType>
          <description
-               description="%JavaApplicationShortcut.description.run"
+               description="Run Java Application"
                mode="run">
          </description>
          <description
-               description="%JavaApplicationShortcut.description.debug"
+               description="Debug Java Application"
                mode="debug">
          </description>
       </shortcut>
