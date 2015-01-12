@@ -26,8 +26,9 @@ Require-Bundle: javamm;visibility:=reexport,
  org.eclipse.jdt.core
 Import-Package: org.apache.log4j
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Export-Package: javamm.ui.quickfix,
- javamm.ui.contentassist,
+Export-Package: javamm.ui.contentassist,
  javamm.ui.contentassist.antlr,
- javamm.ui.internal
+ javamm.ui.internal,
+ javamm.ui.quickfix,
+ javamm.ui.wizard
 Bundle-Activator: javamm.ui.internal.JavammActivator
