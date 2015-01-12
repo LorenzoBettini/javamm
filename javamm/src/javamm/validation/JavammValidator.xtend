@@ -10,12 +10,14 @@ import javamm.javamm.JavammBreakStatement
 import javamm.javamm.JavammContinueStatement
 import javamm.javamm.JavammMethod
 import javamm.javamm.JavammPackage
+import javamm.javamm.JavammProgram
 import javamm.javamm.Main
 import javamm.util.JavammNodeModelUtil
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.xtext.common.types.JvmFormalParameter
+import org.eclipse.xtext.common.types.JvmOperation
 import org.eclipse.xtext.util.Wrapper
 import org.eclipse.xtext.validation.Check
 import org.eclipse.xtext.xbase.XAbstractFeatureCall
@@ -25,14 +27,14 @@ import org.eclipse.xtext.xbase.XBasicForLoopExpression
 import org.eclipse.xtext.xbase.XDoWhileExpression
 import org.eclipse.xtext.xbase.XExpression
 import org.eclipse.xtext.xbase.XFeatureCall
+import org.eclipse.xtext.xbase.XMemberFeatureCall
 import org.eclipse.xtext.xbase.XReturnExpression
 import org.eclipse.xtext.xbase.XSwitchExpression
 import org.eclipse.xtext.xbase.XVariableDeclaration
 import org.eclipse.xtext.xbase.XbasePackage
+import org.eclipse.xtext.xbase.typesystem.util.Multimaps2
 import org.eclipse.xtext.xbase.validation.IssueCodes
 import org.eclipse.xtext.xbase.validation.XbaseValidator
-import org.eclipse.xtext.common.types.JvmOperation
-import org.eclipse.xtext.xbase.XMemberFeatureCall
 
 //import org.eclipse.xtext.validation.Check
 
@@ -53,7 +55,11 @@ class JavammValidator extends XbaseValidator {
 	
 	public static val MISSING_PARENTHESES = PREFIX + "MissingParentheses"
 	
+	public static val DUPLICATE_METHOD = PREFIX + "DuplicateMethod"
+	
 	static val xbasePackage = XbasePackage.eINSTANCE;
+	
+	static val javammPackage = JavammPackage.eINSTANCE;
 	
 	val semicolonStatements = #{
 		JavammBranchingStatement,
@@ -94,7 +100,30 @@ class JavammValidator extends XbaseValidator {
 		
 		super.checkAssignment(expression, feature, simpleAssignment)
 	}
-	
+
+	@Check
+	def void checkDuplicateMethods(JavammProgram p) {
+		val map = duplicatesMultimap
+		
+		for (d : p.javammMethods) {
+			map.put(d.name, d)
+		}
+		
+		for (entry : map.asMap.entrySet) {
+			val duplicates = entry.value
+			if (duplicates.size > 1) {
+				for (d : duplicates)
+					error(
+						"Duplicate definition '" +
+							d.name + "'",
+						d,
+						javammPackage.javammMethod_Name,
+						DUPLICATE_METHOD
+					)
+			}
+		}
+	}
+
 	@Check
 	def void checkContinue(JavammContinueStatement st) {
 		checkBranchingStatementInternal(st, "a loop",
@@ -182,5 +211,9 @@ class JavammValidator extends XbaseValidator {
 				call, xbasePackage.XAbstractFeatureCall_Feature, MISSING_PARENTHESES
 			)
 		}
+	}
+	
+	def private <K, T> duplicatesMultimap() {
+		return Multimaps2.<K, T> newLinkedHashListMultimap();
 	}
 }

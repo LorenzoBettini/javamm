@@ -286,6 +286,26 @@ class JavammValidatorTest extends JavammAbstractTest {
 		)
 	}
 
+	@Test def void testDuplicateMethods() {
+		'''
+		void m() {}
+		void n() {}
+		int m() { return 0; }
+		'''.parse.assertErrorsAsStrings(
+		'''
+		Duplicate definition 'm'
+		Duplicate definition 'm' '''
+		)
+	}
+
+	@Test def void testParams() {
+		'''
+		void m(int i, boolean b, String i) {}
+		'''.parse.assertErrorsAsStrings(
+		'''Duplicate local variable i'''
+		)
+	}
+
 	def private assertTypeMismatch(EObject o, EClass c, String expectedType, String actualType) {
 		o.assertError(
 			c,
