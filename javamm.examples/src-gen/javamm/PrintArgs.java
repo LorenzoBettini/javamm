@@ -4,8 +4,8 @@ package javamm;
 public class PrintArgs {
   public static void main(String[] args) {
     int _length = args.length;
-    boolean _equals = (_length == 0);
-    if (_equals) {
+    boolean _tripleEquals = (_length == 0);
+    if (_tripleEquals) {
       System.out.println("No args");
     } else {
       int argsNum = args.length;

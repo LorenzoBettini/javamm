@@ -384,8 +384,8 @@ package javamm;
 public class MyFile {
   public static void main(String[] args) {
     int _length = args.length;
-    boolean _equals = (_length == 0);
-    if (_equals) {
+    boolean _tripleEquals = (_length == 0);
+    if (_tripleEquals) {
       System.out.println("No args");
     } else {
       System.out.println("Args");
@@ -1341,7 +1341,7 @@ public class MyFile {
 			)
 	}
 
-	@Test def void testCharTranslatedToJavaCahr() {
+	@Test def void testCharTranslatedToJavaChar() {
 		'''
 		char c1 = 'c';
 		char c2 = '\n';
@@ -1354,6 +1354,45 @@ public class MyFile {
   public static void main(String[] args) {
     char c1 = 'c';
     char c2 = '\n';
+  }
+}
+'''
+			)
+	}
+
+	@Test def void testEqualsTranslation() {
+		'''
+		boolean b;
+		b = 1 == 2;
+		b = 1 != 2;
+		b = "a" == "b";
+		b = "a" != "b";
+		
+		String a = new String("a");
+		System.out.println("a" == "a"); // true
+		System.out.println(a == "a"); // false
+		System.out.println("a".equals("a")); // true
+		'''.checkCompilation(
+'''
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    boolean b = false;
+    b = (1 == 2);
+    b = (1 != 2);
+    boolean _tripleEquals = ("a" == "b");
+    b = _tripleEquals;
+    boolean _tripleNotEquals = ("a" != "b");
+    b = _tripleNotEquals;
+    String a = new String("a");
+    boolean _tripleEquals_1 = ("a" == "a");
+    System.out.println(_tripleEquals_1);
+    boolean _tripleEquals_2 = (a == "a");
+    System.out.println(_tripleEquals_2);
+    boolean _equals = "a".equals("a");
+    System.out.println(_equals);
   }
 }
 '''
