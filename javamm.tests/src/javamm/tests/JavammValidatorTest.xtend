@@ -11,6 +11,7 @@ import org.eclipse.xtext.xbase.XbasePackage
 import org.eclipse.xtext.xbase.validation.IssueCodes
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.eclipse.xtext.diagnostics.Diagnostic
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammInjectorProvider))
@@ -272,6 +273,17 @@ class JavammValidatorTest extends JavammAbstractTest {
 		'''
 		int i = args.length;
 		'''.parseAndAssertNoErrors
+	}
+
+	@Test def void testInvalidXbaseOperator() {
+		'''
+		int i;
+		System.out.println(i === 0);
+		'''.parse.assertError(
+			XbasePackage.eINSTANCE.XBinaryOperation,
+			Diagnostic.SYNTAX_DIAGNOSTIC,
+			"no viable alternative at input '='"
+		)
 	}
 
 	def private assertTypeMismatch(EObject o, EClass c, String expectedType, String actualType) {
