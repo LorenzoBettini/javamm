@@ -56,8 +56,7 @@ JavammSemicolonStatement returns XExpression:
 //	JavammArrayConstructorCall | not a valid statement
 	(
 	JavammBranchingStatement |
-	XVariableDeclaration |
-	XExpression |
+	XExpressionOrVarDeclaration |
 	XDoWhileExpression |
 	XReturnExpression
 	) ->';'?
@@ -78,8 +77,12 @@ XBlockExpression returns XExpression:
 		(expressions+=JavammStatementOrBlock ';'*)*
 	'}';
 
-XExpressionOrVarDeclaration returns XExpression:
-	XVariableDeclaration | XExpression;
+// Don't put the predicate in the rule for XExpressionOrVarDeclaration:
+// it would break partial parsing:
+// "int i =" would not be parsed as an incomplete variable declaration 
+// put the predicate in XVariableDeclaration rule directly
+//XExpressionOrVarDeclaration returns XExpression:
+//	=>XVariableDeclaration | XExpression;
 
 // Use the predicate to avoid ambiguities with XExpression
 XVariableDeclaration returns XVariableDeclaration:
