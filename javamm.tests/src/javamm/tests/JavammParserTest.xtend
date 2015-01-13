@@ -24,6 +24,7 @@ import org.junit.runner.RunWith
 
 import static extension org.junit.Assert.*
 import org.eclipse.xtext.xbase.XWhileExpression
+import org.eclipse.xtext.xbase.XBasicForLoopExpression
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammInjectorProvider))
@@ -262,6 +263,47 @@ class JavammParserTest extends JavammAbstractTest {
 		}
 		'''.assertMainLastExpression[
 			(it as XWhileExpression).predicate.assertNotNull
+		]
+	}
+
+	@Test def void testSeveralVariableDeclarations() {
+		'''
+		int i, j = 0, k;
+		'''.assertMainLastExpression[
+			(it as JavammXVariableDeclaration) => [
+				type.assertNotNull
+				additionalVariables => [
+					2.assertEquals(size)
+					get(0).right.assertNotNull
+					get(1).right.assertNull
+				]	
+			]
+		]
+	}
+
+	@Test def void testSeveralVariableDeclarationsInForLoop() {
+		'''
+		for (int i, j = 0, k; i < 0; i++) {}
+		'''.assertMainLastExpression[
+			((it as XBasicForLoopExpression).initExpressions.head as JavammXVariableDeclaration) => [
+				type.assertNotNull
+				additionalVariables => [
+					2.assertEquals(size)
+					get(0).right.assertNotNull
+					get(1).right.assertNull
+				]	
+			]
+		]
+	}
+
+	@Test def void testSeveralAssignmentsInForLoop() {
+		'''
+		int i;
+		int j;
+		int k;
+		for (i = 0, j = 0, k = 0; i < 0; i++) {}
+		'''.assertMainLastExpression[
+			3.assertEquals((it as XBasicForLoopExpression).initExpressions.size)
 		]
 	}
 

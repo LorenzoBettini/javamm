@@ -22,6 +22,8 @@ import org.eclipse.xtext.xbase.typesystem.util.CommonTypeComputationServices
 import javamm.javamm.JavammBranchingStatement
 import org.eclipse.xtext.xbase.XStringLiteral
 import javamm.javamm.JavammCharLiteral
+import org.eclipse.xtext.xbase.XVariableDeclaration
+import javamm.javamm.JavammXVariableDeclaration
 
 /**
  * @author Lorenzo Bettini
@@ -42,6 +44,8 @@ class JavammTypeComputer extends XbaseTypeComputer {
 			_computeTypes(expression, state)
 		} else if (expression instanceof JavammCharLiteral) {
 			_computeTypes(expression, state)
+		} else if (expression instanceof JavammXVariableDeclaration) {
+			_computeTypes(expression, state)
 		} else {
 			super.computeTypes(expression, state)
 		}
@@ -53,6 +57,23 @@ class JavammTypeComputer extends XbaseTypeComputer {
 	override protected _computeTypes(XStringLiteral object, ITypeComputationState state) {
 		val result = getTypeForName(String, state);
 		state.acceptActualType(result);
+	}
+
+	override protected addLocalToCurrentScope(XVariableDeclaration localVariable, ITypeComputationState state) {
+		super.addLocalToCurrentScope(localVariable, state)
+		if (localVariable instanceof JavammXVariableDeclaration) {
+			for (additional : localVariable.additionalVariables) {
+				addLocalToCurrentScope(additional, state)
+			}
+		}
+	}
+
+	def protected _computeTypes(JavammXVariableDeclaration object, ITypeComputationState state) {
+		super._computeTypes(object, state)
+		// and also comput types for possible additional declarations
+		for (additional : object.additionalVariables) {
+			state.computeTypes(additional)
+		}
 	}
 
 	def protected _computeTypes(JavammCharLiteral object, ITypeComputationState state) {

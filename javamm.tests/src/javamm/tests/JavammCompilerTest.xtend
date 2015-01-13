@@ -1399,6 +1399,125 @@ public class MyFile {
 			)
 	}
 
+	@Test def void testSeveralVariableDeclarations() {
+		'''
+		int i, j = 1, k;
+		System.out.println(i);
+		System.out.println(j);
+		System.out.println(k);
+		'''.checkCompilation(
+'''
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int i = 0;
+    int j = 1;
+    int k = 0;
+    System.out.println(i);
+    System.out.println(j);
+    System.out.println(k);
+  }
+}
+'''
+			)
+	}
+
+	@Test def void testSeveralVariableDeclarationsInForLoop() {
+		'''
+		for (int i, j = 1, k; i < 0; i++) {
+			System.out.println(i);
+			System.out.println(j);
+			System.out.println(k);
+		}
+		'''.checkCompilation(
+'''
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    for (int i = 0, j = 1, k = 0; (i < 0); i++) {
+      {
+        System.out.println(i);
+        System.out.println(j);
+        System.out.println(k);
+      }
+    }
+  }
+}
+'''
+			)
+	}
+
+	@Test def void testSeveralVariableDeclarationsInForLoopTranslatedToJavaWhile() {
+		'''
+		for (int i, j = 1, k; i < 0; i += 1) {
+			System.out.println(i);
+			System.out.println(j);
+			System.out.println(k);
+		}
+		'''.checkCompilation(
+'''
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int i = 0;
+    int j = 1;
+    int k = 0;
+    boolean _while = (i < 0);
+    while (_while) {
+      {
+        System.out.println(i);
+        System.out.println(j);
+        System.out.println(k);
+      }
+      int _i = i;
+      i = (_i + 1);
+      _while = (i < 0);
+    }
+  }
+}
+'''
+			)
+	}
+
+	@Test def void testSeveralAssignmentsInForLoop() {
+		'''
+		int i;
+		int j;
+		int k;
+		for (i = 0, j = 1, k = 1; i < 0; i++) {
+			System.out.println(i);
+			System.out.println(j);
+			System.out.println(k);
+		}
+		'''.checkCompilation(
+'''
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int i = 0;
+    int j = 0;
+    int k = 0;
+    for (i = 0, j = 1, k = 1; (i < 0); i++) {
+      {
+        System.out.println(i);
+        System.out.println(j);
+        System.out.println(k);
+      }
+    }
+  }
+}
+'''
+			)
+	}
+
 	def private checkCompilation(CharSequence input, CharSequence expectedGeneratedJava) {
 		checkCompilation(input, expectedGeneratedJava, true)
 	}

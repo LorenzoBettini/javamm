@@ -87,7 +87,16 @@ XBlockExpression returns XExpression:
 // Use the predicate to avoid ambiguities with XExpression
 XVariableDeclaration returns XVariableDeclaration:
 	=>({JavammXVariableDeclaration}
-	type=JvmTypeReference name=ValidID) ('=' right=XExpression)?;
+	type=JvmTypeReference name=ValidID) ('=' right=XExpression)?
+	(=>',' additionalVariables+=JavammAdditionalXVariableDeclaration)*;
+	// the second predicate is to avoid ambiguities with for loops
+	// that already consider several variable declarations
+	// in our case we always parse them as several variable declarations
+	// since we allow them also as standard variable declarations as in Java
+
+JavammAdditionalXVariableDeclaration returns XVariableDeclaration:
+	{JavammAdditionalXVariableDeclaration}
+	name=ValidID ('=' right=XExpression)?;
 
 XAssignment returns XExpression :
 	=>({JavammXAssignment} feature=[types::JvmIdentifiableElement|FeatureCallID] 
