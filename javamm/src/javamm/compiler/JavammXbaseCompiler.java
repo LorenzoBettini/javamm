@@ -29,6 +29,8 @@ import org.eclipse.xtext.xbase.XVariableDeclaration;
 import org.eclipse.xtext.xbase.XbasePackage;
 import org.eclipse.xtext.xbase.compiler.XbaseCompiler;
 import org.eclipse.xtext.xbase.compiler.output.ITreeAppendable;
+import org.eclipse.xtext.xbase.lib.IterableExtensions;
+import org.eclipse.xtext.xbase.typesystem.references.LightweightTypeReference;
 
 import com.google.inject.Inject;
 
@@ -172,6 +174,86 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 		}
 	}
 
+	/**
+	 * Overridden to deal with several variable declarations.
+	 * 
+	 * @see org.eclipse.xtext.xbase.compiler.XbaseCompiler#toJavaBasicForStatement(org.eclipse.xtext.xbase.XBasicForLoopExpression, org.eclipse.xtext.xbase.compiler.output.ITreeAppendable, boolean)
+	 */
+	@Override
+	protected void toJavaBasicForStatement(XBasicForLoopExpression expr,
+			ITreeAppendable b, boolean isReferenced) {
+		ITreeAppendable loopAppendable = b.trace(expr);
+		loopAppendable.openPseudoScope();
+		loopAppendable.newLine().append("for (");
+		
+		EList<XExpression> initExpressions = expr.getInitExpressions();
+		XExpression firstInitExpression = IterableExtensions.head(initExpressions);
+		if (firstInitExpression instanceof JavammXVariableDeclaration) {
+			JavammXVariableDeclaration variableDeclaration = (JavammXVariableDeclaration) firstInitExpression;
+			LightweightTypeReference type = appendVariableTypeAndName(variableDeclaration, loopAppendable);
+			loopAppendable.append(" = ");
+			if (variableDeclaration.getRight() != null) {
+				compileAsJavaExpression(variableDeclaration.getRight(), loopAppendable, type);
+			} else {
+				appendDefaultLiteral(loopAppendable, type);
+			}
+			
+			// custom implementation since possible additional declarations are contained (i.e., parsed)
+			// in JavamXVariableDeclaration
+			EList<XVariableDeclaration> additionalVariables = variableDeclaration.getAdditionalVariables();
+			for (int i = 0; i < additionalVariables.size(); i++) {
+				loopAppendable.append(", ");
+				XVariableDeclaration initExpression = additionalVariables.get(i);
+				loopAppendable.append(loopAppendable.declareVariable(initExpression, makeJavaIdentifier(initExpression.getName())));
+				loopAppendable.append(" = ");
+				if (initExpression.getRight() != null) {
+					compileAsJavaExpression(initExpression.getRight(), loopAppendable, type);
+				} else {
+					appendDefaultLiteral(loopAppendable, type);
+				}
+			}
+		} else {
+			for (int i = 0; i < initExpressions.size(); i++) {
+				if (i != 0) {
+					loopAppendable.append(", ");
+				}
+				XExpression initExpression = initExpressions.get(i);
+				compileAsJavaExpression(initExpression, loopAppendable, getLightweightType(initExpression));
+			}
+		}
+		
+		loopAppendable.append(";");
+		
+		XExpression expression = expr.getExpression();
+		if (expression != null) {
+			loopAppendable.append(" ");
+			internalToJavaExpression(expression, loopAppendable);
+		}
+		loopAppendable.append(";");
+		
+		EList<XExpression> updateExpressions = expr.getUpdateExpressions();
+		for (int i = 0; i < updateExpressions.size(); i++) {
+			if (i != 0) {
+				loopAppendable.append(",");
+			}
+			loopAppendable.append(" ");
+			XExpression updateExpression = updateExpressions.get(i);
+			internalToJavaExpression(updateExpression, loopAppendable);
+		}
+		loopAppendable.append(") {").increaseIndentation();
+		
+		XExpression eachExpression = expr.getEachExpression();
+		internalToJavaStatement(eachExpression, loopAppendable, false);
+		
+		loopAppendable.decreaseIndentation().newLine().append("}");
+		loopAppendable.closeScope();
+	}
+
+	/**
+	 * Overridden to deal with branching instructions.
+	 * 
+	 * @see org.eclipse.xtext.xbase.compiler.XbaseCompiler#toJavaWhileStatement(org.eclipse.xtext.xbase.XBasicForLoopExpression, org.eclipse.xtext.xbase.compiler.output.ITreeAppendable, boolean)
+	 */
 	@Override
 	protected void toJavaWhileStatement(XBasicForLoopExpression expr,
 			ITreeAppendable b, boolean isReferenced) {
