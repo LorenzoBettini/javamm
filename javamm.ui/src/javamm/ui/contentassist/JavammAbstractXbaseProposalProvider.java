@@ -9,6 +9,8 @@ import org.eclipse.xtext.CrossReference;
 import org.eclipse.xtext.RuleCall;
 import org.eclipse.xtext.ui.editor.contentassist.ContentAssistContext;
 import org.eclipse.xtext.ui.editor.contentassist.ICompletionProposalAcceptor;
+import org.eclipse.xtext.xbase.XFeatureCall;
+import org.eclipse.xtext.xbase.typesystem.IExpressionScope;
 import org.eclipse.xtext.xbase.ui.contentassist.XbaseProposalProvider;
 
 /**
@@ -22,6 +24,20 @@ import org.eclipse.xtext.xbase.ui.contentassist.XbaseProposalProvider;
  *
  */
 public class JavammAbstractXbaseProposalProvider extends XbaseProposalProvider {
+	
+	@Override
+	public void completeXVariableDeclaration_Right(EObject model, Assignment assignment, ContentAssistContext context,
+			ICompletionProposalAcceptor acceptor) {
+		// in our case the model can be the whole main expression, probably due to our parsing strategy...
+		createLocalVariableAndImplicitProposals(model, IExpressionScope.Anchor.BEFORE, context, acceptor);
+		if (!(model instanceof XFeatureCall)) {
+			// ... so we must manually force the content assist using the feature call as the model
+			EObject previousModel = context.getPreviousModel();
+			if (previousModel instanceof XFeatureCall) {
+				createLocalVariableAndImplicitProposals(previousModel, IExpressionScope.Anchor.BEFORE, context, acceptor);
+			}
+		}
+	}
 
 	public void completeJavammProgram_JavammMethods(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
 		completeRuleCall(((RuleCall)assignment.getTerminal()), context, acceptor);
