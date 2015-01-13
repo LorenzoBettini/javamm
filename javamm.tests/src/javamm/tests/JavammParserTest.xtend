@@ -181,6 +181,28 @@ class JavammParserTest extends JavammAbstractTest {
 		]
 	}
 
+	@Test def void testIncompleteVariableDeclaration2() {
+		'''
+		int i =
+		'''.assertMainLastExpression[
+			(it as XVariableDeclaration).right.assertNull
+		]
+	}
+
+	@Test def void testIncompleteVariableDeclaration3() {
+		'''
+		int i = ;
+		'''.assertMainLastExpression[
+			(it as XVariableDeclaration).right.assertNull
+		]
+	}
+
+	@Test def void testIncompleteMethodDefinition() {
+		'''
+		int i(
+		'''.parse.javammMethods.last.assertNotNull
+	}
+
 	@Test def void testIncompleteFeatureCall() {
 		'''
 		void myMeth() {}
@@ -252,4 +274,5 @@ class JavammParserTest extends JavammAbstractTest {
 		val method = input.parse.javammMethods.last
 		tester.apply((method.body as XBlockExpression).expressions.last)
 	}
+
 }

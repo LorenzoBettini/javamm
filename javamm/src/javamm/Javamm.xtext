@@ -56,7 +56,7 @@ JavammSemicolonStatement returns XExpression:
 //	JavammArrayConstructorCall | not a valid statement
 	(
 	JavammBranchingStatement |
-	=>XVariableDeclaration |
+	XVariableDeclaration |
 	XExpression |
 	XDoWhileExpression |
 	XReturnExpression
@@ -79,11 +79,12 @@ XBlockExpression returns XExpression:
 	'}';
 
 XExpressionOrVarDeclaration returns XExpression:
-	=>XVariableDeclaration | XExpression;
+	XVariableDeclaration | XExpression;
 
+// Use the predicate to avoid ambiguities with XExpression
 XVariableDeclaration returns XVariableDeclaration:
-	{JavammXVariableDeclaration}
-	type=JvmTypeReference name=ValidID ('=' right=XExpression)?;
+	=>({JavammXVariableDeclaration}
+	type=JvmTypeReference name=ValidID) ('=' right=XExpression)?;
 
 XAssignment returns XExpression :
 	=>({JavammXAssignment} feature=[types::JvmIdentifiableElement|FeatureCallID] 
