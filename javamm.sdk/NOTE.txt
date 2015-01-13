@@ -1,0 +1,5 @@
+org.eclipse.xtend.ide bundle is added as an explicit requirement to make
+launch "Run as Java Application" and "Debug as Java Application" work
+correctly.
+
+See https://bugs.eclipse.org/bugs/show_bug.cgi?id=457313#c1
