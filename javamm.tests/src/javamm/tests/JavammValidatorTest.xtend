@@ -12,6 +12,7 @@ import org.eclipse.xtext.xbase.validation.IssueCodes
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.eclipse.xtext.diagnostics.Diagnostic
+import org.eclipse.xtext.diagnostics.Severity
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammInjectorProvider))
@@ -306,6 +307,16 @@ class JavammValidatorTest extends JavammAbstractTest {
 		)
 	}
 
+	@Test def void testWrongVariableDeclarationInSeveralDeclarations() {
+		'''
+		int i = 0, j = "a", k = true;
+		'''.parse.assertErrorsAsStrings(
+		'''
+		Type mismatch: cannot convert from String to int
+		Type mismatch: cannot convert from boolean to int'''
+		)
+	}
+
 	def private assertTypeMismatch(EObject o, EClass c, String expectedType, String actualType) {
 		o.assertError(
 			c,
@@ -348,7 +359,7 @@ class JavammValidatorTest extends JavammAbstractTest {
 
 	def private assertErrorsAsStrings(EObject o, CharSequence expected) {
 		expected.toString.trim.assertEqualsStrings(
-			o.validate.map[message].join("\n"))
+			o.validate.filter[severity == Severity.ERROR].map[message].join("\n"))
 	}
 
 	def private assertMissingSemicolon(EObject o, EClass c) {

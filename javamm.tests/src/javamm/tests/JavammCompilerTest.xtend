@@ -1399,6 +1399,31 @@ public class MyFile {
 			)
 	}
 
+	@Test def void testSeveralVariableDeclarations() {
+		'''
+		int i, j = 1, k;
+		System.out.println(i);
+		System.out.println(j);
+		System.out.println(k);
+		'''.checkCompilation(
+'''
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int i = 0;
+    int j = 1;
+    int k = 0;
+    System.out.println(i);
+    System.out.println(j);
+    System.out.println(k);
+  }
+}
+'''
+			)
+	}
+
 	def private checkCompilation(CharSequence input, CharSequence expectedGeneratedJava) {
 		checkCompilation(input, expectedGeneratedJava, true)
 	}

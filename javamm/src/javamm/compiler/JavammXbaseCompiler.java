@@ -10,6 +10,7 @@ import javamm.javamm.JavammArrayConstructorCall;
 import javamm.javamm.JavammBranchingStatement;
 import javamm.javamm.JavammBreakStatement;
 import javamm.javamm.JavammContinueStatement;
+import javamm.javamm.JavammXVariableDeclaration;
 import javamm.util.JavammModelUtil;
 
 import org.eclipse.emf.common.util.EList;
@@ -24,6 +25,7 @@ import org.eclipse.xtext.xbase.XBasicForLoopExpression;
 import org.eclipse.xtext.xbase.XCasePart;
 import org.eclipse.xtext.xbase.XExpression;
 import org.eclipse.xtext.xbase.XSwitchExpression;
+import org.eclipse.xtext.xbase.XVariableDeclaration;
 import org.eclipse.xtext.xbase.XbasePackage;
 import org.eclipse.xtext.xbase.compiler.XbaseCompiler;
 import org.eclipse.xtext.xbase.compiler.output.ITreeAppendable;
@@ -293,6 +295,19 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 			defaultAppendable.decreaseIndentation();
 		}
 		b.decreaseIndentation().newLine().append("}");
+	}
+
+	@Override
+	protected void _toJavaStatement(XVariableDeclaration varDeclaration,
+			ITreeAppendable b, boolean isReferenced) {
+		super._toJavaStatement(varDeclaration, b, isReferenced);
+		
+		if (varDeclaration instanceof JavammXVariableDeclaration) {
+			JavammXVariableDeclaration customVar = (JavammXVariableDeclaration) varDeclaration;
+			for (XVariableDeclaration additional : customVar.getAdditionalVariables()) {
+				_toJavaStatement(additional, b, isReferenced);
+			}
+		}
 	}
 
 	private void compileArrayAccess(XExpression expr, ITreeAppendable b) {

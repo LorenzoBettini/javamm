@@ -265,6 +265,21 @@ class JavammParserTest extends JavammAbstractTest {
 		]
 	}
 
+	@Test def void testSeveralVariableDeclarations() {
+		'''
+		int i, j = 0, k;
+		'''.assertMainLastExpression[
+			(it as JavammXVariableDeclaration) => [
+				type.assertNotNull
+				additionalVariables => [
+					2.assertEquals(size)
+					get(0).right.assertNotNull
+					get(1).right.assertNull
+				]	
+			]
+		]
+	}
+
 	def private assertMainLastExpression(CharSequence input, (XExpression)=>void tester) {
 		val main = input.parse.main
 		tester.apply(main.expressions.last)
