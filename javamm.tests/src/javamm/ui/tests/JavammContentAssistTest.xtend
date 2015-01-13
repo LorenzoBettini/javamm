@@ -47,6 +47,22 @@ class JavammContentAssistTest extends AbstractContentAssistTest {
 		newBuilder.append("int myVar = 0; int i = ").assertProposal("myVar")
 	}
 
+	@Test def void testVariableReferenceInAssignmentInMethod() {
+		newBuilder.append("void foo() { int myVar = 0; myVar = my").assertProposal("myVar")
+	}
+
+	@Test def void testVariableReferenceInAssignmentInMethod2() {
+		newBuilder.append("void foo() { int myVar = 0; myVar = ").assertProposal("myVar")
+	}
+
+	@Test def void testVariableReferenceInVariableDeclarationInMethod() {
+		newBuilder.append("void foo() { int myVar = 0; int i = my").assertProposal("myVar")
+	}
+
+	@Test def void testVariableReferenceInVariableDeclarationInMethod2() {
+		newBuilder.append("void foo() { int myVar = 0; int i = ").assertProposal("myVar")
+	}
+
 	@Test def void testMethodCallProposalInMain() {
 		newBuilder.append("int myMeth() { return 0; } my").assertProposal("myMeth")
 	}
