@@ -1485,6 +1485,39 @@ public class MyFile {
 			)
 	}
 
+	@Test def void testSeveralAssignmentsInForLoop() {
+		'''
+		int i;
+		int j;
+		int k;
+		for (i = 0, j = 1, k = 1; i < 0; i++) {
+			System.out.println(i);
+			System.out.println(j);
+			System.out.println(k);
+		}
+		'''.checkCompilation(
+'''
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int i = 0;
+    int j = 0;
+    int k = 0;
+    for (i = 0, j = 1, k = 1; (i < 0); i++) {
+      {
+        System.out.println(i);
+        System.out.println(j);
+        System.out.println(k);
+      }
+    }
+  }
+}
+'''
+			)
+	}
+
 	def private checkCompilation(CharSequence input, CharSequence expectedGeneratedJava) {
 		checkCompilation(input, expectedGeneratedJava, true)
 	}

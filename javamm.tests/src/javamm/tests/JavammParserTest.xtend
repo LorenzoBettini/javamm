@@ -296,6 +296,17 @@ class JavammParserTest extends JavammAbstractTest {
 		]
 	}
 
+	@Test def void testSeveralAssignmentsInForLoop() {
+		'''
+		int i;
+		int j;
+		int k;
+		for (i = 0, j = 0, k = 0; i < 0; i++) {}
+		'''.assertMainLastExpression[
+			3.assertEquals((it as XBasicForLoopExpression).initExpressions.size)
+		]
+	}
+
 	def private assertMainLastExpression(CharSequence input, (XExpression)=>void tester) {
 		val main = input.parse.main
 		tester.apply(main.expressions.last)
