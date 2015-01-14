@@ -1,0 +1,11 @@
+int i = 3;
+int j = 5;
+int k = 5;
+
+i *= 2;
+j %= 2;
+k /= 2;
+
+System.out.println("i *= 2 = " + i);
+System.out.println("j %= 2 = " + j);
+System.out.println("k /= 2 = " + k);

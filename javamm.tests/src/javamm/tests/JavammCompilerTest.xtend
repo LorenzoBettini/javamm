@@ -1553,6 +1553,37 @@ public class MyFile {
 			)
 	}
 
+	@Test def void testSpecialOperators() {
+		'''
+		int i = 2;
+		int j = 3;
+		int k = 4;
+		
+		i *= j;
+		i /= j;
+		i %= j;
+		'''.checkCompilation(
+'''
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int i = 2;
+    int j = 3;
+    int k = 4;
+    int _i = i;
+    i = (_i * j);
+    int _i_1 = i;
+    i = (_i_1 / j);
+    int _i_2 = i;
+    i = (_i_2 % j);
+  }
+}
+'''
+			)
+	}
+
 	def private checkCompilation(CharSequence input, CharSequence expectedGeneratedJava) {
 		checkCompilation(input, expectedGeneratedJava, true)
 	}
