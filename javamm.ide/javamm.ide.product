@@ -47,7 +47,6 @@
       <feature id="javamm.sdk.source" installMode="root"/>
       <feature id="org.eclipse.rcp"/>
       <feature id="org.eclipse.sdk" installMode="root"/>
-      <feature id="org.eclipse.xtext.redist" installMode="root"/>
    </features>
 
    <configurations>
