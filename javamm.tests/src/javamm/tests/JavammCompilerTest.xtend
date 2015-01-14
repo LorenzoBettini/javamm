@@ -347,6 +347,25 @@ public class MyFile {
 			)
 	}
 
+	@Test def void testMultiArrayAccessInLeftHandsideExpression() {
+		multiArrayAccessInLeftHandsideExpression.checkCompilation(
+'''
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int[][] a = null;
+    int[][] b = null;
+    a[0][(1 + 2)] = 1;
+    a[0] = b[1];
+    a = b;
+  }
+}
+'''
+			)
+	}
+
 	@Test def void testArrayConstrcutorCallInVarDecl() {
 		arrayConstructorCallInVarDecl.checkCompilation(
 '''

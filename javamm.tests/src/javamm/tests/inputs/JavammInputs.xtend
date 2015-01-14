@@ -135,7 +135,10 @@ class JavammInputs {
 	def multiArrayAccessInLeftHandsideExpression() {
 		'''
 		int[][] a;
+		int[][] b;
 		a[0][1+2] = 1;
+		a[0] = b[1];
+		a = b;
 		'''
 	}
 
