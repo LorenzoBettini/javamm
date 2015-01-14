@@ -132,6 +132,13 @@ class JavammInputs {
 		'''
 	}
 
+	def multiArrayAccessInLeftHandsideExpression() {
+		'''
+		int[][] a;
+		a[0][1+2] = 1;
+		'''
+	}
+
 	def arrayConstructorCallInVarDecl() {
 		'''
 		int[] i = new int[10];

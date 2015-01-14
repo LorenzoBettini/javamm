@@ -100,7 +100,7 @@ JavammAdditionalXVariableDeclaration returns XVariableDeclaration:
 
 XAssignment returns XExpression :
 	=>({JavammXAssignment} feature=[types::JvmIdentifiableElement|FeatureCallID] 
-		'[' indexes+=XExpression ']'
+		'[' indexes+=XExpression ']'(=>'[' indexes+=XExpression ']')*
 		OpSingleAssign) value=XAssignment |	
 	=>({XAssignment} feature=[types::JvmIdentifiableElement|FeatureCallID] 
 		OpSingleAssign) value=XAssignment |	
