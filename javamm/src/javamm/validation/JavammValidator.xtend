@@ -35,6 +35,7 @@ import org.eclipse.xtext.xbase.XbasePackage
 import org.eclipse.xtext.xbase.typesystem.util.Multimaps2
 import org.eclipse.xtext.xbase.validation.IssueCodes
 import org.eclipse.xtext.xbase.validation.XbaseValidator
+import javamm.javamm.JavammAdditionalXVariableDeclaration
 
 //import org.eclipse.xtext.validation.Check
 
@@ -99,6 +100,18 @@ class JavammValidator extends XbaseValidator {
 		}
 		
 		super.checkAssignment(expression, feature, simpleAssignment)
+	}
+
+	/**
+	 * In case of an additional variable declaration we must use the container of
+	 * the containing variable declaration, otherwise additional variables will always be
+	 * detected as unused
+	 */
+	override protected isLocallyUsed(EObject target, EObject containerToFindUsage) {
+		if (target instanceof JavammAdditionalXVariableDeclaration) {
+			return super.isLocallyUsed(target, containerToFindUsage.eContainer)
+		}
+		return super.isLocallyUsed(target, containerToFindUsage)
 	}
 
 	@Check

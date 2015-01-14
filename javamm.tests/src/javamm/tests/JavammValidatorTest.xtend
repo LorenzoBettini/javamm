@@ -317,6 +317,28 @@ class JavammValidatorTest extends JavammAbstractTest {
 		)
 	}
 
+	@Test def void testVariableDeclarationsNoUnusedWarningsWhenUsed() {
+		'''
+		int i, j, k;
+
+		System.out.println(i);
+		System.out.println(j);
+		System.out.println(k);
+		'''.parse.assertNoIssues
+	}
+
+	@Test def void testUnusedSeveralVariableDeclarations() {
+		'''
+		int i, j, k;
+		System.out.println(j);
+		'''.parse.assertIssuesAsStrings(
+		'''
+		The value of the local variable i is not used
+		The value of the local variable k is not used
+		'''
+		)
+	}
+
 	def private assertTypeMismatch(EObject o, EClass c, String expectedType, String actualType) {
 		o.assertError(
 			c,
@@ -360,6 +382,11 @@ class JavammValidatorTest extends JavammAbstractTest {
 	def private assertErrorsAsStrings(EObject o, CharSequence expected) {
 		expected.toString.trim.assertEqualsStrings(
 			o.validate.filter[severity == Severity.ERROR].map[message].join("\n"))
+	}
+
+	def private assertIssuesAsStrings(EObject o, CharSequence expected) {
+		expected.toString.trim.assertEqualsStrings(
+			o.validate.map[message].join("\n"))
 	}
 
 	def private assertMissingSemicolon(EObject o, EClass c) {
