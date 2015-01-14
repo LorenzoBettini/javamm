@@ -83,6 +83,17 @@ class JavammValidatorTest extends JavammAbstractTest {
 		)
 	}
 
+	@Test def void testNotMultiArrayTypeLeft() {
+		'''
+		int[] i;
+		i[0][1] = 1;
+		'''.parse.assertError(
+			javammPack.javammXAssignment,
+			JavammValidator.NOT_ARRAY_TYPE,
+			"The type of the expression must be an array type but it resolved to int"
+		)
+	}
+
 	@Test def void testWrongElementInArrayLiteral() {
 		'''
 		int[] i = {0, true};

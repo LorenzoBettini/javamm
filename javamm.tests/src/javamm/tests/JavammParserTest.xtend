@@ -99,6 +99,17 @@ class JavammParserTest extends JavammAbstractTest {
 		]
 	}
 
+	@Test def void testMultiArrayAccessInLeftHandsideExpression() {
+		'''
+		int[][] a;
+		a[0][1+2] = 1;
+		'''.assertMainLastExpression [
+			val indexes = (it as JavammXAssignment).indexes
+			assertTrue(indexes.head instanceof XNumberLiteral)
+			assertTrue(indexes.last instanceof XBinaryOperation)
+		]
+	}
+
 	@Test def void testSystemOut() {
 		'''
 		System.out;
