@@ -4,13 +4,18 @@ import com.google.inject.Inject
 import javamm.javamm.JavammArrayAccess
 import javamm.javamm.JavammArrayAccessExpression
 import javamm.javamm.JavammArrayConstructorCall
+import javamm.javamm.JavammBranchingStatement
+import javamm.javamm.JavammCharLiteral
 import javamm.javamm.JavammXAssignment
+import javamm.javamm.JavammXVariableDeclaration
 import javamm.validation.JavammValidator
 import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.xtext.common.types.JvmIdentifiableElement
 import org.eclipse.xtext.diagnostics.Severity
 import org.eclipse.xtext.validation.EObjectDiagnosticImpl
 import org.eclipse.xtext.xbase.XExpression
+import org.eclipse.xtext.xbase.XStringLiteral
+import org.eclipse.xtext.xbase.XVariableDeclaration
 import org.eclipse.xtext.xbase.XbasePackage
 import org.eclipse.xtext.xbase.typesystem.computation.ILinkingCandidate
 import org.eclipse.xtext.xbase.typesystem.computation.ITypeComputationState
@@ -19,11 +24,6 @@ import org.eclipse.xtext.xbase.typesystem.internal.ExpressionTypeComputationStat
 import org.eclipse.xtext.xbase.typesystem.references.ArrayTypeReference
 import org.eclipse.xtext.xbase.typesystem.references.LightweightTypeReference
 import org.eclipse.xtext.xbase.typesystem.util.CommonTypeComputationServices
-import javamm.javamm.JavammBranchingStatement
-import org.eclipse.xtext.xbase.XStringLiteral
-import javamm.javamm.JavammCharLiteral
-import org.eclipse.xtext.xbase.XVariableDeclaration
-import javamm.javamm.JavammXVariableDeclaration
 
 /**
  * @author Lorenzo Bettini
@@ -99,9 +99,16 @@ class JavammTypeComputer extends XbaseTypeComputer {
 	def protected _computeTypes(JavammArrayConstructorCall call, ITypeComputationState state) {
 		checkArrayIndexHasTypeInt(call, state)
 		val typeReference = services.typeReferences.createTypeRef(call.type)
-		val lightweight = state.getReferenceOwner().toLightweightTypeReference(typeReference)
-		val arrayTypeRef = state.referenceOwner.newArrayTypeReference(lightweight)
+		val lightweight = getReferenceOwner(state).toLightweightTypeReference(typeReference)
+		var arrayTypeRef = lightweight
+		for (i : 0..<call.indexes.size) {
+			arrayTypeRef = getReferenceOwner(state).newArrayTypeReference(arrayTypeRef)
+		}
 		state.acceptActualType(arrayTypeRef)
+	}
+	
+	private def getReferenceOwner(ITypeComputationState state) {
+		state.referenceOwner
 	}
 
 	def protected _computeTypes(JavammBranchingStatement st, ITypeComputationState state) {
