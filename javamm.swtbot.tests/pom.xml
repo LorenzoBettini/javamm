@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<relativePath>../javamm.releng/pom.xml</relativePath>
+		<groupId>javamm</groupId>
+		<artifactId>javamm.releng</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>javamm.swtbot.tests</artifactId>
+	<packaging>eclipse-test-plugin</packaging>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-surefire-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<configuration>
+					<useUIHarness>true</useUIHarness>
+					<useUIThread>false</useUIThread>
+<!-- 					<product>javamm.ide.product</product> -->
+					<!-- tycho.testArgLine repeated to re-use the configuration for argLine 
+						for jacoco agent -->
+					<argLine>${tycho.testArgLine} ${memoryArgs} -Dorg.eclipse.swtbot.search.timeout=180000</argLine>
+					<testRuntime>p2Installed</testRuntime>
+				</configuration>
+			</plugin>
+			<!-- unpack provisioned product archive before running tests -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.8</version>
+				<executions>
+					<execution>
+						<id>unpack-product</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>${project.groupId}</groupId>
+									<artifactId>javamm.ide</artifactId>
+									<version>${project.version}</version>
+									<type>zip</type>
+									<classifier>${tycho.env.osgi.os}.${tycho.env.osgi.ws}.${tycho.env.osgi.arch}</classifier>
+									<!-- this is where tycho surefire expects/creates the installation under test by default-->
+									<outputDirectory>${project.build.directory}/work</outputDirectory>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

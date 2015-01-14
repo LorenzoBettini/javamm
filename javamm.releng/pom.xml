@@ -138,6 +138,23 @@
 				</plugins>
 			</build>
 		</profile>
+		
+		<profile>
+			<id>ide-tests</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+
+			<properties>
+				<findbugs.skip>true</findbugs.skip>
+			</properties>
+
+			<modules>
+				<module>../javamm.ide</module>
+				<module>../javamm.swtbot.tests</module>
+			</modules>
+			
+		</profile>
 	</profiles>
 
 	<build>
