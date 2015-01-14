@@ -1,0 +1,13 @@
+/**
+ * Example 3.20 of the book
+ */
+double value(double[] p, double x) {
+  double value = p[0];
+  for (int i = 1; i<p.length; i++) {
+    value = value*x+p[i];
+  }
+  return value;
+}
+
+double[] a = {7.439,-10.312,-3.845,5.174,2};
+System.out.println(value(a,1.426));

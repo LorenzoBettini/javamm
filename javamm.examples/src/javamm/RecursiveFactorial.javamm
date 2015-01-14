@@ -1,0 +1,12 @@
+/**
+ * Example 4.10 of the book
+ */
+int factorial( int n ) {
+  if (n>1) {
+    return n*factorial( n-1 );
+  } else {
+    return 1;
+  }
+}
+
+System.out.println(factorial(5));

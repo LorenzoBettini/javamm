@@ -1,0 +1,16 @@
+/**
+ * Example 4.6 of the book
+ */
+double integral( double a,double b,int n ) {
+  double h = (b-a)/n;
+  double area = 0.0;
+  for (int i = 0; i<n; i++) {
+    area = area+h*f( a+i*h );
+  }
+  return area;
+}
+double f( double x ) {
+  return 4/(1+x*x);
+}
+
+System.out.println(integral( 0,1,16384 ));

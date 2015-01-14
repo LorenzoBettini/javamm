@@ -1,0 +1,17 @@
+/**
+ * Example 3.7 of the book
+ */
+int firstMove(int n, int k) {
+  int x = n%(k+1);
+  if (x==0) {
+    return k;
+  } else {
+    return x-1;
+  }
+}
+int nextMove(int b, int k) {
+  return (k+1)-b;
+}
+
+System.out.println(firstMove(15,3));
+System.out.println(nextMove(1,3));

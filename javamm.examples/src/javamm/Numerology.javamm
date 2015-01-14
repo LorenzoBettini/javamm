@@ -1,0 +1,25 @@
+/**
+ * Example 4.9 of the book
+ */
+int digitSum( int number ) {
+  int result = 0;
+  while (number>0) {
+    result += number%10;
+    number = number/10;
+  }
+  return result;
+}
+int destiny( int number ) {
+  int temp = digitSum( number );
+  if (number>9) {
+    return destiny( temp );
+  } else {
+    return temp;
+  }
+}
+void main() {
+  int number = 21061961;
+  System.out.println( "Destiny: "+destiny( number ) );
+}
+
+main();

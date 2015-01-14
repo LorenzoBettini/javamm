@@ -1,0 +1,12 @@
+/**
+ * Example 3.8 of the book
+ */
+int move(int p) {
+  if (p==0) {
+    return 2;
+  } else {
+    return 5-p;
+  }
+}
+
+System.out.println(move(0));

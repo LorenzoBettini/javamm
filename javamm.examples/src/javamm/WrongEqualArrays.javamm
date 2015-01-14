@@ -1,0 +1,7 @@
+/**
+ * Remark 3.3 of the book
+ */
+int[] a1 = {0,0,0};
+int[] a2 = {0,0,0};
+boolean equalArray = (a1==a2);
+System.out.println( "a1=a2: "+equalArray );

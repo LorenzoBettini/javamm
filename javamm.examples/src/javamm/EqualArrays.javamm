@@ -1,0 +1,22 @@
+/**
+ * Example 4.3 of the book
+ */
+boolean equalArray( int[] a,int[] b ) {
+  if (a.length!=b.length) {
+    return false;
+  }
+  for (int i = 0; i<a.length; i++) {
+    if (a[i]!=b[i]) {
+      return false;
+    }
+  }
+  return true;
+}
+
+int[] a1 = {0,1,2};
+int[] a2 = {0,1,2};
+int[] a3 = {0,2,1};
+int[] a4 = {0,1};
+System.out.println( "a1=a2: "+equalArray( a1,a2 ) );
+System.out.println( "a1=a3: "+equalArray( a1,a3 ) );
+System.out.println( "a1=a4: "+equalArray( a1,a4 ) );

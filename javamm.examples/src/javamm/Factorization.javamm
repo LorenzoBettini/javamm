@@ -1,0 +1,27 @@
+/**
+ * Example 4.7 of the book
+ */
+int firstFactor( int n ) {
+  for (int i = 2; i<=n/2; i++ ) {
+    if (n%i==0) {
+      return i;
+    }
+  }
+  return n;
+}
+void main( ) {
+  int number = 750;
+  int factor = 0;
+  System.out.println( "Number: "+number );
+  if (firstFactor( number ) == number) {
+    System.out.println( "Factor: "+number );
+  } else {
+    while (number>1) {
+      factor = firstFactor( number );
+      System.out.println( "Factor: "+factor );
+      number = number/factor;
+    }
+  }
+}
+
+main();

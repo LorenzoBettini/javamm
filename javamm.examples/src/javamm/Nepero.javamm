@@ -1,0 +1,16 @@
+/**
+ * Example 3.16 of the book
+ */
+double nepero(double epsilon) {
+  int n = 0;
+  double term = 1;
+  double nepero = 0;
+  do {
+    nepero = nepero+term;
+    n = n+1;
+    term = term/n;
+  } while ((term*(1+2.0/(n+2)))>epsilon);
+  return nepero;
+}
+
+System.out.println(nepero(0.000000001));
