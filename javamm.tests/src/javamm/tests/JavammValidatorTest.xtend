@@ -94,6 +94,15 @@ class JavammValidatorTest extends JavammAbstractTest {
 		)
 	}
 
+	@Test def void testWrongMultiArrayConstructor() {
+		'''
+		int[] i = new int[0][1];
+		'''.parse.assertTypeMismatch(
+			javammPack.javammArrayConstructorCall,
+			"int[]", "int[][]"
+		)
+	}
+
 	@Test def void testWrongElementInArrayLiteral() {
 		'''
 		int[] i = {0, true};

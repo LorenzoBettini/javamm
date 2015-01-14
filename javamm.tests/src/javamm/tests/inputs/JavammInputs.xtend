@@ -149,6 +149,13 @@ class JavammInputs {
 		'''
 	}
 
+	def multiArrayConstructorCallInVarDecl() {
+		'''
+		int[][] i = new int[10][20];
+		String[][] a = new String[args.length][args.length+1];
+		'''
+	}
+
 	def ifThenElseWithoutBlocks() {
 		'''
 		if (args.length() == 0)
