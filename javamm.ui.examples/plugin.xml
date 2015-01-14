@@ -41,7 +41,7 @@
             wizardID="javamm.examples.JavammExampleWizard">
          <projectDescriptor
                contentURI="contents/javamm.examples.zip"
-               description="Some Xtraij Examples"
+               description="Some Javamm Examples"
                name="javamm.examples">
          </projectDescriptor>
       </example>
