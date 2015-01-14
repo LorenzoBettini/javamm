@@ -9,8 +9,10 @@ import javamm.javamm.JavammXVariableDeclaration
 import org.eclipse.xtext.junit4.InjectWith
 import org.eclipse.xtext.junit4.XtextRunner
 import org.eclipse.xtext.xbase.XAssignment
+import org.eclipse.xtext.xbase.XBasicForLoopExpression
 import org.eclipse.xtext.xbase.XBinaryOperation
 import org.eclipse.xtext.xbase.XBlockExpression
+import org.eclipse.xtext.xbase.XBooleanLiteral
 import org.eclipse.xtext.xbase.XConstructorCall
 import org.eclipse.xtext.xbase.XExpression
 import org.eclipse.xtext.xbase.XFeatureCall
@@ -19,12 +21,11 @@ import org.eclipse.xtext.xbase.XMemberFeatureCall
 import org.eclipse.xtext.xbase.XNumberLiteral
 import org.eclipse.xtext.xbase.XStringLiteral
 import org.eclipse.xtext.xbase.XVariableDeclaration
+import org.eclipse.xtext.xbase.XWhileExpression
 import org.junit.Test
 import org.junit.runner.RunWith
 
 import static extension org.junit.Assert.*
-import org.eclipse.xtext.xbase.XWhileExpression
-import org.eclipse.xtext.xbase.XBasicForLoopExpression
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammInjectorProvider))
@@ -145,6 +146,19 @@ class JavammParserTest extends JavammAbstractTest {
 		int[] a = new int[0];
 		'''.assertMainLastExpression [
 			assertTrue(((it as XVariableDeclaration).right as JavammArrayConstructorCall).indexes.head instanceof XNumberLiteral)
+		]
+	}
+
+	@Test def void testMultiArrayConstructorCall() {
+		'''
+		// of course true is not a valid array index
+		// but we only test parsing here
+		int[][] a = new int[0][true];
+		'''.assertMainLastExpression [
+			((it as XVariableDeclaration).right as JavammArrayConstructorCall).indexes => [
+				assertTrue(head instanceof XNumberLiteral)
+				assertTrue(last instanceof XBooleanLiteral)
+			]
 		]
 	}
 
