@@ -16,7 +16,13 @@ import org.junit.runner.RunWith;
 public class JavammWizardTest extends AbstractJavammSwtbotTest {
 	
 	@Test
-	public void canCreateANewXtraitjProject() throws CoreException {
+	public void canCreateANewJavammProject() throws CoreException {
 		createProjectAndAssertNoErrorMarker(PROJECT_TYPE);
+	}
+
+	@Test
+	public void canImportJavammExamples() throws CoreException {
+		importExampleProjectAndAssertNoErrorMarker(
+			"Some Javamm Examples", "javamm.examples");
 	}
 }
