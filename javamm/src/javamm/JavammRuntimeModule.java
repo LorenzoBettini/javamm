@@ -7,11 +7,13 @@ import javamm.compiler.JavammJvmModelGenerator;
 import javamm.compiler.JavammXbaseCompiler;
 import javamm.conversion.JavammValueConverterService;
 import javamm.scoping.JavammOperatorMapping;
+import javamm.scoping.JavammQualifiedNameProvider;
 import javamm.typesystem.JavammExpressionArgumentFactory;
 import javamm.typesystem.JavammTypeComputer;
 
 import org.eclipse.xtext.conversion.IValueConverterService;
 import org.eclipse.xtext.generator.IGenerator;
+import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.xbase.compiler.XbaseCompiler;
 import org.eclipse.xtext.xbase.scoping.featurecalls.OperatorMapping;
 import org.eclipse.xtext.xbase.typesystem.computation.ITypeComputer;
@@ -50,4 +52,8 @@ public class JavammRuntimeModule extends javamm.AbstractJavammRuntimeModule {
 		return JavammValueConverterService.class;
 	}
 
+	@Override
+	public Class<? extends IQualifiedNameProvider> bindIQualifiedNameProvider() {
+		return JavammQualifiedNameProvider.class;
+	}
 }

@@ -5,6 +5,7 @@ import org.eclipse.xtext.xbase.jvmmodel.AbstractModelInferrer
 import org.eclipse.xtext.xbase.jvmmodel.IJvmDeclaredTypeAcceptor
 import org.eclipse.xtext.xbase.jvmmodel.JvmTypesBuilder
 import javamm.javamm.JavammProgram
+import org.eclipse.xtext.naming.IQualifiedNameProvider
 
 /**
  * <p>Infers a JVM model from the source model.</p> 
@@ -18,6 +19,8 @@ class JavammJvmModelInferrer extends AbstractModelInferrer {
      * convenience API to build and initialize JVM types and their members.
      */
 	@Inject extension JvmTypesBuilder
+	
+	@Inject extension IQualifiedNameProvider
 
 	/**
 	 * The dispatch method {@code infer} is called for each instance of the
@@ -46,7 +49,7 @@ class JavammJvmModelInferrer extends AbstractModelInferrer {
 	 */
    	def dispatch void infer(JavammProgram program, IJvmDeclaredTypeAcceptor acceptor, boolean isPreIndexingPhase) {
    		val main = program.main
-   		val className = "javamm." + program.eResource.URI.trimFileExtension.lastSegment
+   		val className = program.fullyQualifiedName
    		
    		acceptor.accept(program.toClass(className)) [
    			for (m : program.javammMethods) {
