@@ -130,10 +130,17 @@ XConstructorCall returns XExpression:
 JavammArrayConstructorCall returns XExpression:
 	=>({JavammArrayConstructorCall}
 	'new'
-	type=[types::JvmType|QualifiedName] dimensions+='[') 
+	type=[types::JvmType|QualifiedName] dimensions+=JavammArrayDimension) 
 	// getting here is enough to tell it's an array constructor call
 	(indexes+=XExpression)? ']'
-	(=>dimensions+='[' (indexes+=XExpression)? ']')*
+	(=>dimensions+=JavammArrayDimension (indexes+=XExpression)? ']')*
+;
+
+// We need an EObject instead of a simple String since we then
+// need to find the corresponding node (and offset) with NodeModelUtils
+// in order to associate dimensions with indexes
+JavammArrayDimension:
+	{JavammArrayDimension} openBracket='['
 ;
 
 XPostfixOperation returns XExpression:
