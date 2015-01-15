@@ -162,6 +162,14 @@ class JavammParserTest extends JavammAbstractTest {
 		]
 	}
 
+	@Test def void testIncompleteArrayConstructorCall() {
+		'''
+		int[] a = new int[
+		'''.assertMainLastExpression [
+			assertTrue(((it as XVariableDeclaration).right as JavammArrayConstructorCall).indexes.empty)
+		]
+	}
+
 	@Test def void testFeatureCallIndexAsArg() {
 		arrayAccessAsArgument.assertMainLastExpression [
 			assertTrue(
