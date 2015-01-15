@@ -130,9 +130,10 @@ XConstructorCall returns XExpression:
 JavammArrayConstructorCall returns XExpression:
 	=>({JavammArrayConstructorCall}
 	'new'
-	type=[types::JvmType|QualifiedName] '[') 
+	type=[types::JvmType|QualifiedName] dimensions+='[') 
 	// getting here is enough to tell it's an array constructor call
-	indexes+=XExpression ']'(=>'[' indexes+=XExpression ']')*
+	(indexes+=XExpression)? ']'
+	(=>dimensions+='[' (indexes+=XExpression)? ']')*
 ;
 
 XPostfixOperation returns XExpression:
