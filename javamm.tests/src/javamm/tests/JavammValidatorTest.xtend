@@ -94,6 +94,26 @@ class JavammValidatorTest extends JavammAbstractTest {
 		)
 	}
 
+	@Test def void testArrayConstructorSpecifiesDimensionExpressionAfterEmptyDimension() {
+		'''
+		int[][] j = new int[][0];
+		'''.parse.assertError(
+			XbasePackage.eINSTANCE.XNumberLiteral,
+			JavammValidator.ARRAY_CONSTRUCTOR_DIMENSION_EXPRESSION_AFTER_EMPTY_DIMENSION,
+			"Cannot specify an array dimension after an empty dimension"
+		)
+	}
+
+	@Test def void testArrayConstructorSpecifiesDimensionExpressionAfterEmptyDimension2() {
+		'''
+		int[][][] j = new int[0][][1];
+		'''.parse.assertError(
+			XbasePackage.eINSTANCE.XNumberLiteral,
+			JavammValidator.ARRAY_CONSTRUCTOR_DIMENSION_EXPRESSION_AFTER_EMPTY_DIMENSION,
+			"Cannot specify an array dimension after an empty dimension"
+		)
+	}
+
 	@Test def void testNotArrayTypeLeft() {
 		'''
 		int i;

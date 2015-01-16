@@ -37,6 +37,7 @@ import org.eclipse.xtext.xbase.XbasePackage
 import org.eclipse.xtext.xbase.typesystem.util.Multimaps2
 import org.eclipse.xtext.xbase.validation.IssueCodes
 import org.eclipse.xtext.xbase.validation.XbaseValidator
+import javamm.util.JavammModelUtil
 
 //import org.eclipse.xtext.validation.Check
 
@@ -50,18 +51,13 @@ class JavammValidator extends XbaseValidator {
 	public static val PREFIX = "javamm."
 	
 	public static val NOT_ARRAY_TYPE = PREFIX + "NotArrayType"
-	
 	public static val INVALID_BRANCHING_STATEMENT = PREFIX + "InvalidBranchingStatement"
-
 	public static val MISSING_SEMICOLON = PREFIX + "MissingSemicolon"
-	
 	public static val MISSING_PARENTHESES = PREFIX + "MissingParentheses"
-	
 	public static val DUPLICATE_METHOD = PREFIX + "DuplicateMethod"
-	
 	public static val ARRAY_CONSTRUCTOR_EITHER_DIMENSION_EXPRESSION_OR_INITIALIZER = PREFIX + "ArrayConstructorEitherDimensionExpressionOrInitializer"
-
 	public static val ARRAY_CONSTRUCTOR_BOTH_DIMENSION_EXPRESSION_AND_INITIALIZER = PREFIX + "ArrayConstructorBothDimensionExpressionAndInitializer"
+	public static val ARRAY_CONSTRUCTOR_DIMENSION_EXPRESSION_AFTER_EMPTY_DIMENSION = PREFIX + "ArrayConstructorDimensionExpressionAfterEmptyExpression"
 	
 	static val xbasePackage = XbasePackage.eINSTANCE;
 	
@@ -85,6 +81,7 @@ class JavammValidator extends XbaseValidator {
 	}
 
 	@Inject extension JavammNodeModelUtil
+	@Inject extension JavammModelUtil
 	
 	override protected getEPackages() {
 		val result = new ArrayList<EPackage>(super.getEPackages());
@@ -236,6 +233,21 @@ class JavammValidator extends XbaseValidator {
 				cons, null,
 				ARRAY_CONSTRUCTOR_BOTH_DIMENSION_EXPRESSION_AND_INITIALIZER
 			)
+		} else {
+			val dimensionsAndIndexes = cons.arrayDimensionIndexAssociations
+			var foundEmptyDimension = false
+			for (d : dimensionsAndIndexes) {
+				if (d == null) {
+					foundEmptyDimension = true
+				} else if (foundEmptyDimension) {
+					error(
+						"Cannot specify an array dimension after an empty dimension",
+						d, null,
+						ARRAY_CONSTRUCTOR_DIMENSION_EXPRESSION_AFTER_EMPTY_DIMENSION
+					)
+					return
+				}
+			}
 		}
 	}
 
