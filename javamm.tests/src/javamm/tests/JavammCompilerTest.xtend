@@ -1587,6 +1587,23 @@ public class MyFile {
 			)
 	}
 
+	@Test def void testNumberLiterals() {
+		numberLiterals.checkCompilation(
+'''
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    byte b = 100;
+    short s = 1000;
+    char c = 1000;
+  }
+}
+'''
+		)
+	}
+
 	@Test def void testBubbleSort() {
 		bubbleSort.checkCompilation(
 '''
