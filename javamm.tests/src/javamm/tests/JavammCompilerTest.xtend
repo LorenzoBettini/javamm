@@ -401,7 +401,7 @@ public class MyFile {
 			)
 	}
 
-	@Test def void testMultiArrayConstructorCallWithArrayLiteral() {
+	@Test def void testMultiArrayConstructorCallWithPartialDimensions() {
 		'''
 		int[][][] a1 = new int[0][][];
 		int[][][] a2 = new int[0][1][];
@@ -420,7 +420,7 @@ public class MyFile {
 			)
 	}
 
-	@Test def void testMultiArrayConstrcutorCallWithArrayLiteral() {
+	@Test def void testMultiArrayConstructorCallWithArrayLiteral() {
 		multiArrayConstructorCallWithArrayLiteral.checkCompilation(
 '''
 package javamm;
