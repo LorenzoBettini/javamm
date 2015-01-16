@@ -60,6 +60,8 @@ class JavammValidator extends XbaseValidator {
 	public static val DUPLICATE_METHOD = PREFIX + "DuplicateMethod"
 	
 	public static val ARRAY_CONSTRUCTOR_EITHER_DIMENSION_EXPRESSION_OR_INITIALIZER = PREFIX + "ArrayConstructorEitherDimensionExpressionOrInitializer"
+
+	public static val ARRAY_CONSTRUCTOR_BOTH_DIMENSION_EXPRESSION_AND_INITIALIZER = PREFIX + "ArrayConstructorBothDimensionExpressionAndInitializer"
 	
 	static val xbasePackage = XbasePackage.eINSTANCE;
 	
@@ -220,12 +222,19 @@ class JavammValidator extends XbaseValidator {
 	def checkArrayConstructor(JavammArrayConstructorCall cons) {
 		
 		val arrayLiteral = cons.arrayLiteral
+		val dimensionExpressions = cons.indexes
 		
-		if (cons.indexes.empty && arrayLiteral == null) {
+		if (dimensionExpressions.empty && arrayLiteral == null) {
 			error(
 				"Constructor must provide either dimension expressions or an array initializer",
 				cons, null,
 				ARRAY_CONSTRUCTOR_EITHER_DIMENSION_EXPRESSION_OR_INITIALIZER
+			)
+		} else if (!dimensionExpressions.empty && arrayLiteral != null) {
+			error(
+				"Cannot define dimension expressions when an array initializer is provided",
+				cons, null,
+				ARRAY_CONSTRUCTOR_BOTH_DIMENSION_EXPRESSION_AND_INITIALIZER
 			)
 		}
 	}
