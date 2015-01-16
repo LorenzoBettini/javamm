@@ -104,6 +104,9 @@ class JavammTypeComputer extends XbaseTypeComputer {
 		for (i : 0..<call.dimensions.size) {
 			arrayTypeRef = getReferenceOwner(state).newArrayTypeReference(arrayTypeRef)
 		}
+		if (call.arrayLiteral != null) {
+			state.withExpectation(arrayTypeRef).computeTypes(call.arrayLiteral)
+		}
 		state.acceptActualType(arrayTypeRef)
 	}
 	

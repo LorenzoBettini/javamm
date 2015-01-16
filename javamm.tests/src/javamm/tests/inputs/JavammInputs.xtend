@@ -156,6 +156,13 @@ class JavammInputs {
 		'''
 	}
 
+	def multiArrayConstructorCallWithArrayLiteral() {
+		'''
+		int[] i = new int[] {0, 1, 2};
+		int[][] j = new int[][] {{0, 1, 2},{3, 4, 5}};
+		'''
+	}
+
 	def ifThenElseWithoutBlocks() {
 		'''
 		if (args.length() == 0)

@@ -398,6 +398,22 @@ public class MyFile {
 			)
 	}
 
+	@Test def void testMultiArrayConstrcutorCallWithArrayLiteral() {
+		multiArrayConstructorCallWithArrayLiteral.checkCompilation(
+'''
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int[] i = new int[] { 0, 1, 2 };
+    int[][] j = new int[][] { new int[] { 0, 1, 2 }, new int[] { 3, 4, 5 } };
+  }
+}
+'''
+			)
+	}
+
 	@Test def void testIfThenElseWithoutBlocks() {
 		ifThenElseWithoutBlocks.expectationsForIfThenElse
 	}
