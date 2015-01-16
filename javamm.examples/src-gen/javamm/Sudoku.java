@@ -85,6 +85,16 @@ public class Sudoku {
     return false;
   }
   
+  public static void main() {
+    int[][] s = { new int[] { 4, 0, 0, 0 }, new int[] { 0, 0, 0, 3 }, new int[] { 0, 1, 3, 0 }, new int[] { 0, 0, 0, 2 } };
+    int n = 2;
+    Sudoku.printBoard(s);
+    int[] p = Sudoku.nextCell(new int[] { 0, (-1) }, s);
+    boolean _solvable = Sudoku.solvable(p, n, s);
+    System.out.println(_solvable);
+    Sudoku.printBoard(s);
+  }
+  
   public static void printBoard(int[][] s) {
     for (int i = 0; (i < s.length); i++) {
       {
@@ -95,16 +105,6 @@ public class Sudoku {
         System.out.println();
       }
     }
-  }
-  
-  public static void main() {
-    int[][] s = { new int[] { 4, 0, 0, 0 }, new int[] { 0, 0, 0, 3 }, new int[] { 0, 1, 3, 0 }, new int[] { 0, 0, 0, 2 } };
-    int n = 2;
-    Sudoku.printBoard(s);
-    int[] p = Sudoku.nextCell(new int[] { 0, (-1) }, s);
-    boolean _solvable = Sudoku.solvable(p, n, s);
-    System.out.println(_solvable);
-    Sudoku.printBoard(s);
   }
   
   public static void main(String[] args) {
