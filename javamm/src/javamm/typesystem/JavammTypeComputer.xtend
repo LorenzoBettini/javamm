@@ -90,11 +90,12 @@ class JavammTypeComputer extends XbaseTypeComputer {
 						Short.parseShort(object.value)
 					} else if (primitiveName == Character.TYPE.name) {
 						// char case is not in NumerLiterals
-						UnsignedInteger.valueOf(object.value)
+						val unsigned = UnsignedInteger.valueOf(object.value)
+						success = (unsigned.intValue <= Character.MAX_VALUE)
 					} else {
 						success = false
 					}
-				} catch (NumberFormatException e) {
+				} catch (IllegalArgumentException e) {
 					success = false
 				}
 				

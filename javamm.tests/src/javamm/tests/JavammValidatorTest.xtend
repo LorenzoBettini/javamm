@@ -423,6 +423,34 @@ class JavammValidatorTest extends JavammAbstractTest {
 		)
 	}
 
+	@Test def void testIntegerCannotBeAssignedToByte() {
+		"byte b = 1000;".parse.assertNumberLiteralTypeMismatch("byte", "int")
+	}
+
+	@Test def void testIntegerCannotBeAssignedToChar() {
+		"char c = 100000;".parse.assertNumberLiteralTypeMismatch("char", "int")
+	}
+
+	@Test def void testIntegerCannotBeAssignedToChar2() {
+		"char c = -10000;".parse.assertTypeMismatch(XbasePackage.eINSTANCE.XUnaryOperation, "char", "int")
+	}
+
+	@Test def void testMaxValueChar() {
+		"char c = 65535;".parseAndAssertNoErrors
+	}
+
+	@Test def void testIntegerCannotBeAssignedToShort() {
+		"short s = 100000;".parse.assertNumberLiteralTypeMismatch("short", "int")
+	}
+
+	@Test def void testIntegerCannotBeAssignedToShort2() {
+		"short s = -10000;".parse.assertTypeMismatch(XbasePackage.eINSTANCE.XUnaryOperation, "short", "int")
+	}
+
+	def private assertNumberLiteralTypeMismatch(EObject o, String expectedType, String actualType) {
+		o.assertTypeMismatch(XbasePackage.eINSTANCE.XNumberLiteral, expectedType, actualType)
+	}
+
 	def private assertTypeMismatch(EObject o, EClass c, String expectedType, String actualType) {
 		o.assertError(
 			c,
