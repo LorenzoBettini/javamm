@@ -36,6 +36,8 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass ../../../org.eclipse.xtext.common.types/model/JavaVMTypes.ecore#//JvmType"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="dimensions" upperBound="-1"
         eType="#//JavammArrayDimension" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="arrayLiteral" eType="#//JavammArrayLiteral"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="JavammArrayDimension">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="openBracket" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>

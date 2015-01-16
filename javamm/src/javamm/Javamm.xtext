@@ -134,6 +134,7 @@ JavammArrayConstructorCall returns XExpression:
 	// getting here is enough to tell it's an array constructor call
 	(indexes+=XExpression)? ']'
 	(=>dimensions+=JavammArrayDimension (indexes+=XExpression)? ']')*
+	(=>arrayLiteral=JavammArrayLiteral)?
 ;
 
 // We need an EObject instead of a simple String since we then
@@ -248,7 +249,9 @@ XLiteral returns XExpression:
 //	XTypeLiteral
 ;
 
-JavammArrayLiteral returns XListLiteral:
+// it is a subclass of XListLiteral, so that we will reuse
+// type computation and compiler from Xbase
+JavammArrayLiteral returns JavammArrayLiteral:
 	{JavammArrayLiteral} '{' (elements+=XExpression (',' elements+=XExpression )*)? '}'
 ;
 

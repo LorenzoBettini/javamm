@@ -26,6 +26,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import static extension org.junit.Assert.*
+import javamm.javamm.JavammArrayLiteral
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammInjectorProvider))
@@ -214,10 +215,26 @@ class JavammParserTest extends JavammAbstractTest {
 			]
 		]
 	}
-	
-	private def getVariableDeclarationRightAsArrayConstructorCall(XExpression it) {
-		(it as XVariableDeclaration).right as JavammArrayConstructorCall
+
+	@Test def void testArrayConstructorCallWithDimensionsAndArrayLiteral() {
+		'''
+		int[] a = new int[][][] {};
+		'''.assertMainLastExpression [
+			getVariableDeclarationRightAsArrayConstructorCall => [
+				assertEquals(3, dimensions.size)
+				arrayLiteral.assertNotNull
+			]
+		]
 	}
+
+	@Test def void testArrayConstructorCallWithDimensionsAndIncompleteArrayLiteral() {
+		'''
+		int[] a = new int[][][] {
+		'''.assertMainLastExpression [
+			getArrayLiteral
+		]
+	}
+	
 
 	@Test def void testFeatureCallIndexAsArg() {
 		arrayAccessAsArgument.assertMainLastExpression [
@@ -399,4 +416,11 @@ class JavammParserTest extends JavammAbstractTest {
 		tester.apply((method.body as XBlockExpression).expressions.last)
 	}
 
+	private def getVariableDeclarationRightAsArrayConstructorCall(XExpression it) {
+		(it as XVariableDeclaration).right as JavammArrayConstructorCall
+	}
+
+	private def getArrayLiteral(XExpression it) {
+		it as JavammArrayLiteral
+	}
 }
