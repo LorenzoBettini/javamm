@@ -627,9 +627,9 @@ class JavammInputs {
 		switch (b) {
 			case 10:
 				System.out.println("10");
-			//case 'f' : 
-			//	System.out.println("f");
-			//	break;
+			case 'f' : 
+				System.out.println("f");
+				break;
 			default: 
 				System.out.println("default");
 				break;
