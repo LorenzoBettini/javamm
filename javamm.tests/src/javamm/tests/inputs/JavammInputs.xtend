@@ -156,6 +156,13 @@ class JavammInputs {
 		'''
 	}
 
+	def multiArrayConstructorCallWithArrayLiteral() {
+		'''
+		int[] i = new int[] {0, 1, 2};
+		int[][] j = new int[][] {{0, 1, 2},{3, 4, 5}};
+		'''
+	}
+
 	def ifThenElseWithoutBlocks() {
 		'''
 		if (args.length() == 0)
@@ -659,17 +666,17 @@ void bubbleSort(int[] array) {
 int[] nextCell( int[] c,int[][] s ) {
   for (int j = c[1] + 1; j < s.length; j++) {
     if (s[c[0]][j] == 0) {
-      return { c[0], j };
+      return new int[] { c[0], j };
     }
   }
   for (int i = c[0] + 1; i < s.length; i++) {
     for (int j = 0; j < s.length; j++) {
       if (s[i][j] == 0) {
-        return { i, j };
+        return new int[] { i, j };
       }
     }
   }
-  return { -1, -1 };
+  return new int[] { -1, -1 };
 }
 boolean feasible(int d, int[] c, int n, int[][] s) {
   for (int i = 0; i < n * n; i++) {
@@ -729,10 +736,9 @@ void testMe() {
     { 0, 1, 3, 0 },{ 0, 0, 0, 2 } };
   int n = 2;
   printBoard( s );
-  int[] p = nextCell({ 0, -1 }, s);
+  int[] p = nextCell(new int[] { 0, -1 }, s);
   System.out.println(solvable(p, n, s));
   printBoard( s );
-}
 '''
 	}
 }

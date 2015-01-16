@@ -7,6 +7,7 @@ import javamm.controlflow.JavammBranchingStatementDetector;
 import javamm.javamm.JavammArrayAccess;
 import javamm.javamm.JavammArrayAccessExpression;
 import javamm.javamm.JavammArrayConstructorCall;
+import javamm.javamm.JavammArrayLiteral;
 import javamm.javamm.JavammBranchingStatement;
 import javamm.javamm.JavammBreakStatement;
 import javamm.javamm.JavammContinueStatement;
@@ -123,8 +124,13 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 	}
 
 	public void _toJavaExpression(JavammArrayConstructorCall call, ITreeAppendable b) {
-		b.append("new ");
-		b.append(call.getType());
+		if (call.getArrayLiteral() == null) {
+			// otherwise we simply compile the array literal
+			// assuming that no dimension expression has been specified
+			// (checked by the validator)
+			b.append("new ");
+			b.append(call.getType());
+		}
 		compileArrayAccess(call, b);
 	}
 
@@ -401,6 +407,31 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 					internalToJavaExpression(index, b);
 					b.append("]");
 				}
+			}
+		}
+	}
+
+	/**
+	 * Specialization for {@link JavammArrayConstructorCall} since it can
+	 * have dimensions without dimension expression (index).
+	 * 
+	 * @param cons
+	 * @param b
+	 */
+	private void compileArrayAccess(JavammArrayConstructorCall cons, ITreeAppendable b) {
+		JavammArrayLiteral arrayLiteral = cons.getArrayLiteral();
+
+		if (arrayLiteral != null) {
+			internalToJavaExpression(arrayLiteral, b);
+		} else {
+			Iterable<XExpression> dimensionsAndIndexes = modelUtil.arrayDimensionIndexAssociations(cons);
+			
+			for (XExpression e : dimensionsAndIndexes) {
+				b.append("[");
+				if (e != null) {
+					internalToJavaExpression(e, b);
+				}
+				b.append("]");
 			}
 		}
 	}

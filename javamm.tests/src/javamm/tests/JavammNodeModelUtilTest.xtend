@@ -10,6 +10,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import static extension org.junit.Assert.*
+import org.eclipse.xtext.xbase.XAssignment
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammInjectorProvider))
@@ -101,6 +102,15 @@ class JavammNodeModelUtilTest extends JavammAbstractTest {
 		'''.parse.main.lastBlockExpression.hasSemicolon.assertTrue
 	}
 
+	@Test def void testOffset() {
+		('''
+		i = 1
+		;
+		'''.parse.main.lastBlockExpression as XAssignment) => [
+			4.assertEquals(value.elementOffsetInProgram)
+		]
+	}
+
 	def private assertMainLastExpressionText(CharSequence input, CharSequence expected) {
 		val block = input.parse.main
 		assertBlockLastExpressionText(block, expected)
@@ -124,4 +134,5 @@ class JavammNodeModelUtilTest extends JavammAbstractTest {
 	private def lastBlockExpression(XBlockExpression block) {
 		block.expressions.last
 	}
+
 }

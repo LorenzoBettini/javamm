@@ -50,6 +50,70 @@ class JavammValidatorTest extends JavammAbstractTest {
 		)
 	}
 
+	@Test def void testTypeMismatchInArrayDimensionExpression() {
+		'''
+		int[] i = new int[] { 1, true, 2};
+		int[][] j = new int[][] {{ 1, 2}, { 1, "foo", 2}};
+		int[][] j = new int[][] { 1 };
+		'''.parse => [
+			assertTypeMismatch(
+				XbasePackage.eINSTANCE.XBooleanLiteral,
+				"int",
+				"boolean"
+			)
+			assertTypeMismatch(
+				XbasePackage.eINSTANCE.XStringLiteral,
+				"int",
+				"String"
+			)
+			assertTypeMismatch(
+				XbasePackage.eINSTANCE.XNumberLiteral,
+				"int[]",
+				"int"
+			)
+		]
+	}
+
+	@Test def void testArrayConstructorSpecifiesNeitherDimensionExpressionNorInitializer() {
+		'''
+		int[] a = new int[];
+		'''.parse.assertError(
+			javammPack.javammArrayConstructorCall,
+			JavammValidator.ARRAY_CONSTRUCTOR_EITHER_DIMENSION_EXPRESSION_OR_INITIALIZER,
+			"Constructor must provide either dimension expressions or an array initializer"
+		)
+	}
+
+	@Test def void testArrayConstructorSpecifiesBothDimensionExpressionAndInitializer() {
+		'''
+		int[] j = new int[1] {};
+		'''.parse.assertError(
+			javammPack.javammArrayConstructorCall,
+			JavammValidator.ARRAY_CONSTRUCTOR_BOTH_DIMENSION_EXPRESSION_AND_INITIALIZER,
+			"Cannot define dimension expressions when an array initializer is provided"
+		)
+	}
+
+	@Test def void testArrayConstructorSpecifiesDimensionExpressionAfterEmptyDimension() {
+		'''
+		int[][] j = new int[][0];
+		'''.parse.assertError(
+			XbasePackage.eINSTANCE.XNumberLiteral,
+			JavammValidator.ARRAY_CONSTRUCTOR_DIMENSION_EXPRESSION_AFTER_EMPTY_DIMENSION,
+			"Cannot specify an array dimension after an empty dimension"
+		)
+	}
+
+	@Test def void testArrayConstructorSpecifiesDimensionExpressionAfterEmptyDimension2() {
+		'''
+		int[][][] j = new int[0][][1];
+		'''.parse.assertError(
+			XbasePackage.eINSTANCE.XNumberLiteral,
+			JavammValidator.ARRAY_CONSTRUCTOR_DIMENSION_EXPRESSION_AFTER_EMPTY_DIMENSION,
+			"Cannot specify an array dimension after an empty dimension"
+		)
+	}
+
 	@Test def void testNotArrayTypeLeft() {
 		'''
 		int i;
