@@ -660,6 +660,18 @@ char c = 1000;
 '''
 	}
 
+	def charLiterals() {
+'''
+byte b = 'c';
+short s = 'c';
+char c = 'c';
+int i = 'c';
+long l = 'c';
+double d = 'c';
+float f = 'c';
+'''
+	}
+
 	def bubbleSort() {
 '''
 void bubbleSort(int[] array) {

@@ -1628,6 +1628,27 @@ public class MyFile {
 		)
 	}
 
+	@Test def void testCharLiterals() {
+		charLiterals.checkCompilation(
+'''
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    byte b = 'c';
+    short s = 'c';
+    char c = 'c';
+    int i = 'c';
+    long l = 'c';
+    double d = 'c';
+    float f = 'c';
+  }
+}
+'''
+		)
+	}
+
 	@Test def void testBubbleSort() {
 		bubbleSort.checkCompilation(
 '''
