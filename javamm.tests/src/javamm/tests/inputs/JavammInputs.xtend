@@ -723,7 +723,8 @@ void printBoard(int[][] s) {
    System.out.println();
   }
 }
-void main() {
+
+void testMe() {
   int[][] s = { { 4, 0, 0, 0 }, { 0, 0, 0, 3 }, 
     { 0, 1, 3, 0 },{ 0, 0, 0, 2 } };
   int n = 2;
@@ -732,8 +733,6 @@ void main() {
   System.out.println(solvable(p, n, s));
   printBoard( s );
 }
-
-main();
 '''
 	}
 }

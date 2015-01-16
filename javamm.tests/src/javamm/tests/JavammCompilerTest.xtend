@@ -1637,6 +1637,10 @@ true
 		r.compiledClass // check Java compilation succeeds
 	}
 
+	/**
+	 * Assumes that the generated Java code has a method testMe to call
+	 * and asserts what the run program prints on standard output.
+	 */
 	def private assertExecuteMain(CharSequence file, CharSequence expectedOutput) {
 		val classes = <Class<?>>newArrayList()
 		file.compile[
@@ -1648,9 +1652,9 @@ true
 		System.setOut(new PrintStream(out))
 		try {
 			val instance = clazz.newInstance
-			clazz.declaredMethods.findFirst[name == 'main'] => [
+			clazz.declaredMethods.findFirst[name == 'testMe'] => [
 				accessible = true
-				invoke(instance)	
+				invoke(instance, null) // just to pass an argument	
 			]
 		} finally {
 			System.setOut(backup)
