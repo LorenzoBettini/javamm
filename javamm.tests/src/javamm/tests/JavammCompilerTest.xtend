@@ -2,12 +2,15 @@ package javamm.tests
 
 import com.google.common.base.Joiner
 import com.google.inject.Inject
+import java.io.ByteArrayOutputStream
+import java.io.PrintStream
 import javamm.JavammInjectorProvider
 import org.eclipse.xtext.diagnostics.Severity
 import org.eclipse.xtext.junit4.InjectWith
 import org.eclipse.xtext.junit4.TemporaryFolder
 import org.eclipse.xtext.junit4.XtextRunner
 import org.eclipse.xtext.xbase.compiler.CompilationTestHelper
+import org.eclipse.xtext.xbase.compiler.CompilationTestHelper.Result
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -1376,41 +1379,6 @@ public class MyFile {
 			)
 	}
 
-	@Test def void testBubbleSort() {
-		bubbleSort.checkCompilation(
-'''
-package javamm;
-
-@SuppressWarnings("all")
-public class MyFile {
-  public static void bubbleSort(int[] array) {
-    boolean swapped = true;
-    int j = 0;
-    int tmp = 0;
-    while (swapped) {
-      {
-        swapped = false;
-        j = (j + 1);
-        for (int i = 0; (i < (array.length - j)); i++) {
-          boolean _greaterThan = (array[i] > array[(i + 1)]);
-          if (_greaterThan) {
-            tmp = array[i];
-            array[i] = array[(i + 1)];
-            array[(i + 1)] = tmp;
-            swapped = true;
-          }
-        }
-      }
-    }
-  }
-  
-  public static void main(String[] args) {
-  }
-}
-'''
-			)
-	}
-
 	@Test def void testCharTranslatedToJavaChar() {
 		'''
 		char c1 = 'c';
@@ -1619,22 +1587,81 @@ public class MyFile {
 			)
 	}
 
+	@Test def void testBubbleSort() {
+		bubbleSort.checkCompilation(
+'''
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void bubbleSort(int[] array) {
+    boolean swapped = true;
+    int j = 0;
+    int tmp = 0;
+    while (swapped) {
+      {
+        swapped = false;
+        j = (j + 1);
+        for (int i = 0; (i < (array.length - j)); i++) {
+          boolean _greaterThan = (array[i] > array[(i + 1)]);
+          if (_greaterThan) {
+            tmp = array[i];
+            array[i] = array[(i + 1)];
+            array[(i + 1)] = tmp;
+            swapped = true;
+          }
+        }
+      }
+    }
+  }
+  
+  public static void main(String[] args) {
+  }
+}
+'''
+			)
+	}
+
+	@Test def void testSudoku() {
+		sudoku.assertExecuteMain(
+'''
+4 0 0 0 
+0 0 0 3 
+0 1 3 0 
+0 0 0 2 
+true
+4 3 2 1 
+1 2 4 3 
+2 1 3 4 
+3 4 1 2 
+'''
+		)
+	}
+
 	def private checkCompilation(CharSequence input, CharSequence expectedGeneratedJava) {
 		checkCompilation(input, expectedGeneratedJava, true)
 	}
 
 	def private checkCompilation(CharSequence input, CharSequence expectedGeneratedJava, boolean checkValidationErrors) {
 		input.compile[
-			val allErrors = getErrorsAndWarnings.filter[severity == Severity.ERROR]
-			if (checkValidationErrors && !allErrors.empty) {
-				throw new IllegalStateException("One or more resources contained errors : "+
-					Joiner.on(',').join(allErrors)
-				);
+			if (checkValidationErrors) {
+				assertNoValidationErrors
 			}
 			
-			assertGeneratedJavaCode(expectedGeneratedJava)
+			if (expectedGeneratedJava != null) {
+				assertGeneratedJavaCode(expectedGeneratedJava)
+			}
 			assertGeneratedJavaCodeCompiles
 		]
+	}
+	
+	private def assertNoValidationErrors(Result it) {
+		val allErrors = getErrorsAndWarnings.filter[severity == Severity.ERROR]
+		if (!allErrors.empty) {
+			throw new IllegalStateException("One or more resources contained errors : "+
+				Joiner.on(',').join(allErrors)
+			);
+		}
 	}
 
 	def private assertGeneratedJavaCode(CompilationTestHelper.Result r, CharSequence expected) {
@@ -1645,4 +1672,28 @@ public class MyFile {
 		r.compiledClass // check Java compilation succeeds
 	}
 
+	/**
+	 * Assumes that the generated Java code has a method testMe to call
+	 * and asserts what the run program prints on standard output.
+	 */
+	def private assertExecuteMain(CharSequence file, CharSequence expectedOutput) {
+		val classes = <Class<?>>newArrayList()
+		file.compile[
+			classes += compiledClass
+		]
+		val clazz = classes.head
+		val out = new ByteArrayOutputStream()
+		val backup = System.out
+		System.setOut(new PrintStream(out))
+		try {
+			val instance = clazz.newInstance
+			clazz.declaredMethods.findFirst[name == 'testMe'] => [
+				accessible = true
+				invoke(instance, null) // just to pass an argument	
+			]
+		} finally {
+			System.setOut(backup)
+		}
+		assertEquals(expectedOutput.toString, out.toString)
+	} 
 }
