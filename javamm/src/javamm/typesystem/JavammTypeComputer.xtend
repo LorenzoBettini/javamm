@@ -1,5 +1,6 @@
 package javamm.typesystem
 
+import com.google.common.primitives.UnsignedInteger
 import com.google.inject.Inject
 import javamm.javamm.JavammArrayAccess
 import javamm.javamm.JavammArrayAccessExpression
@@ -21,13 +22,11 @@ import org.eclipse.xtext.xbase.XVariableDeclaration
 import org.eclipse.xtext.xbase.XbasePackage
 import org.eclipse.xtext.xbase.typesystem.computation.ILinkingCandidate
 import org.eclipse.xtext.xbase.typesystem.computation.ITypeComputationState
-import org.eclipse.xtext.xbase.typesystem.computation.NumberLiterals
 import org.eclipse.xtext.xbase.typesystem.computation.XbaseTypeComputer
 import org.eclipse.xtext.xbase.typesystem.internal.ExpressionTypeComputationState
 import org.eclipse.xtext.xbase.typesystem.references.ArrayTypeReference
 import org.eclipse.xtext.xbase.typesystem.references.LightweightTypeReference
 import org.eclipse.xtext.xbase.typesystem.util.CommonTypeComputationServices
-import com.google.common.primitives.UnsignedInteger
 
 /**
  * @author Lorenzo Bettini
@@ -36,9 +35,6 @@ class JavammTypeComputer extends XbaseTypeComputer {
 	
 	@Inject 
 	private CommonTypeComputationServices services;
-
-	@Inject
-	private NumberLiterals numberLiterals
 	
 	override computeTypes(XExpression expression, ITypeComputationState state) {
 		if (expression instanceof JavammXAssignment) {
@@ -84,12 +80,10 @@ class JavammTypeComputer extends XbaseTypeComputer {
 				var success = true
 				try {
 					if (primitiveName == Byte.TYPE.name) {
-						numberLiterals.numberValue(object, Byte)
+						Byte.parseByte(object.value)
 					} else if (primitiveName == Short.TYPE.name) {
-						// short case is not in NumerLiterals
 						Short.parseShort(object.value)
 					} else if (primitiveName == Character.TYPE.name) {
-						// char case is not in NumerLiterals
 						val unsigned = UnsignedInteger.valueOf(object.value)
 						success = (unsigned.intValue <= Character.MAX_VALUE)
 					} else {
