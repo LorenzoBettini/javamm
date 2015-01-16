@@ -127,6 +127,11 @@ XConstructorCall returns XExpression:
 		)? 
 	')')?;
 
+// dimensions and dimension expressions (feature indexes) are not associated during parsing,
+// the association, i.e., knowing whether a dimension expression comes after
+// an empty dimension (which is not legal), will be retrieved by
+// JavammModelUtil.arrayDimensionIndexAssociations(JavammArrayConstructorCall)
+// based on the offset of the [ and the array dimension XEpression
 JavammArrayConstructorCall returns XExpression:
 	=>({JavammArrayConstructorCall}
 	'new'
