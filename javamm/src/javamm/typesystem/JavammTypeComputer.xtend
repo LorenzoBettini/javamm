@@ -27,6 +27,7 @@ import org.eclipse.xtext.xbase.typesystem.internal.ExpressionTypeComputationStat
 import org.eclipse.xtext.xbase.typesystem.references.ArrayTypeReference
 import org.eclipse.xtext.xbase.typesystem.references.LightweightTypeReference
 import org.eclipse.xtext.xbase.typesystem.util.CommonTypeComputationServices
+import org.eclipse.xtext.xbase.XSwitchExpression
 
 /**
  * @author Lorenzo Bettini
@@ -110,6 +111,26 @@ class JavammTypeComputer extends XbaseTypeComputer {
 			}
 		}
 		super._computeTypes(object, state)
+	}
+
+	/**
+	 * In Javamm the switch statement is simpler, and it must type check the
+	 * case expressions 
+	 */
+	override protected _computeTypes(XSwitchExpression object, ITypeComputationState state) {
+		val computedType = state.computeTypes(object.getSwitch());
+		
+		val expressionType = computedType.getActualExpressionType();
+		
+		for (c : object.cases) {
+			val caseState = state.withExpectation(expressionType)
+			caseState.computeTypes(c.^case)
+			state.withoutExpectation.computeTypes(c.then)
+		}
+		
+		if (object.^default != null) {
+			state.withoutExpectation.computeTypes(object.^default)
+		}
 	}
 
 	def protected _computeTypes(JavammXVariableDeclaration object, ITypeComputationState state) {

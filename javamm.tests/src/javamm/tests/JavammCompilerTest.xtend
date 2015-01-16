@@ -1351,6 +1351,30 @@ public class MyFile {
 			)
 	}
 
+	@Test def void testSwitchStatementWithBytes() {
+		switchStatementWithBytes.checkCompilation(
+'''
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    byte b = 0;
+    switch (b) {
+      case 10:
+        System.out.println("10");
+      default:
+        {
+          System.out.println("default");
+          break;
+        }
+    }
+  }
+}
+'''
+			)
+	}
+
 	@Test def void testVarNameSameAsMethodName() {
 		varNameSameAsMethodName.checkCompilation(
 '''

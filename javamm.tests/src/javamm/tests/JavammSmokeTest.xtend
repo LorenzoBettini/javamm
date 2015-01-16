@@ -16,6 +16,14 @@ class JavammSmokeTest extends JavammAbstractTest {
 		'''.parseAndValidate
 	}
 
+	@Test def void testSwitchWithoutThen() {
+		'''
+		byte b;
+		switch (b) {
+			case 10:
+		'''.parseAndValidate
+	}
+
 	def private parseAndValidate(CharSequence input) {
 		input.parse.validate
 	}
