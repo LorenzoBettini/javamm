@@ -636,6 +636,14 @@ System.out.println("numOfDigits(3456): " +numOfDigits(3456));
 '''
 	}
 
+	def numberLiterals() {
+'''
+byte b = 100;
+short s = 1000;
+char c = 1000;
+'''
+	}
+
 	def bubbleSort() {
 '''
 void bubbleSort(int[] array) {
