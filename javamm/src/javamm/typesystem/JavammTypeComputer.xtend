@@ -71,6 +71,16 @@ class JavammTypeComputer extends XbaseTypeComputer {
 		}
 	}
 
+	/**
+	 * The original implementation in Xbase does not consider possible type expectations,
+	 * failing to correctly type these cases, which are valid in Java:
+	 * 
+	 * <pre>
+	 * byte b = 100;
+	 * short s = 1000;
+	 * char c = 1000;
+	 * </pre>
+	 */
 	override protected _computeTypes(XNumberLiteral object, ITypeComputationState state) {
 		val expectations = state.expectations
 		for (typeExpectation : expectations.map[expectedType].filterNull) {
