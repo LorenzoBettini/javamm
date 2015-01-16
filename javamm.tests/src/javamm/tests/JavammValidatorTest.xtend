@@ -74,6 +74,16 @@ class JavammValidatorTest extends JavammAbstractTest {
 		]
 	}
 
+	@Test def void testArrayConstructorSpecifiesNeitherDimensionExpressionNorInitializer() {
+		'''
+		int[] a = new int[];
+		'''.parse.assertError(
+			javammPack.javammArrayConstructorCall,
+			JavammValidator.ARRAY_CONSTRUCTOR_EITHER_DIMENSION_EXPRESSION_OR_INITIALIZER,
+			"Constructor must provide either dimension expressions or an array initializer"
+		)
+	}
+
 	@Test def void testNotArrayTypeLeft() {
 		'''
 		int i;

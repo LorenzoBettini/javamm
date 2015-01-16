@@ -5,6 +5,8 @@ package javamm.validation
 
 import com.google.inject.Inject
 import java.util.ArrayList
+import javamm.javamm.JavammAdditionalXVariableDeclaration
+import javamm.javamm.JavammArrayConstructorCall
 import javamm.javamm.JavammBranchingStatement
 import javamm.javamm.JavammBreakStatement
 import javamm.javamm.JavammContinueStatement
@@ -35,7 +37,6 @@ import org.eclipse.xtext.xbase.XbasePackage
 import org.eclipse.xtext.xbase.typesystem.util.Multimaps2
 import org.eclipse.xtext.xbase.validation.IssueCodes
 import org.eclipse.xtext.xbase.validation.XbaseValidator
-import javamm.javamm.JavammAdditionalXVariableDeclaration
 
 //import org.eclipse.xtext.validation.Check
 
@@ -57,6 +58,8 @@ class JavammValidator extends XbaseValidator {
 	public static val MISSING_PARENTHESES = PREFIX + "MissingParentheses"
 	
 	public static val DUPLICATE_METHOD = PREFIX + "DuplicateMethod"
+	
+	public static val ARRAY_CONSTRUCTOR_EITHER_DIMENSION_EXPRESSION_OR_INITIALIZER = PREFIX + "ArrayConstructorEitherDimensionExpressionOrInitializer"
 	
 	static val xbasePackage = XbasePackage.eINSTANCE;
 	
@@ -211,6 +214,20 @@ class JavammValidator extends XbaseValidator {
 	@Check
 	def checkMissingParentheses(XMemberFeatureCall call) {
 		checkMissingParenthesesInternal(call, call.isExplicitOperationCall)
+	}
+
+	@Check
+	def checkArrayConstructor(JavammArrayConstructorCall cons) {
+		
+		val arrayLiteral = cons.arrayLiteral
+		
+		if (cons.indexes.empty && arrayLiteral == null) {
+			error(
+				"Constructor must provide either dimension expressions or an array initializer",
+				cons, null,
+				ARRAY_CONSTRUCTOR_EITHER_DIMENSION_EXPRESSION_OR_INITIALIZER
+			)
+		}
 	}
 
 	def private checkMissingParenthesesInternal(XAbstractFeatureCall call, boolean explicitOpCall) {
