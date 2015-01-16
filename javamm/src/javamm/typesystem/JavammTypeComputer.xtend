@@ -101,7 +101,7 @@ class JavammTypeComputer extends XbaseTypeComputer {
 		val typeReference = services.typeReferences.createTypeRef(call.type)
 		val lightweight = getReferenceOwner(state).toLightweightTypeReference(typeReference)
 		var arrayTypeRef = lightweight
-		for (i : 0..<call.indexes.size) {
+		for (i : 0..<call.dimensions.size) {
 			arrayTypeRef = getReferenceOwner(state).newArrayTypeReference(arrayTypeRef)
 		}
 		state.acceptActualType(arrayTypeRef)
