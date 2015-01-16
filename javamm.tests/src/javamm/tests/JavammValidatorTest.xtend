@@ -50,6 +50,30 @@ class JavammValidatorTest extends JavammAbstractTest {
 		)
 	}
 
+	@Test def void testTypeMismatchInArrayDimensionExpression() {
+		'''
+		int[] i = new int[] { 1, true, 2};
+		int[][] j = new int[][] {{ 1, 2}, { 1, "foo", 2}};
+		int[][] j = new int[][] { 1 };
+		'''.parse => [
+			assertTypeMismatch(
+				XbasePackage.eINSTANCE.XBooleanLiteral,
+				"int",
+				"boolean"
+			)
+			assertTypeMismatch(
+				XbasePackage.eINSTANCE.XStringLiteral,
+				"int",
+				"String"
+			)
+			assertTypeMismatch(
+				XbasePackage.eINSTANCE.XNumberLiteral,
+				"int[]",
+				"int"
+			)
+		]
+	}
+
 	@Test def void testNotArrayTypeLeft() {
 		'''
 		int i;
