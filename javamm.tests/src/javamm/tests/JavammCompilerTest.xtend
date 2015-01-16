@@ -366,7 +366,7 @@ public class MyFile {
 			)
 	}
 
-	@Test def void testArrayConstrcutorCallInVarDecl() {
+	@Test def void testArrayConstructorCallInVarDecl() {
 		arrayConstructorCallInVarDecl.checkCompilation(
 '''
 package javamm;
@@ -382,7 +382,7 @@ public class MyFile {
 			)
 	}
 
-	@Test def void testMultiArrayConstrcutorCallInVarDecl() {
+	@Test def void testMultiArrayConstructorCallInVarDecl() {
 		multiArrayConstructorCallInVarDecl.checkCompilation(
 '''
 package javamm;
@@ -392,6 +392,25 @@ public class MyFile {
   public static void main(String[] args) {
     int[][] i = new int[10][20];
     String[][] a = new String[args.length][(args.length + 1)];
+  }
+}
+'''
+			)
+	}
+
+	@Test def void testMultiArrayConstructorCallWithArrayLiteral() {
+		'''
+		int[][][] a1 = new int[0][][];
+		int[][][] a2 = new int[0][1][];
+		'''.checkCompilation(
+'''
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int[][][] a1 = new int[0][][];
+    int[][][] a2 = new int[0][1][];
   }
 }
 '''
