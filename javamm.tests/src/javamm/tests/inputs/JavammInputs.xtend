@@ -621,6 +621,22 @@ class JavammInputs {
 		'''
 	}
 
+	def switchStatementWithBytes() {
+		'''
+		byte b;
+		switch (b) {
+			case 10:
+				System.out.println("10");
+			//case 'f' : 
+			//	System.out.println("f");
+			//	break;
+			default: 
+				System.out.println("default");
+				break;
+		}
+		'''
+	}
+
 	def varNameSameAsMethodName() {
 '''
 int numOfDigits(int num) {

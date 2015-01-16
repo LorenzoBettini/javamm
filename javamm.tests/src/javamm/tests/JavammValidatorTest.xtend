@@ -264,7 +264,7 @@ class JavammValidatorTest extends JavammAbstractTest {
 				break;
 		}
 		'''.parse.assertTypeMismatch(
-			XbasePackage.eINSTANCE.XCasePart,
+			XbasePackage.eINSTANCE.XStringLiteral,
 			"char", "String"
 		)
 	}
