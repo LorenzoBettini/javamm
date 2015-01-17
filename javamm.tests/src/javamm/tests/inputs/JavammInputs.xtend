@@ -627,9 +627,9 @@ class JavammInputs {
 		switch (b) {
 			case 10:
 				System.out.println("10");
-			//case 'f' : 
-			//	System.out.println("f");
-			//	break;
+			case 'f' : 
+				System.out.println("f");
+				break;
 			default: 
 				System.out.println("default");
 				break;
@@ -657,6 +657,18 @@ System.out.println("numOfDigits(3456): " +numOfDigits(3456));
 byte b = 100;
 short s = 1000;
 char c = 1000;
+'''
+	}
+
+	def charLiterals() {
+'''
+byte b = 'c';
+short s = 'c';
+char c = 'c';
+int i = 'c';
+long l = 'c';
+double d = 'c';
+float f = 'c';
 '''
 	}
 

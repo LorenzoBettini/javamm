@@ -1363,6 +1363,9 @@ public class MyFile {
     switch (b) {
       case 10:
         System.out.println("10");
+      case 'f':
+        System.out.println("f");
+        break;
       default:
         {
           System.out.println("default");
@@ -1622,6 +1625,27 @@ public class MyFile {
     byte b = 100;
     short s = 1000;
     char c = 1000;
+  }
+}
+'''
+		)
+	}
+
+	@Test def void testCharLiterals() {
+		charLiterals.checkCompilation(
+'''
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    byte b = 'c';
+    short s = 'c';
+    char c = 'c';
+    int i = 'c';
+    long l = 'c';
+    double d = 'c';
+    float f = 'c';
   }
 }
 '''

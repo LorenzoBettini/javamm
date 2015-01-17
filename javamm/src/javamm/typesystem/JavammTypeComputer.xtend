@@ -28,6 +28,7 @@ import org.eclipse.xtext.xbase.typesystem.references.ArrayTypeReference
 import org.eclipse.xtext.xbase.typesystem.references.LightweightTypeReference
 import org.eclipse.xtext.xbase.typesystem.util.CommonTypeComputationServices
 import org.eclipse.xtext.xbase.XSwitchExpression
+import org.eclipse.xtext.common.types.util.Primitives
 
 /**
  * @author Lorenzo Bettini
@@ -141,7 +142,22 @@ class JavammTypeComputer extends XbaseTypeComputer {
 		}
 	}
 
+	/**
+	 * We must consider possible type expectations since a char literal can be
+	 * assigned also to a primitive numeric type.
+	 */
 	def protected _computeTypes(JavammCharLiteral object, ITypeComputationState state) {
+		val expectations = state.expectations
+		for (typeExpectation : expectations.map[expectedType].filterNull) {
+			val primitive = typeExpectation.primitiveKind
+			if (primitive != null && primitive != Primitives.Primitive.Void &&
+				primitive != Primitives.Primitive.Boolean
+			) {
+				state.acceptActualType(typeExpectation)
+				return;
+			}
+		}
+		
 		val result = getTypeForName(Character.TYPE, state);
 		state.acceptActualType(result);
 	}

@@ -251,6 +251,22 @@ class JavammValidatorTest extends JavammAbstractTest {
 		)
 	}
 
+	@Test def void testInvalidCharLiteralAssignmentToBoolean() {
+		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=457779
+		'''
+		boolean b = 's';
+		'''.parse.assertTypeMismatch(
+			javammPack.javammCharLiteral,
+			"boolean", "char"
+		)
+	}
+
+	@Test def void testBooleanLiteralAssignableToBoolean() {
+		'''
+		boolean b = true;
+		'''.parseAndAssertNoErrors
+	}
+
 	@Test def void testInvalidSwitchCaseType() {
 		'''
 		String firstArg = args[0];
