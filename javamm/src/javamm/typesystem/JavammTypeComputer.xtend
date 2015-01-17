@@ -144,7 +144,7 @@ class JavammTypeComputer extends XbaseTypeComputer {
 
 	/**
 	 * We must consider possible type expectations since a char literal can be
-	 * assigned also to a primitive numeric types.
+	 * assigned also to a primitive numeric type.
 	 */
 	def protected _computeTypes(JavammCharLiteral object, ITypeComputationState state) {
 		val expectations = state.expectations
