@@ -11,15 +11,16 @@ import javamm.javamm.JavammXVariableDeclaration
 import javamm.validation.JavammValidator
 import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.xtext.common.types.JvmIdentifiableElement
+import org.eclipse.xtext.common.types.util.Primitives
 import org.eclipse.xtext.diagnostics.Severity
 import org.eclipse.xtext.validation.EObjectDiagnosticImpl
 import org.eclipse.xtext.xbase.XExpression
 import org.eclipse.xtext.xbase.XStringLiteral
+import org.eclipse.xtext.xbase.XSwitchExpression
 import org.eclipse.xtext.xbase.XVariableDeclaration
 import org.eclipse.xtext.xbase.XbasePackage
 import org.eclipse.xtext.xbase.typesystem.computation.ILinkingCandidate
 import org.eclipse.xtext.xbase.typesystem.computation.ITypeComputationState
-import org.eclipse.xtext.xbase.typesystem.computation.XbaseTypeComputer
 import org.eclipse.xtext.xbase.typesystem.internal.ExpressionTypeComputationState
 import org.eclipse.xtext.xbase.typesystem.references.ArrayTypeReference
 import org.eclipse.xtext.xbase.typesystem.references.LightweightTypeReference
@@ -28,7 +29,7 @@ import org.eclipse.xtext.xbase.typesystem.util.CommonTypeComputationServices
 /**
  * @author Lorenzo Bettini
  */
-class JavammTypeComputer extends XbaseTypeComputer {
+class JavammTypeComputer extends PatchedTypeComputer {
 	
 	@Inject 
 	private CommonTypeComputationServices services;
@@ -68,6 +69,26 @@ class JavammTypeComputer extends XbaseTypeComputer {
 		}
 	}
 
+	/**
+	 * In Javamm the switch statement is simpler, and it must type check the
+	 * case expressions 
+	 */
+	override protected _computeTypes(XSwitchExpression object, ITypeComputationState state) {
+		val computedType = state.computeTypes(object.getSwitch());
+		
+		val expressionType = computedType.getActualExpressionType();
+		
+		for (c : object.cases) {
+			val caseState = state.withExpectation(expressionType)
+			caseState.computeTypes(c.^case)
+			state.withoutExpectation.computeTypes(c.then)
+		}
+		
+		if (object.^default != null) {
+			state.withoutExpectation.computeTypes(object.^default)
+		}
+	}
+
 	def protected _computeTypes(JavammXVariableDeclaration object, ITypeComputationState state) {
 		super._computeTypes(object, state)
 		// and also comput types for possible additional declarations
@@ -76,7 +97,22 @@ class JavammTypeComputer extends XbaseTypeComputer {
 		}
 	}
 
+	/**
+	 * We must consider possible type expectations since a char literal can be
+	 * assigned also to a primitive numeric type.
+	 */
 	def protected _computeTypes(JavammCharLiteral object, ITypeComputationState state) {
+		val expectations = state.expectations
+		for (typeExpectation : expectations.map[expectedType].filterNull) {
+			val primitive = typeExpectation.primitiveKind
+			if (primitive != null && primitive != Primitives.Primitive.Void &&
+				primitive != Primitives.Primitive.Boolean
+			) {
+				state.acceptActualType(typeExpectation)
+				return;
+			}
+		}
+		
 		val result = getTypeForName(Character.TYPE, state);
 		state.acceptActualType(result);
 	}
@@ -101,8 +137,11 @@ class JavammTypeComputer extends XbaseTypeComputer {
 		val typeReference = services.typeReferences.createTypeRef(call.type)
 		val lightweight = getReferenceOwner(state).toLightweightTypeReference(typeReference)
 		var arrayTypeRef = lightweight
-		for (i : 0..<call.indexes.size) {
+		for (i : 0..<call.dimensions.size) {
 			arrayTypeRef = getReferenceOwner(state).newArrayTypeReference(arrayTypeRef)
+		}
+		if (call.arrayLiteral != null) {
+			state.withExpectation(arrayTypeRef).computeTypes(call.arrayLiteral)
 		}
 		state.acceptActualType(arrayTypeRef)
 	}

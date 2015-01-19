@@ -50,6 +50,70 @@ class JavammValidatorTest extends JavammAbstractTest {
 		)
 	}
 
+	@Test def void testTypeMismatchInArrayDimensionExpression() {
+		'''
+		int[] i = new int[] { 1, true, 2};
+		int[][] j = new int[][] {{ 1, 2}, { 1, "foo", 2}};
+		int[][] j = new int[][] { 1 };
+		'''.parse => [
+			assertTypeMismatch(
+				XbasePackage.eINSTANCE.XBooleanLiteral,
+				"int",
+				"boolean"
+			)
+			assertTypeMismatch(
+				XbasePackage.eINSTANCE.XStringLiteral,
+				"int",
+				"String"
+			)
+			assertTypeMismatch(
+				XbasePackage.eINSTANCE.XNumberLiteral,
+				"int[]",
+				"int"
+			)
+		]
+	}
+
+	@Test def void testArrayConstructorSpecifiesNeitherDimensionExpressionNorInitializer() {
+		'''
+		int[] a = new int[];
+		'''.parse.assertError(
+			javammPack.javammArrayConstructorCall,
+			JavammValidator.ARRAY_CONSTRUCTOR_EITHER_DIMENSION_EXPRESSION_OR_INITIALIZER,
+			"Constructor must provide either dimension expressions or an array initializer"
+		)
+	}
+
+	@Test def void testArrayConstructorSpecifiesBothDimensionExpressionAndInitializer() {
+		'''
+		int[] j = new int[1] {};
+		'''.parse.assertError(
+			javammPack.javammArrayConstructorCall,
+			JavammValidator.ARRAY_CONSTRUCTOR_BOTH_DIMENSION_EXPRESSION_AND_INITIALIZER,
+			"Cannot define dimension expressions when an array initializer is provided"
+		)
+	}
+
+	@Test def void testArrayConstructorSpecifiesDimensionExpressionAfterEmptyDimension() {
+		'''
+		int[][] j = new int[][0];
+		'''.parse.assertError(
+			XbasePackage.eINSTANCE.XNumberLiteral,
+			JavammValidator.ARRAY_CONSTRUCTOR_DIMENSION_EXPRESSION_AFTER_EMPTY_DIMENSION,
+			"Cannot specify an array dimension after an empty dimension"
+		)
+	}
+
+	@Test def void testArrayConstructorSpecifiesDimensionExpressionAfterEmptyDimension2() {
+		'''
+		int[][][] j = new int[0][][1];
+		'''.parse.assertError(
+			XbasePackage.eINSTANCE.XNumberLiteral,
+			JavammValidator.ARRAY_CONSTRUCTOR_DIMENSION_EXPRESSION_AFTER_EMPTY_DIMENSION,
+			"Cannot specify an array dimension after an empty dimension"
+		)
+	}
+
 	@Test def void testNotArrayTypeLeft() {
 		'''
 		int i;
@@ -187,6 +251,22 @@ class JavammValidatorTest extends JavammAbstractTest {
 		)
 	}
 
+	@Test def void testInvalidCharLiteralAssignmentToBoolean() {
+		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=457779
+		'''
+		boolean b = 's';
+		'''.parse.assertTypeMismatch(
+			javammPack.javammCharLiteral,
+			"boolean", "char"
+		)
+	}
+
+	@Test def void testBooleanLiteralAssignableToBoolean() {
+		'''
+		boolean b = true;
+		'''.parseAndAssertNoErrors
+	}
+
 	@Test def void testInvalidSwitchCaseType() {
 		'''
 		String firstArg = args[0];
@@ -200,7 +280,7 @@ class JavammValidatorTest extends JavammAbstractTest {
 				break;
 		}
 		'''.parse.assertTypeMismatch(
-			XbasePackage.eINSTANCE.XCasePart,
+			XbasePackage.eINSTANCE.XStringLiteral,
 			"char", "String"
 		)
 	}
@@ -357,6 +437,34 @@ class JavammValidatorTest extends JavammAbstractTest {
 		The value of the local variable k is not used
 		'''
 		)
+	}
+
+	@Test def void testIntegerCannotBeAssignedToByte() {
+		"byte b = 1000;".parse.assertNumberLiteralTypeMismatch("byte", "int")
+	}
+
+	@Test def void testIntegerCannotBeAssignedToChar() {
+		"char c = 100000;".parse.assertNumberLiteralTypeMismatch("char", "int")
+	}
+
+	@Test def void testIntegerCannotBeAssignedToChar2() {
+		"char c = -10000;".parse.assertTypeMismatch(XbasePackage.eINSTANCE.XUnaryOperation, "char", "int")
+	}
+
+	@Test def void testMaxValueChar() {
+		"char c = 65535;".parseAndAssertNoErrors
+	}
+
+	@Test def void testIntegerCannotBeAssignedToShort() {
+		"short s = 100000;".parse.assertNumberLiteralTypeMismatch("short", "int")
+	}
+
+	@Test def void testIntegerCannotBeAssignedToShort2() {
+		"short s = -10000;".parse.assertTypeMismatch(XbasePackage.eINSTANCE.XUnaryOperation, "short", "int")
+	}
+
+	def private assertNumberLiteralTypeMismatch(EObject o, String expectedType, String actualType) {
+		o.assertTypeMismatch(XbasePackage.eINSTANCE.XNumberLiteral, expectedType, actualType)
 	}
 
 	def private assertTypeMismatch(EObject o, EClass c, String expectedType, String actualType) {

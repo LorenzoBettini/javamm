@@ -7,8 +7,10 @@ import javamm.controlflow.JavammBranchingStatementDetector;
 import javamm.javamm.JavammArrayAccess;
 import javamm.javamm.JavammArrayAccessExpression;
 import javamm.javamm.JavammArrayConstructorCall;
+import javamm.javamm.JavammArrayLiteral;
 import javamm.javamm.JavammBranchingStatement;
 import javamm.javamm.JavammBreakStatement;
+import javamm.javamm.JavammCharLiteral;
 import javamm.javamm.JavammContinueStatement;
 import javamm.javamm.JavammXVariableDeclaration;
 import javamm.util.JavammModelUtil;
@@ -19,6 +21,7 @@ import org.eclipse.xtext.common.types.JvmField;
 import org.eclipse.xtext.common.types.JvmIdentifiableElement;
 import org.eclipse.xtext.common.types.JvmOperation;
 import org.eclipse.xtext.generator.trace.ILocationData;
+import org.eclipse.xtext.util.Strings;
 import org.eclipse.xtext.xbase.XAbstractFeatureCall;
 import org.eclipse.xtext.xbase.XAssignment;
 import org.eclipse.xtext.xbase.XBasicForLoopExpression;
@@ -117,20 +120,39 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 			_toJavaExpression((JavammArrayConstructorCall) obj, appendable);
 		} else if (obj instanceof JavammArrayAccessExpression) {
 			_toJavaExpression((JavammArrayAccessExpression) obj, appendable);
+		} else if (obj instanceof JavammCharLiteral) {
+			_toJavaExpression((JavammCharLiteral) obj, appendable);
 		} else {
 			super.internalToConvertedExpression(obj, appendable);
 		}
 	}
 
 	public void _toJavaExpression(JavammArrayConstructorCall call, ITreeAppendable b) {
-		b.append("new ");
-		b.append(call.getType());
+		if (call.getArrayLiteral() == null) {
+			// otherwise we simply compile the array literal
+			// assuming that no dimension expression has been specified
+			// (checked by the validator)
+			b.append("new ");
+			b.append(call.getType());
+		}
 		compileArrayAccess(call, b);
 	}
 
 	public void _toJavaExpression(JavammArrayAccessExpression arrayAccess, ITreeAppendable b) {
 		internalToConvertedExpression(arrayAccess.getArray(), b);
 		compileArrayAccess(arrayAccess, b);
+	}
+
+	/**
+	 * Always compile into a char literal (we've already type checked that, and we
+	 * can assign it also to numeric variables as in Java).
+	 * 
+	 * @param literal
+	 * @param appendable
+	 */
+	public void _toJavaExpression(JavammCharLiteral literal, ITreeAppendable appendable) {
+		String javaString = Strings.convertToJavaString(literal.getValue(), true);
+		appendable.append("'").append(javaString).append("'");
 	}
 
 	@Override
@@ -401,6 +423,31 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 					internalToJavaExpression(index, b);
 					b.append("]");
 				}
+			}
+		}
+	}
+
+	/**
+	 * Specialization for {@link JavammArrayConstructorCall} since it can
+	 * have dimensions without dimension expression (index).
+	 * 
+	 * @param cons
+	 * @param b
+	 */
+	private void compileArrayAccess(JavammArrayConstructorCall cons, ITreeAppendable b) {
+		JavammArrayLiteral arrayLiteral = cons.getArrayLiteral();
+
+		if (arrayLiteral != null) {
+			internalToJavaExpression(arrayLiteral, b);
+		} else {
+			Iterable<XExpression> dimensionsAndIndexes = modelUtil.arrayDimensionIndexAssociations(cons);
+			
+			for (XExpression e : dimensionsAndIndexes) {
+				b.append("[");
+				if (e != null) {
+					internalToJavaExpression(e, b);
+				}
+				b.append("]");
 			}
 		}
 	}

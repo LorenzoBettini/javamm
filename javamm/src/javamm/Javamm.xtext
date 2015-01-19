@@ -127,10 +127,26 @@ XConstructorCall returns XExpression:
 		)? 
 	')')?;
 
+// dimensions and dimension expressions (feature indexes) are not associated during parsing,
+// the association, i.e., knowing whether a dimension expression comes after
+// an empty dimension (which is not legal), will be retrieved by
+// JavammModelUtil.arrayDimensionIndexAssociations(JavammArrayConstructorCall)
+// based on the offset of the [ and the array dimension XEpression
 JavammArrayConstructorCall returns XExpression:
 	=>({JavammArrayConstructorCall}
 	'new'
-	type=[types::JvmType|QualifiedName] '[') indexes+=XExpression ']'(=>'[' indexes+=XExpression ']')*
+	type=[types::JvmType|QualifiedName] dimensions+=JavammArrayDimension) 
+	// getting here is enough to tell it's an array constructor call
+	(indexes+=XExpression)? ']'
+	(=>dimensions+=JavammArrayDimension (indexes+=XExpression)? ']')*
+	(=>arrayLiteral=JavammArrayLiteral)?
+;
+
+// We need an EObject instead of a simple String since we then
+// need to find the corresponding node (and offset) with NodeModelUtils
+// in order to associate dimensions with indexes
+JavammArrayDimension:
+	{JavammArrayDimension} openBracket='['
 ;
 
 XPostfixOperation returns XExpression:
@@ -238,7 +254,9 @@ XLiteral returns XExpression:
 //	XTypeLiteral
 ;
 
-JavammArrayLiteral returns XListLiteral:
+// it is a subclass of XListLiteral, so that we will reuse
+// type computation and compiler from Xbase
+JavammArrayLiteral returns JavammArrayLiteral:
 	{JavammArrayLiteral} '{' (elements+=XExpression (',' elements+=XExpression )*)? '}'
 ;
 
