@@ -483,6 +483,17 @@ class JavammValidatorTest extends JavammAbstractTest {
 		)
 	}
 
+	@Test def void testArrayAccessOnMemberFeatureCallNotAnArray() {
+		'''
+		int a;
+		int l = a[0].length;
+		'''.parse.assertErrorsAsStrings(
+		'''
+		Couldn't resolve reference to JvmIdentifiableElement 'length'.
+		'''
+		)
+	}
+
 	@Test def void testIntegerCannotBeAssignedToByte() {
 		"byte b = 1000;".parse.assertNumberLiteralTypeMismatch("byte", "int")
 	}
