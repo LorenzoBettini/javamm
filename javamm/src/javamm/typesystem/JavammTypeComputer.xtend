@@ -1,6 +1,5 @@
 package javamm.typesystem
 
-import com.google.common.primitives.UnsignedInteger
 import com.google.inject.Inject
 import javamm.javamm.JavammArrayAccess
 import javamm.javamm.JavammArrayAccessExpression
@@ -12,28 +11,25 @@ import javamm.javamm.JavammXVariableDeclaration
 import javamm.validation.JavammValidator
 import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.xtext.common.types.JvmIdentifiableElement
-import org.eclipse.xtext.common.types.JvmPrimitiveType
+import org.eclipse.xtext.common.types.util.Primitives
 import org.eclipse.xtext.diagnostics.Severity
 import org.eclipse.xtext.validation.EObjectDiagnosticImpl
 import org.eclipse.xtext.xbase.XExpression
-import org.eclipse.xtext.xbase.XNumberLiteral
 import org.eclipse.xtext.xbase.XStringLiteral
+import org.eclipse.xtext.xbase.XSwitchExpression
 import org.eclipse.xtext.xbase.XVariableDeclaration
 import org.eclipse.xtext.xbase.XbasePackage
 import org.eclipse.xtext.xbase.typesystem.computation.ILinkingCandidate
 import org.eclipse.xtext.xbase.typesystem.computation.ITypeComputationState
-import org.eclipse.xtext.xbase.typesystem.computation.XbaseTypeComputer
 import org.eclipse.xtext.xbase.typesystem.internal.ExpressionTypeComputationState
 import org.eclipse.xtext.xbase.typesystem.references.ArrayTypeReference
 import org.eclipse.xtext.xbase.typesystem.references.LightweightTypeReference
 import org.eclipse.xtext.xbase.typesystem.util.CommonTypeComputationServices
-import org.eclipse.xtext.xbase.XSwitchExpression
-import org.eclipse.xtext.common.types.util.Primitives
 
 /**
  * @author Lorenzo Bettini
  */
-class JavammTypeComputer extends XbaseTypeComputer {
+class JavammTypeComputer extends PatchedTypeComputer {
 	
 	@Inject 
 	private CommonTypeComputationServices services;
@@ -71,47 +67,6 @@ class JavammTypeComputer extends XbaseTypeComputer {
 				addLocalToCurrentScope(additional, state)
 			}
 		}
-	}
-
-	/**
-	 * The original implementation in Xbase does not consider possible type expectations,
-	 * failing to correctly type these cases, which are valid in Java:
-	 * 
-	 * <pre>
-	 * byte b = 100;
-	 * short s = 1000;
-	 * char c = 1000;
-	 * </pre>
-	 */
-	override protected _computeTypes(XNumberLiteral object, ITypeComputationState state) {
-		val expectations = state.expectations
-		for (typeExpectation : expectations.map[expectedType].filterNull) {
-			val expectedType = typeExpectation.type
-			if (expectedType instanceof JvmPrimitiveType) {
-				val primitiveName = expectedType.identifier
-				var success = true
-				try {
-					if (primitiveName == Byte.TYPE.name) {
-						Byte.parseByte(object.value)
-					} else if (primitiveName == Short.TYPE.name) {
-						Short.parseShort(object.value)
-					} else if (primitiveName == Character.TYPE.name) {
-						val unsigned = UnsignedInteger.valueOf(object.value)
-						success = (unsigned.intValue <= Character.MAX_VALUE)
-					} else {
-						success = false
-					}
-				} catch (IllegalArgumentException e) {
-					success = false
-				}
-				
-				if (success) {
-					state.acceptActualType(typeExpectation)
-					return;
-				}
-			}
-		}
-		super._computeTypes(object, state)
 	}
 
 	/**
