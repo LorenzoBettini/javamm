@@ -25,6 +25,7 @@ import org.eclipse.xtext.xbase.typesystem.internal.ExpressionTypeComputationStat
 import org.eclipse.xtext.xbase.typesystem.references.ArrayTypeReference
 import org.eclipse.xtext.xbase.typesystem.references.LightweightTypeReference
 import org.eclipse.xtext.xbase.typesystem.util.CommonTypeComputationServices
+import javamm.javamm.JavammXMemberFeatureCall
 
 /**
  * @author Lorenzo Bettini
@@ -46,6 +47,8 @@ class JavammTypeComputer extends PatchedTypeComputer {
 		} else if (expression instanceof JavammCharLiteral) {
 			_computeTypes(expression, state)
 		} else if (expression instanceof JavammXVariableDeclaration) {
+			_computeTypes(expression, state)
+		} else if (expression instanceof JavammXMemberFeatureCall) {
 			_computeTypes(expression, state)
 		} else {
 			super.computeTypes(expression, state)
@@ -122,6 +125,11 @@ class JavammTypeComputer extends PatchedTypeComputer {
 		val best = getBestCandidate(candidates);
 		best.applyToComputationState();
 		computeTypesOfArrayAccess(assignment, best, state, XbasePackage.Literals.XASSIGNMENT__ASSIGNABLE)
+	}
+
+	def protected _computeTypes(JavammXMemberFeatureCall call, ITypeComputationState state) {
+		super._computeTypes(call, state)
+		checkArrayIndexHasTypeInt(call, state)
 	}
 
 	def protected _computeTypes(JavammArrayAccessExpression arrayAccess, ITypeComputationState state) {

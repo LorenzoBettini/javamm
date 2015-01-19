@@ -254,6 +254,28 @@ public class MyFile {
 			)
 	}
 
+	@Test def void testArrayAccessFromMemberFeatureCallReceiver() {
+		arrayAccessFromMemberFeatureCallReceiver.checkCompilation(
+'''
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int[][] arr = null;
+    int l = 0;
+    int _length = arr[0].length;
+    l = _length;
+    boolean _equals = arr[0].equals(arr[1]);
+    System.out.println(_equals);
+    int _hashCode = arr[0].hashCode();
+    System.out.println(_hashCode);
+  }
+}
+'''
+			)
+	}
+
 	@Test def void testArrayAccessAsArgument() {
 		arrayAccessAsArgument.checkCompilation(
 '''

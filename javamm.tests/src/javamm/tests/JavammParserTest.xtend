@@ -436,6 +436,15 @@ class JavammParserTest extends JavammAbstractTest {
 		]
 	}
 
+	@Test def void testIncompleteMemberFeatureCallIndex() {
+		'''
+		int[][] arr;
+		arr[0].;
+		'''.assertMainLastExpression [
+			assertFalse(memberFeatureCall.indexes.empty)
+		]
+	}
+
 	def private assertMainLastExpression(CharSequence input, (XExpression)=>void tester) {
 		val main = input.parse.main
 		tester.apply(main.expressions.last)

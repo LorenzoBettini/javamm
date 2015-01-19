@@ -89,6 +89,16 @@ class JavammInputs {
 		'''
 	}
 
+	def arrayAccessFromMemberFeatureCallReceiver() {
+		'''
+		int[][] arr;
+		int l;
+		l = arr[0].length;
+		System.out.println(arr[0].equals(arr[1]));
+		System.out.println(arr[0].hashCode());
+		'''
+	}
+
 	def arrayAccessAsArgument() {
 		'''
 		int getArg(int i) {
