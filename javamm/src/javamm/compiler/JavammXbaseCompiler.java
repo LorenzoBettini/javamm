@@ -12,6 +12,7 @@ import javamm.javamm.JavammBranchingStatement;
 import javamm.javamm.JavammBreakStatement;
 import javamm.javamm.JavammCharLiteral;
 import javamm.javamm.JavammContinueStatement;
+import javamm.javamm.JavammPrefixOperation;
 import javamm.javamm.JavammXVariableDeclaration;
 import javamm.util.JavammModelUtil;
 
@@ -412,6 +413,33 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 				_toJavaStatement(additional, b, isReferenced);
 			}
 		}
+	}
+
+	/**
+	 * Specialized for prefix operator
+	 * 
+	 * @see org.eclipse.xtext.xbase.compiler.FeatureCallCompiler#featureCalltoJavaExpression(org.eclipse.xtext.xbase.XAbstractFeatureCall, org.eclipse.xtext.xbase.compiler.output.ITreeAppendable, boolean)
+	 */
+	@Override
+	protected void featureCalltoJavaExpression(XAbstractFeatureCall call,
+			ITreeAppendable b, boolean isExpressionContext) {
+		if (call instanceof JavammPrefixOperation) {
+			// we can't simply retrieve the inline annotations as it is done
+			// for postfix operation, since ++ and -- are already mapped to
+			// postfix methods operator_plusPlus and operator_minusMinus
+			JvmIdentifiableElement feature = call.getFeature();
+			if (feature.getSimpleName().endsWith("plusPlus")) {
+				b.append("++");
+			} else {
+				// the only other possibility is minus minus
+				b.append("--");
+			}
+			
+			appendArgument(((JavammPrefixOperation) call).getOperand(), b);
+			
+			return;
+		}
+		super.featureCalltoJavaExpression(call, b, isExpressionContext);
 	}
 
 	private void compileArrayAccess(XExpression expr, ITreeAppendable b) {

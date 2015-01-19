@@ -618,6 +618,29 @@ public class MyFile {
 			)
 	}
 
+	@Test def void testPreIncrementAndDecrement() {
+		preIncrementAndDecrement.checkCompilation(
+'''
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int i = 0;
+    int j = ++i;
+    int _plusPlus = ++i;
+    j = _plusPlus;
+    ++j;
+    int k = --i;
+    int _minusMinus = --i;
+    k = _minusMinus;
+    --k;
+  }
+}
+'''
+			)
+	}
+
 	@Test def void testMultiAssign() {
 		multiAssign.checkCompilation(
 '''

@@ -255,6 +255,18 @@ class JavammInputs {
 		'''
 	}
 
+	def preIncrementAndDecrement() {
+		'''
+		int i = 0;
+		int j = ++i;
+		j = ++i;
+		++j;
+		int k = --i;
+		k = --i;
+		--k;
+		'''
+	}
+
 	def multiAssign() {
 		'''
 		int i = 0;
