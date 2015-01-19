@@ -439,6 +439,50 @@ class JavammValidatorTest extends JavammAbstractTest {
 		)
 	}
 
+	@Test def void testPostfixOnWrongExpression() {
+		'''
+		"a"++;
+		'''.parse.assertIssuesAsStrings(
+		'''
+		The method ++() is undefined
+		'''
+		)
+	}
+
+	@Test def void testWrongPostfixOnMethodCall() {
+		'''
+		int m() { return 0; }
+		
+		int i = m()++;
+		'''.parse.assertErrorsAsStrings(
+		'''
+		The left-hand side of an assignment must be a variable
+		'''
+		)
+	}
+
+	@Test def void testPrefixOnWrongExpression() {
+		'''
+		++"a";
+		'''.parse.assertIssuesAsStrings(
+		'''
+		The method ++() is undefined
+		'''
+		)
+	}
+
+	@Test def void testWrongPrefixOnMethodCall() {
+		'''
+		int m() { return 0; }
+		
+		int i = ++m();
+		'''.parse.assertErrorsAsStrings(
+		'''
+		The left-hand side of an assignment must be a variable
+		'''
+		)
+	}
+
 	@Test def void testIntegerCannotBeAssignedToByte() {
 		"byte b = 1000;".parse.assertNumberLiteralTypeMismatch("byte", "int")
 	}
