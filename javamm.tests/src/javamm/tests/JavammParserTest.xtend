@@ -29,6 +29,7 @@ import static extension org.junit.Assert.*
 import javamm.javamm.JavammArrayLiteral
 import org.eclipse.xtext.xbase.XPostfixOperation
 import javamm.javamm.JavammPrefixOperation
+import javamm.javamm.JavammXMemberFeatureCall
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammInjectorProvider))
@@ -426,6 +427,15 @@ class JavammParserTest extends JavammAbstractTest {
 		]
 	}
 
+	@Test def void testMemberFeatureCallIndex() {
+		'''
+		int[][] arr;
+		arr[0].length;
+		'''.assertMainLastExpression [
+			assertFalse(memberFeatureCall.indexes.empty)
+		]
+	}
+
 	def private assertMainLastExpression(CharSequence input, (XExpression)=>void tester) {
 		val main = input.parse.main
 		tester.apply(main.expressions.last)
@@ -442,5 +452,9 @@ class JavammParserTest extends JavammAbstractTest {
 
 	private def getArrayLiteral(XExpression it) {
 		it as JavammArrayLiteral
+	}
+
+	private def getMemberFeatureCall(XExpression it) {
+		it as JavammXMemberFeatureCall
 	}
 }

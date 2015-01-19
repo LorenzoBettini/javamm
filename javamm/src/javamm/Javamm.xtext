@@ -173,6 +173,16 @@ XMemberFeatureCall returns XExpression:
 			feature=[types::JvmIdentifiableElement|FeatureCallID] OpSingleAssign)
 				value=XAssignment
 	|
+		=>({JavammXMemberFeatureCall.memberCallTarget=current}
+			'[' indexes+=XExpression ']'('[' indexes+=XExpression ']')*
+			".") 
+			feature=[types::JvmIdentifiableElement|IdOrSuper] (
+				=>explicitOperationCall?='(' 
+					(
+					    memberCallArguments+=XExpression (',' memberCallArguments+=XExpression)*
+					)? 
+				')')?
+	|
 		=>({XMemberFeatureCall.memberCallTarget=current} ".") 
 			feature=[types::JvmIdentifiableElement|IdOrSuper] (
 				=>explicitOperationCall?='(' 

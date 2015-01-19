@@ -115,10 +115,15 @@ class JavammFormatter extends XbaseFormatter {
 		val ele = XMemberFeatureCallAccess
 		c.setNoSpace().around(ele.fullStopKeyword_1_0_0_0_1);
 //		c.setNoSpace().around(ele.getExplicitStaticColonColonKeyword_1_0_0_0_1_1_0());
-		c.setNoSpace().around(ele.fullStopKeyword_1_1_0_0_1);
+		// deal with all '.' operators (also JavammXMemberFeatureCall
+		c.setNoSpace().around(ele.fullStopKeyword_1_1_0_0_5);
+		c.setNoSpace().around(ele.fullStopKeyword_1_0_0_0_1);
+		c.setNoSpace().around(ele.fullStopKeyword_1_2_0_0_1);
 		c.setNoSpace().before(ele.commaKeyword_1_1_2_1_1_0);
 		c.setNoSpace().around(ele.explicitOperationCallAssignment_1_1_2_0);
+		c.setNoSpace().around(ele.explicitOperationCallAssignment_1_2_2_0);
 		c.setNoSpace().before(ele.rightParenthesisKeyword_1_1_2_2);
+		c.setNoSpace().before(ele.rightParenthesisKeyword_1_2_2_2);
 	}
 
 	override configureXPostfixOperation(FormattingConfig c, XbaseGrammarAccess.XPostfixOperationElements _ele) {
