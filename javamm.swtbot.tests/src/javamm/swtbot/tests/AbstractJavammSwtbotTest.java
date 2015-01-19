@@ -15,12 +15,16 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotView;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
+import org.eclipse.swtbot.swt.finder.finders.ContextMenuHelper;
 import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.results.ListResult;
+import org.eclipse.swtbot.swt.finder.results.WidgetResult;
 import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
@@ -259,6 +263,25 @@ public class AbstractJavammSwtbotTest {
 			
 			count++;
 		}
+	}
+	
+	protected MenuItem contextMenu(final SWTBotTreeItem treeItem,
+			final String... texts) {
+		treeItem.select();
+		return contextMenu(getSWTBotTree(treeItem), texts);
+	}
+
+	protected SWTBotTree getSWTBotTree(final SWTBotTreeItem treeItem) {
+		return new SWTBotTree(
+				UIThreadRunnable.syncExec(new WidgetResult<Tree>() {
+					public Tree run() {
+						return treeItem.widget.getParent();
+					}
+				}));
+	}
+
+	protected MenuItem contextMenu(SWTBotTree tree, final String... texts) {
+		return ContextMenuHelper.contextMenu(tree, texts);
 	}
 
 }
