@@ -125,10 +125,10 @@ class JavammFormatter extends XbaseFormatter {
 		super.configureXPostfixOperation(c, _ele)
 		
 		val ele = XPostfixOperationAccess
-		c.setNoSpace().around(ele.leftSquareBracketKeyword_1_1_0_1);
-		c.setNoSpace().around(ele.rightSquareBracketKeyword_1_1_0_3);
+		c.setNoSpace().around(ele.leftSquareBracketKeyword_1_1_1_0_1);
+		c.setNoSpace().around(ele.rightSquareBracketKeyword_1_1_1_0_3);
 		
-		c.setNoSpace().before(ele.featureAssignment_1_0_0_1);
+		c.setNoSpace().before(ele.featureAssignment_1_1_0_0_1);
 	}
 
 	def private configureJavammSemicolonStatement(FormattingConfig c, JavammSemicolonStatementElements ele) {

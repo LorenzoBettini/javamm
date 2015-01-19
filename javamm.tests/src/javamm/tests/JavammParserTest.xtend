@@ -27,6 +27,7 @@ import org.junit.runner.RunWith
 
 import static extension org.junit.Assert.*
 import javamm.javamm.JavammArrayLiteral
+import org.eclipse.xtext.xbase.XPostfixOperation
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammInjectorProvider))
@@ -403,6 +404,24 @@ class JavammParserTest extends JavammAbstractTest {
 		for (i = 0, j = 0, k = 0; i < 0; i++) {}
 		'''.assertMainLastExpression[
 			3.assertEquals((it as XBasicForLoopExpression).initExpressions.size)
+		]
+	}
+
+	@Test def void testPostfixOperation() {
+		'''
+		int i = 0;
+		i++;
+		'''.assertMainLastExpression[
+			assertTrue((it as XPostfixOperation).operand instanceof XFeatureCall)
+		]
+	}
+
+	@Test def void testPrefixOperation() {
+		'''
+		int i = 0;
+		++i;
+		'''.assertMainLastExpression[
+			assertTrue((it as XPostfixOperation).operand instanceof XFeatureCall)
 		]
 	}
 

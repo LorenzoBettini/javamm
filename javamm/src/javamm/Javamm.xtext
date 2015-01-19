@@ -150,6 +150,8 @@ JavammArrayDimension:
 ;
 
 XPostfixOperation returns XExpression:
+	=>({XPostfixOperation} feature=[types::JvmIdentifiableElement|OpPostfix]) operand=XExpression
+	|
 	XMemberFeatureCall
 	(
 		=>({XPostfixOperation.operand=current} feature=[types::JvmIdentifiableElement|OpPostfix])
