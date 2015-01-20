@@ -276,6 +276,22 @@ public class MyFile {
 			)
 	}
 
+	@Test def void testArrayAccessFromMemberFeatureCallReceiverClone() {
+		arrayAccessFromMemberFeatureCallReceiverClone.checkCompilation(
+'''
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int[][] arr = null;
+    int[] cl = arr[0].clone();
+  }
+}
+'''
+			)
+	}
+
 	@Test def void testArrayAccessAsArgument() {
 		arrayAccessAsArgument.checkCompilation(
 '''

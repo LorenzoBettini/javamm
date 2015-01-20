@@ -99,6 +99,13 @@ class JavammInputs {
 		'''
 	}
 
+	def arrayAccessFromMemberFeatureCallReceiverClone() {
+		'''
+		int[][] arr;
+		int[] cl = arr[0].clone();
+		'''
+	}
+
 	def arrayAccessAsArgument() {
 		'''
 		int getArg(int i) {

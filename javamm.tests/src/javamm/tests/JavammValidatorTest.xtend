@@ -490,6 +490,7 @@ class JavammValidatorTest extends JavammAbstractTest {
 		'''.parse.assertErrorsAsStrings(
 		'''
 		Couldn't resolve reference to JvmIdentifiableElement 'length'.
+		The type of the expression must be an array type but it resolved to int
 		'''
 		)
 	}

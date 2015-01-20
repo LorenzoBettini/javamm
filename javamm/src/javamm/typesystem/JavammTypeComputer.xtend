@@ -26,6 +26,8 @@ import org.eclipse.xtext.xbase.typesystem.references.ArrayTypeReference
 import org.eclipse.xtext.xbase.typesystem.references.LightweightTypeReference
 import org.eclipse.xtext.xbase.typesystem.util.CommonTypeComputationServices
 import javamm.javamm.JavammXMemberFeatureCall
+import org.eclipse.xtext.xbase.XAbstractFeatureCall
+import org.eclipse.xtext.xbase.typesystem.internal.AbstractTypeComputationState
 
 /**
  * @author Lorenzo Bettini
@@ -131,6 +133,31 @@ class JavammTypeComputer extends PatchedTypeComputer {
 		super._computeTypes(call, state)
 		checkArrayIndexHasTypeInt(call, state)
 	}
+	
+//	override protected _computeTypes(XAbstractFeatureCall featureCall, ITypeComputationState state) {
+//		val container = featureCall.eContainer
+//		if (container instanceof JavammXMemberFeatureCall) {
+//			if (container.memberCallTarget === featureCall) {
+//				
+//				val inner = state.withTypeCheckpoint(featureCall)
+////				val refinable = getRefinableCandidate(featureCall, inner)
+////				val actualType = getDeclaredType(refinable, inner as AbstractTypeComputationState)
+//
+//				super._computeTypes(featureCall, inner)
+//				val refinable = getRefinableCandidate(featureCall, inner)
+//				val actualType = getDeclaredType(refinable, inner as AbstractTypeComputationState)
+//				
+////				val candidates = inner.getLinkingCandidates(featureCall);
+////				val best = getBestCandidate(candidates);
+////				best.applyToComputationState();
+////				val actualType = getDeclaredType(best.feature, state as ExpressionTypeComputationState)
+//				val type = componentTypeOfArrayAccess(container, actualType, inner, XbasePackage.Literals.XABSTRACT_FEATURE_CALL__FEATURE)
+//				state.acceptActualType(type)
+//				return
+//			}
+//		}
+//		super._computeTypes(featureCall, state)
+//	}
 
 	def protected _computeTypes(JavammArrayAccessExpression arrayAccess, ITypeComputationState state) {
 		val actualType = state.withNonVoidExpectation.computeTypes(arrayAccess.array).actualExpressionType
@@ -201,7 +228,7 @@ class JavammTypeComputer extends PatchedTypeComputer {
 		}
 	}
 
-	def private getDeclaredType(JvmIdentifiableElement feature, ExpressionTypeComputationState state) {
+	def private getDeclaredType(JvmIdentifiableElement feature, AbstractTypeComputationState state) {
 		val result = state.getResolvedTypes().getActualType(feature);
 		if (result == null) {
 			return state.getReferenceOwner().newAnyTypeReference();

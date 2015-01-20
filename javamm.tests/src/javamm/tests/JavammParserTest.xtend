@@ -445,6 +445,20 @@ class JavammParserTest extends JavammAbstractTest {
 		]
 	}
 
+	@Test def void testMemberCallTargetOfJavammMemberFeatureCallIsArrayAccessExpression() {
+		'''
+		int[][] arr;
+		arr[0].length;
+		'''.assertMainLastExpression [
+			memberFeatureCall => [
+				assertTrue(memberCallTarget instanceof JavammArrayAccessExpression)
+				val arrayAccessExpression = memberCallTarget as JavammArrayAccessExpression
+				// getIndexes is redirected to the contained array access expression
+				assertSame(indexes, arrayAccessExpression.indexes)
+			]
+		]
+	}
+
 	def private assertMainLastExpression(CharSequence input, (XExpression)=>void tester) {
 		val main = input.parse.main
 		tester.apply(main.expressions.last)

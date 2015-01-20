@@ -449,10 +449,10 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 		} else if (call instanceof JavammXMemberFeatureCall) {
 			JavammXMemberFeatureCall memberFeatureCall = (JavammXMemberFeatureCall) call;
 			
-			XAbstractFeatureCall target = (XAbstractFeatureCall) memberFeatureCall.getMemberCallTarget();
+			XExpression target = memberFeatureCall.getMemberCallTarget();
 			internalToJavaExpression(target, b);
 			
-			compileArrayAccess(call, b);
+//			compileArrayAccess(call, b);
 			
 			b.append(".");
 			
