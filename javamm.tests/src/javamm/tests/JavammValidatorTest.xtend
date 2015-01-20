@@ -582,6 +582,18 @@ class JavammValidatorTest extends JavammAbstractTest {
 		)
 	}
 
+	@Test def void testInvalidCast() {
+		'''
+		System.out.println((String) 0);
+		'''.parse.assertErrorsAsStrings("Cannot cast from int or Integer to String")
+	}
+
+	@Test def void testWarningUnnecessaryCast() {
+		'''
+		System.out.println((int) 0);
+		'''.parse.assertIssuesAsStrings("Unnecessary cast from int to int")
+	}
+
 	def private assertNumberLiteralTypeMismatch(EObject o, String expectedType, String actualType) {
 		o.assertTypeMismatch(XbasePackage.eINSTANCE.XNumberLiteral, expectedType, actualType)
 	}
