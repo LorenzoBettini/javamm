@@ -7,6 +7,7 @@ import javamm.javamm.JavammArrayConstructorCall
 import javamm.javamm.JavammBranchingStatement
 import javamm.javamm.JavammCharLiteral
 import javamm.javamm.JavammXAssignment
+import javamm.javamm.JavammXMemberFeatureCall
 import javamm.javamm.JavammXVariableDeclaration
 import javamm.validation.JavammValidator
 import org.eclipse.emf.ecore.EStructuralFeature
@@ -21,13 +22,11 @@ import org.eclipse.xtext.xbase.XVariableDeclaration
 import org.eclipse.xtext.xbase.XbasePackage
 import org.eclipse.xtext.xbase.typesystem.computation.ILinkingCandidate
 import org.eclipse.xtext.xbase.typesystem.computation.ITypeComputationState
+import org.eclipse.xtext.xbase.typesystem.internal.AbstractTypeComputationState
 import org.eclipse.xtext.xbase.typesystem.internal.ExpressionTypeComputationState
 import org.eclipse.xtext.xbase.typesystem.references.ArrayTypeReference
 import org.eclipse.xtext.xbase.typesystem.references.LightweightTypeReference
 import org.eclipse.xtext.xbase.typesystem.util.CommonTypeComputationServices
-import javamm.javamm.JavammXMemberFeatureCall
-import org.eclipse.xtext.xbase.XAbstractFeatureCall
-import org.eclipse.xtext.xbase.typesystem.internal.AbstractTypeComputationState
 
 /**
  * @author Lorenzo Bettini
@@ -134,31 +133,6 @@ class JavammTypeComputer extends PatchedTypeComputer {
 		checkArrayIndexHasTypeInt(call, state)
 	}
 	
-//	override protected _computeTypes(XAbstractFeatureCall featureCall, ITypeComputationState state) {
-//		val container = featureCall.eContainer
-//		if (container instanceof JavammXMemberFeatureCall) {
-//			if (container.memberCallTarget === featureCall) {
-//				
-//				val inner = state.withTypeCheckpoint(featureCall)
-////				val refinable = getRefinableCandidate(featureCall, inner)
-////				val actualType = getDeclaredType(refinable, inner as AbstractTypeComputationState)
-//
-//				super._computeTypes(featureCall, inner)
-//				val refinable = getRefinableCandidate(featureCall, inner)
-//				val actualType = getDeclaredType(refinable, inner as AbstractTypeComputationState)
-//				
-////				val candidates = inner.getLinkingCandidates(featureCall);
-////				val best = getBestCandidate(candidates);
-////				best.applyToComputationState();
-////				val actualType = getDeclaredType(best.feature, state as ExpressionTypeComputationState)
-//				val type = componentTypeOfArrayAccess(container, actualType, inner, XbasePackage.Literals.XABSTRACT_FEATURE_CALL__FEATURE)
-//				state.acceptActualType(type)
-//				return
-//			}
-//		}
-//		super._computeTypes(featureCall, state)
-//	}
-
 	def protected _computeTypes(JavammArrayAccessExpression arrayAccess, ITypeComputationState state) {
 		val actualType = state.withNonVoidExpectation.computeTypes(arrayAccess.array).actualExpressionType
 		val type = componentTypeOfArrayAccess(arrayAccess, actualType, state, XbasePackage.Literals.XABSTRACT_FEATURE_CALL__FEATURE)
