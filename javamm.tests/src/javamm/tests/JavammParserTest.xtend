@@ -3,8 +3,11 @@ package javamm.tests
 import javamm.JavammInjectorProvider
 import javamm.javamm.JavammArrayAccessExpression
 import javamm.javamm.JavammArrayConstructorCall
+import javamm.javamm.JavammArrayLiteral
 import javamm.javamm.JavammCharLiteral
+import javamm.javamm.JavammPrefixOperation
 import javamm.javamm.JavammXAssignment
+import javamm.javamm.JavammXMemberFeatureCall
 import javamm.javamm.JavammXVariableDeclaration
 import org.eclipse.xtext.junit4.InjectWith
 import org.eclipse.xtext.junit4.XtextRunner
@@ -13,12 +16,14 @@ import org.eclipse.xtext.xbase.XBasicForLoopExpression
 import org.eclipse.xtext.xbase.XBinaryOperation
 import org.eclipse.xtext.xbase.XBlockExpression
 import org.eclipse.xtext.xbase.XBooleanLiteral
+import org.eclipse.xtext.xbase.XCastedExpression
 import org.eclipse.xtext.xbase.XConstructorCall
 import org.eclipse.xtext.xbase.XExpression
 import org.eclipse.xtext.xbase.XFeatureCall
 import org.eclipse.xtext.xbase.XListLiteral
 import org.eclipse.xtext.xbase.XMemberFeatureCall
 import org.eclipse.xtext.xbase.XNumberLiteral
+import org.eclipse.xtext.xbase.XPostfixOperation
 import org.eclipse.xtext.xbase.XStringLiteral
 import org.eclipse.xtext.xbase.XVariableDeclaration
 import org.eclipse.xtext.xbase.XWhileExpression
@@ -26,10 +31,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import static extension org.junit.Assert.*
-import javamm.javamm.JavammArrayLiteral
-import org.eclipse.xtext.xbase.XPostfixOperation
-import javamm.javamm.JavammPrefixOperation
-import javamm.javamm.JavammXMemberFeatureCall
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammInjectorProvider))
@@ -459,6 +460,39 @@ class JavammParserTest extends JavammAbstractTest {
 		]
 	}
 
+	@Test def void testCastedExpression() {
+		'''
+		(int) 10;
+		'''.assertMainLastExpression[
+			casted => [
+				assertEquals("int", type.simpleName)
+				assertTrue(target instanceof XNumberLiteral)
+			]
+		]
+	}
+
+	@Test def void testIncompleteCastedExpressionParsedAsParenthesizedExpression() {
+		'''
+		(int) ;
+		'''.assertMainLastExpression[
+			featureCall
+		]
+	}
+
+	@Test def void testCastedExpressionRightAssociativityWithParenthesis() {
+		'''
+		(char) ((int) 10);
+		'''.assertMainLastExpression[
+			casted => [
+				assertEquals("char", type.simpleName)
+				getCasted(target) => [
+					assertEquals("int", type.simpleName)
+					assertTrue(target instanceof XNumberLiteral)
+				]
+			]
+		]
+	}
+
 	def private assertMainLastExpression(CharSequence input, (XExpression)=>void tester) {
 		val main = input.parse.main
 		tester.apply(main.expressions.last)
@@ -479,5 +513,13 @@ class JavammParserTest extends JavammAbstractTest {
 
 	private def getMemberFeatureCall(XExpression it) {
 		it as JavammXMemberFeatureCall
+	}
+
+	private def getFeatureCall(XExpression it) {
+		it as XFeatureCall
+	}
+
+	private def getCasted(XExpression it) {
+		it as XCastedExpression
 	}
 }

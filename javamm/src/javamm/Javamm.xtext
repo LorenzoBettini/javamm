@@ -149,6 +149,13 @@ JavammArrayDimension:
 	{JavammArrayDimension} openBracket='['
 ;
 
+XCastedExpression returns XExpression:
+	=>({XCastedExpression} '(' type=JvmTypeReference ')' target=XPostfixOperation)
+	|
+	XPostfixOperation
+;
+
+
 XPostfixOperation returns XExpression:
 	=>({JavammPrefixOperation} feature=[types::JvmIdentifiableElement|OpPostfix]) operand=XMemberFeatureCall
 	|
