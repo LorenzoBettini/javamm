@@ -7,6 +7,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.Assignment;
 import org.eclipse.xtext.CrossReference;
 import org.eclipse.xtext.RuleCall;
+import org.eclipse.xtext.common.types.TypesPackage;
 import org.eclipse.xtext.ui.editor.contentassist.ContentAssistContext;
 import org.eclipse.xtext.ui.editor.contentassist.ICompletionProposalAcceptor;
 import org.eclipse.xtext.xbase.XFeatureCall;
@@ -37,6 +38,11 @@ public class JavammAbstractXbaseProposalProvider extends XbaseProposalProvider {
 				createLocalVariableAndImplicitProposals(previousModel, IExpressionScope.Anchor.BEFORE, context, acceptor);
 			}
 		}
+	}
+	
+	@Override
+	public void completeXCastedExpression_Type(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
+		completeJavaTypes(context, TypesPackage.Literals.JVM_PARAMETERIZED_TYPE_REFERENCE__TYPE, acceptor);
 	}
 
 	public void completeJavammProgram_JavammMethods(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
