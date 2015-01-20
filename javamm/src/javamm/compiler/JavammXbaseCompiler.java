@@ -3,8 +3,6 @@
  */
 package javamm.compiler;
 
-import java.util.List;
-
 import javamm.controlflow.JavammBranchingStatementDetector;
 import javamm.javamm.JavammArrayAccess;
 import javamm.javamm.JavammArrayAccessExpression;
@@ -15,9 +13,7 @@ import javamm.javamm.JavammBreakStatement;
 import javamm.javamm.JavammCharLiteral;
 import javamm.javamm.JavammContinueStatement;
 import javamm.javamm.JavammPrefixOperation;
-import javamm.javamm.JavammXMemberFeatureCall;
 import javamm.javamm.JavammXVariableDeclaration;
-import javamm.scoping.JavammOperatorMapping;
 import javamm.util.JavammModelUtil;
 
 import org.eclipse.emf.common.util.EList;
@@ -37,7 +33,6 @@ import org.eclipse.xtext.xbase.XVariableDeclaration;
 import org.eclipse.xtext.xbase.XbasePackage;
 import org.eclipse.xtext.xbase.compiler.XbaseCompiler;
 import org.eclipse.xtext.xbase.compiler.output.ITreeAppendable;
-import org.eclipse.xtext.xbase.featurecalls.IdentifiableSimpleNameProvider;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xbase.typesystem.references.LightweightTypeReference;
 
@@ -55,9 +50,6 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 	@Inject
 	private JavammBranchingStatementDetector branchingStatementDetector;
 
-	@Inject
-	private IdentifiableSimpleNameProvider featureNameProvider;
-	
 	@Override
 	protected void doInternalToJavaStatement(XExpression obj,
 			ITreeAppendable appendable, boolean isReferenced) {
@@ -446,32 +438,8 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 			appendArgument(((JavammPrefixOperation) call).getOperand(), b);
 			
 			return;
-		} else if (call instanceof JavammXMemberFeatureCall) {
-			JavammXMemberFeatureCall memberFeatureCall = (JavammXMemberFeatureCall) call;
-			
-			XExpression target = memberFeatureCall.getMemberCallTarget();
-			internalToJavaExpression(target, b);
-			
-//			compileArrayAccess(call, b);
-			
-			b.append(".");
-			
-			String simpleName = featureNameProvider.getSimpleName(call.getFeature());
-			b.trace(call, XbasePackage.Literals.XABSTRACT_FEATURE_CALL__FEATURE, 0).
-				append(simpleName);
-			
-			// recall that length does not require parenthesis
-			if (!simpleName.equals(JavammOperatorMapping.ARRAY_LENGTH)) {
-				b.append("(");
-				List<XExpression> arguments = memberFeatureCall.getMemberCallArguments();
-				if (!arguments.isEmpty()) {
-					appendArguments(arguments, b, false);
-				}
-				b.append(")");
-			}
-			
-			return;
 		}
+		
 		super.featureCalltoJavaExpression(call, b, isExpressionContext);
 	}
 
