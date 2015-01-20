@@ -1732,6 +1732,38 @@ public class MyFile {
 		)
 	}
 
+	@Test def void testCastedExpression() {
+		'''
+		int m(char c) { return 0; }
+		
+		int i;
+		char c = 'c';
+		i = (int) c;
+		char r1 = (char) (int) c;
+		char r2 = (char) m((char) 0);
+		'''.checkCompilation(
+'''
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static int m(char c) {
+    return 0;
+  }
+  
+  public static void main(String[] args) {
+    int i = 0;
+    char c = 'c';
+    i = ((int) c);
+    char r1 = ((char) ((int) c));
+    int _m = MyFile.m(((char) 0));
+    char r2 = ((char) _m);
+  }
+}
+'''
+		)
+	}
+
 	@Test def void testBubbleSort() {
 		bubbleSort.checkCompilation(
 '''
