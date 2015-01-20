@@ -276,6 +276,25 @@ public class MyFile {
 			)
 	}
 
+	@Test def void testArrayAccessFromMemberFeatureCallReceiver2() {
+		'''
+		String firstArg = args[0];
+		char arg = args[0].toCharArray()[0];
+		'''.checkCompilation(
+'''
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    String firstArg = args[0];
+    char arg = args[0].toCharArray()[0];
+  }
+}
+'''
+			)
+	}
+
 	@Test def void testArrayAccessFromMemberFeatureCallReceiverClone() {
 		arrayAccessFromMemberFeatureCallReceiverClone.checkCompilation(
 '''
