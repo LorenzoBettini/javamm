@@ -150,7 +150,7 @@ JavammArrayDimension:
 ;
 
 XCastedExpression returns XExpression:
-	=>({XCastedExpression} '(' type=JvmTypeReference ')' target=XPostfixOperation)
+	=>({XCastedExpression} '(' type=JvmTypeReference ')' target=XExpression)
 	|
 	XPostfixOperation
 ;

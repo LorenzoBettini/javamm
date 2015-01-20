@@ -479,9 +479,23 @@ class JavammParserTest extends JavammAbstractTest {
 		]
 	}
 
-	@Test def void testCastedExpressionRightAssociativityWithParenthesis() {
+	@Test def void testCastedExpressionWithParenthesis() {
 		'''
 		(char) ((int) 10);
+		'''.assertMainLastExpression[
+			casted => [
+				assertEquals("char", type.simpleName)
+				getCasted(target) => [
+					assertEquals("int", type.simpleName)
+					assertTrue(target instanceof XNumberLiteral)
+				]
+			]
+		]
+	}
+
+	@Test def void testCastedExpressionRightAssociativity() {
+		'''
+		(char) (int) 10; // equivalent to (char) ((int) 10)
 		'''.assertMainLastExpression[
 			casted => [
 				assertEquals("char", type.simpleName)

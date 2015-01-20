@@ -572,6 +572,16 @@ class JavammValidatorTest extends JavammAbstractTest {
 		"short s = -10000;".parse.assertTypeMismatch(XbasePackage.eINSTANCE.XUnaryOperation, "short", "int")
 	}
 
+	@Test def void testTypeMismatchAfterCast() {
+		'''
+		char c = 'c';
+		String r2 = (char) (int) c;
+		'''.parse.assertTypeMismatch(
+			XbasePackage.eINSTANCE.XCastedExpression,
+			"String", "char"
+		)
+	}
+
 	def private assertNumberLiteralTypeMismatch(EObject o, String expectedType, String actualType) {
 		o.assertTypeMismatch(XbasePackage.eINSTANCE.XNumberLiteral, expectedType, actualType)
 	}
