@@ -37,6 +37,7 @@ import org.eclipse.xtext.xbase.XVariableDeclaration
 import org.eclipse.xtext.xbase.XbasePackage
 import org.eclipse.xtext.xbase.typesystem.util.Multimaps2
 import org.eclipse.xtext.xbase.validation.XbaseValidator
+import javamm.scoping.JavammOperatorMapping
 
 //import org.eclipse.xtext.validation.Check
 
@@ -236,7 +237,7 @@ class JavammValidator extends XbaseValidator {
 		// length for arrays is OK without parentheses
 		if (call.feature instanceof JvmOperation && 
 			!explicitOpCall &&
-			call.feature.simpleName != "length"
+			call.feature.simpleName != JavammOperatorMapping.ARRAY_LENGTH
 		) {
 			error(
 				'Syntax error, insert "()" to complete method call',

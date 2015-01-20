@@ -19,6 +19,11 @@ import com.google.inject.Singleton;
 @Singleton
 public class JavammOperatorMapping extends OperatorMapping {
 	
+	/**
+	 * Special method on array that is called without parenthesis
+	 */
+	public static String ARRAY_LENGTH = "length";
+	
 	@Override
 	protected void initializeMapping() {
 		super.initializeMapping();

@@ -49,7 +49,7 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 	
 	@Inject
 	private JavammBranchingStatementDetector branchingStatementDetector;
-	
+
 	@Override
 	protected void doInternalToJavaStatement(XExpression obj,
 			ITreeAppendable appendable, boolean isReferenced) {
@@ -439,13 +439,14 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 			
 			return;
 		}
+		
 		super.featureCalltoJavaExpression(call, b, isExpressionContext);
 	}
 
 	private void compileArrayAccess(XExpression expr, ITreeAppendable b) {
 		if (expr instanceof JavammArrayAccess) {
-			JavammArrayAccess assignment = (JavammArrayAccess) expr;
-			for (XExpression index : assignment.getIndexes()) {
+			JavammArrayAccess access = (JavammArrayAccess) expr;
+			for (XExpression index : access.getIndexes()) {
 				if (index != null) {
 					b.append("[");
 					internalToJavaExpression(index, b);
