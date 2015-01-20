@@ -78,4 +78,13 @@ class JavammContentAssistTest extends AbstractContentAssistTest {
 	@Test def void testMemberFeatureCallProposalInMain() {
 		newBuilder.append('String s = ""; s.to').assertProposal("toString")
 	}
+
+	@Test def void testVariableReferenceInArrayAccess() {
+		newBuilder.append("int myVar = 0; int[] ar; ar[").assertProposal("myVar")
+	}
+
+	@Test def void testVariableReferenceInArrayAccess2() {
+		newBuilder.append("int myVar = 0; int[] ar; ar[my<|>]").assertProposalAtCursor("myVar")
+	}
+
 }
