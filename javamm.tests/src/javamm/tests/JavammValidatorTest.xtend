@@ -50,6 +50,17 @@ class JavammValidatorTest extends JavammAbstractTest {
 		)
 	}
 
+	@Test def void testArrayIndexNotIntegerInMemberFeatureCall() {
+		'''
+		int[][] a;
+		int l = a[true].length;
+		'''.parse.assertTypeMismatch(
+			XbasePackage.eINSTANCE.XBooleanLiteral,
+			"int",
+			"boolean"
+		)
+	}
+
 	@Test def void testTypeMismatchInArrayDimensionExpression() {
 		'''
 		int[] i = new int[] { 1, true, 2};
@@ -493,6 +504,48 @@ class JavammValidatorTest extends JavammAbstractTest {
 		The type of the expression must be an array type but it resolved to int
 		'''
 		)
+	}
+
+	@Test def void testArrayAccessOnMemberFeatureCallAndClone() {
+		'''
+		// clone has a generic type, so the result is inferred
+		int[] a;
+		int[] cl1 = a.clone(); // OK
+		'''.parseAndAssertNoErrors
+	}
+
+	@Test def void testArrayAccessOnMemberFeatureCallAndClone2() {
+		'''
+		// clone has a generic type, so the result is inferred
+		int[] a;
+		int cl1 = a[0].clone(); // inferred as Object
+		'''.parse.assertErrorsAsStrings(
+		'''
+		The method clone() is not visible
+		Type mismatch: cannot convert from Object to int
+		'''
+		)
+	}
+
+	@Test def void testArrayAccessOnMemberFeatureCallAndClone3() {
+		'''
+		// clone has a generic type, so the result is inferred
+		String[] a;
+		String cl1 = a[0].clone();
+		'''.parse.assertErrorsAsStrings(
+		'''
+		The method clone() is not visible
+		Type mismatch: cannot convert from Object to String
+		'''
+		)
+	}
+
+	@Test def void testArrayAccessOnMemberFeatureCallAndClone4() {
+		'''
+		// clone has a generic type, so the result is inferred
+		String[][] a;
+		String[] cl1 = a[0].clone();
+		'''.parseAndAssertNoErrors
 	}
 
 	@Test def void testIntegerCannotBeAssignedToByte() {
