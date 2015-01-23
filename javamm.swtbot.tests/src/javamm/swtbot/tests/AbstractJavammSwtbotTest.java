@@ -37,8 +37,8 @@ import org.junit.BeforeClass;
 
 public class AbstractJavammSwtbotTest {
 
-	public static final String CATEGORY_NAME = "Javamm";
-	protected static final String PROJECT_TYPE = "Javamm Project";
+	public static final String CATEGORY_NAME = "Java--";
+	protected static final String PROJECT_TYPE = "Java-- Project";
 	protected static final String TEST_PROJECT = "MyTestProject";
 	protected static SWTWorkbenchBot bot;
 
@@ -126,6 +126,15 @@ public class AbstractJavammSwtbotTest {
 		}
 	}
 
+	protected boolean isFileCreated(String project, String... filePath) {
+		try {
+			getProjectTreeItem(project).expand().expandNode(filePath);
+			return true;
+		} catch (WidgetNotFoundException e) {
+			return false;
+		}
+	}
+
 	protected static SWTBotTree getProjectTree() {
 		SWTBotView packageExplorer = getPackageExplorer();
 		SWTBotTree tree = packageExplorer.bot().tree();
@@ -194,6 +203,23 @@ public class AbstractJavammSwtbotTest {
 		// creation of a project might require some time
 		bot.waitUntil(shellCloses(shell), SWTBotPreferences.TIMEOUT);
 		assertTrue("Project doesn't exist", isProjectCreated(TEST_PROJECT));
+		
+		waitForAutoBuild();
+	}
+
+	@SuppressWarnings("restriction")
+	protected void createFile(String fileType, String name, String...path) {
+		bot.menu("File").menu("New").menu(fileType).click();
+
+		SWTBotShell shell = bot.shell(fileType);
+		shell.activate();
+		bot.textWithLabel("Name:").setText(name);
+
+		bot.button("Finish").click();
+
+		// creation of a file might require some time
+		bot.waitUntil(shellCloses(shell), SWTBotPreferences.TIMEOUT);
+		assertTrue("File doesn't exist", isFileCreated(TEST_PROJECT, path));
 		
 		waitForAutoBuild();
 	}
