@@ -570,10 +570,40 @@
             name="Javamm Project"
             project="true">
       </wizard>
+      <wizard
+            category="javamm.ui.category"
+            class="javamm.ui.JavammExecutableExtensionFactory:javamm.ui.wizard.file.NewJavammFileWizard"
+            icon="icons/javamm_project.gif"
+            id="javamm.ui.wizard.file.NewJavammFileWizard"
+            name="Javamm File"
+            project="false">
+      </wizard>
       <category
             id="javamm.ui.category"
             name="Javamm">
       </category>
+   </extension>
+   
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="org.eclipse.jdt.ui.JavaPerspective">
+         <newWizardShortcut
+               id="javamm.ui.wizard.file.NewJavammFileWizard">
+         </newWizardShortcut>
+      </perspectiveExtension>
+      <perspectiveExtension
+            targetID="org.eclipse.jdt.ui.JavaBrowsingPerspective">
+         <newWizardShortcut
+               id="javamm.ui.wizard.file.NewJavammFileWizard">
+         </newWizardShortcut>
+      </perspectiveExtension>
+      <perspectiveExtension
+            targetID="org.eclipse.pde.ui.PDEPerspective">
+         <newWizardShortcut
+               id="javamm.ui.wizard.file.NewJavammFileWizard">
+         </newWizardShortcut>
+      </perspectiveExtension>
    </extension>
    
    <extension point="org.eclipse.core.runtime.adapters">
