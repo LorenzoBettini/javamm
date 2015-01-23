@@ -23,7 +23,7 @@ class PluginProjectHelper {
 		
 		projectFactory.setProjectName(projectName);
 		projectFactory.addFolders(newArrayList("src"));
-		projectFactory.addFolders(newArrayList("xtraitj-gen"));
+		projectFactory.addFolders(newArrayList("src-gen"));
 		projectFactory.addBuilderIds(
 			JavaCore.BUILDER_ID, 
 			"org.eclipse.pde.ManifestBuilder",

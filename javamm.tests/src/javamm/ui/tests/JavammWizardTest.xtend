@@ -3,7 +3,9 @@ package javamm.ui.tests
 import com.google.inject.Inject
 import com.google.inject.Provider
 import javamm.JavammUiInjectorProvider
+import javamm.tests.utils.ui.JavammTestableNewFileWizard
 import javamm.tests.utils.ui.JavammTestableNewProjectWizard
+import javamm.tests.utils.ui.PluginProjectHelper
 import org.eclipse.core.resources.IMarker
 import org.eclipse.core.resources.IResource
 import org.eclipse.jface.viewers.StructuredSelection
@@ -23,6 +25,10 @@ import static org.eclipse.xtext.junit4.ui.util.IResourcesSetupUtil.*
 class JavammWizardTest extends AbstractWorkbenchTest {
 	
 	@Inject Provider<JavammTestableNewProjectWizard> wizardProvider
+
+	@Inject Provider<JavammTestableNewFileWizard> fileWizardProvider
+	
+	@Inject PluginProjectHelper projectHelper
 	
 	/**
 	 * Create the wizard dialog, open it and press Finish.
@@ -58,8 +64,29 @@ class JavammWizardTest extends AbstractWorkbenchTest {
 		assertNoErrors
 	}
 
+	@Test def void testJavammNewFileWizard() {
+		val project = projectHelper.createJavaPluginProject
+			(JavammTestableNewProjectWizard.TEST_PROJECT, newArrayList("javamm.runtime")).project
+		val srcFolder = project.getFolder("src")
+		assertTrue(srcFolder.exists)
+		val wizard = fileWizardProvider.get
+		wizard.init(PlatformUI.getWorkbench(), new StructuredSelection(srcFolder))
+		createAndFinishWizardDialog(wizard)
+		val file = srcFolder.getFile(JavammTestableNewFileWizard.TEST_FILE + ".javamm")
+		assertTrue(file.exists())
+		waitForAutoBuild
+		assertNoErrors
+		val srcGenFolder = project.getFolder("src-gen/javamm")
+		assertTrue(srcGenFolder.exists)
+		val genfile = srcGenFolder.getFile(JavammTestableNewFileWizard.TEST_FILE + ".java")
+		assertTrue(genfile.exists())
+	}
+
 	def private assertNoErrors() {
-		val markers = root.findMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE);
+		val markers = root.findMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE).
+			filter[
+				getAttribute(IMarker.SEVERITY, IMarker.SEVERITY_INFO) == IMarker.SEVERITY_ERROR
+			]
 		assertEquals(
 			"unexpected errors:\n" +
 			markers.map[getAttribute(IMarker.LOCATION) + 

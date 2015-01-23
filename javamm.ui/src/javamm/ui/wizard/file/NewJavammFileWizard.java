@@ -40,6 +40,15 @@ public class NewJavammFileWizard extends NewElementWizard {
 		setWindowTitle(title);
 	}
 
+	/**
+	 * This can be used in derived classes for testing purposes
+	 * 
+	 * @return
+	 */
+	protected NewJavammFileWizardPage getPage() {
+		return page;
+	}
+
 	@Override
 	public void addPages() {
 		super.addPages();
