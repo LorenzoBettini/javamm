@@ -217,7 +217,7 @@ public class AbstractJavammSwtbotTest {
 
 		bot.button("Finish").click();
 
-		// creation of a project might require some time
+		// creation of a file might require some time
 		bot.waitUntil(shellCloses(shell), SWTBotPreferences.TIMEOUT);
 		assertTrue("File doesn't exist", isFileCreated(TEST_PROJECT, path));
 		

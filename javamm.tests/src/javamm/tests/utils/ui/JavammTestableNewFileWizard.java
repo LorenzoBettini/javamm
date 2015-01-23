@@ -11,7 +11,7 @@ import javamm.ui.wizard.file.NewJavammFileWizard;
 import javamm.ui.wizard.file.NewJavammFileWizardPage;
 
 /**
- * Manually set the file name (usually set in the dialog text edit)
+ * Manually set the type name, that is, the name of the Java-- class (usually set in the dialog text edit)
  * 
  * @author Lorenzo Bettini
  *
