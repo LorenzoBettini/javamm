@@ -24,7 +24,7 @@ public class JavammSwtBotTest extends AbstractJavammSwtbotTest {
 	@Test
 	public void canImportJavammExamples() throws CoreException {
 		importExampleProjectAndAssertNoErrorMarker(
-			"Some Javamm Examples", "javamm.examples");
+			"Some Java-- Examples", "javamm.examples");
 	}
 
 	@Test

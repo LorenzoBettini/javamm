@@ -3,19 +3,19 @@
  */
 package javamm.tests.utils.ui;
 
+import javamm.ui.wizard.JavammNewProjectWizardCustom;
+
 import org.eclipse.xtext.ui.wizard.IProjectCreator;
 import org.eclipse.xtext.ui.wizard.IProjectInfo;
 
 import com.google.inject.Inject;
-
-import javamm.ui.wizard.JavammNewProjectWizard;
 
 /**
  * Manually set the project name (usually set in the dialog text edit)
  * 
  * @author Lorenzo Bettini
  */
-public class JavammTestableNewProjectWizard extends JavammNewProjectWizard {
+public class JavammTestableNewProjectWizard extends JavammNewProjectWizardCustom {
 
 	public static final String TEST_PROJECT = "TestProject";
 

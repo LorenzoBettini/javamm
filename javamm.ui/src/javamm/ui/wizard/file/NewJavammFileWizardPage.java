@@ -41,7 +41,7 @@ import org.eclipse.xtext.ui.editor.model.IXtextDocument;
  */
 public class NewJavammFileWizardPage extends NewTypeWizardPage {
 	
-	public static final String JAVAMM_FILE = "Javamm File";
+	public static final String JAVAMM_FILE = "Java-- File";
 
 	protected static final int COLS = 4;
 	

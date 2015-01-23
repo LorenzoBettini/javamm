@@ -3,7 +3,7 @@
 <plugin>
 	<extension point="org.eclipse.ui.newWizards">
 		<category id="javamm.ui.Examples" 
-				  name="Javamm Examples" 
+				  name="Java-- Examples" 
 				  parentCategory="org.eclipse.ui.Examples" />
 	</extension>
 	<extension point="org.eclipse.ui.newWizards">
@@ -14,23 +14,23 @@
 
 	<extension point="org.eclipse.ui.newWizards">
 		<wizard	id="javamm.examples.JavammExampleWizard" 
-			name="Some Javamm Examples" 
+			name="Some Java-- Examples" 
 			class="org.eclipse.emf.common.ui.wizard.ExampleInstallerWizard" 
 			category="org.eclipse.ui.Examples/javamm.ui.Examples"
 			icon="icons/genproject.gif" 
 			project="true">
-			<description>Some Javamm Examples</description>
+			<description>Some Java-- Examples</description>
 		</wizard>
 	</extension>
 
 	<extension point="org.eclipse.ui.newWizards">
 		<wizard	id="javamm.examples.JavammExampleWizard" 
-			name="Some Javamm Examples" 
+			name="Some Java-- Examples" 
 			class="org.eclipse.emf.common.ui.wizard.ExampleInstallerWizard" 
 			category="javamm.ui.category/javamm.project.Examples"
 			icon="icons/genproject.gif" 
 			project="true">
-			<description>Some Javamm Examples</description>
+			<description>Some Java-- Examples</description>
 		</wizard>
 	</extension>
 
@@ -41,7 +41,7 @@
             wizardID="javamm.examples.JavammExampleWizard">
          <projectDescriptor
                contentURI="contents/javamm.examples.zip"
-               description="Some Javamm Examples"
+               description="Some Java-- Examples"
                name="javamm.examples">
          </projectDescriptor>
       </example>

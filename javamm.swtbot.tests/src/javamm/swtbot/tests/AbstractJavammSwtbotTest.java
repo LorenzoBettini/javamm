@@ -37,8 +37,8 @@ import org.junit.BeforeClass;
 
 public class AbstractJavammSwtbotTest {
 
-	public static final String CATEGORY_NAME = "Javamm";
-	protected static final String PROJECT_TYPE = "Javamm Project";
+	public static final String CATEGORY_NAME = "Java--";
+	protected static final String PROJECT_TYPE = "Java-- Project";
 	protected static final String TEST_PROJECT = "MyTestProject";
 	protected static SWTWorkbenchBot bot;
 

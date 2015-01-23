@@ -564,10 +564,10 @@
          point="org.eclipse.ui.newWizards">
       <wizard
             category="javamm.ui.category"
-            class="javamm.ui.JavammExecutableExtensionFactory:javamm.ui.wizard.JavammNewProjectWizard"
+            class="javamm.ui.JavammExecutableExtensionFactory:javamm.ui.wizard.JavammNewProjectWizardCustom"
             icon="icons/javamm_project.gif"
             id="javamm.ui.wizard.JavammNewProjectWizard"
-            name="Javamm Project"
+            name="Java-- Project"
             project="true">
       </wizard>
       <wizard
@@ -575,12 +575,12 @@
             class="javamm.ui.JavammExecutableExtensionFactory:javamm.ui.wizard.file.NewJavammFileWizard"
             icon="icons/javamm_project.gif"
             id="javamm.ui.wizard.file.NewJavammFileWizard"
-            name="Javamm File"
+            name="Java-- File"
             project="false">
       </wizard>
       <category
             id="javamm.ui.category"
-            name="Javamm">
+            name="Java--">
       </category>
    </extension>
    
