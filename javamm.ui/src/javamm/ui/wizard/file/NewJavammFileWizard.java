@@ -32,12 +32,12 @@ public class NewJavammFileWizard extends NewElementWizard {
 	private NewJavammFileWizardPage page;
 
 	@Inject
-	public NewJavammFileWizard(IImageDescriptorHelper imgHelper, NewJavammFileWizardPage page, String title) {
+	public NewJavammFileWizard(IImageDescriptorHelper imgHelper, NewJavammFileWizardPage page) {
 		this.page= page;
 		ImageDescriptor image = imgHelper.getImageDescriptor("newjavammfile_wiz.png");
 		setDefaultPageImageDescriptor(image);
 		setDialogSettings(JavaPlugin.getDefault().getDialogSettings());
-		setWindowTitle(title);
+		setWindowTitle("Java-- File");
 	}
 
 	/**

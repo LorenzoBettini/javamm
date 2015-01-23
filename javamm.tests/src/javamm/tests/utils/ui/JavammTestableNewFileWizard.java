@@ -22,8 +22,8 @@ public class JavammTestableNewFileWizard extends NewJavammFileWizard {
 
 	@Inject
 	public JavammTestableNewFileWizard(IImageDescriptorHelper imgHelper,
-			NewJavammFileWizardPage page, String title) {
-		super(imgHelper, page, title);
+			NewJavammFileWizardPage page) {
+		super(imgHelper, page);
 	}
 
 	@Override
