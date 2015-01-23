@@ -61,7 +61,8 @@ public class NewJavammFileWizardPage extends NewTypeWizardPage {
 		this.resource = resource;
 	}
 
-	protected Composite createCommonControls(Composite parent) {
+	@Override
+	public void createControl(Composite parent) {
 		initializeDialogUnits(parent);
 		Composite composite = new Composite(parent, SWT.NONE);
 		composite.setFont(parent.getFont());
@@ -69,15 +70,9 @@ public class NewJavammFileWizardPage extends NewTypeWizardPage {
 		layout.numColumns = COLS;
 		composite.setLayout(layout);
 		createContainerControls(composite, COLS);
-		createPackageControls(composite, COLS);
+//		createPackageControls(composite, COLS);
 		createSeparator(composite, COLS);
 		createTypeNameControls(composite, COLS);
-		return composite;
-	}
-
-	@Override
-	public void createControl(Composite parent) {
-		Composite composite = createCommonControls(parent);
 //		createSuperClassControls(composite, COLS);
 //		createSuperInterfacesControls(composite, COLS);
 		setControl(composite);
