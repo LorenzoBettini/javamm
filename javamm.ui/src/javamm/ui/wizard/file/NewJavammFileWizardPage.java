@@ -78,8 +78,8 @@ public class NewJavammFileWizardPage extends NewTypeWizardPage {
 	@Override
 	public void createControl(Composite parent) {
 		Composite composite = createCommonControls(parent);
-		createSuperClassControls(composite, COLS);
-		createSuperInterfacesControls(composite, COLS);
+//		createSuperClassControls(composite, COLS);
+//		createSuperInterfacesControls(composite, COLS);
 		setControl(composite);
 	}
 	
