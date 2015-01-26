@@ -41,6 +41,14 @@
 						<fileset>
 							<directory>${basedir}/../${project.artifactId}.tests/xtend-gen</directory>
 						</fileset>
+						<!-- clean swtbot.test and ide target as well, to avoid warnings, since
+						that contain installed artifacts -->
+						<fileset>
+							<directory>${basedir}/../${project.artifactId}.swtbot.tests/target</directory>
+						</fileset>
+						<fileset>
+							<directory>${basedir}/../${project.artifactId}.ide/target</directory>
+						</fileset>
 					</filesets>
 				</configuration>
 			</plugin>
