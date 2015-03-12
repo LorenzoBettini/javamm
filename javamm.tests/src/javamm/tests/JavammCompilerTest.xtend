@@ -798,6 +798,25 @@ package javamm;
 @SuppressWarnings("all")
 public class MyFile {
   public static void main(String[] args) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nUnreachable expression.");
+  }
+}
+''', false 
+			)
+		/** 
+		 * this is not valid input since i += 1 is considered not reachable
+		 * we use it only to test the compiler.
+		 * 
+		 * In Xtext 2.8 the body is not generated, while in Xtext 2.7.3 the body
+		 * was generated anyway:
+		 * 
+		 * 
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
     int argsNum = args.length;
     {
       int i = 0;
@@ -808,11 +827,6 @@ public class MyFile {
     }
   }
 }
-''', false 
-			)
-		/** 
-		 * this is not valid input since i += 1 is considered not reachable
-		 * we use it only to test the compiler
 		 */
 	}
 
