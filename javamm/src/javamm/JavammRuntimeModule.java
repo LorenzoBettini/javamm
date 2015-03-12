@@ -27,7 +27,6 @@ import org.eclipse.xtext.xbase.typesystem.internal.ExpressionArgumentFactory;
  */
 public class JavammRuntimeModule extends javamm.AbstractJavammRuntimeModule {
 
-	@Override
 	public Class<? extends ITypeComputer> bindITypeComputer() {
 		return JavammTypeComputer.class;
 	}
