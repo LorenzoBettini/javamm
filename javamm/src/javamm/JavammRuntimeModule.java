@@ -10,7 +10,6 @@ import javamm.scoping.JavammOperatorMapping;
 import javamm.scoping.JavammQualifiedNameProvider;
 import javamm.typesystem.JavammExpressionArgumentFactory;
 import javamm.typesystem.JavammTypeComputer;
-import javamm.typesystem.conformance.PacthedTypeConformanceComputer;
 
 import org.eclipse.xtext.conversion.IValueConverterService;
 import org.eclipse.xtext.generator.IGenerator;
@@ -18,7 +17,6 @@ import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.xbase.compiler.XbaseCompiler;
 import org.eclipse.xtext.xbase.scoping.featurecalls.OperatorMapping;
 import org.eclipse.xtext.xbase.typesystem.computation.ITypeComputer;
-import org.eclipse.xtext.xbase.typesystem.conformance.TypeConformanceComputer;
 import org.eclipse.xtext.xbase.typesystem.internal.ExpressionArgumentFactory;
 
 
@@ -27,7 +25,6 @@ import org.eclipse.xtext.xbase.typesystem.internal.ExpressionArgumentFactory;
  */
 public class JavammRuntimeModule extends javamm.AbstractJavammRuntimeModule {
 
-	@Override
 	public Class<? extends ITypeComputer> bindITypeComputer() {
 		return JavammTypeComputer.class;
 	}
@@ -58,8 +55,5 @@ public class JavammRuntimeModule extends javamm.AbstractJavammRuntimeModule {
 	public Class<? extends IQualifiedNameProvider> bindIQualifiedNameProvider() {
 		return JavammQualifiedNameProvider.class;
 	}
-	
-	public Class<? extends TypeConformanceComputer> bindTypeConformanceComputer() {
-		return PacthedTypeConformanceComputer.class;
-	}
+
 }

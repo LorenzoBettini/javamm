@@ -212,6 +212,11 @@ class JavammValidatorTest extends JavammAbstractTest {
 		'''.parse.assertUnreachableExpression(XbasePackage.eINSTANCE.XMemberFeatureCall)
 	}
 
+	@Test def void testDeadCodeInForLoopTranslatedToJavaWhileEarlyExit() {
+		forLoopTranslatedToJavaWhileEarlyExit.
+			parse.assertUnreachableExpression(XbasePackage.eINSTANCE.XBinaryOperation)
+	}
+
 	@Test def void testInvalidContinue() {
 		'''
 		void m() {

@@ -798,6 +798,25 @@ package javamm;
 @SuppressWarnings("all")
 public class MyFile {
   public static void main(String[] args) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nUnreachable expression.");
+  }
+}
+''', false 
+			)
+		/** 
+		 * this is not valid input since i += 1 is considered not reachable
+		 * we use it only to test the compiler.
+		 * 
+		 * In Xtext 2.8 the body is not generated, while in Xtext 2.7.3 the body
+		 * was generated anyway:
+		 * 
+		 * 
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
     int argsNum = args.length;
     {
       int i = 0;
@@ -808,11 +827,6 @@ public class MyFile {
     }
   }
 }
-''', false 
-			)
-		/** 
-		 * this is not valid input since i += 1 is considered not reachable
-		 * we use it only to test the compiler
 		 */
 	}
 
@@ -1527,15 +1541,11 @@ public class MyFile {
     boolean b = false;
     b = (1 == 2);
     b = (1 != 2);
-    boolean _tripleEquals = ("a" == "b");
-    b = _tripleEquals;
-    boolean _tripleNotEquals = ("a" != "b");
-    b = _tripleNotEquals;
+    b = ("a" == "b");
+    b = ("a" != "b");
     String a = new String("a");
-    boolean _tripleEquals_1 = ("a" == "a");
-    System.out.println(_tripleEquals_1);
-    boolean _tripleEquals_2 = (a == "a");
-    System.out.println(_tripleEquals_2);
+    System.out.println(("a" == "a"));
+    System.out.println((a == "a"));
     boolean _equals = "a".equals("a");
     System.out.println(_equals);
   }
