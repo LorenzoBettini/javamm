@@ -15,10 +15,10 @@ var grammarURI = "platform:/resource/${projectName}/src/javamm/Javamm.xtext"
 Workflow {
     bean = StandaloneSetup {
     	// initialize the EMF singleton with proper classpath to platform:/resource mappings
-		scanClassPath = true
-		// put the Xbase genmodel into the EMF plugins singleton
-		registerGenModelFile = "platform:/resource/org.eclipse.xtext.xbase/model/Xbase.genmodel"
-		
+    	scanClassPath = true
+    	// put the Xbase genmodel into the EMF plugins singleton
+    	registerGenModelFile = "platform:/resource/org.eclipse.xtext.xbase/model/Xbase.genmodel"
+
     	// register current projects and its siblings for platform URI map, as they are not on the classpath.
     	platformUri = "${runtimeProject}/.."
     }
@@ -45,7 +45,7 @@ Workflow {
 
 	component = org.eclipse.emf.mwe2.ecore.EcoreGenerator {
 		// generate the Java code for the EPackage
-		// the Xsemantics genmodel needs to find the Xbase genmodel thus the latter was registered in the standalone setup
+		// the Javamm genmodel needs to find the Xbase genmodel thus the latter was registered in the standalone setup
 		genModel = "platform:/resource/${projectName}/model/custom/Javamm.genmodel"
 		srcPath = "platform:/resource/${projectName}/src"
 	}
@@ -59,12 +59,12 @@ Workflow {
     	encoding = encoding
     	language = auto-inject {
     		// here we initialize a resource set with a list of ecore files such that the grammar points to the local EPackages
-			// rather than the generated EPackages (which would be inconsistent).
-			loadedResource = "platform:/resource/org.eclipse.xtext.common.types/model/JavaVMTypes.ecore"
-			loadedResource = "platform:/resource/org.eclipse.xtext.xbase/model/Xtype.ecore"
-			loadedResource = "platform:/resource/org.eclipse.xtext.xbase/model/Xbase.ecore"
-			loadedResource = "platform:/resource/org.eclipse.xtext.xbase/model/XAnnotations.ecore"
-    		
+    		// rather than the generated EPackages (which would be inconsistent).
+    		loadedResource = "platform:/resource/org.eclipse.xtext.common.types/model/JavaVMTypes.ecore"
+    		loadedResource = "platform:/resource/org.eclipse.xtext.xbase/model/Xtype.ecore"
+    		loadedResource = "platform:/resource/org.eclipse.xtext.xbase/model/Xbase.ecore"
+    		loadedResource = "platform:/resource/org.eclipse.xtext.xbase/model/XAnnotations.ecore"
+
     		loadedResource = "platform:/resource/${projectName}/model/custom/Javamm.ecore"
     		
     		uri = grammarURI
