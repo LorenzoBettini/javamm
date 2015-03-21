@@ -57,6 +57,7 @@ public class JavammXVariableDeclarationImplCustom extends XVariableDeclarationIm
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<XVariableDeclaration> getAdditionalVariables()
 	{
 		if (additionalVariables == null)

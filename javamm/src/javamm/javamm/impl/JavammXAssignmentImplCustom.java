@@ -50,6 +50,7 @@ public class JavammXAssignmentImplCustom extends XAssignmentImplCustom implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<XExpression> getIndexes()
 	{
 		if (indexes == null)

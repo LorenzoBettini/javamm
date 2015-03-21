@@ -354,6 +354,7 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 	 * 
 	 * @see org.eclipse.xtext.xbase.compiler.XbaseCompiler#_toJavaStatement(org.eclipse.xtext.xbase.XSwitchExpression, org.eclipse.xtext.xbase.compiler.output.ITreeAppendable, boolean)
 	 */
+	@Override
 	protected void _toJavaStatement(XSwitchExpression expr, ITreeAppendable b, boolean isReferenced) {
 		_toJavaSwitchStatement(expr, b, isReferenced);
 	}
