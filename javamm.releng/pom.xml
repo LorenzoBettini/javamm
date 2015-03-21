@@ -40,11 +40,33 @@
 		<sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
 		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
 		<sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
-		<jacoco.reportPath>${project.basedir}/../target/coverage</jacoco.reportPath>
-		<jacoco.xml.reportPath>${jacoco.reportPath}/coverage.xml</jacoco.xml.reportPath>
-		<sonar.junit.reportsPath>../${project.artifactId}.tests/target/surefire-reports/</sonar.junit.reportsPath>
-		<sonar.skippedModules>javamm.tests,javamm.swtbot.tests,javamm.example.examples</sonar.skippedModules>
-		<sonar.exclusions>file:**/src-gen/**</sonar.exclusions>
+		<!--  <sonar.junit.reportsPath>../${project.artifactId}.tests/target/surefire-reports/</sonar.junit.reportsPath> -->
+		<sonar.exclusions>file:**/src-gen/**,file:**/emf-gen/**,file:**/tests/**,**/*RuntimeModule.java,**/*UiModule.java,**/*XcoreReader.java,**/*UiExamples.java,**/*TypeSystemGen*.java,**/*StandaloneSetup*.java</sonar.exclusions>
+		
+		<!-- see http://sonarqube.15.x6.nabble.com/sonar-issue-ignore-multicriteria-td5021722.html and
+		 http://stackoverflow.com/questions/21825469/configure-sonar-sonar-issue-ignore-multicriteria-through-maven
+		 for the multicriteria property -->
+		<sonar.issue.ignore.multicriteria>e1,e2</sonar.issue.ignore.multicriteria>
+		
+		<!-- standard convention for method names: in the outline tree provider we
+		 must use methods that start with _ and they'd violate the rule squid:S00100 -->
+		<sonar.issue.ignore.multicriteria.e1.ruleKey>squid:S00100</sonar.issue.ignore.multicriteria.e1.ruleKey>
+		<sonar.issue.ignore.multicriteria.e1.resourceKey>**/*OutlineTreeProvider.java</sonar.issue.ignore.multicriteria.e1.resourceKey>
+		
+		<!-- "Tabulation characters should not be used"
+		 sorry... I don't agree :) -->
+		<sonar.issue.ignore.multicriteria.e2.ruleKey>squid:S00105</sonar.issue.ignore.multicriteria.e2.ruleKey>
+		<sonar.issue.ignore.multicriteria.e2.resourceKey>**/*.java</sonar.issue.ignore.multicriteria.e2.resourceKey>
+		
+		<!--  sonar.skippedModules is deprecated: https://jira.codehaus.org/browse/SONAR-5109 -->
+		<!-- instead we must use advanced reactor options: https://jira.codehaus.org/browse/MSONAR-61  -->
+		<!-- Example:
+			mvn sonar:sonar -pl :javamm.releng,:javamm.runtime,:javamm,:javamm.ui
+		 -->
+		
+		<!-- Otherwise we'll have problems due to generated sources, which are
+		 not in the git repository (since Sonarqube 5) -->
+		<sonar.scm.disabled>true</sonar.scm.disabled>		
 
 		<findbugs.skip>true</findbugs.skip>
 		<swtbot.tests.only>false</swtbot.tests.only>
@@ -221,6 +243,12 @@
 							</goals>
 						</execution>
 					</executions>
+				</plugin>
+				
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>sonar-maven-plugin</artifactId>
+					<version>2.5</version>
 				</plugin>
 
 			</plugins>
