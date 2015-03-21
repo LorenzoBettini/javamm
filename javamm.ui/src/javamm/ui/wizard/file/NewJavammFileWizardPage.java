@@ -6,6 +6,7 @@ package javamm.ui.wizard.file;
 import java.io.ByteArrayInputStream;
 import java.lang.reflect.InvocationTargetException;
 
+import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IResource;
@@ -40,6 +41,8 @@ import org.eclipse.xtext.ui.editor.model.IXtextDocument;
  *
  */
 public class NewJavammFileWizardPage extends NewTypeWizardPage {
+	
+	private static final Logger LOGGER = Logger.getLogger(NewJavammFileWizardPage.class);
 	
 	public static final String JAVAMM_FILE = "Java-- File";
 
@@ -115,7 +118,7 @@ public class NewJavammFileWizardPage extends NewTypeWizardPage {
 					elem= projects[0];
 				}
 			} catch (JavaModelException e) {
-				throw new RuntimeException(e.getMessage());
+				throw new RuntimeException(e);
 			}
 		}
 		return elem;
@@ -151,6 +154,7 @@ public class NewJavammFileWizardPage extends NewTypeWizardPage {
 							getPackageFragmentRoot().createPackageFragment(getPackageFragment().getElementName(), true,
 									monitor);
 						} catch (JavaModelException e) {
+							LOGGER.error(e);
 							displayError("Error creating package", e.getMessage());
 						}
 					}
@@ -158,6 +162,7 @@ public class NewJavammFileWizardPage extends NewTypeWizardPage {
 					IFile myFile = ((IFolder) res).getFile(getTypeName() + ".javamm"); //$NON-NLS-1$
 					size[0] = createJavammElement(monitor, myFile);
 				} catch (OperationCanceledException e) {
+					LOGGER.error(e);
 					throw new InterruptedException();
 				} catch (Exception e) {
 					throw new InvocationTargetException(e);
@@ -172,6 +177,7 @@ public class NewJavammFileWizardPage extends NewTypeWizardPage {
 			// cancelled by user
 			return 0;
 		} catch (InvocationTargetException e) {
+			LOGGER.error(e);
 			Throwable realException = e.getTargetException();
 			MessageDialog.openError(getShell(), getElementCreationErrorMessage(), realException.getMessage());
 		}
@@ -186,6 +192,7 @@ public class NewJavammFileWizardPage extends NewTypeWizardPage {
 			xtendFile.create(new ByteArrayInputStream(content.getBytes()), true, monitor);
 			setResource(xtendFile);
 		} catch (CoreException e) {
+			LOGGER.error(e);
 			displayError(getElementCreationErrorMessage(), e.getMessage());
 		}
 		return size;
