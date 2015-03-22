@@ -58,6 +58,7 @@ public class NewJavammFileWizard extends NewElementWizard {
 
 	@Override
 	protected void finishPage(IProgressMonitor monitor) throws InterruptedException, CoreException {
+		// nothing to be done.
 	}
 
 	@Override

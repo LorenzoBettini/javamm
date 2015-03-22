@@ -68,12 +68,12 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 	
 	public void _toJavaStatement(JavammArrayConstructorCall call, ITreeAppendable b,
 			boolean isReferenced) {
-		
+		// compile it only as expression
 	}
 
 	public void _toJavaStatement(JavammArrayAccessExpression access, ITreeAppendable b,
 			boolean isReferenced) {
-		
+		// compile it only as expression
 	}
 
 	public void _toJavaStatement(JavammContinueStatement st, ITreeAppendable b,
