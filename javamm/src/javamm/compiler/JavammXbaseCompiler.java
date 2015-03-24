@@ -426,7 +426,7 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 			ITreeAppendable b, boolean isExpressionContext) {
 		if (call instanceof JavammPrefixOperation) {
 			// we can't simply retrieve the inline annotations as it is done
-			// for postfix operation, since ++ and -- are already mapped to
+			// for postfix operations, since postfix operations are already mapped to
 			// postfix methods operator_plusPlus and operator_minusMinus
 			JvmIdentifiableElement feature = call.getFeature();
 			if (feature.getSimpleName().endsWith("plusPlus")) {
