@@ -1,14 +1,19 @@
 package javamm.tests.utils.ui
 
 import com.google.inject.Inject
+import com.google.inject.Provider
 import java.util.List
+import org.eclipse.core.resources.IMarker
+import org.eclipse.core.resources.IResource
 import org.eclipse.core.runtime.NullProgressMonitor
 import org.eclipse.jdt.core.IJavaProject
 import org.eclipse.jdt.core.JavaCore
 import org.eclipse.xtext.junit4.ui.util.JavaProjectSetupUtil
 import org.eclipse.xtext.ui.XtextProjectHelper
 import org.eclipse.xtext.ui.util.PluginProjectFactory
-import com.google.inject.Provider
+
+import static org.eclipse.xtext.junit4.ui.util.IResourcesSetupUtil.*
+import static org.junit.Assert.*
 
 class PluginProjectHelper {
 	
@@ -41,4 +46,17 @@ class PluginProjectHelper {
 		return JavaProjectSetupUtil.findJavaProject(projectName);
 	}
 
+	def assertNoErrors() {
+		val markers = root.findMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE).
+			filter[
+				getAttribute(IMarker.SEVERITY, IMarker.SEVERITY_INFO) == IMarker.SEVERITY_ERROR
+			]
+		assertEquals(
+			"unexpected errors:\n" +
+			markers.map[getAttribute(IMarker.LOCATION) + 
+				", " + getAttribute(IMarker.MESSAGE)].join("\n"),
+			0, 
+			markers.size
+		)
+	}
 }
