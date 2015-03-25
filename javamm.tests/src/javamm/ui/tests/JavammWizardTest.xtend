@@ -5,6 +5,7 @@ import com.google.inject.Provider
 import javamm.JavammUiInjectorProvider
 import javamm.tests.utils.ui.JavammTestableNewFileWizard
 import javamm.tests.utils.ui.JavammTestableNewProjectWizard
+import javamm.tests.utils.ui.PDETargetPlatformUtils
 import javamm.tests.utils.ui.PluginProjectHelper
 import javamm.tests.utils.ui.TestableWizardDialog
 import org.eclipse.jface.viewers.StructuredSelection
@@ -13,6 +14,7 @@ import org.eclipse.ui.PlatformUI
 import org.eclipse.xtext.junit4.InjectWith
 import org.eclipse.xtext.junit4.XtextRunner
 import org.eclipse.xtext.junit4.ui.AbstractWorkbenchTest
+import org.junit.BeforeClass
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -33,6 +35,11 @@ class JavammWizardTest extends AbstractWorkbenchTest {
 	 */
 	def protected int createAndFinishWizardDialog(Wizard wizard) {
 		new TestableWizardDialog(wizard.shell, wizard).open();
+	}
+
+	@BeforeClass
+	def static void beforeClass() {
+		PDETargetPlatformUtils.setTargetPlatform();
 	}
 
 	@Test def void testJavammNewProjectWizard() {

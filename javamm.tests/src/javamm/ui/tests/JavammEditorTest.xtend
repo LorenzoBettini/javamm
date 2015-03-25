@@ -2,6 +2,7 @@ package javamm.ui.tests
 
 import com.google.inject.Inject
 import javamm.JavammUiInjectorProvider
+import javamm.tests.utils.ui.PDETargetPlatformUtils
 import javamm.tests.utils.ui.PluginProjectHelper
 import javamm.ui.internal.JavammActivator
 import org.eclipse.core.resources.IProject
@@ -9,6 +10,7 @@ import org.eclipse.xtext.junit4.InjectWith
 import org.eclipse.xtext.junit4.XtextRunner
 import org.eclipse.xtext.junit4.ui.AbstractEditorTest
 import org.junit.Before
+import org.junit.BeforeClass
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -29,7 +31,12 @@ class JavammEditorTest extends AbstractEditorTest {
 	override protected getEditorId() {
 		JavammActivator.JAVAMM_JAVAMM
 	}
-	
+
+	@BeforeClass
+	def static void beforeClass() {
+		PDETargetPlatformUtils.setTargetPlatform();
+	}
+
 	@Before
 	override void setUp() {
 		super.setUp
