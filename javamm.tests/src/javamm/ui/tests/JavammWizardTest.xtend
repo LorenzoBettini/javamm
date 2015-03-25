@@ -7,8 +7,6 @@ import javamm.tests.utils.ui.JavammTestableNewFileWizard
 import javamm.tests.utils.ui.JavammTestableNewProjectWizard
 import javamm.tests.utils.ui.PluginProjectHelper
 import javamm.tests.utils.ui.TestableWizardDialog
-import org.eclipse.core.resources.IMarker
-import org.eclipse.core.resources.IResource
 import org.eclipse.jface.viewers.StructuredSelection
 import org.eclipse.jface.wizard.Wizard
 import org.eclipse.ui.PlatformUI
@@ -44,7 +42,7 @@ class JavammWizardTest extends AbstractWorkbenchTest {
 		val project = root.getProject(JavammTestableNewProjectWizard.TEST_PROJECT)
 		assertTrue(project.exists())
 		waitForAutoBuild
-		assertNoErrors
+		projectHelper.assertNoErrors
 	}
 
 	@Test def void testJavammNewFileWizard() {
@@ -58,24 +56,11 @@ class JavammWizardTest extends AbstractWorkbenchTest {
 		val file = srcFolder.getFile(JavammTestableNewFileWizard.TEST_FILE + ".javamm")
 		assertTrue(file.exists())
 		waitForAutoBuild
-		assertNoErrors
+		projectHelper.assertNoErrors
 		val srcGenFolder = project.getFolder("src-gen/javamm")
 		assertTrue(srcGenFolder.exists)
 		val genfile = srcGenFolder.getFile(JavammTestableNewFileWizard.TEST_FILE + ".java")
 		assertTrue(genfile.exists())
 	}
 
-	def private assertNoErrors() {
-		val markers = root.findMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE).
-			filter[
-				getAttribute(IMarker.SEVERITY, IMarker.SEVERITY_INFO) == IMarker.SEVERITY_ERROR
-			]
-		assertEquals(
-			"unexpected errors:\n" +
-			markers.map[getAttribute(IMarker.LOCATION) + 
-				", " + getAttribute(IMarker.MESSAGE)].join("\n"),
-			0, 
-			markers.size
-		)
-	}
 }
