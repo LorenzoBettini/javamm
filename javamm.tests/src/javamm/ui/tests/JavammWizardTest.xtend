@@ -7,9 +7,9 @@ import javamm.tests.utils.ui.JavammTestableNewFileWizard
 import javamm.tests.utils.ui.JavammTestableNewProjectWizard
 import javamm.tests.utils.ui.PDETargetPlatformUtils
 import javamm.tests.utils.ui.PluginProjectHelper
-import javamm.tests.utils.ui.TestableWizardDialog
 import org.eclipse.jface.viewers.StructuredSelection
 import org.eclipse.jface.wizard.Wizard
+import org.eclipse.jface.wizard.WizardDialog
 import org.eclipse.ui.PlatformUI
 import org.eclipse.xtext.junit4.InjectWith
 import org.eclipse.xtext.junit4.XtextRunner
@@ -34,7 +34,24 @@ class JavammWizardTest extends AbstractWorkbenchTest {
 	 * Create the wizard dialog, open it and press Finish.
 	 */
 	def protected int createAndFinishWizardDialog(Wizard wizard) {
-		new TestableWizardDialog(wizard.shell, wizard).open();
+		val dialog = new WizardDialog(wizard.shell, wizard) {
+			override open() {
+				val thread = new Thread("Press Finish") {
+					override run() {
+						// wait for the shell to become active
+						while (getShell() == null) {
+							Thread.sleep(1000)
+						}
+						getShell().getDisplay().asyncExec[
+							finishPressed();
+						]					
+					}			
+				};
+				thread.start();
+				return super.open();
+			}
+		};
+		return dialog.open();
 	}
 
 	@BeforeClass
