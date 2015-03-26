@@ -39,6 +39,7 @@ public class TestableWizardDialog extends WizardDialog {
 					Shell _shell = getShell();
 					Display _display = _shell.getDisplay();
 					final Runnable _function = new Runnable() {
+						@Override
 						public void run() {
 							finishPressed();
 						}

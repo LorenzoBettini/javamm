@@ -44,6 +44,8 @@ import com.google.inject.Inject;
  */
 public class JavammXbaseCompiler extends XbaseCompiler {
 	
+	private static final String ASSIGNED_TRUE = " = true;";
+
 	@Inject
 	private JavammModelUtil modelUtil;
 	
@@ -68,12 +70,12 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 	
 	public void _toJavaStatement(JavammArrayConstructorCall call, ITreeAppendable b,
 			boolean isReferenced) {
-		
+		// compile it only as expression
 	}
 
 	public void _toJavaStatement(JavammArrayAccessExpression access, ITreeAppendable b,
 			boolean isReferenced) {
-		
+		// compile it only as expression
 	}
 
 	public void _toJavaStatement(JavammContinueStatement st, ITreeAppendable b,
@@ -99,7 +101,7 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 				internalToJavaExpression(expression, b);
 				b.append(";");
 			} else {
-				b.newLine().append(varName).append(" = true;");
+				b.newLine().append(varName).append(ASSIGNED_TRUE);
 			}
 		}
 		compileBranchingStatement(st, b);
@@ -309,7 +311,7 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 			internalToJavaExpression(expression, loopAppendable);
 			loopAppendable.append(";");
 		} else {
-			loopAppendable.newLine().append("boolean ").append(varName).append(" = true;");
+			loopAppendable.newLine().append("boolean ").append(varName).append(ASSIGNED_TRUE);
 		}
 		loopAppendable.newLine();
 		loopAppendable.append("while (");
@@ -336,7 +338,7 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 				internalToJavaExpression(expression, loopAppendable);
 				loopAppendable.append(";");
 			} else {
-				loopAppendable.newLine().append(varName).append(" = true;");
+				loopAppendable.newLine().append(varName).append(ASSIGNED_TRUE);
 			}
 		}
 		
@@ -354,6 +356,7 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 	 * 
 	 * @see org.eclipse.xtext.xbase.compiler.XbaseCompiler#_toJavaStatement(org.eclipse.xtext.xbase.XSwitchExpression, org.eclipse.xtext.xbase.compiler.output.ITreeAppendable, boolean)
 	 */
+	@Override
 	protected void _toJavaStatement(XSwitchExpression expr, ITreeAppendable b, boolean isReferenced) {
 		_toJavaSwitchStatement(expr, b, isReferenced);
 	}
@@ -425,7 +428,7 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 			ITreeAppendable b, boolean isExpressionContext) {
 		if (call instanceof JavammPrefixOperation) {
 			// we can't simply retrieve the inline annotations as it is done
-			// for postfix operation, since ++ and -- are already mapped to
+			// for postfix operations, since postfix operations are already mapped to
 			// postfix methods operator_plusPlus and operator_minusMinus
 			JvmIdentifiableElement feature = call.getFeature();
 			if (feature.getSimpleName().endsWith("plusPlus")) {

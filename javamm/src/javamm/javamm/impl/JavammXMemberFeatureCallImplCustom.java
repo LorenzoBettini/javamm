@@ -53,6 +53,7 @@ public class JavammXMemberFeatureCallImplCustom extends XMemberFeatureCallImplCu
 	 * are requested or updated we can safely assume that the {@link JavammArrayAccessExpression}
 	 * has already been created (see the grammar rule).
 	 */
+	@Override
 	public EList<XExpression> getIndexes()
 	{
 		return getArrayAccessExpression().getIndexes();
@@ -63,6 +64,7 @@ public class JavammXMemberFeatureCallImplCustom extends XMemberFeatureCallImplCu
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public JavammArrayAccessExpression getArrayAccessExpression()
 	{
 		return arrayAccessExpression;
@@ -90,6 +92,7 @@ public class JavammXMemberFeatureCallImplCustom extends XMemberFeatureCallImplCu
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setArrayAccessExpression(JavammArrayAccessExpression newArrayAccessExpression)
 	{
 		if (newArrayAccessExpression != arrayAccessExpression)

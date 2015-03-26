@@ -58,6 +58,7 @@ public class NewJavammFileWizard extends NewElementWizard {
 
 	@Override
 	protected void finishPage(IProgressMonitor monitor) throws InterruptedException, CoreException {
+		// nothing to be done.
 	}
 
 	@Override
@@ -73,6 +74,7 @@ public class NewJavammFileWizard extends NewElementWizard {
 			selectAndReveal(resource);
 			final Display display= getShell().getDisplay();
 			display.asyncExec(new Runnable() {
+				@Override
 				public void run() {
 					IEditorPart editor;
 					try {

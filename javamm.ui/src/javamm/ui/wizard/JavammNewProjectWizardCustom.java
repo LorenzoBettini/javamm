@@ -29,6 +29,7 @@ public class JavammNewProjectWizardCustom extends JavammNewProjectWizard {
 	 * Use this method to add pages to the wizard.
 	 * The one-time generated version of this class will add a default new project page to the wizard.
 	 */
+	@Override
 	public void addPages() {
 		mainPage = new WizardNewProjectCreationPage("basicNewProjectPage");
 		mainPage.setTitle("Java-- Project");

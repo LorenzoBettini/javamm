@@ -28,8 +28,7 @@ public class JavammNodeModelUtil {
 	}
 
 	private ICompositeNode findActualNode(EObject object) {
-		final ICompositeNode node = NodeModelUtils.findActualNodeFor(object);
-		return node;
+		return NodeModelUtils.findActualNodeFor(object);
 	}
 
 }

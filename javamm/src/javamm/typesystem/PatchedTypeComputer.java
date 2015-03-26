@@ -44,30 +44,7 @@ public class PatchedTypeComputer extends XbaseTypeComputer {
 			LightweightTypeReference expectedType = typeExpectation.getExpectedType();
 			if (expectedType != null && expectedType.getType() instanceof JvmPrimitiveType) {
 				Primitive kind = primitives.primitiveKind((JvmPrimitiveType)expectedType.getType());
-				boolean success = true;
-				String value = object.getValue();
-				try {
-					switch(kind) {
-					case Byte:
-						Byte.parseByte(value);
-						break;
-					case Short:
-						Short.parseShort(value);
-						break;
-					case Char:
-						int parsed = Integer.parseInt(value);
-						success = parsed <= Character.MAX_VALUE;
-						break;
-					default:
-						success = false;
-						break;
-					}
-					
-				} catch (NumberFormatException e) {
-					success = false;
-				}
-				
-				if (success) {
+				if (checkConversionToPrimitive(object, kind)) {
 					state.acceptActualType(expectedType);
 					return;
 				}
@@ -75,5 +52,32 @@ public class PatchedTypeComputer extends XbaseTypeComputer {
 		}
 		
 		super._computeTypes(object, state);
+	}
+
+	private boolean checkConversionToPrimitive(XNumberLiteral object,
+			Primitive kind) {
+		boolean success = true;
+		String value = object.getValue();
+		try {
+			switch(kind) {
+			case Byte:
+				Byte.parseByte(value);
+				break;
+			case Short:
+				Short.parseShort(value);
+				break;
+			case Char:
+				int parsed = Integer.parseInt(value);
+				success = parsed <= Character.MAX_VALUE;
+				break;
+			default:
+				success = false;
+				break;
+			}
+			
+		} catch (NumberFormatException e) {
+			success = false;
+		}
+		return success;
 	}
 }

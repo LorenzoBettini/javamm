@@ -38,13 +38,55 @@
 		<!-- Sonar -->
 		<sonar.language>java</sonar.language>
 		<sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
-		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
 		<sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
-		<jacoco.reportPath>${project.basedir}/../target/coverage</jacoco.reportPath>
-		<jacoco.xml.reportPath>${jacoco.reportPath}/coverage.xml</jacoco.xml.reportPath>
-		<sonar.junit.reportsPath>../${project.artifactId}.tests/target/surefire-reports/</sonar.junit.reportsPath>
-		<sonar.skippedModules>javamm.tests,javamm.swtbot.tests,javamm.example.examples</sonar.skippedModules>
-		<sonar.exclusions>file:**/src-gen/**</sonar.exclusions>
+		<!--  <sonar.junit.reportsPath>../${project.artifactId}.tests/target/surefire-reports/</sonar.junit.reportsPath> -->
+		<sonar.exclusions>file:**/*JvmModelGenerator.java,file:**/New*FileWizard*.java,file:**/src-gen/**,file:**/emf-gen/**,file:**/impl/*ImplCustom.java,file:**/tests/**,**/*RuntimeModule.java,**/*UiModule.java,**/*XcoreReader.java,**/*UiExamples.java,**/*TypeSystemGen*.java,**/*StandaloneSetup*.java</sonar.exclusions>
+		
+		<!-- see http://sonarqube.15.x6.nabble.com/sonar-issue-ignore-multicriteria-td5021722.html and
+		 http://stackoverflow.com/questions/21825469/configure-sonar-sonar-issue-ignore-multicriteria-through-maven
+		 for the multicriteria property -->
+		<sonar.issue.ignore.multicriteria>e11,e12,e13,e14,e2,e3,e4,e5</sonar.issue.ignore.multicriteria>
+		
+		<!-- standard convention for method names: in the outline tree provider we
+		 must use methods that start with _ and they'd violate the rule squid:S00100 -->
+		<sonar.issue.ignore.multicriteria.e11.ruleKey>squid:S00100</sonar.issue.ignore.multicriteria.e11.ruleKey>
+		<sonar.issue.ignore.multicriteria.e11.resourceKey>**/*OutlineTreeProvider.java</sonar.issue.ignore.multicriteria.e11.resourceKey>
+
+		<sonar.issue.ignore.multicriteria.e12.ruleKey>squid:S00100</sonar.issue.ignore.multicriteria.e12.ruleKey>
+		<sonar.issue.ignore.multicriteria.e12.resourceKey>**/*AbstractXbaseProposalProvider.java</sonar.issue.ignore.multicriteria.e12.resourceKey>
+
+		<sonar.issue.ignore.multicriteria.e13.ruleKey>squid:S00100</sonar.issue.ignore.multicriteria.e13.ruleKey>
+		<sonar.issue.ignore.multicriteria.e13.resourceKey>**/*XbaseCompiler.java</sonar.issue.ignore.multicriteria.e13.resourceKey>
+
+		<sonar.issue.ignore.multicriteria.e14.ruleKey>squid:S00100</sonar.issue.ignore.multicriteria.e14.ruleKey>
+		<sonar.issue.ignore.multicriteria.e14.resourceKey>**/*ValueConverterService.java</sonar.issue.ignore.multicriteria.e14.resourceKey>
+		
+		<!-- "Tabulation characters should not be used"
+		 sorry... I don't agree :) -->
+		<sonar.issue.ignore.multicriteria.e2.ruleKey>squid:S00105</sonar.issue.ignore.multicriteria.e2.ruleKey>
+		<sonar.issue.ignore.multicriteria.e2.resourceKey>**/*.java</sonar.issue.ignore.multicriteria.e2.resourceKey>
+
+		<!-- Unused parameters are needed in these files for polymorphic dispatching -->
+		<sonar.issue.ignore.multicriteria.e3.ruleKey>squid:S1172</sonar.issue.ignore.multicriteria.e3.ruleKey>
+		<sonar.issue.ignore.multicriteria.e3.resourceKey>**/*XbaseCompiler.java</sonar.issue.ignore.multicriteria.e3.resourceKey>
+
+		<!-- Unused parameters are needed in these files for polymorphic dispatching -->
+		<sonar.issue.ignore.multicriteria.e4.ruleKey>squid:S1172</sonar.issue.ignore.multicriteria.e4.ruleKey>
+		<sonar.issue.ignore.multicriteria.e4.resourceKey>**/*AbstractXbaseProposalProvider.java</sonar.issue.ignore.multicriteria.e4.resourceKey>
+
+		<!-- Useless parenthesis; these files use code automatically generated -->
+		<sonar.issue.ignore.multicriteria.e5.ruleKey>squid:UselessParenthesesCheck</sonar.issue.ignore.multicriteria.e5.ruleKey>
+		<sonar.issue.ignore.multicriteria.e5.resourceKey>**/*AbstractXbaseProposalProvider.java</sonar.issue.ignore.multicriteria.e5.resourceKey>
+		
+		<!--  sonar.skippedModules is deprecated: https://jira.codehaus.org/browse/SONAR-5109 -->
+		<!-- instead we must use advanced reactor options: https://jira.codehaus.org/browse/MSONAR-61  -->
+		<!-- Example:
+			mvn sonar:sonar -pl :javamm.releng,:javamm.runtime,:javamm,:javamm.ui
+		 -->
+		
+		<!-- Otherwise we'll have problems due to generated sources, which are
+		 not in the git repository (since Sonarqube 5) -->
+		<sonar.scm.disabled>true</sonar.scm.disabled>		
 
 		<findbugs.skip>true</findbugs.skip>
 		<swtbot.tests.only>false</swtbot.tests.only>
@@ -221,6 +263,12 @@
 							</goals>
 						</execution>
 					</executions>
+				</plugin>
+				
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>sonar-maven-plugin</artifactId>
+					<version>2.5</version>
 				</plugin>
 
 			</plugins>
