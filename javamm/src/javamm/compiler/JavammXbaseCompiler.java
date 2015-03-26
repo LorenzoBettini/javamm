@@ -44,6 +44,8 @@ import com.google.inject.Inject;
  */
 public class JavammXbaseCompiler extends XbaseCompiler {
 	
+	private static final String ASSIGNED_TRUE = " = true;";
+
 	@Inject
 	private JavammModelUtil modelUtil;
 	
@@ -99,7 +101,7 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 				internalToJavaExpression(expression, b);
 				b.append(";");
 			} else {
-				b.newLine().append(varName).append(" = true;");
+				b.newLine().append(varName).append(ASSIGNED_TRUE);
 			}
 		}
 		compileBranchingStatement(st, b);
@@ -309,7 +311,7 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 			internalToJavaExpression(expression, loopAppendable);
 			loopAppendable.append(";");
 		} else {
-			loopAppendable.newLine().append("boolean ").append(varName).append(" = true;");
+			loopAppendable.newLine().append("boolean ").append(varName).append(ASSIGNED_TRUE);
 		}
 		loopAppendable.newLine();
 		loopAppendable.append("while (");
@@ -336,7 +338,7 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 				internalToJavaExpression(expression, loopAppendable);
 				loopAppendable.append(";");
 			} else {
-				loopAppendable.newLine().append(varName).append(" = true;");
+				loopAppendable.newLine().append(varName).append(ASSIGNED_TRUE);
 			}
 		}
 		
