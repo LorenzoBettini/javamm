@@ -95,4 +95,12 @@ class JavammContentAssistTest extends AbstractContentAssistTest {
 		newBuilder.append('int[][] arr; arr[0].to').assertProposal("toString")
 	}
 
+	@Test def void testVariableReferenceInConditional() {
+		newBuilder.append("int myVar = 0; myVar = true ? my").assertProposal("myVar")
+	}
+
+	@Test def void testVariableReferenceInConditional2() {
+		newBuilder.append("int myVar = 0; myVar = true ? ").assertProposal("myVar")
+	}
+
 }
