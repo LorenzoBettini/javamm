@@ -164,6 +164,8 @@ XPostfixOperation returns XExpression:
 		=>({XPostfixOperation.operand=current} feature=[types::JvmIdentifiableElement|OpPostfix])
 		|
 		=>({JavammArrayAccessExpression.array=current} '[' indexes+=XExpression ']'(=>'[' indexes+=XExpression ']')*)
+		|
+		=>({JavammConditionalExpression.if=current} '?' then=XExpression ':' else=XExpression)
 	)?
 ;
 
