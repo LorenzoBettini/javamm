@@ -1774,6 +1774,39 @@ public class MyFile {
 		)
 	}
 
+	@Test def void testConditionalExpression() {
+		'''
+		int i = 0;
+		int j = i > 0 ? 1 : 2;
+		Object o = i < 0 ? 1 : "a";
+		'''.checkCompilation(
+'''
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int i = 0;
+    int _javammconditionalexpression = (int) 0;
+    if ((i > 0)) {
+      _javammconditionalexpression = 1;
+    } else {
+      _javammconditionalexpression = 2;
+    }
+    int j = _javammconditionalexpression;
+    Object _javammconditionalexpression_1 = null;
+    if ((i < 0)) {
+      _javammconditionalexpression_1 = Integer.valueOf(1);
+    } else {
+      _javammconditionalexpression_1 = "a";
+    }
+    Object o = ((Comparable<?>)_javammconditionalexpression_1);
+  }
+}
+'''
+		)
+	}
+
 	@Test def void testBubbleSort() {
 		bubbleSort.checkCompilation(
 '''
