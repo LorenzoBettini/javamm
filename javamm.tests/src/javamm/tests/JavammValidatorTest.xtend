@@ -599,6 +599,39 @@ class JavammValidatorTest extends JavammAbstractTest {
 		'''.parse.assertIssuesAsStrings("Unnecessary cast from int to int")
 	}
 
+	@Test def void testTypeMismatchInConditionalExpression() {
+		'''
+		int i = 0;;
+		int l = i > 0 ? true : 10;
+		'''.parse.assertTypeMismatch(
+			XbasePackage.eINSTANCE.XBooleanLiteral,
+			"int",
+			"boolean"
+		)
+	}
+
+	@Test def void testTypeMismatchInConditionalExpression2() {
+		'''
+		int i = 0;;
+		int l = i > 0 ? 10 : true;
+		'''.parse.assertTypeMismatch(
+			XbasePackage.eINSTANCE.XBooleanLiteral,
+			"int",
+			"boolean"
+		)
+	}
+
+	@Test def void testTypeMismatchInConditionalExpression3() {
+		'''
+		int i = 0;;
+		int l = 10 ? 20 : 30;
+		'''.parse.assertTypeMismatch(
+			XbasePackage.eINSTANCE.XNumberLiteral,
+			"boolean",
+			"int"
+		)
+	}
+
 	def private assertNumberLiteralTypeMismatch(EObject o, String expectedType, String actualType) {
 		o.assertTypeMismatch(XbasePackage.eINSTANCE.XNumberLiteral, expectedType, actualType)
 	}
