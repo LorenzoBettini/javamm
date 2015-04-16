@@ -31,6 +31,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import static extension org.junit.Assert.*
+import javamm.javamm.JavammConditionalExpression
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammInjectorProvider))
@@ -507,6 +508,62 @@ class JavammParserTest extends JavammAbstractTest {
 		]
 	}
 
+	@Test def void testConditionalExpression() {
+		'''
+		int j = 0;
+		int i = j > 0 ? 1 : '2';
+		'''.assertMainLastExpression[
+			variableDeclarationRight.conditional => [
+				assertTrue(then instanceof XNumberLiteral)
+				assertTrue(^else instanceof XStringLiteral)
+			]
+		]
+	}
+
+	@Test def void testIncompleteConditionalExpression() {
+		'''
+		int j = 0;
+		int i = j > 0 ? 
+		'''.assertMainLastExpression[
+			variableDeclarationRight.conditional => [
+				assertNull(then)
+			]
+		]
+	}
+
+	@Test def void testIncompleteConditionalExpression2() {
+		'''
+		int j = 0;
+		int i = j > 0 ? 1
+		'''.assertMainLastExpression[
+			variableDeclarationRight.conditional => [
+				assertTrue(then instanceof XNumberLiteral)
+				assertNull(^else)
+			]
+		]
+	}
+
+	@Test def void testIncompleteConditionalExpression3() {
+		'''
+		int j = 0;
+		int i = j > 0 ? 1 :
+		'''.assertMainLastExpression[
+			variableDeclarationRight.conditional => [
+				assertTrue(then instanceof XNumberLiteral)
+				assertNull(^else)
+			]
+		]
+	}
+
+	@Test def void testNoQuestionMarkParsedAsBinaryExpression() {
+		'''
+		int j = 0;
+		boolean b = j > 0;
+		'''.assertMainLastExpression[
+			assertTrue(variableDeclarationRight instanceof XBinaryOperation)
+		]
+	}
+
 	def private assertMainLastExpression(CharSequence input, (XExpression)=>void tester) {
 		val main = input.parse.main
 		tester.apply(main.expressions.last)
@@ -519,6 +576,10 @@ class JavammParserTest extends JavammAbstractTest {
 
 	private def getVariableDeclarationRightAsArrayConstructorCall(XExpression it) {
 		(it as XVariableDeclaration).right as JavammArrayConstructorCall
+	}
+
+	private def getVariableDeclarationRight(XExpression it) {
+		(it as XVariableDeclaration).right
 	}
 
 	private def getArrayLiteral(XExpression it) {
@@ -535,5 +596,9 @@ class JavammParserTest extends JavammAbstractTest {
 
 	private def getCasted(XExpression it) {
 		it as XCastedExpression
+	}
+
+	private def getConditional(XExpression it) {
+		it as JavammConditionalExpression
 	}
 }

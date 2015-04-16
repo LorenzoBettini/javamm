@@ -57,4 +57,5 @@
   <eClassifiers xsi:type="ecore:EClass" name="JavammBreakStatement" eSuperTypes="#//JavammBranchingStatement"/>
   <eClassifiers xsi:type="ecore:EClass" name="JavammCharLiteral" eSuperTypes="../../../org.eclipse.xtext.xbase/model/Xbase.ecore#//XStringLiteral"/>
   <eClassifiers xsi:type="ecore:EClass" name="JavammPrefixOperation" eSuperTypes="../../../org.eclipse.xtext.xbase/model/Xbase.ecore#//XPostfixOperation"/>
+  <eClassifiers xsi:type="ecore:EClass" name="JavammConditionalExpression" eSuperTypes="../../../org.eclipse.xtext.xbase/model/Xbase.ecore#//XIfExpression"/>
 </ecore:EPackage>

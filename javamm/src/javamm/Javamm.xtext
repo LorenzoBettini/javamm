@@ -105,6 +105,8 @@ XAssignment returns XExpression :
 	=>({XAssignment} feature=[types::JvmIdentifiableElement|FeatureCallID] 
 		OpSingleAssign) value=XAssignment |	
 	XOrExpression (
+		=>({JavammConditionalExpression.if=current} '?') then=XExpression ':' else=XExpression
+		|
 		=>({XBinaryOperation.leftOperand=current} feature=[types::JvmIdentifiableElement|OpMultiAssign]) rightOperand=XAssignment
 	)?;
 
