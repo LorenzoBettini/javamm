@@ -10,10 +10,12 @@ import javamm.scoping.JavammOperatorMapping;
 import javamm.scoping.JavammQualifiedNameProvider;
 import javamm.typesystem.JavammExpressionArgumentFactory;
 import javamm.typesystem.JavammTypeComputer;
+import javamm.validation.JavammDiagnosticConverter;
 
 import org.eclipse.xtext.conversion.IValueConverterService;
 import org.eclipse.xtext.generator.IGenerator;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
+import org.eclipse.xtext.validation.IDiagnosticConverter;
 import org.eclipse.xtext.xbase.compiler.XbaseCompiler;
 import org.eclipse.xtext.xbase.scoping.featurecalls.OperatorMapping;
 import org.eclipse.xtext.xbase.typesystem.computation.ITypeComputer;
@@ -39,6 +41,10 @@ public class JavammRuntimeModule extends javamm.AbstractJavammRuntimeModule {
 
 	public Class<? extends OperatorMapping> bindOperatorMapping() {
 		return JavammOperatorMapping.class;
+	}
+
+	public Class<? extends IDiagnosticConverter> bindIDiagnosticConverter() {
+		return JavammDiagnosticConverter.class;
 	}
 
 	@Override

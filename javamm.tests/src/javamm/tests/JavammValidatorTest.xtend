@@ -635,13 +635,13 @@ class JavammValidatorTest extends JavammAbstractTest {
 	@Test def void testUseOfThis() {
 		'''
 		System.out.println(this);
-		'''.parse.assertIssuesAsStrings("Cannot use this in a static context")
+		'''.parse.assertIssuesAsStrings("Java-- does not support 'this'")
 	}
 
 	@Test def void testUseOfSuper() {
 		'''
 		System.out.println(super);
-		'''.parse.assertIssuesAsStrings("Cannot use super in a static context")
+		'''.parse.assertIssuesAsStrings("Java-- does not support 'super'")
 	}
 
 	def private assertNumberLiteralTypeMismatch(EObject o, String expectedType, String actualType) {
