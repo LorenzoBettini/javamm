@@ -1845,6 +1845,68 @@ public class MyFile {
 		)
 	}
 
+	@Test def void testVectorWithQualifiedNameAndGenericInConstructor() {
+		'''
+		java.util.Vector<String> v = new java.util.Vector<String>();
+		'''.checkCompilation(
+'''
+package javamm;
+
+import java.util.Vector;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    Vector<String> v = new Vector<String>();
+  }
+}
+'''
+		)
+	}
+
+	@Test def void testWildcardExtends() {
+		'''
+		java.util.Vector<? extends String> v = new java.util.Vector<String>();
+		System.out.println(v.get(0)); // read is allowed
+		'''.checkCompilation(
+'''
+package javamm;
+
+import java.util.Vector;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    Vector<? extends String> v = new Vector<String>();
+    String _get = v.get(0);
+    System.out.println(_get);
+  }
+}
+'''
+		)
+	}
+
+	@Test def void testWildcardSuper() {
+		'''
+		java.util.Vector<? super String> v = new java.util.Vector<String>();
+		v.add("s"); // write is allowed
+		'''.checkCompilation(
+'''
+package javamm;
+
+import java.util.Vector;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    Vector<? super String> v = new Vector<String>();
+    v.add("s");
+  }
+}
+'''
+		)
+	}
+
 	@Test def void testBubbleSort() {
 		bubbleSort.checkCompilation(
 '''

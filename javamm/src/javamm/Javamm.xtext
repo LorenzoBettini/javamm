@@ -123,6 +123,7 @@ XFeatureCall returns XExpression:
 XConstructorCall returns XExpression:
 	{XConstructorCall}
 	'new' constructor=[types::JvmConstructor|QualifiedName] 
+	(=>'<' typeArguments+=JvmArgumentTypeReference (',' typeArguments+=JvmArgumentTypeReference)* '>')?
 	(=>explicitConstructorCall?='(' 
 		(
 		    arguments+=XExpression (',' arguments+=XExpression)*
