@@ -1807,6 +1807,44 @@ public class MyFile {
 		)
 	}
 
+	@Test def void testVectorWithQualifiedName() {
+		'''
+		java.util.Vector v = new java.util.Vector();
+		'''.checkCompilation(
+'''
+package javamm;
+
+import java.util.Vector;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    Vector v = new Vector<Object>();
+  }
+}
+'''
+		)
+	}
+
+	@Test def void testVectorWithQualifiedNameAndGeneric() {
+		'''
+		java.util.Vector<Object> v = new java.util.Vector();
+		'''.checkCompilation(
+'''
+package javamm;
+
+import java.util.Vector;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    Vector<Object> v = new Vector<Object>();
+  }
+}
+'''
+		)
+	}
+
 	@Test def void testBubbleSort() {
 		bubbleSort.checkCompilation(
 '''
