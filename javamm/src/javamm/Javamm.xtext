@@ -14,13 +14,13 @@ JavammProgram:
 ;
 
 /**
- * Customize to reflect Java imports (e.g., no 'extension' keyword and mandatory ';')
+ * Customize to reflect Java imports (e.g., no 'extension' keyword and mandatory ';' but many occurrences accepted)
  */
 XImportDeclaration returns xtype::XImportDeclaration: 
 	(=>'import' (
 		(static?='static' importedType=[types::JvmDeclaredType|QualifiedNameInStaticImport] (wildcard?='*' | memberName=ValidID)) 
 		| importedType=[types::JvmDeclaredType|QualifiedName] 
-		| importedNamespace=QualifiedNameWithWildcard) ';')
+		| importedNamespace=QualifiedNameWithWildcard) ';'*)
 ;
 
 JavammMethod:

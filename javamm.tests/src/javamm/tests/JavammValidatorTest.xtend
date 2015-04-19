@@ -13,6 +13,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.eclipse.xtext.diagnostics.Diagnostic
 import org.eclipse.xtext.diagnostics.Severity
+import org.eclipse.xtext.xtype.XtypePackage
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammInjectorProvider))
@@ -358,6 +359,18 @@ class JavammValidatorTest extends JavammAbstractTest {
 		'''
 		System.out.println()
 		'''.parse.assertMissingSemicolon(XbasePackage.eINSTANCE.XMemberFeatureCall)
+	}
+
+	@Test def void testMissingSemicolonInImport() {
+		'''
+		import java.util.List
+		'''.parse.assertMissingSemicolon(XtypePackage.eINSTANCE.XImportDeclaration)
+	}
+
+	@Test def void testTwoSemicolonsInImportIsOk() {
+		'''
+		import java.util.List;;
+		'''.parseAndAssertNoErrors
 	}
 
 	@Test def void testMissingParenthesesForMemberCall() {

@@ -38,6 +38,7 @@ import org.eclipse.xtext.xbase.XbasePackage
 import org.eclipse.xtext.xbase.typesystem.util.Multimaps2
 import org.eclipse.xtext.xbase.validation.XbaseValidator
 import javamm.scoping.JavammOperatorMapping
+import org.eclipse.xtext.xtype.XImportDeclaration
 
 //import org.eclipse.xtext.validation.Check
 
@@ -170,7 +171,18 @@ class JavammValidator extends XbaseValidator {
 
 	@Check
 	def checkMissingSemicolon(XExpression e) {
-		if (e.hasToBeCheckedForMissingSemicolon && !e.hasSemicolon) {
+		if (e.hasToBeCheckedForMissingSemicolon) {
+			checkMissingSemicolonInternal(e)
+		}
+	}
+
+	@Check
+	def checkMissingSemicolon(XImportDeclaration e) {
+		checkMissingSemicolonInternal(e)
+	}
+
+	def private checkMissingSemicolonInternal(EObject e) {
+		if (!e.hasSemicolon) {
 			error(
 				'Syntax error, insert ";" to complete Statement',
 				e, null, MISSING_SEMICOLON
