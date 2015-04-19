@@ -36,27 +36,43 @@ class JavammOrganizeImportsTest extends JavammAbstractTest {
 		assertEquals(expected.toString, builder.toString)
 	}
 
-	@Test def testDefaultPackageLeadingWhitespace() {
+	@Test def testDefaultPackage() {
 		'''
 			«»
 			   	
 			java.io.Serializable s = null;
 		'''.assertIsOrganizedTo('''
-			import java.io.Serializable
+			import java.io.Serializable;
 
 			Serializable s = null;
 		''')
 	}
 
-	@Test def testDefaultPackagesLeadingWhitespace() {
+	@Test def testDefaultPackages() {
 		'''
 			«»
 			   	
 			java.io.Serializable s = null;
 			java.util.List l = null;
 		'''.assertIsOrganizedTo('''
-			import java.io.Serializable
-			import java.util.List
+			import java.io.Serializable;
+			import java.util.List;
+			
+			Serializable s = null;
+			List l = null;
+		''')
+	}
+
+	@Test def testDefaultPackagesSorted() {
+		'''
+			import java.util.List;
+			import java.io.Serializable;
+
+			Serializable s = null;
+			List l = null;
+		'''.assertIsOrganizedTo('''
+			import java.io.Serializable;
+			import java.util.List;
 			
 			Serializable s = null;
 			List l = null;

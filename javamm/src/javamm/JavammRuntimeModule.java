@@ -6,6 +6,7 @@ package javamm;
 import javamm.compiler.JavammJvmModelGenerator;
 import javamm.compiler.JavammXbaseCompiler;
 import javamm.conversion.JavammValueConverterService;
+import javamm.imports.JavammRewritableImportSection.JavammRewritableImportSectionFactory;
 import javamm.scoping.JavammOperatorMapping;
 import javamm.scoping.JavammQualifiedNameProvider;
 import javamm.typesystem.JavammExpressionArgumentFactory;
@@ -17,6 +18,7 @@ import org.eclipse.xtext.generator.IGenerator;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.validation.IDiagnosticConverter;
 import org.eclipse.xtext.xbase.compiler.XbaseCompiler;
+import org.eclipse.xtext.xbase.imports.RewritableImportSection;
 import org.eclipse.xtext.xbase.scoping.featurecalls.OperatorMapping;
 import org.eclipse.xtext.xbase.typesystem.computation.ITypeComputer;
 import org.eclipse.xtext.xbase.typesystem.internal.ExpressionArgumentFactory;
@@ -45,6 +47,10 @@ public class JavammRuntimeModule extends javamm.AbstractJavammRuntimeModule {
 
 	public Class<? extends IDiagnosticConverter> bindIDiagnosticConverter() {
 		return JavammDiagnosticConverter.class;
+	}
+	
+	public Class<? extends RewritableImportSection.Factory> bindRewritableImportSection$Factory() {
+		return JavammRewritableImportSectionFactory.class;
 	}
 
 	@Override
