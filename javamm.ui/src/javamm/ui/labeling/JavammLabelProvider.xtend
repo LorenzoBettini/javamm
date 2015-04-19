@@ -38,11 +38,11 @@ class JavammLabelProvider extends XbaseLabelProvider {
 	}
 
 	def text(Main m) {
-		text(m.eContainer.inferredJavaMethod)
+		text(m.inferredJavaMethod)
 	}
 	
 	def image(Main m) {
-		imageDescriptor(m.eContainer.inferredJavaMethod)
+		imageDescriptor(m.inferredJavaMethod)
 	}
 
 	private def inferredJavaMethod(EObject e) {
