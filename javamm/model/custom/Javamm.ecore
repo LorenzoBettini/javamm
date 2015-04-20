@@ -22,6 +22,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="Main" eSuperTypes="../../../org.eclipse.xtext.xbase/model/Xbase.ecore#//XBlockExpression"/>
   <eClassifiers xsi:type="ecore:EClass" name="JavammXAssignment" eSuperTypes="../../../org.eclipse.xtext.xbase/model/Xbase.ecore#//XAssignment #//JavammArrayAccess"/>
   <eClassifiers xsi:type="ecore:EClass" name="JavammXVariableDeclaration" eSuperTypes="../../../org.eclipse.xtext.xbase/model/Xbase.ecore#//XVariableDeclaration">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="final" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="additionalVariables" upperBound="-1"
         eType="ecore:EClass ../../../org.eclipse.xtext.xbase/model/Xbase.ecore#//XVariableDeclaration"
         containment="true"/>
