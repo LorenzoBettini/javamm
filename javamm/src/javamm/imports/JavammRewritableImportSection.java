@@ -59,6 +59,8 @@ public class JavammRewritableImportSection extends RewritableImportSection {
 
 	}
 
+	private String lineSeparator;
+
 	/**
 	 * @param resource
 	 * @param importsConfiguration
@@ -74,13 +76,14 @@ public class JavammRewritableImportSection extends RewritableImportSection {
 			IValueConverter<String> nameConverter) {
 		super(resource, importsConfiguration, originalImportSection,
 				lineSeparator, regionUtil, nameConverter);
+		this.lineSeparator = lineSeparator;
 	}
 	
 	@Override
 	protected void appendImport(StringBuilder builder,
 			XImportDeclaration newImportDeclaration) {
 		super.appendImport(builder, newImportDeclaration);
-		builder.insert(builder.length()-1, ';');
+		builder.insert(builder.length()-lineSeparator.length(), ';');
 	}
 
 }
