@@ -2,9 +2,6 @@ package javamm;
 
 @SuppressWarnings("all")
 public class Integral {
-  /**
-   * Example 4.6 of the book
-   */
   public static double integral(double a, double b, int n) {
     double h = ((b - a) / n);
     double area = 0.0;

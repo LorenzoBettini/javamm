@@ -2,9 +2,6 @@ package javamm;
 
 @SuppressWarnings("all")
 public class Sudoku {
-  /**
-   * Example Sudoku of the book
-   */
   public static int[] nextCell(int[] c, int[][] s) {
     for (int j = (c[1] + 1); (j < s.length); j++) {
       boolean _tripleEquals = (s[c[0]][j] == 0);

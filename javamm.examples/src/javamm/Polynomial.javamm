@@ -1,6 +1,3 @@
-/**
- * Example 3.20 of the book
- */
 double value(double[] p, double x) {
   double value = p[0];
   for (int i = 1; i<p.length; i++) {

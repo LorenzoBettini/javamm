@@ -1,6 +1,3 @@
-/**
- * Example 3.12 of the book
- */
 char convert(int grade) {
   char letter;
   switch (grade) {

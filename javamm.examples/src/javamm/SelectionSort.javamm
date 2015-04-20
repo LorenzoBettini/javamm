@@ -1,6 +1,3 @@
-/**
- * Example 4.5 of the book
- */
 void selectionSort( int[] a ) {
   int i,j,next,min,temp;
   for (i = 0; i<a.length-1; i++) {

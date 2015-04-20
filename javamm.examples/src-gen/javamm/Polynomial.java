@@ -2,9 +2,6 @@ package javamm;
 
 @SuppressWarnings("all")
 public class Polynomial {
-  /**
-   * Example 3.20 of the book
-   */
   public static double value(double[] p, double x) {
     double value = p[0];
     for (int i = 1; (i < p.length); i++) {

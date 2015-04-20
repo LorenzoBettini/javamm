@@ -1,6 +1,3 @@
-/**
- * Example 3.21 of the book
- */
 void printBoard(char[][] board) {
   System.out.println( "  +-+-+-+-+-+-+-+-+" );
   int row, column;

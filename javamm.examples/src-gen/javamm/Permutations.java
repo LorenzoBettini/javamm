@@ -2,9 +2,6 @@ package javamm;
 
 @SuppressWarnings("all")
 public class Permutations {
-  /**
-   * Example 4.14 of the book
-   */
   public static void printArray(char[] a) {
     int na = a.length;
     for (int i = 0; (i < na); i++) {

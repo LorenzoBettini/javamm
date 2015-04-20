@@ -1,6 +1,3 @@
-/**
- * Example 4.6 of the book
- */
 double integral( double a,double b,int n ) {
   double h = (b-a)/n;
   double area = 0.0;

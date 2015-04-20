@@ -2,9 +2,6 @@ package javamm;
 
 @SuppressWarnings("all")
 public class PrintingBoard {
-  /**
-   * Example 3.21 of the book
-   */
   public static void printBoard(char[][] board) {
     System.out.println("  +-+-+-+-+-+-+-+-+");
     int row = 0;

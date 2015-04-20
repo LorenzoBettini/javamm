@@ -2,9 +2,6 @@ package javamm;
 
 @SuppressWarnings("all")
 public class MergeSort {
-  /**
-   * Example 4.15 of the book
-   */
   public static void printArray(int[] a) {
     int na = a.length;
     for (int i = 0; (i < na); i++) {

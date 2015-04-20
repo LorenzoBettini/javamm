@@ -2,9 +2,6 @@ package javamm;
 
 @SuppressWarnings("all")
 public class LinearEquation {
-  /**
-   * Example 3.5 of the book
-   */
   public static void solve(double a, double b) {
     if ((a == 0)) {
       if ((b == 0)) {

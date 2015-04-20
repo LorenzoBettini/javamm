@@ -1,6 +1,3 @@
-/**
- * Example 4.3 of the book
- */
 boolean equalArray( int[] a,int[] b ) {
   if (a.length!=b.length) {
     return false;

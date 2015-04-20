@@ -2,9 +2,6 @@ package javamm;
 
 @SuppressWarnings("all")
 public class ModifyingArray {
-  /**
-   * Example 4.4 of the book
-   */
   public static void doubleArray(int[] number) {
     for (int i = 0; (i < number.length); i++) {
       int _multiply = (number[i] * 2);

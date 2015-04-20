@@ -2,9 +2,6 @@ package javamm;
 
 @SuppressWarnings("all")
 public class RPSWinner {
-  /**
-   * Example 3.4 of the book
-   */
   public static int winner(int sign1, int sign2) {
     if ((sign2 == ((sign1 + 1) % 3))) {
       return 1;

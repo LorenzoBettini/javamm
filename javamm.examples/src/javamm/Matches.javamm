@@ -1,6 +1,3 @@
-/**
- * Example 3.7 of the book
- */
 int firstMove(int n, int k) {
   int x = n%(k+1);
   if (x==0) {
