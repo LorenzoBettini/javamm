@@ -31,7 +31,7 @@ JavammMethod:
 			body=XBlockExpression;
 
 // customized with 'final' specification
-FullJvmFormalParameter returns types::JvmFormalParameter:
+FullJvmFormalParameter returns JavammJvmFormalParameter:
 	{JavammJvmFormalParameter} final?='final'? parameterType=JvmTypeReference name=ValidID;
 
 /* 

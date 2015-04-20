@@ -1,13 +1,16 @@
 package javamm.util
 
-import org.eclipse.xtext.xbase.XExpression
-
-import static extension org.eclipse.xtext.EcoreUtil2.*
-import org.eclipse.xtext.xbase.XBasicForLoopExpression
+import com.google.inject.Inject
 import com.google.inject.Singleton
 import javamm.javamm.JavammArrayConstructorCall
-import com.google.inject.Inject
 import javamm.javamm.JavammArrayDimension
+import org.eclipse.xtext.xbase.XBasicForLoopExpression
+import org.eclipse.xtext.xbase.XExpression
+import org.eclipse.xtext.xbase.jvmmodel.IJvmModelAssociations
+
+import static extension org.eclipse.xtext.EcoreUtil2.*
+import org.eclipse.xtext.common.types.JvmFormalParameter
+import javamm.javamm.JavammJvmFormalParameter
 
 /**
  * Utility methods for accessing the Javamm model.
@@ -19,6 +22,7 @@ import javamm.javamm.JavammArrayDimension
 class JavammModelUtil {
 	
 	@Inject extension JavammNodeModelUtil
+	@Inject extension IJvmModelAssociations
 	
 	def getContainingForLoop(XExpression e) {
 		e.getContainerOfType(XBasicForLoopExpression)		
@@ -60,5 +64,14 @@ class JavammModelUtil {
 		}
 		
 		return associations
+	}
+
+	def getOriginalParam(JvmFormalParameter p) {
+		val orig = p.sourceElements.head
+		if (orig instanceof JavammJvmFormalParameter) {
+			return orig
+		} else {
+			return null
+		}
 	}
 }

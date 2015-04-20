@@ -14,6 +14,7 @@ import javamm.javamm.JavammMethod
 import javamm.javamm.JavammPackage
 import javamm.javamm.JavammProgram
 import javamm.javamm.Main
+import javamm.scoping.JavammOperatorMapping
 import javamm.util.JavammModelUtil
 import javamm.util.JavammNodeModelUtil
 import org.eclipse.emf.ecore.EObject
@@ -37,7 +38,6 @@ import org.eclipse.xtext.xbase.XVariableDeclaration
 import org.eclipse.xtext.xbase.XbasePackage
 import org.eclipse.xtext.xbase.typesystem.util.Multimaps2
 import org.eclipse.xtext.xbase.validation.XbaseValidator
-import javamm.scoping.JavammOperatorMapping
 import org.eclipse.xtext.xtype.XImportDeclaration
 
 //import org.eclipse.xtext.validation.Check
@@ -97,8 +97,11 @@ class JavammValidator extends XbaseValidator {
 		if (expression instanceof XAbstractFeatureCall) {
 			val assignmentFeature = expression.feature
 			if (assignmentFeature instanceof JvmFormalParameter) {
-				// all parameters are considered NOT final
-				return;
+				// all parameters are considered NOT final by default
+				val originalParam = assignmentFeature.originalParam
+				if (originalParam == null || !originalParam.isFinal()) {
+					return;
+				}
 			}
 		}
 		
