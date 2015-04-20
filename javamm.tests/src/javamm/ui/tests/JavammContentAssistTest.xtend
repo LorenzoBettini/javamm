@@ -23,6 +23,10 @@ class JavammContentAssistTest extends AbstractContentAssistTest {
 		newBuilder.append("b").assertProposal("break")
 	}
 
+	@Test def void testFinal() {
+		newBuilder.append("fi").assertProposal("final")
+	}
+
 	@Test def void testArgsProposed() {
 		newBuilder.append("a").assertProposal("args")
 	}

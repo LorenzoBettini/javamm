@@ -101,6 +101,7 @@ XBlockExpression returns XExpression:
 // Use the predicate to avoid ambiguities with XExpression
 XVariableDeclaration returns XVariableDeclaration:
 	=>({JavammXVariableDeclaration}
+	final?='final'?
 	type=JvmTypeReference name=ValidID) ('=' right=XExpression)?
 	(=>',' additionalVariables+=JavammAdditionalXVariableDeclaration)*;
 	// the second predicate is to avoid ambiguities with for loops

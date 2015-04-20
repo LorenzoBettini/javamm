@@ -39,6 +39,10 @@ public class JavammAbstractXbaseProposalProvider extends XbaseProposalProvider {
 			}
 		}
 	}
+
+	public void completeXVariableDeclaration_Final(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
+		// subclasses may override
+	}
 	
 	@Override
 	public void completeXCastedExpression_Type(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
