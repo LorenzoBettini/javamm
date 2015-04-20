@@ -686,6 +686,18 @@ class JavammValidatorTest extends JavammAbstractTest {
 		'''.parse.assertIssuesAsStrings("Assignment to final variable")
 	}
 
+	@Test def void testAssignmentToFinalParameter() {
+		'''
+		void m(final int i) {
+			i = 1;
+		}
+		'''.parse.assertIssuesAsStrings("Assignment to final parameter")
+	}
+
+	@Test def void testAssignmentToParameter() {
+		assignToParam.parseAndAssertNoErrors
+	}
+
 	def private assertNumberLiteralTypeMismatch(EObject o, String expectedType, String actualType) {
 		o.assertTypeMismatch(XbasePackage.eINSTANCE.XNumberLiteral, expectedType, actualType)
 	}

@@ -658,6 +658,28 @@ public class MyFile {
 			)
 	}
 
+	@Test def void testFinalParam() {
+		'''
+		int m(final int i) {
+			return i;
+		}
+		'''.checkCompilation(
+'''
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static int m(final int i) {
+    return i;
+  }
+  
+  public static void main(String[] args) {
+  }
+}
+'''
+			)
+	}
+
 	@Test def void testPostIncrement() {
 		postIncrement.checkCompilation(
 '''

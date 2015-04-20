@@ -30,6 +30,10 @@ JavammMethod:
 		'(') (params+=FullJvmFormalParameter (',' params+=FullJvmFormalParameter)*)? ')' 
 			body=XBlockExpression;
 
+// customized with 'final' specification
+FullJvmFormalParameter returns JavammJvmFormalParameter:
+	{JavammJvmFormalParameter} final?='final'? parameterType=JvmTypeReference name=ValidID;
+
 /* 
  * The ';' only "eats" possible additional semicolons which is legal in Java.
  * The required ';' is taken care of in the JavammSemicolonStatement rule
