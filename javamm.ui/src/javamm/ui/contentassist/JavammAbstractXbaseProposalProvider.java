@@ -70,6 +70,11 @@ public class JavammAbstractXbaseProposalProvider extends XbaseProposalProvider {
 	public void completeJavammMethod_Body(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
 		completeRuleCall(((RuleCall)assignment.getTerminal()), context, acceptor);
 	}
+	
+	public void completeFullJvmFormalParameter_Final(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
+		// subclasses may override
+	}
+	
 	public void completeMain_Expressions(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
 		completeWithinBlock(model, context, acceptor);
 	}
