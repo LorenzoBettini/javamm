@@ -3,12 +3,26 @@ grammar javamm.Javamm with org.eclipse.xtext.xbase.Xbase
 //generate javamm "http://www.Javamm.javamm"
 import "http://www.Javamm.javamm"
 
+import "http://www.eclipse.org/xtext/xbase/Xtype" as xtype
 import "http://www.eclipse.org/xtext/xbase/Xbase"
 import "http://www.eclipse.org/xtext/common/JavaVMTypes" as types
 
 JavammProgram:
-	(javammMethods+=JavammMethod)*
+	// the semantic predicate is required to avoid ambiguity in parsing an
+	// import, due to the following two optional rules (methods and main)
+	=>importSection=XImportSection?
+	javammMethods+=JavammMethod*
 	main=Main
+;
+
+/**
+ * Customize to reflect Java imports (e.g., no 'extension' keyword and mandatory ';' but many occurrences accepted)
+ */
+XImportDeclaration returns xtype::XImportDeclaration: 
+	(=>'import' (
+		(static?='static' importedType=[types::JvmDeclaredType|QualifiedNameInStaticImport] (wildcard?='*' | memberName=ValidID)) 
+		| importedType=[types::JvmDeclaredType|QualifiedName] 
+		| importedNamespace=QualifiedNameWithWildcard) ';'*)
 ;
 
 JavammMethod:
@@ -123,6 +137,7 @@ XFeatureCall returns XExpression:
 XConstructorCall returns XExpression:
 	{XConstructorCall}
 	'new' constructor=[types::JvmConstructor|QualifiedName] 
+	(=>'<' typeArguments+=JvmArgumentTypeReference (',' typeArguments+=JvmArgumentTypeReference)* '>')?
 	(=>explicitConstructorCall?='(' 
 		(
 		    arguments+=XExpression (',' arguments+=XExpression)*

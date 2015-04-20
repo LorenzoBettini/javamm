@@ -564,6 +564,40 @@ class JavammParserTest extends JavammAbstractTest {
 		]
 	}
 
+	@Test def void testImportSection() {
+		'''
+		import java.util.List;
+		import java.io.IOException;
+		
+		List<String> l;
+		'''.parseAndAssertNoErrors
+	}
+
+	@Test def void testImportSectionWithWildcards() {
+		'''
+		import java.util.*;
+		import java.io.IOException;
+		
+		List<String> l;
+		'''.parseAndAssertNoErrors
+	}
+
+	@Test def void testImportSectionWithStaticImport() {
+		'''
+		import static java.util.Arrays.asList;
+		
+		asList(null);
+		'''.parseAndAssertNoErrors
+	}
+
+	@Test def void testImportSectionWithStaticImportAndWildcard() {
+		'''
+		import static java.util.Arrays.*;
+		
+		asList(null);
+		'''.parseAndAssertNoErrors
+	}
+
 	def private assertMainLastExpression(CharSequence input, (XExpression)=>void tester) {
 		val main = input.parse.main
 		tester.apply(main.expressions.last)

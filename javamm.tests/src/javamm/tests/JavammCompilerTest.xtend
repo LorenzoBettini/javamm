@@ -1807,6 +1807,133 @@ public class MyFile {
 		)
 	}
 
+	@Test def void testVectorWithQualifiedName() {
+		'''
+		java.util.Vector v = new java.util.Vector();
+		'''.checkCompilation(
+'''
+package javamm;
+
+import java.util.Vector;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    Vector v = new Vector<Object>();
+  }
+}
+'''
+		)
+	}
+
+	@Test def void testVectorWithQualifiedNameAndGeneric() {
+		'''
+		java.util.Vector<Object> v = new java.util.Vector();
+		'''.checkCompilation(
+'''
+package javamm;
+
+import java.util.Vector;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    Vector<Object> v = new Vector<Object>();
+  }
+}
+'''
+		)
+	}
+
+	@Test def void testVectorWithQualifiedNameAndGenericInConstructor() {
+		'''
+		java.util.Vector<String> v = new java.util.Vector<String>();
+		'''.checkCompilation(
+'''
+package javamm;
+
+import java.util.Vector;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    Vector<String> v = new Vector<String>();
+  }
+}
+'''
+		)
+	}
+
+	@Test def void testWildcardExtends() {
+		'''
+		java.util.Vector<? extends String> v = new java.util.Vector<String>();
+		System.out.println(v.get(0)); // read is allowed
+		'''.checkCompilation(
+'''
+package javamm;
+
+import java.util.Vector;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    Vector<? extends String> v = new Vector<String>();
+    String _get = v.get(0);
+    System.out.println(_get);
+  }
+}
+'''
+		)
+	}
+
+	@Test def void testWildcardSuper() {
+		'''
+		java.util.Vector<? super String> v = new java.util.Vector<String>();
+		v.add("s"); // write is allowed
+		'''.checkCompilation(
+'''
+package javamm;
+
+import java.util.Vector;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    Vector<? super String> v = new Vector<String>();
+    v.add("s");
+  }
+}
+'''
+		)
+	}
+
+	@Test def void testImports() {
+		'''
+		import java.util.List;
+		import java.util.LinkedList;
+		import java.util.ArrayList;
+		
+		List l1 = new LinkedList();
+		List l2 = new ArrayList();
+		'''.checkCompilation(
+'''
+package javamm;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    List l1 = new LinkedList<Object>();
+    List l2 = new ArrayList<Object>();
+  }
+}
+'''
+		)
+	}
+
 	@Test def void testBubbleSort() {
 		bubbleSort.checkCompilation(
 '''

@@ -66,9 +66,14 @@ class JavammJvmModelInferrer extends AbstractModelInferrer {
    				]
    			}
    			
+   			// to make org.eclipse.xtext.xbase.imports.TypeUsageCollector.collectAllReferences(EObject) find
+   			// all used type references and thus to make OrganizeImports work, we must associate the Java main
+   			// method to the Main model element (if defined in the source program)
+   			val source = main ?: program
+   			
    			// the class gets one main method
-   			members += program.toMethod('main', typeRef(Void.TYPE)) [
-   				parameters += program.toParameter("args", typeRef(String).addArrayTypeDimension)
+   			members += source.toMethod('main', typeRef(Void.TYPE)) [
+   				parameters += source.toParameter("args", typeRef(String).addArrayTypeDimension)
    				static = true
    				// Associate the script as the body of the main method
    				body = main

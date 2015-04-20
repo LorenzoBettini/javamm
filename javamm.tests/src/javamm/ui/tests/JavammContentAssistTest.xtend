@@ -103,4 +103,19 @@ class JavammContentAssistTest extends AbstractContentAssistTest {
 		newBuilder.append("int myVar = 0; myVar = true ? ").assertProposal("myVar")
 	}
 
+	@Test
+	def void testProposalAndImportForListType() {
+		newBuilder.
+		append(
+'''
+int m(LinkedL''').
+		applyProposal("LinkedList").
+		expectContent(
+'''
+import java.util.LinkedList;
+
+int m(LinkedList'''
+		)	
+
+	}
 }

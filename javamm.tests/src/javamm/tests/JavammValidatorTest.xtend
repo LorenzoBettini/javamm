@@ -13,6 +13,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.eclipse.xtext.diagnostics.Diagnostic
 import org.eclipse.xtext.diagnostics.Severity
+import org.eclipse.xtext.xtype.XtypePackage
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammInjectorProvider))
@@ -360,6 +361,18 @@ class JavammValidatorTest extends JavammAbstractTest {
 		'''.parse.assertMissingSemicolon(XbasePackage.eINSTANCE.XMemberFeatureCall)
 	}
 
+	@Test def void testMissingSemicolonInImport() {
+		'''
+		import java.util.List
+		'''.parse.assertMissingSemicolon(XtypePackage.eINSTANCE.XImportDeclaration)
+	}
+
+	@Test def void testTwoSemicolonsInImportIsOk() {
+		'''
+		import java.util.List;;
+		'''.parseAndAssertNoErrors
+	}
+
 	@Test def void testMissingParenthesesForMemberCall() {
 		'''
 		System.out.println;
@@ -642,6 +655,28 @@ class JavammValidatorTest extends JavammAbstractTest {
 		'''
 		System.out.println(super);
 		'''.parse.assertIssuesAsStrings("Java-- does not support 'super'")
+	}
+
+	@Test def void testTypeMismatchWithGenerics() {
+		'''
+		java.util.Vector<String> v = new java.util.Vector<Object>();
+		System.out.println(v);
+		'''.parse.assertIssuesAsStrings("Type mismatch: cannot convert from Vector<Object> to Vector<String>")
+	}
+
+	@Test def void testTypeErrorWithWildcardExtends() {
+		'''
+		java.util.Vector<? extends String> v = new java.util.Vector<String>();
+		v.add("s");
+		'''.parse.assertIssuesAsStrings("Type mismatch: type String is not applicable at this location")
+	}
+
+	@Test def void testTypeErrorWithWildcardSuper() {
+		'''
+		java.util.Vector<? super String> v = new java.util.Vector<String>();
+		String s = v.get(0);
+		System.out.println(s);
+		'''.parse.assertIssuesAsStrings("Type mismatch: cannot convert from Object to String")
 	}
 
 	def private assertNumberLiteralTypeMismatch(EObject o, String expectedType, String actualType) {
