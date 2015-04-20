@@ -16,7 +16,7 @@ import org.eclipse.xtext.xtype.XImportSection;
 import com.google.inject.Inject;
 
 /**
- * We must make sure to add a terminating ';' otherwise the added import would not be
+ * We must add a terminating ';' otherwise the added import would not be
  * valid Java-- code.
  * 
  * @author Lorenzo Bettini

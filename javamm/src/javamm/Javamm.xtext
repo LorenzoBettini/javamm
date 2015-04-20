@@ -8,6 +8,8 @@ import "http://www.eclipse.org/xtext/xbase/Xbase"
 import "http://www.eclipse.org/xtext/common/JavaVMTypes" as types
 
 JavammProgram:
+	// the semantic predicate is required to avoid ambiguity in parsing an
+	// import, due to the following two optional rules (methods and main)
 	=>importSection=XImportSection?
 	javammMethods+=JavammMethod*
 	main=Main
