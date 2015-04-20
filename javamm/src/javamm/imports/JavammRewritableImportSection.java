@@ -44,10 +44,9 @@ public class JavammRewritableImportSection extends RewritableImportSection {
 
 		@Override
 		public RewritableImportSection parse(XtextResource resource) {
-			RewritableImportSection rewritableImportSection = new JavammRewritableImportSection(resource, importsConfiguration,
+			return new JavammRewritableImportSection(resource, importsConfiguration,
 					importsConfiguration.getImportSection(resource), whitespaceInformationProvider.getLineSeparatorInformation(resource.getURI())
 							.getLineSeparator(), regionUtil, nameValueConverter);
-			return rewritableImportSection;
 		}
 
 		@Override
