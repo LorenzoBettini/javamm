@@ -1907,6 +1907,33 @@ public class MyFile {
 		)
 	}
 
+	@Test def void testImports() {
+		'''
+		import java.util.List;
+		import java.util.LinkedList;
+		import java.util.ArrayList;
+		
+		List l1 = new LinkedList();
+		List l2 = new ArrayList();
+		'''.checkCompilation(
+'''
+package javamm;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    List l1 = new LinkedList<Object>();
+    List l2 = new ArrayList<Object>();
+  }
+}
+'''
+		)
+	}
+
 	@Test def void testBubbleSort() {
 		bubbleSort.checkCompilation(
 '''
