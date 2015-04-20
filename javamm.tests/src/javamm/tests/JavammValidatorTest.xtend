@@ -679,6 +679,13 @@ class JavammValidatorTest extends JavammAbstractTest {
 		'''.parse.assertIssuesAsStrings("Type mismatch: cannot convert from Object to String")
 	}
 
+	@Test def void testAssignmentToFinalVariable() {
+		'''
+		final int i = 0;
+		i = 1;
+		'''.parse.assertIssuesAsStrings("Assignment to final variable")
+	}
+
 	def private assertNumberLiteralTypeMismatch(EObject o, String expectedType, String actualType) {
 		o.assertTypeMismatch(XbasePackage.eINSTANCE.XNumberLiteral, expectedType, actualType)
 	}
