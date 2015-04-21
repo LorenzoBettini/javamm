@@ -43,12 +43,8 @@
    </plugins>
 
    <features>
+      <feature id="javamm.ide.feature"/>
       <feature id="javamm.sdk" installMode="root"/>
-      <feature id="javamm.sdk.source" installMode="root"/>
-      <feature id="org.eclipse.rcp"/>
-      <feature id="org.eclipse.platform" installMode="root"/>
-      <feature id="org.eclipse.pde" installMode="root"/>
-      <feature id="org.eclipse.jdt" installMode="root"/>
    </features>
 
    <configurations>

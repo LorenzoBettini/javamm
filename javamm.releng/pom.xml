@@ -124,6 +124,7 @@
 			</properties>
 
 			<modules>
+				<module>../javamm.ide.feature</module>
 				<module>../javamm.ide</module>
 			</modules>
 			
@@ -192,6 +193,7 @@
 			</properties>
 
 			<modules>
+				<module>../javamm.ide.feature</module>
 				<module>../javamm.ide</module>
 				<module>../javamm.swtbot.tests</module>
 			</modules>
