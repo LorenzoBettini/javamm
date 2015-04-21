@@ -22,7 +22,7 @@ import org.eclipse.xtext.xbase.services.XbaseGrammarAccess
  * 
  * Also see {@link org.eclipse.xtext.xtext.XtextFormattingTokenSerializer} as an example
  */
-class JavammFormatter extends XbaseFormatter {
+class JavammFormatterOld extends XbaseFormatter {
 
 	@Inject extension JavammGrammarAccess
 	
