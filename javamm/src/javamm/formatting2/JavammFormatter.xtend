@@ -3,47 +3,41 @@
  */
 package javamm.formatting2;
 
-import com.google.inject.Inject;
-import javamm.javamm.JavammAdditionalXVariableDeclaration;
-import javamm.javamm.JavammArrayAccessExpression;
-import javamm.javamm.JavammArrayConstructorCall;
-import javamm.javamm.JavammArrayDimension;
-import javamm.javamm.JavammArrayLiteral;
-import javamm.javamm.JavammConditionalExpression;
-import javamm.javamm.JavammJvmFormalParameter;
-import javamm.javamm.JavammMethod;
-import javamm.javamm.JavammPrefixOperation;
-import javamm.javamm.JavammProgram;
-import javamm.javamm.JavammXAssignment;
-import javamm.javamm.JavammXMemberFeatureCall;
-import javamm.javamm.JavammXVariableDeclaration;
-import javamm.javamm.Main;
-import javamm.services.JavammGrammarAccess;
-import org.eclipse.xtext.common.types.JvmTypeReference;
-import org.eclipse.xtext.formatting2.IFormattableDocument;
-import org.eclipse.xtext.xbase.XAssignment;
-import org.eclipse.xtext.xbase.XBasicForLoopExpression;
-import org.eclipse.xtext.xbase.XBinaryOperation;
-import org.eclipse.xtext.xbase.XBlockExpression;
-import org.eclipse.xtext.xbase.XCasePart;
-import org.eclipse.xtext.xbase.XCastedExpression;
-import org.eclipse.xtext.xbase.XConstructorCall;
-import org.eclipse.xtext.xbase.XDoWhileExpression;
-import org.eclipse.xtext.xbase.XExpression;
-import org.eclipse.xtext.xbase.XFeatureCall;
-import org.eclipse.xtext.xbase.XIfExpression;
-import org.eclipse.xtext.xbase.XMemberFeatureCall;
-import org.eclipse.xtext.xbase.XPostfixOperation;
-import org.eclipse.xtext.xbase.XSwitchExpression;
-import org.eclipse.xtext.xbase.XVariableDeclaration;
-import org.eclipse.xtext.xbase.XWhileExpression;
-import org.eclipse.xtext.xbase.formatting2.XbaseFormatter;
+import javamm.javamm.JavammAdditionalXVariableDeclaration
+import javamm.javamm.JavammArrayAccessExpression
+import javamm.javamm.JavammArrayConstructorCall
+import javamm.javamm.JavammArrayDimension
+import javamm.javamm.JavammArrayLiteral
+import javamm.javamm.JavammConditionalExpression
+import javamm.javamm.JavammJvmFormalParameter
+import javamm.javamm.JavammMethod
+import javamm.javamm.JavammPrefixOperation
+import javamm.javamm.JavammProgram
+import javamm.javamm.JavammXAssignment
+import javamm.javamm.JavammXMemberFeatureCall
+import javamm.javamm.JavammXVariableDeclaration
+import javamm.javamm.Main
+import org.eclipse.xtext.common.types.JvmTypeReference
+import org.eclipse.xtext.formatting2.IFormattableDocument
+import org.eclipse.xtext.xbase.XAssignment
+import org.eclipse.xtext.xbase.XBasicForLoopExpression
+import org.eclipse.xtext.xbase.XBinaryOperation
+import org.eclipse.xtext.xbase.XCasePart
+import org.eclipse.xtext.xbase.XConstructorCall
+import org.eclipse.xtext.xbase.XDoWhileExpression
+import org.eclipse.xtext.xbase.XExpression
+import org.eclipse.xtext.xbase.XFeatureCall
+import org.eclipse.xtext.xbase.XIfExpression
+import org.eclipse.xtext.xbase.XSwitchExpression
+import org.eclipse.xtext.xbase.XVariableDeclaration
+import org.eclipse.xtext.xbase.XWhileExpression
+import org.eclipse.xtext.xbase.formatting2.XbaseFormatter
 
 import static org.eclipse.xtext.xbase.formatting2.XbaseFormatterPreferenceKeys.*
 
 class JavammFormatter extends XbaseFormatter {
 	
-	@Inject extension JavammGrammarAccess
+//	@Inject extension JavammGrammarAccess
 
 	def dispatch void format(JavammProgram javammprogram, extension IFormattableDocument document) {
 		// TODO: format HiddenRegions around keywords, attributes, cross references, etc. 
