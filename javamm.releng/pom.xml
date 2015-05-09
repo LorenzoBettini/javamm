@@ -149,7 +149,7 @@
 
 			<modules>
 				<module>../javamm.ide.feature</module>
-				<module>../javamm.ide</module>
+				<module>../javamm.ide.site</module>
 			</modules>
 			
 			<build>
@@ -218,7 +218,7 @@
 
 			<modules>
 				<module>../javamm.ide.feature</module>
-				<module>../javamm.ide</module>
+				<module>../javamm.ide.site</module>
 				<module>../javamm.swtbot.tests</module>
 			</modules>
 			

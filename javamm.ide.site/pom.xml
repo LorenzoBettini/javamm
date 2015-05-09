@@ -9,7 +9,7 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>javamm.ide</artifactId>
+	<artifactId>javamm.ide.site</artifactId>
 	<packaging>eclipse-repository</packaging>
 
 	<build>
