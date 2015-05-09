@@ -47,7 +47,7 @@
 							<directory>${basedir}/../${project.artifactId}.swtbot.tests/target</directory>
 						</fileset>
 						<fileset>
-							<directory>${basedir}/../${project.artifactId}.ide/target</directory>
+							<directory>${basedir}/../${project.artifactId}.ide.site/target</directory>
 						</fileset>
 					</filesets>
 				</configuration>
