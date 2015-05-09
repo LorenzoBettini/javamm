@@ -1,3 +1,6 @@
+/**
+ * Example 4.2 of the book
+ */
 int f1( int b ) {
   int a = b+1;
   return a+1;

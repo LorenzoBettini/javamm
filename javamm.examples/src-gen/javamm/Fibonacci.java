@@ -2,6 +2,9 @@ package javamm;
 
 @SuppressWarnings("all")
 public class Fibonacci {
+  /**
+   * Example 4.11 of the book
+   */
   public static long fibonacci(int n) {
     int i = 1;
     long x = 1;

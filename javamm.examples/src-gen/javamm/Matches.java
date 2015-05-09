@@ -2,6 +2,9 @@ package javamm;
 
 @SuppressWarnings("all")
 public class Matches {
+  /**
+   * Example 3.7 of the book
+   */
   public static int firstMove(int n, int k) {
     int x = (n % (k + 1));
     if ((x == 0)) {

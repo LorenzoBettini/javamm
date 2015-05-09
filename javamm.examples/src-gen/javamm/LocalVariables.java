@@ -2,6 +2,9 @@ package javamm;
 
 @SuppressWarnings("all")
 public class LocalVariables {
+  /**
+   * Example 4.2 of the book
+   */
   public static int f1(int b) {
     int a = (b + 1);
     return (a + 1);

@@ -1,3 +1,6 @@
+/**
+ * Example 3.3 of the book
+ */
 void isEven(int n) {
   if ((n%2==0)) {
     System.out.println( "Number "+n+" is even." );
