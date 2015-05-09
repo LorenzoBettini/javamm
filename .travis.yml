@@ -1,0 +1,26 @@
+sudo: false
+
+language: java
+
+jdk: oraclejdk7
+
+cache:
+  directories:
+  - $HOME/.m2
+
+env: DISPLAY=:99.0
+
+install: true
+
+#before_install:
+# - sudo apt-get update
+# - sudo apt-get install gnome-themes-standard
+# - sudo apt-get install metacity
+# - sudo apt-get install libwebkit-dev
+
+before_script:
+ - sh -e /etc/init.d/xvfb start
+ 
+script:
+ - export
+ - mvn -f javamm.releng/pom.xml clean verify -U -Dfindbugs.skip=true
