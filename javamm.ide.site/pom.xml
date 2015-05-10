@@ -162,6 +162,7 @@
 					<plugin>
 						<!-- this is configured in pluginManagement section of the parent pom -->
 						<artifactId>maven-antrun-plugin</artifactId>
+						<version>${maven-antrun-plugin.version}</version>
 						
 						<!-- and we add the execution for copying zipped products -->
 						<executions>
@@ -172,7 +173,7 @@
 									<target>
 										<ant antfile="${ant-files-path}/rsync.ant" 
 													target="rsync-copy-dir-contents">
-											<property name="rsync.remote.dir" value="${remote.dir}/products/"/>
+											<property name="rsync.remote.dir" value="${remote.dir}/products/${unqualifiedVersion}/"/>
 											<property name="rsync.local.dir" value="${project.build.directory}/products/"/>
 										</ant>
 									</target>
