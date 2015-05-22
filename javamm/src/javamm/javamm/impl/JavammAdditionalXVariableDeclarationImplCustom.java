@@ -20,8 +20,8 @@ public class JavammAdditionalXVariableDeclarationImplCustom extends XVariableDec
 
 	@Override
 	public boolean isWriteable() {
-		// in our language all variable declarations are considered NOT final
-		return true;
+		// in our language all variable declarations are considered NOT final by default
+		return getContainingVariableDeclaration().isWriteable();
 	}
 
 	/**
@@ -31,6 +31,10 @@ public class JavammAdditionalXVariableDeclarationImplCustom extends XVariableDec
 	 */
 	@Override
 	public JvmTypeReference getType() {
-		return ((JavammXVariableDeclaration)eContainer()).getType() ;
+		return getContainingVariableDeclaration().getType() ;
+	}
+
+	protected JavammXVariableDeclaration getContainingVariableDeclaration() {
+		return (JavammXVariableDeclaration)eContainer();
 	}
 }

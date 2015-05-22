@@ -1601,6 +1601,31 @@ public class MyFile {
 			)
 	}
 
+	@Test def void testSeveralVariableDeclarationsFinal() {
+		'''
+		final int i = 0, j = 1, k = 2;
+		System.out.println(i);
+		System.out.println(j);
+		System.out.println(k);
+		'''.checkCompilation(
+'''
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    final int i = 0;
+    final int j = 1;
+    final int k = 2;
+    System.out.println(i);
+    System.out.println(j);
+    System.out.println(k);
+  }
+}
+'''
+			)
+	}
+
 	@Test def void testSeveralVariableDeclarationsInForLoop() {
 		'''
 		for (int i, j = 1, k; i < 0; i++) {
