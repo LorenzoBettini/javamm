@@ -240,6 +240,12 @@ XMemberFeatureCall returns XExpression:
 				')')?
 	)*;
 
+// in Java the type must be specified so we must use FullJvmFormalParameter instead of JvmFormalParameter
+XForLoopExpression returns XExpression:
+	=>({XForLoopExpression}
+	'for' '(' declaredParam=FullJvmFormalParameter ':') forExpression=XExpression ')'
+		eachExpression=XExpression;
+
 XBasicForLoopExpression returns XExpression:
 	{XBasicForLoopExpression}
 	'for' '('(initExpressions+=XExpressionOrVarDeclaration (',' initExpressions+=XExpressionOrVarDeclaration)*)? ';' 
