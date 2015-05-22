@@ -244,7 +244,7 @@ XMemberFeatureCall returns XExpression:
 XForLoopExpression returns XExpression:
 	=>({XForLoopExpression}
 	'for' '(' declaredParam=FullJvmFormalParameter ':') forExpression=XExpression ')'
-		eachExpression=XExpression;
+		eachExpression=JavammStatementOrBlock;
 
 XBasicForLoopExpression returns XExpression:
 	{XBasicForLoopExpression}
