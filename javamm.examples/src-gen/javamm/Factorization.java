@@ -2,6 +2,9 @@ package javamm;
 
 @SuppressWarnings("all")
 public class Factorization {
+  /**
+   * Example 4.7 of the book
+   */
   public static int firstFactor(int n) {
     for (int i = 2; (i <= (n / 2)); i++) {
       if (((n % i) == 0)) {

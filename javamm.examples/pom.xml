@@ -21,7 +21,7 @@
 				<configuration>
 					<filesets combine.children="append">
 						<fileset>
-							<directory>${basedir}/src-gen</directory>
+							<directory>${basedir}/src-gen/javamm</directory>
 						</fileset>
 					</filesets>
 				</configuration>

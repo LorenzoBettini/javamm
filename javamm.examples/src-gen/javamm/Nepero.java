@@ -2,6 +2,9 @@ package javamm;
 
 @SuppressWarnings("all")
 public class Nepero {
+  /**
+   * Example 3.16 of the book
+   */
   public static double nepero(double epsilon) {
     int n = 0;
     double term = 1;

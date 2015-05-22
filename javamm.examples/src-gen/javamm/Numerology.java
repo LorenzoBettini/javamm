@@ -2,6 +2,9 @@ package javamm;
 
 @SuppressWarnings("all")
 public class Numerology {
+  /**
+   * Example 4.9 of the book
+   */
   public static int digitSum(int number) {
     int result = 0;
     while ((number > 0)) {

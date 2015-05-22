@@ -1,6 +1,0 @@
-instructions.configure=org.eclipse.equinox.p2.touchpoint.eclipse.addRepository(location:http${#58}//master.dl.sourceforge.net/project/javamm/updates/releases/,type:0,name:Javamm,enabled:true); \
-  org.eclipse.equinox.p2.touchpoint.eclipse.addRepository(location:http${#58}//sourceforge.net/projects/javamm/files/updates/releases/,type:1,name:Javamm,enabled:true); \
-  org.eclipse.equinox.p2.touchpoint.eclipse.addRepository(location:http${#58}//download.eclipse.org/releases/luna/,type:0,name:Luna,enabled:true); \
-  org.eclipse.equinox.p2.touchpoint.eclipse.addRepository(location:http${#58}//download.eclipse.org/releases/luna/,type:1,name:Luna,enabled:true); \
-  org.eclipse.equinox.p2.touchpoint.eclipse.addRepository(location:http${#58}//download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/,type:0,name:Xtext,enabled:true); \
-  org.eclipse.equinox.p2.touchpoint.eclipse.addRepository(location:http${#58}//download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/,type:1,name:Xtext,enabled:true);

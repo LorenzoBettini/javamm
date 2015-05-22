@@ -2,6 +2,9 @@ package javamm;
 
 @SuppressWarnings("all")
 public class Maximum {
+  /**
+   * Example 3.19 of the book
+   */
   public static int max(int[] number) {
     int max = number[0];
     for (int i = 1; (i < number.length); i = (i + 1)) {

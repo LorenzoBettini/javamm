@@ -9,9 +9,11 @@ Use this update site to install Java-- SDK feature.
 
 http://sourceforge.net/projects/javamm/files/updates/releases
 
-IMPORTANT: Java-- requires Xtext, so make sure you add this update site to your Eclipse http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/ before installing Java--.
+IMPORTANT: Java-- requires Xtext, if this is not already installed, all dependencies will be automatically installed form this update site, which is self-contained.
 
 ## Pre-configured Eclipse distributions with Java-- installed, for several architectures.
 
 Alternatively, you can download a complete Eclipse distribution with Java-- installed; choose the one for your OS and architecture:
-https://sourceforge.net/projects/javamm/files/ide/
+http://sourceforge.net/projects/javamm/files/products/
+
+[![Build Status](https://travis-ci.org/LorenzoBettini/javamm.svg?branch=master)](https://travis-ci.org/LorenzoBettini/javamm)

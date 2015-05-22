@@ -2,6 +2,9 @@ package javamm;
 
 @SuppressWarnings("all")
 public class RPSSwitch {
+  /**
+   * Example 3.11 of the book
+   */
   public static int move(int p) {
     switch (p) {
       case 0:

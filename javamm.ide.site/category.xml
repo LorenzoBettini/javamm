@@ -3,7 +3,15 @@
    <feature id="javamm.sdk" version="0.0.0">
       <category name="main"/>
    </feature>
+   <feature id="javamm.sdk.source" version="0.0.0">
+      <category name="main.source"/>
+   </feature>
    <category-def name="main" label="Javamm 1.0.x">
+      <description>
+         Javamm
+      </description>
+   </category-def>
+   <category-def name="main.source" label="Javamm 1.0.x (Sources)">
       <description>
          Javamm
       </description>

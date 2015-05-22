@@ -12,6 +12,7 @@ import javamm.javamm.JavammBranchingStatement;
 import javamm.javamm.JavammBreakStatement;
 import javamm.javamm.JavammCharLiteral;
 import javamm.javamm.JavammContinueStatement;
+import javamm.javamm.JavammJvmFormalParameter;
 import javamm.javamm.JavammPrefixOperation;
 import javamm.javamm.JavammXVariableDeclaration;
 import javamm.util.JavammModelUtil;
@@ -19,8 +20,11 @@ import javamm.util.JavammModelUtil;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.xtext.common.types.JvmField;
+import org.eclipse.xtext.common.types.JvmFormalParameter;
 import org.eclipse.xtext.common.types.JvmIdentifiableElement;
 import org.eclipse.xtext.common.types.JvmOperation;
+import org.eclipse.xtext.common.types.JvmTypeReference;
+import org.eclipse.xtext.common.types.TypesPackage;
 import org.eclipse.xtext.generator.trace.ILocationData;
 import org.eclipse.xtext.util.Strings;
 import org.eclipse.xtext.xbase.XAbstractFeatureCall;
@@ -28,6 +32,7 @@ import org.eclipse.xtext.xbase.XAssignment;
 import org.eclipse.xtext.xbase.XBasicForLoopExpression;
 import org.eclipse.xtext.xbase.XCasePart;
 import org.eclipse.xtext.xbase.XExpression;
+import org.eclipse.xtext.xbase.XForLoopExpression;
 import org.eclipse.xtext.xbase.XSwitchExpression;
 import org.eclipse.xtext.xbase.XVariableDeclaration;
 import org.eclipse.xtext.xbase.XbasePackage;
@@ -483,5 +488,24 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 			}
 		}
 	}
+
+	/**
+	 * Overridden because our parameters, like in Java, can be final or non final by default 
+	 */
+	@Override
+	protected void appendForLoopParameter(XForLoopExpression expr, ITreeAppendable appendable) {
+		JvmFormalParameter declaredParam = expr.getDeclaredParam();
+		if (((JavammJvmFormalParameter) declaredParam).isFinal()) {
+			appendable.append("final ");
+		}
+		// this is the original code
+		JvmTypeReference paramType = getForLoopParameterType(expr);
+		serialize(paramType, expr, appendable);
+		appendable.append(" ");
+		final String name = makeJavaIdentifier(declaredParam.getName());
+		String varName = appendable.declareVariable(declaredParam, name);
+		appendable.trace(declaredParam, TypesPackage.Literals.JVM_FORMAL_PARAMETER__NAME, 0).append(varName);
+	}
+
 
 }

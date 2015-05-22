@@ -47,7 +47,7 @@
 							<directory>${basedir}/../${project.artifactId}.swtbot.tests/target</directory>
 						</fileset>
 						<fileset>
-							<directory>${basedir}/../${project.artifactId}.ide/target</directory>
+							<directory>${basedir}/../${project.artifactId}.ide.site/target</directory>
 						</fileset>
 					</filesets>
 				</configuration>
@@ -68,11 +68,18 @@
 				</executions>
 				<configuration>
 					<skip>${mwe2.skip}</skip>
+					<includeProjectDependencies>false</includeProjectDependencies>
+					<includePluginDependencies>true</includePluginDependencies>
 					<mainClass>org.eclipse.emf.mwe2.launch.runtime.Mwe2Launcher</mainClass>
 					<arguments>
-						<argument>/${project.basedir}/src/javamm/GenerateJavamm.mwe2</argument>
+						<argument>file://${project.basedir}/src/javamm/GenerateJavamm.mwe2</argument>
+						<argument>
+							-p
+						</argument>
+						<argument>
+							runtimeProject=/${project.basedir}
+						</argument>
 					</arguments>
-					<includePluginDependencies>true</includePluginDependencies>
 				</configuration>
 				<dependencies>
 					<dependency>

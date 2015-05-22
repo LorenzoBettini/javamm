@@ -1601,6 +1601,31 @@ public class MyFile {
 			)
 	}
 
+	@Test def void testSeveralVariableDeclarationsFinal() {
+		'''
+		final int i = 0, j = 1, k = 2;
+		System.out.println(i);
+		System.out.println(j);
+		System.out.println(k);
+		'''.checkCompilation(
+'''
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    final int i = 0;
+    final int j = 1;
+    final int k = 2;
+    System.out.println(i);
+    System.out.println(j);
+    System.out.println(k);
+  }
+}
+'''
+			)
+	}
+
 	@Test def void testSeveralVariableDeclarationsInForLoop() {
 		'''
 		for (int i, j = 1, k; i < 0; i++) {
@@ -1969,6 +1994,106 @@ public class MyFile {
   public static void main(String[] args) {
     final int i = 0;
     System.out.println(i);
+  }
+}
+'''
+		)
+	}
+
+	@Test def void testForEachLoop() {
+		'''
+		import java.util.List;
+		import java.util.ArrayList;
+		
+		List<String> strings = new ArrayList<String>();
+		strings.add("first");
+		strings.add("second");
+		
+		for (String s : strings)
+			System.out.println(s);
+		'''.checkCompilation(
+'''
+package javamm;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    List<String> strings = new ArrayList<String>();
+    strings.add("first");
+    strings.add("second");
+    for (String s : strings) {
+      System.out.println(s);
+    }
+  }
+}
+'''
+		)
+	}
+
+	@Test def void testForEachLoopBlock() {
+		'''
+		import java.util.List;
+		import java.util.ArrayList;
+		
+		List<String> strings = new ArrayList<String>();
+		strings.add("first");
+		strings.add("second");
+		
+		for (String s : strings) {
+			System.out.println(s);
+		}
+		'''.checkCompilation(
+'''
+package javamm;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    List<String> strings = new ArrayList<String>();
+    strings.add("first");
+    strings.add("second");
+    for (String s : strings) {
+      System.out.println(s);
+    }
+  }
+}
+'''
+		)
+	}
+
+	@Test def void testForEachLoopWithFinalParam() {
+		'''
+		import java.util.List;
+		import java.util.ArrayList;
+		
+		List<String> strings = new ArrayList<String>();
+		strings.add("first");
+		strings.add("second");
+		
+		for (final String s : strings)
+			System.out.println(s);
+		'''.checkCompilation(
+'''
+package javamm;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    List<String> strings = new ArrayList<String>();
+    strings.add("first");
+    strings.add("second");
+    for (final String s : strings) {
+      System.out.println(s);
+    }
   }
 }
 '''

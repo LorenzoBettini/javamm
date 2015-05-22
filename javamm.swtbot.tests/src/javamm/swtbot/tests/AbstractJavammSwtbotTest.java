@@ -243,7 +243,7 @@ public class AbstractJavammSwtbotTest {
 		// creation of a project might require some time
 		bot.waitUntil(shellCloses(shell), SWTBotPreferences.TIMEOUT);
 		assertTrue("Project doesn't exist", isProjectCreated(mainProjectId));
-		
+
 		waitForAutoBuild();
 		assertErrorsInProject(0);
 	}

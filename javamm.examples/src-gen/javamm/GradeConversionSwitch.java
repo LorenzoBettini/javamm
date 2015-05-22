@@ -2,6 +2,9 @@ package javamm;
 
 @SuppressWarnings("all")
 public class GradeConversionSwitch {
+  /**
+   * Example 3.12 of the book
+   */
   public static char convert(int grade) {
     char letter = 0;
     switch (grade) {

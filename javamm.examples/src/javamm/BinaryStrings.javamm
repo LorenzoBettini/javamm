@@ -1,3 +1,6 @@
+/**
+ * Example 4.14 of the book
+ */
 void printArray(int[] a) {
   int na = a.length;
   for (int i = 0; i < na; i++) {

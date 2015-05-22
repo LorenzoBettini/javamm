@@ -2,6 +2,9 @@ package javamm;
 
 @SuppressWarnings("all")
 public class EqualArrays {
+  /**
+   * Example 4.3 of the book
+   */
   public static boolean equalArray(int[] a, int[] b) {
     int _length = a.length;
     int _length_1 = b.length;

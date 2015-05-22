@@ -2,6 +2,9 @@ package javamm;
 
 @SuppressWarnings("all")
 public class QuadraticEquation {
+  /**
+   * Example 3.9 of the book
+   */
   public static void solve(double a, double b, double c) {
     double delta = ((b * b) - ((4 * a) * c));
     if ((delta < 0)) {

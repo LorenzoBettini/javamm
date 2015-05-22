@@ -679,6 +679,20 @@ class JavammValidatorTest extends JavammAbstractTest {
 		'''.parse.assertIssuesAsStrings("Type mismatch: cannot convert from Object to String")
 	}
 
+	@Test def void testFinalVariableNotInitialized() {
+		'''
+		final int i;
+		System.out.println(i);
+		'''.parse.assertIssuesAsStrings("Value must be initialized")
+	}
+
+	@Test def void testFinalVariableNotInitialized2() {
+		'''
+		final int i = 0, j;
+		System.out.println(j);
+		'''.parse.assertErrorsAsStrings("Value must be initialized")
+	}
+
 	@Test def void testAssignmentToFinalVariable() {
 		'''
 		final int i = 0;
@@ -686,11 +700,26 @@ class JavammValidatorTest extends JavammAbstractTest {
 		'''.parse.assertIssuesAsStrings("Assignment to final variable")
 	}
 
+	@Test def void testAssignmentToFinalVariableAdditional() {
+		'''
+		final int i = 0, j = 0;
+		j = 1;
+		'''.parse.assertErrorsAsStrings("Assignment to final variable")
+	}
+
 	@Test def void testAssignmentToFinalParameter() {
 		'''
 		void m(final int i) {
 			i = 1;
 		}
+		'''.parse.assertIssuesAsStrings("Assignment to final parameter")
+	}
+
+	@Test def void testAssignmentToFinalParameterInForEachLoop() {
+		'''
+		java.util.List<String> strings;
+		for (final String s : strings)
+			s = "a";
 		'''.parse.assertIssuesAsStrings("Assignment to final parameter")
 	}
 

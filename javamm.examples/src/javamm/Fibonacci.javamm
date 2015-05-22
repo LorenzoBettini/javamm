@@ -1,3 +1,6 @@
+/**
+ * Example 4.11 of the book
+ */
 long fibonacci( int n ) {
   int i = 1;
   long x = 1, y = 0;

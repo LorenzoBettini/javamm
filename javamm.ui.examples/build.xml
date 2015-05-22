@@ -11,7 +11,7 @@
 			<delete file="@{target}/@{name}.zip" />
 			<zip destfile="@{target}/@{name}.zip" 
 				basedir="${source}/@{name}" 
-				excludes="bin,bin/**,**/*._trace,**/*.smap,.antlr-generator*.jar,target,target/**,nodist,nodist/**,old,old/**,**/hs_*.log,**/pom.xml" />
+				excludes="src-gen/**/*.java,bin,bin/**,**/*._trace,**/*.smap,.antlr-generator*.jar,target,target/**,nodist,nodist/**,old,old/**,**/hs_*.log,**/pom.xml" />
 		</sequential>
 	</macrodef>
 

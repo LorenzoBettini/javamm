@@ -88,9 +88,33 @@
 		 not in the git repository (since Sonarqube 5) -->
 		<sonar.scm.disabled>true</sonar.scm.disabled>		
 
-		<findbugs.skip>true</findbugs.skip>
+		<findbugs.skip>false</findbugs.skip>
 		<swtbot.tests.only>false</swtbot.tests.only>
 		<swtbot.tests.skip>false</swtbot.tests.skip>
+		
+		<!-- properties for deploying the composite update site and zipped products on Sourceforge -->
+		
+		<!-- since this is used in the pluginManagement section, we need to make sure
+			the path always points to this pom's directory; project.basedir will always point
+			to the directory of the pom where the pluginManagement's plugins are used -->
+		<ant-files-path>${project.basedir}/../javamm.releng/ant</ant-files-path>
+
+		<!-- the subdirectory for the composite update site -->
+		<updates.dir>javamm</updates.dir>
+		<site.label>Java-- Site</site.label>
+
+		<remote.dir>lbettini,javamm@frs.sourceforge.net:/home/frs/project/javamm</remote.dir>
+	
+		<!-- local source directory of p2 site for rsync -->
+		<rsync.remote.dir>${remote.dir}/updates/releases/</rsync.remote.dir>
+		<!-- remote directory of p2 site for rsync -->
+		<rsync.local.dir>${user.home}/p2.repositories/${updates.dir}/</rsync.local.dir>
+
+		<!-- pass "-n" to perform a trial run with no changes made -->
+		<dryrun></dryrun>
+		
+		<!-- set it to true to have a self contained p2 repository https://wiki.eclipse.org/Tycho/eclipse-repository#Creating_a_self-contained_p2_repository -->
+		<includeAllDependencies>true</includeAllDependencies>
 	</properties>
 
 	<profiles>
@@ -125,7 +149,7 @@
 
 			<modules>
 				<module>../javamm.ide.feature</module>
-				<module>../javamm.ide</module>
+				<module>../javamm.ide.site</module>
 			</modules>
 			
 			<build>
@@ -194,7 +218,7 @@
 
 			<modules>
 				<module>../javamm.ide.feature</module>
-				<module>../javamm.ide</module>
+				<module>../javamm.ide.site</module>
 				<module>../javamm.swtbot.tests</module>
 			</modules>
 			
@@ -256,7 +280,7 @@
 						<!-- <threshold>Medium</threshold> -->
 						<maxRank>15</maxRank>
 						<jvmArgs>-Xmx1024m</jvmArgs>
-						<excludeFilterFile>${basedir}/../javamm.analysis.feature/excludeFilter.xml</excludeFilterFile>
+						<excludeFilterFile>${basedir}/../javamm.releng/findbugs/excludeFilter.xml</excludeFilterFile>
 					</configuration>
 					<executions>
 						<execution>

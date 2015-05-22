@@ -2,6 +2,9 @@ package javamm;
 
 @SuppressWarnings("all")
 public class SelectionSort {
+  /**
+   * Example 4.5 of the book
+   */
   public static void selectionSort(int[] a) {
     int i = 0;
     int j = 0;
