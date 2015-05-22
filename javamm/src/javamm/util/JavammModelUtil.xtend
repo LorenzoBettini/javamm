@@ -66,7 +66,16 @@ class JavammModelUtil {
 		return associations
 	}
 
-	def getOriginalParam(JvmFormalParameter p) {
+	/**
+	 * This also takes into consideration Jvm model methods inferred from Java--
+	 * methods; in such case the parameter is not a JavammJvmFormalParameter, but
+	 * its original source is, and we return the original one.
+	 */
+	def JavammJvmFormalParameter getOriginalParam(JvmFormalParameter p) {
+		if (p instanceof JavammJvmFormalParameter) {
+			return p
+		}
+		
 		val orig = p.sourceElements.head
 		if (orig instanceof JavammJvmFormalParameter) {
 			return orig

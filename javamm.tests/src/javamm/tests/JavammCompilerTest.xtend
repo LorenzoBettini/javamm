@@ -1975,7 +1975,7 @@ public class MyFile {
 		)
 	}
 
-	@Test def void testIterableForLoop() {
+	@Test def void testForEachLoop() {
 		'''
 		import java.util.List;
 		import java.util.ArrayList;
@@ -2008,7 +2008,7 @@ public class MyFile {
 		)
 	}
 
-	@Test def void testIterableForLoopWithFinalParam() {
+	@Test def void testForEachLoopWithFinalParam() {
 		'''
 		import java.util.List;
 		import java.util.ArrayList;
