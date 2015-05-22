@@ -1975,6 +1975,39 @@ public class MyFile {
 		)
 	}
 
+	@Test def void testIterableForLoop() {
+		'''
+		import java.util.List;
+		import java.util.ArrayList;
+		
+		List<String> strings = new ArrayList<String>();
+		strings.add("first");
+		strings.add("second");
+		
+		for (String s : strings)
+			System.out.println(s);
+		'''.checkCompilation(
+'''
+package javamm;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    List<String> strings = new ArrayList<String>();
+    strings.add("first");
+    strings.add("second");
+    for (final String s : strings) {
+      System.out.println(s);
+    }
+  }
+}
+'''
+		)
+	}
+
 	@Test def void testBubbleSort() {
 		bubbleSort.checkCompilation(
 '''
