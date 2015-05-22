@@ -88,7 +88,7 @@
 		 not in the git repository (since Sonarqube 5) -->
 		<sonar.scm.disabled>true</sonar.scm.disabled>		
 
-		<findbugs.skip>true</findbugs.skip>
+		<findbugs.skip>false</findbugs.skip>
 		<swtbot.tests.only>false</swtbot.tests.only>
 		<swtbot.tests.skip>false</swtbot.tests.skip>
 		
@@ -280,7 +280,7 @@
 						<!-- <threshold>Medium</threshold> -->
 						<maxRank>15</maxRank>
 						<jvmArgs>-Xmx1024m</jvmArgs>
-						<excludeFilterFile>${basedir}/../javamm.analysis.feature/excludeFilter.xml</excludeFilterFile>
+						<excludeFilterFile>${basedir}/../javamm.releng/findbugs/excludeFilter.xml</excludeFilterFile>
 					</configuration>
 					<executions>
 						<execution>
