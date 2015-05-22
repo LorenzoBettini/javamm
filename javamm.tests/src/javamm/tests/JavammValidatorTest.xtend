@@ -694,6 +694,14 @@ class JavammValidatorTest extends JavammAbstractTest {
 		'''.parse.assertIssuesAsStrings("Assignment to final parameter")
 	}
 
+	@Test def void testAssignmentToFinalParameterInForEachLoop() {
+		'''
+		java.util.List<String> strings;
+		for (final String s : strings)
+			s = "a";
+		'''.parse.assertIssuesAsStrings("Assignment to final parameter")
+	}
+
 	@Test def void testAssignmentToParameter() {
 		assignToParam.parseAndAssertNoErrors
 	}

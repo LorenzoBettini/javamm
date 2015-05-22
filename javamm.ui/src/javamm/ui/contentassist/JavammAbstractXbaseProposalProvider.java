@@ -40,6 +40,19 @@ public class JavammAbstractXbaseProposalProvider extends XbaseProposalProvider {
 		}
 	}
 
+	@Override
+	public void completeXForLoopExpression_ForExpression(EObject model, Assignment assignment,
+			ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
+		// when we started to write something, like the name of the feature
+		// the model is still the containing block expression, so we must retrieve the
+		// feature call from the context
+		EObject previous = context.getPreviousModel();
+		if (previous instanceof XFeatureCall) {
+			createLocalVariableAndImplicitProposals(previous, IExpressionScope.Anchor.BEFORE, context, acceptor);
+		}
+		createLocalVariableAndImplicitProposals(model, IExpressionScope.Anchor.BEFORE, context, acceptor);
+	}
+
 	public void completeXVariableDeclaration_Final(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
 		// subclasses may override
 	}
