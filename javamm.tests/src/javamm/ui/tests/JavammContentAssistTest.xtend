@@ -111,6 +111,18 @@ class JavammContentAssistTest extends AbstractContentAssistTest {
 		newBuilder.append("int myVar = 0; myVar = true ? ").assertProposal("myVar")
 	}
 
+	@Test def void testForExpression() {
+		newBuilder.append('''
+			java.util.List<String> strings;
+			for (String e : ''').assertProposal("strings")
+	}
+
+	@Test def void testForExpression2() {
+		newBuilder.append('''
+			java.util.List<String> strings;
+			for (String e : s''').assertProposal("strings")
+	}
+
 	@Test
 	def void testProposalAndImportForListType() {
 		newBuilder.
