@@ -6,6 +6,7 @@ package javamm.swtbot.tests;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.junit.Test;
@@ -18,8 +19,6 @@ import org.junit.runner.RunWith;
 @RunWith(SWTBotJunit4ClassRunner.class)
 public class JavammSwtBotTest extends AbstractJavammSwtbotTest {
 	
-	private static final String JAVAMM_APPLICATION = "2 Java-- Application";
-
 	@Test
 	public void canCreateANewJavammProject() throws CoreException {
 		createProjectAndAssertNoErrorMarker(PROJECT_TYPE);
@@ -47,10 +46,18 @@ public class JavammSwtBotTest extends AbstractJavammSwtbotTest {
 				expand().expandNode("src").
 				expandNode("javamm").
 				getNode("HelloWorld.javamm");
-		// apparently, on a new workbench, any file has "Run As Java Application" as the
+		checkLaunchContextMenu("Run As", tree);
+		checkLaunchContextMenu("Debug As", tree);
+	}
+
+	protected void checkLaunchContextMenu(String runOrDebugAs, SWTBotTreeItem tree) {
+		// depending on the installed features, on a new workbench, any file has "Run As Java Application" as the
 		// first menu, so we need to look for the second entry
-		tree.contextMenu("Run As").menu(JAVAMM_APPLICATION);
-		tree.contextMenu("Debug As").menu(JAVAMM_APPLICATION);
+		try {
+			tree.contextMenu(runOrDebugAs).menu("1 Java-- Application");
+		} catch (WidgetNotFoundException e) {
+			tree.contextMenu(runOrDebugAs).menu("2 Java-- Application");
+		}
 	}
 
 }
