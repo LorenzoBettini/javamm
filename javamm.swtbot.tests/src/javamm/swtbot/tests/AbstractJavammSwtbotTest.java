@@ -78,7 +78,6 @@ public class AbstractJavammSwtbotTest {
 		bot.resetWorkbench();
 	}
 	
-	@SuppressWarnings("restriction")
 	@After
 	public void runAfterEveryTest() throws CoreException {
 		cleanWorkspace();
@@ -87,6 +86,7 @@ public class AbstractJavammSwtbotTest {
 
 	protected static void closeWelcomePage() throws InterruptedException {
 		Display.getDefault().syncExec(new Runnable() {
+			@Override
 			public void run() {
 				if (PlatformUI.getWorkbench().getIntroManager().getIntro() != null) {
 					PlatformUI.getWorkbench().getIntroManager()
@@ -150,7 +150,6 @@ public class AbstractJavammSwtbotTest {
 		return getProjectTree().getTreeItem(myTestProject);
 	}
 
-	@SuppressWarnings("restriction")
 	protected void assertErrorsInProject(int numOfErrors) throws CoreException {
 		IMarker[] markers = root().findMarkers(IMarker.PROBLEM, true,
 				IResource.DEPTH_INFINITE);
@@ -185,7 +184,6 @@ public class AbstractJavammSwtbotTest {
 		assertErrorsInProject(0);
 	}
 
-	@SuppressWarnings("restriction")
 	protected void createProject(String projectType) {
 		bot.menu("File").menu("New").menu("Project...").click();
 
@@ -207,7 +205,6 @@ public class AbstractJavammSwtbotTest {
 		waitForAutoBuild();
 	}
 
-	@SuppressWarnings("restriction")
 	protected void createFile(String fileType, String name, String...path) {
 		bot.menu("File").menu("New").menu(fileType).click();
 
@@ -224,7 +221,6 @@ public class AbstractJavammSwtbotTest {
 		waitForAutoBuild();
 	}
 
-	@SuppressWarnings("restriction")
 	protected void importExampleProjectAndAssertNoErrorMarker(String projectType,
 			String mainProjectId) throws CoreException {
 		bot.menu("File").menu("New").menu("Other...").click();
@@ -255,6 +251,7 @@ public class AbstractJavammSwtbotTest {
 		while (count < retries) {
 			System.out.println("Checking that tree item " + treeItem.getText() + " has children...");
 			List<SWTBotTreeItem> foundItems = UIThreadRunnable.syncExec(new ListResult<SWTBotTreeItem>() {
+				@Override
 				public List<SWTBotTreeItem> run() {
 					TreeItem[] items = treeItem.widget.getItems();
 					List<SWTBotTreeItem> results = new ArrayList<SWTBotTreeItem>();
@@ -300,6 +297,7 @@ public class AbstractJavammSwtbotTest {
 	protected SWTBotTree getSWTBotTree(final SWTBotTreeItem treeItem) {
 		return new SWTBotTree(
 				UIThreadRunnable.syncExec(new WidgetResult<Tree>() {
+					@Override
 					public Tree run() {
 						return treeItem.widget.getParent();
 					}
