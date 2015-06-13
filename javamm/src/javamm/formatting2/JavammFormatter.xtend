@@ -80,12 +80,16 @@ class JavammFormatter extends XbaseFormatter {
 //		}
 //	}
 
-	def dispatch void format(JavammXVariableDeclaration javammxvariabledeclaration, extension IFormattableDocument document) {
-		// TODO: format HiddenRegions around keywords, attributes, cross references, etc. 
-		format(javammxvariabledeclaration.getType(), document);
-		format(javammxvariabledeclaration.getRight(), document);
-		for (XVariableDeclaration additionalVariables : javammxvariabledeclaration.getAdditionalVariables()) {
-			format(additionalVariables, document);
+	def dispatch void format(JavammXVariableDeclaration expr, extension IFormattableDocument document) {
+		expr.type.append[oneSpace]
+		expr.regionForKeyword("=").surround[oneSpace]
+		expr.type.format(document)
+		expr.right.format(document)
+		
+		for (XVariableDeclaration additionalVariable : expr.getAdditionalVariables()) {
+			format(additionalVariable, document);
+			additionalVariable.immediatelyPrecedingKeyword(",").prepend[noSpace].append[oneSpace]
+			additionalVariable.regionForKeyword("=").surround[oneSpace]
 		}
 	}
 

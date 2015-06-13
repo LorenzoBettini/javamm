@@ -75,8 +75,44 @@ class JavammFormatterTest extends JavammAbstractTest {
 
 	@Test def void testVariableDeclaration() {
 		assertFormatted[
+			expectation = '''
+				int i;
+			'''
 			toBeFormatted = '''
-				int  i;
+				int  i ;
+			'''
+		]
+	}
+
+	@Test def void testVariableDeclarationWithInitialization() {
+		assertFormatted[
+			expectation = '''
+				int i = 0;
+			'''
+			toBeFormatted = '''
+				int  i  =   0;
+			'''
+		]
+	}
+
+	@Test def void testVariableDeclarations() {
+		assertFormatted[
+			expectation = '''
+				int i, j, k;
+			'''
+			toBeFormatted = '''
+				int  i , j , k ;
+			'''
+		]
+	}
+
+	@Test def void testVariableDeclarationsWithInitialization() {
+		assertFormatted[
+			expectation = '''
+				int i = 0, j = 1, k = 2;
+			'''
+			toBeFormatted = '''
+				int  i  =  0  , j  =  1 , k  =  2 ;
 			'''
 		]
 	}
