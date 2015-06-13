@@ -660,7 +660,7 @@
       <launchConfigurationType
             id="javamm.ui.JavammLaunchConfigurationType"
             modes="run, debug"
-            name="Build Launch"
+            name="Java-- Launch"
             delegate="javamm.ui.launch.JavammLaunchDelegate"
             sourceLocatorId="org.eclipse.jdt.launching.sourceLocator.JavaSourceLookupDirector"
             sourcePathComputerId="org.eclipse.jdt.launching.sourceLookup.javaSourcePathComputer"/>
