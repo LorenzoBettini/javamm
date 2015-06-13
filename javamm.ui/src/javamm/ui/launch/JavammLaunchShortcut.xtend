@@ -1,13 +1,14 @@
 package javamm.ui.launch
 
+import org.eclipse.core.resources.IFile
 import org.eclipse.core.runtime.CoreException
 import org.eclipse.debug.core.DebugPlugin
 import org.eclipse.debug.core.ILaunchConfiguration
 import org.eclipse.debug.ui.DebugUITools
 import org.eclipse.debug.ui.ILaunchShortcut
 import org.eclipse.debug.ui.RefreshTab
-import org.eclipse.jface.dialogs.MessageDialog
 import org.eclipse.jface.viewers.ISelection
+import org.eclipse.jface.viewers.IStructuredSelection
 import org.eclipse.ui.IEditorPart
 import org.eclipse.ui.IFileEditorInput
 import org.eclipse.xtend.lib.annotations.Data
@@ -21,9 +22,10 @@ import static org.eclipse.jface.dialogs.MessageDialog.*
 class JavammLaunchShortcut implements ILaunchShortcut {
 
 	override launch(ISelection selection, String mode) {
-		MessageDialog.openError(null, "Unsupported Launch Selection.", 
-			"Please open the file inside an editor to launch a task."
-		)
+		val file = (selection as IStructuredSelection).firstElement as IFile
+		val name = file.name
+		val clazz = "javamm." + name.substring(0, name.lastIndexOf('.'))
+		launch(mode, new LaunchConfigurationInfo(file.project.name, clazz))
 	}
 	
 	override launch(IEditorPart editor, String mode) {
