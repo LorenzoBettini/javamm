@@ -1,7 +1,6 @@
 package javamm.ui.launch
 
 import org.eclipse.core.resources.IFile
-import org.eclipse.core.runtime.CoreException
 import org.eclipse.debug.core.DebugPlugin
 import org.eclipse.debug.core.ILaunchConfiguration
 import org.eclipse.debug.ui.DebugUITools
@@ -11,7 +10,6 @@ import org.eclipse.jface.viewers.ISelection
 import org.eclipse.jface.viewers.IStructuredSelection
 import org.eclipse.ui.IEditorPart
 import org.eclipse.ui.IFileEditorInput
-import org.eclipse.xtend.lib.annotations.Data
 import org.eclipse.xtext.common.types.JvmDeclaredType
 import org.eclipse.xtext.util.Strings
 import org.eclipse.xtext.xbase.ui.editor.XbaseEditor
@@ -45,25 +43,30 @@ class JavammLaunchShortcut implements ILaunchShortcut {
 	}
 
 	def launch(String mode, LaunchConfigurationInfo info) {
-		if (info.clazz.nullOrEmpty)    
-			openError(null, "Launch Error", "Could not determine the class that should be executed.")
-		else if (info.project.nullOrEmpty)  
-			openError(null, "Launch Error", "Could not determine the project that should be executed.")
-		else try {
-			val configs = DebugPlugin.getDefault.launchManager.launchConfigurations
-			val config = configs.findFirst[info.configEquals(it)] ?: info.createConfiguration 
-			DebugUITools.launch(config, mode)
-		} catch (CoreException e) {
-			openError(null, "Problem running workflow.", e.message)
-		}
+		val configs = DebugPlugin.getDefault.launchManager.launchConfigurations
+		val config = configs.findFirst[info.configEquals(it)] ?: info.createConfiguration 
+		DebugUITools.launch(config, mode)
 	}
 }
 
-@Data class LaunchConfigurationInfo {
+class LaunchConfigurationInfo {
 	public static val String LAUNCH_TYPE = "javamm.ui.JavammLaunchConfigurationType"
 
 	val String project
 	val String clazz
+	
+	new(String project, String clazz) {
+		this.project = project
+		this.clazz = clazz
+	}
+
+	def getProject() {
+		project
+	}
+
+	def getClazz() {
+		clazz
+	}
 	
 	def getName() {
 		Strings.lastToken(clazz, ".")
