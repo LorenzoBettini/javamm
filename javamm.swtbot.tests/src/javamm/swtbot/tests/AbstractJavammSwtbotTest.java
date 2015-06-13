@@ -15,16 +15,12 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.MenuItem;
-import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotView;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
-import org.eclipse.swtbot.swt.finder.finders.ContextMenuHelper;
 import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.results.ListResult;
-import org.eclipse.swtbot.swt.finder.results.WidgetResult;
 import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
@@ -78,7 +74,6 @@ public class AbstractJavammSwtbotTest {
 		bot.resetWorkbench();
 	}
 	
-	@SuppressWarnings("restriction")
 	@After
 	public void runAfterEveryTest() throws CoreException {
 		cleanWorkspace();
@@ -87,6 +82,7 @@ public class AbstractJavammSwtbotTest {
 
 	protected static void closeWelcomePage() throws InterruptedException {
 		Display.getDefault().syncExec(new Runnable() {
+			@Override
 			public void run() {
 				if (PlatformUI.getWorkbench().getIntroManager().getIntro() != null) {
 					PlatformUI.getWorkbench().getIntroManager()
@@ -150,7 +146,6 @@ public class AbstractJavammSwtbotTest {
 		return getProjectTree().getTreeItem(myTestProject);
 	}
 
-	@SuppressWarnings("restriction")
 	protected void assertErrorsInProject(int numOfErrors) throws CoreException {
 		IMarker[] markers = root().findMarkers(IMarker.PROBLEM, true,
 				IResource.DEPTH_INFINITE);
@@ -185,7 +180,6 @@ public class AbstractJavammSwtbotTest {
 		assertErrorsInProject(0);
 	}
 
-	@SuppressWarnings("restriction")
 	protected void createProject(String projectType) {
 		bot.menu("File").menu("New").menu("Project...").click();
 
@@ -207,7 +201,6 @@ public class AbstractJavammSwtbotTest {
 		waitForAutoBuild();
 	}
 
-	@SuppressWarnings("restriction")
 	protected void createFile(String fileType, String name, String...path) {
 		bot.menu("File").menu("New").menu(fileType).click();
 
@@ -224,7 +217,6 @@ public class AbstractJavammSwtbotTest {
 		waitForAutoBuild();
 	}
 
-	@SuppressWarnings("restriction")
 	protected void importExampleProjectAndAssertNoErrorMarker(String projectType,
 			String mainProjectId) throws CoreException {
 		bot.menu("File").menu("New").menu("Other...").click();
@@ -255,6 +247,7 @@ public class AbstractJavammSwtbotTest {
 		while (count < retries) {
 			System.out.println("Checking that tree item " + treeItem.getText() + " has children...");
 			List<SWTBotTreeItem> foundItems = UIThreadRunnable.syncExec(new ListResult<SWTBotTreeItem>() {
+				@Override
 				public List<SWTBotTreeItem> run() {
 					TreeItem[] items = treeItem.widget.getItems();
 					List<SWTBotTreeItem> results = new ArrayList<SWTBotTreeItem>();
@@ -291,23 +284,4 @@ public class AbstractJavammSwtbotTest {
 		}
 	}
 	
-	protected MenuItem contextMenu(final SWTBotTreeItem treeItem,
-			final String... texts) {
-		treeItem.select();
-		return contextMenu(getSWTBotTree(treeItem), texts);
-	}
-
-	protected SWTBotTree getSWTBotTree(final SWTBotTreeItem treeItem) {
-		return new SWTBotTree(
-				UIThreadRunnable.syncExec(new WidgetResult<Tree>() {
-					public Tree run() {
-						return treeItem.widget.getParent();
-					}
-				}));
-	}
-
-	protected MenuItem contextMenu(SWTBotTree tree, final String... texts) {
-		return ContextMenuHelper.contextMenu(tree, texts);
-	}
-
 }
