@@ -654,47 +654,75 @@
          </newWizardShortcut>
       </perspectiveExtension>
    </extension>
+
+     <extension
+         point="org.eclipse.debug.core.launchConfigurationTypes">
+      <launchConfigurationType
+            id="javamm.ui.JavammLaunchConfigurationType"
+            modes="run, debug"
+            name="Build Launch"
+            delegate="javamm.ui.launch.JavammLaunchDelegate"
+            sourceLocatorId="org.eclipse.jdt.launching.sourceLocator.JavaSourceLookupDirector"
+            sourcePathComputerId="org.eclipse.jdt.launching.sourceLookup.javaSourcePathComputer"/>
+   </extension>
    
-   <extension point="org.eclipse.core.runtime.adapters">
-     <factory 
-        class="javamm.ui.JavammExecutableExtensionFactory:org.eclipse.xtext.xbase.ui.launching.JavaElementDelegateAdapterFactory"
-        adaptableType="org.eclipse.ui.IFileEditorInput">
-        <adapter type="org.eclipse.xtext.xbase.ui.launching.JavaElementDelegateJunitLaunch"/>
-     </factory>
-     <factory 
-        class="javamm.ui.JavammExecutableExtensionFactory:org.eclipse.xtext.xbase.ui.launching.JavaElementDelegateAdapterFactory"
-        adaptableType="org.eclipse.ui.IEditorPart">
-        <adapter type="org.eclipse.xtext.xbase.ui.launching.JavaElementDelegateJunitLaunch"/>
-     </factory>
-     <factory 
-        class="javamm.ui.JavammExecutableExtensionFactory:org.eclipse.xtext.xbase.ui.launching.JavaElementDelegateAdapterFactory" 
-        adaptableType="org.eclipse.core.resources.IResource">
-        <adapter type="org.eclipse.xtext.xbase.ui.launching.JavaElementDelegateJunitLaunch"/>
-     </factory>
-     <factory 
-        class="javamm.ui.JavammExecutableExtensionFactory:org.eclipse.xtext.xbase.ui.launching.JavaElementDelegateAdapterFactory"
-        adaptableType="org.eclipse.xtext.xbase.ui.launching.JavaElementDelegateJunitLaunch">
-        <adapter type="org.eclipse.jdt.core.IJavaElement"/>
-     </factory>
-     <factory 
-        class="javamm.ui.JavammExecutableExtensionFactory:org.eclipse.xtext.xbase.ui.launching.JavaElementDelegateAdapterFactory"
-        adaptableType="org.eclipse.ui.IFileEditorInput">
-        <adapter type="org.eclipse.xtext.xbase.ui.launching.JavaElementDelegateMainLaunch"/>
-     </factory>
-     <factory 
-        class="javamm.ui.JavammExecutableExtensionFactory:org.eclipse.xtext.xbase.ui.launching.JavaElementDelegateAdapterFactory"
-        adaptableType="org.eclipse.ui.IEditorPart">
-        <adapter type="org.eclipse.xtext.xbase.ui.launching.JavaElementDelegateMainLaunch"/>
-     </factory>
-     <factory 
-        class="javamm.ui.JavammExecutableExtensionFactory:org.eclipse.xtext.xbase.ui.launching.JavaElementDelegateAdapterFactory" 
-        adaptableType="org.eclipse.core.resources.IResource">
-        <adapter type="org.eclipse.xtext.xbase.ui.launching.JavaElementDelegateMainLaunch"/>
-     </factory>
-     <factory 
-        class="javamm.ui.JavammExecutableExtensionFactory:org.eclipse.xtext.xbase.ui.launching.JavaElementDelegateAdapterFactory"
-        adaptableType="org.eclipse.xtext.xbase.ui.launching.JavaElementDelegateMainLaunch">
-        <adapter type="org.eclipse.jdt.core.IJavaElement"/>
-     </factory>
-  </extension>
+   <extension
+         point="org.eclipse.debug.ui.launchConfigurationTabGroups">
+      <launchConfigurationTabGroup
+            class="javamm.ui.launch.JavammLaunchTabGroup"
+            id="javamm.ui.JavammLaunchConfigurationTabGroup"
+            type="javamm.ui.JavammLaunchConfigurationType">
+            <launchMode 
+                  mode="debug"
+                  perspective="org.eclipse.debug.ui.DebugPerspective"
+                  description="Debug a Java-- File">
+            </launchMode>
+            <launchMode
+                  mode="run"
+                  description="Run a Java-- File">
+            </launchMode>
+      </launchConfigurationTabGroup>
+   </extension>
+
+   <extension
+         point="org.eclipse.debug.ui.launchConfigurationTypeImages">
+      <launchConfigurationTypeImage
+            configTypeID="javamm.ui.JavammLaunchConfigurationType"
+            icon="icons/etool16/java_app.gif"
+            id="javamm.ui.JavammLaunchConfigurationTypeImage"/>
+   </extension>
+
+
+   <extension
+         point="org.eclipse.debug.ui.launchShortcuts">
+      <shortcut
+            class="javamm.ui.launch.JavammLaunchShortcut"
+            description="Launches a Build File"
+            icon="icons/etool16/java_app.gif"
+            id="javamm.ui.launch.shortcut1"
+            label="Java--"
+            modes="run, debug">
+          <contextualLaunch>
+           <enablement>
+             <with variable="selection">
+               <count value="1"/>
+               <iterate
+                     ifEmpty="false"
+                     operator="and">
+                  <adapt type="org.eclipse.core.resources.IFile"/>
+                    <test property="org.eclipse.debug.ui.matchesPattern"
+                          value="*.javamm"/>
+               </iterate>
+             </with>
+           </enablement>
+           <contextLabel
+              mode="run"
+              label="Java--"/>
+          <contextLabel
+              mode="debug"
+              label="Java--"/>
+         </contextualLaunch>
+      </shortcut>
+   </extension>
+
 </plugin>
