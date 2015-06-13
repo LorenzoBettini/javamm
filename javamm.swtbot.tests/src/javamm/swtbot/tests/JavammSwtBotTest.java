@@ -45,8 +45,8 @@ public class JavammSwtBotTest extends AbstractJavammSwtbotTest {
 				expand().expandNode("src").
 				expandNode("javamm").
 				getNode("HelloWorld.javamm");
-		contextMenu(tree, "Run As", "1 Java Application");
-		contextMenu(tree, "Debug As", "1 Java Application");
+		tree.contextMenu("Run As").menu("1 Java Application");
+		tree.contextMenu("Debug As").menu("1 Java Application");
 	}
 
 }
