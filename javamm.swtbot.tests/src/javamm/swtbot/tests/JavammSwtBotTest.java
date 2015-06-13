@@ -6,7 +6,10 @@ package javamm.swtbot.tests;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEditor;
+import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,6 +21,8 @@ import org.junit.runner.RunWith;
 @RunWith(SWTBotJunit4ClassRunner.class)
 public class JavammSwtBotTest extends AbstractJavammSwtbotTest {
 	
+	private static final String HELLO_WORLD_JAVAMM = "HelloWorld.javamm";
+
 	@Test
 	public void canCreateANewJavammProject() throws CoreException {
 		createProjectAndAssertNoErrorMarker(PROJECT_TYPE);
@@ -44,9 +49,27 @@ public class JavammSwtBotTest extends AbstractJavammSwtbotTest {
 				getProjectTreeItem(TEST_PROJECT).
 				expand().expandNode("src").
 				expandNode("javamm").
-				getNode("HelloWorld.javamm");
-		tree.contextMenu("Run As").menu("1 Java Application");
-		tree.contextMenu("Debug As").menu("1 Java Application");
+				getNode(HELLO_WORLD_JAVAMM);
+		checkLaunchContextMenu(tree.contextMenu("Run As"));
+		checkLaunchContextMenu(tree.contextMenu("Debug As"));
+	}
+
+	@Test
+	public void canRunAJavammEditorAsJavaApplication() throws CoreException {
+		createProject(PROJECT_TYPE);
+		SWTBotEditor editor = bot.editorByTitle(HELLO_WORLD_JAVAMM);
+		checkLaunchContextMenu(editor.toTextEditor().contextMenu("Run As"));
+		checkLaunchContextMenu(editor.toTextEditor().contextMenu("Debug As"));
+	}
+
+	private void checkLaunchContextMenu(SWTBotMenu contextMenu) {
+		try {
+			// depending on the installed features, on a new workbench, any file has "Run As Java Application" as the
+			// first menu, so we need to look for the second entry
+			contextMenu.menu("1 Java-- Application");
+		} catch (WidgetNotFoundException e) {
+			contextMenu.menu("2 Java-- Application");
+		}
 	}
 
 }

@@ -24,7 +24,8 @@ Require-Bundle: javamm;visibility:=reexport,
  org.eclipse.xtend,
  org.eclipse.xpand,
  org.eclipse.jdt.core,
- org.eclipse.jdt.ui
+ org.eclipse.jdt.ui,
+ org.eclipse.jdt.launching
 Import-Package: org.apache.log4j
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: javamm.ui.contentassist,
