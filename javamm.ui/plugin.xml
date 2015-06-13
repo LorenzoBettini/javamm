@@ -697,7 +697,7 @@
          point="org.eclipse.debug.ui.launchShortcuts">
       <shortcut
             class="javamm.ui.launch.JavammLaunchShortcut"
-            description="Launches a Build File"
+            description="Launches a Java-- File"
             icon="icons/etool16/java_app.gif"
             id="javamm.ui.launch.shortcut1"
             label="Java--"
@@ -717,10 +717,10 @@
            </enablement>
            <contextLabel
               mode="run"
-              label="Java--"/>
+              label="Java-- Application"/>
           <contextLabel
               mode="debug"
-              label="Java--"/>
+              label="Java-- Application"/>
          </contextualLaunch>
       </shortcut>
    </extension>
