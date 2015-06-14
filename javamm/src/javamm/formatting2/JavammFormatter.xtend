@@ -3,7 +3,6 @@
  */
 package javamm.formatting2;
 
-import javamm.javamm.JavammAdditionalXVariableDeclaration
 import javamm.javamm.JavammArrayAccessExpression
 import javamm.javamm.JavammArrayConstructorCall
 import javamm.javamm.JavammArrayDimension
@@ -19,7 +18,6 @@ import javamm.javamm.JavammXVariableDeclaration
 import javamm.javamm.Main
 import org.eclipse.xtext.common.types.JvmTypeReference
 import org.eclipse.xtext.formatting2.IFormattableDocument
-import org.eclipse.xtext.xbase.XAssignment
 import org.eclipse.xtext.xbase.XBasicForLoopExpression
 import org.eclipse.xtext.xbase.XBinaryOperation
 import org.eclipse.xtext.xbase.XCasePart
@@ -34,6 +32,7 @@ import org.eclipse.xtext.xbase.XWhileExpression
 import org.eclipse.xtext.xbase.formatting2.XbaseFormatter
 
 import static org.eclipse.xtext.xbase.formatting2.XbaseFormatterPreferenceKeys.*
+import java.util.List
 
 class JavammFormatter extends XbaseFormatter {
 	
@@ -93,23 +92,9 @@ class JavammFormatter extends XbaseFormatter {
 		}
 	}
 
-	def dispatch void format(JavammAdditionalXVariableDeclaration javammadditionalxvariabledeclaration, extension IFormattableDocument document) {
-		// TODO: format HiddenRegions around keywords, attributes, cross references, etc. 
-		format(javammadditionalxvariabledeclaration.getRight(), document);
-	}
-
 	def dispatch void format(JavammXAssignment javammxassignment, extension IFormattableDocument document) {
-		// TODO: format HiddenRegions around keywords, attributes, cross references, etc. 
-		for (XExpression indexes : javammxassignment.getIndexes()) {
-			format(indexes, document);
-		}
-		format(javammxassignment.getValue(), document);
-	}
-
-	override dispatch void format(XAssignment xassignment, extension IFormattableDocument document) {
-		// TODO: format HiddenRegions around keywords, attributes, cross references, etc. 
-		format(xassignment.getValue(), document);
-		format(xassignment.getAssignable(), document);
+		super._format(javammxassignment, document) 
+		formatArrayIndexes(javammxassignment.getIndexes(), document)
 	}
 
 	def dispatch void format(JavammConditionalExpression javammconditionalexpression, extension IFormattableDocument document) {
@@ -248,4 +233,12 @@ class JavammFormatter extends XbaseFormatter {
 //		// TODO: format HiddenRegions around keywords, attributes, cross references, etc. 
 //		format(xpostfixoperation.getOperand(), document);
 //	}
+
+	def private void formatArrayIndexes(List<XExpression> indexes, extension IFormattableDocument document) {
+		for (XExpression index : indexes) {
+			index.immediatelyPrecedingKeyword("[").prepend[noSpace].append[noSpace]
+			format(index, document);
+			index.immediatelyFollowingKeyword("]").prepend[noSpace]
+		}
+	}
 }
