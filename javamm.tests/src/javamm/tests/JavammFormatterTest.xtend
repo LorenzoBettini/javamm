@@ -149,4 +149,17 @@ class JavammFormatterTest extends JavammAbstractTest {
 			'''
 		]
 	}
+
+	@Test def void testMethod() {
+		assertFormatted[
+			expectation = '''
+				int m(int i, final String s) {
+					return 0;
+				}
+			'''
+			toBeFormatted = '''
+				int  m ( int  i ,  final  String  s )  {					return 0; 			}
+			'''
+		]
+	}
 }

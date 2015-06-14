@@ -33,6 +33,7 @@ import org.eclipse.xtext.xbase.formatting2.XbaseFormatter
 
 import static org.eclipse.xtext.xbase.formatting2.XbaseFormatterPreferenceKeys.*
 import java.util.List
+import javamm.javamm.JavammPackage
 
 class JavammFormatter extends XbaseFormatter {
 	
@@ -48,17 +49,27 @@ class JavammFormatter extends XbaseFormatter {
 	}
 
 	def dispatch void format(JavammMethod javammmethod, extension IFormattableDocument document) {
-		// TODO: format HiddenRegions around keywords, attributes, cross references, etc. 
-		format(javammmethod.getType(), document);
-		for (JavammJvmFormalParameter params : javammmethod.getParams()) {
-			format(params, document);
+		javammmethod.type.prepend[noSpace].append[oneSpace]
+		format(javammmethod.type, document);
+
+		javammmethod.regionForKeyword("(").surround[noSpace]
+		if (!javammmethod.params.isEmpty) {
+			for (comma : javammmethod.regionsForKeywords(","))
+				comma.prepend[noSpace].append[oneSpace]
+			for (params : javammmethod.params)
+				format(params, document);
+			javammmethod.regionForKeyword(")").prepend[noSpace]
 		}
-		format(javammmethod.getBody(), document);
+		javammmethod.regionForKeyword(")").append[oneSpace]
+
+		format(javammmethod.body, document);
 	}
 
 	def dispatch void format(JavammJvmFormalParameter javammjvmformalparameter, extension IFormattableDocument document) {
-		// TODO: format HiddenRegions around keywords, attributes, cross references, etc. 
-		format(javammjvmformalparameter.getParameterType(), document);
+		super._format(javammjvmformalparameter, document);
+		javammjvmformalparameter.
+			regionForFeature(JavammPackage.eINSTANCE.javammJvmFormalParameter_Final).
+			append[oneSpace]
 	}
 
 	def dispatch void format(Main main, extension IFormattableDocument document) {
