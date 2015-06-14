@@ -30,7 +30,7 @@
 					</execution>
 				</executions>
 			</plugin>
-		
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-clean-plugin</artifactId>
@@ -71,29 +71,34 @@
 			</plugin>
 
 			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>${maven-antrun-plugin.version}</version>
+				<executions>
+					<execution>
+						<id>show-properties</id>
+						<phase>generate-sources</phase>
+						<configuration>
+							<tasks>
+								<echo message="" />
+								<echo message="Path to xbase source jar" />
+								<echo message="${org.eclipse.xtext:org.eclipse.xtext.xbase:jar:sources}" />
+								<echo message="" />
+								<echo message="Path to common types source jar" />
+								<echo message="${org.eclipse.xtext:org.eclipse.xtext.common.types:jar:sources}" />
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
 				<version>1.2.1</version>
 				<executions>
-
-					<execution>
-						<id>show-properties</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>exec</goal>
-						</goals>
-						<configuration>
-							<executable>echo</executable>
-							<arguments>
-								<argument>-e</argument>
-								<argument>path to xbase source jar=\n</argument>
-								<argument>${org.eclipse.xtext:org.eclipse.xtext.xbase:jar:sources}\n</argument>
-								<argument>path to common types source jar=\n</argument>
-								<argument>${org.eclipse.xtext:org.eclipse.xtext.common.types:jar:sources}\n</argument>
-							</arguments>
-						</configuration>
-					</execution>
-				
 					<execution>
 						<id>mwe2Launcher</id>
 						<phase>generate-sources</phase>
@@ -122,7 +127,6 @@
 							</arguments>
 						</configuration>
 					</execution>
-
 				</executions>
 				
 				<dependencies>
