@@ -75,35 +75,56 @@
 				<artifactId>exec-maven-plugin</artifactId>
 				<version>1.2.1</version>
 				<executions>
+
+					<execution>
+						<id>show-properties</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>echo</executable>
+							<arguments>
+								<argument>-e</argument>
+								<argument>path to xbase source jar=\n</argument>
+								<argument>${org.eclipse.xtext:org.eclipse.xtext.xbase:jar:sources}\n</argument>
+								<argument>path to common types source jar=\n</argument>
+								<argument>${org.eclipse.xtext:org.eclipse.xtext.common.types:jar:sources}\n</argument>
+							</arguments>
+						</configuration>
+					</execution>
+				
 					<execution>
 						<id>mwe2Launcher</id>
 						<phase>generate-sources</phase>
 						<goals>
 							<goal>java</goal>
 						</goals>
+						<configuration>
+							<skip>${mwe2.skip}</skip>
+							<includeProjectDependencies>false</includeProjectDependencies>
+							<includePluginDependencies>true</includePluginDependencies>
+							<mainClass>org.eclipse.emf.mwe2.launch.runtime.Mwe2Launcher</mainClass>
+							<arguments>
+								<argument>file://${project.basedir}/src/javamm/GenerateJavamm.mwe2</argument>
+								<argument>
+									-p
+								</argument>
+								<argument>
+									runtimeProject=/${project.basedir}
+								</argument>
+								<argument>
+									xbaseSources=archive:file:/${org.eclipse.xtext:org.eclipse.xtext.xbase:jar:sources}!
+								</argument>
+								<argument>
+									commonTypesSources=archive:file:/${org.eclipse.xtext:org.eclipse.xtext.common.types:jar:sources}!
+								</argument>
+							</arguments>
+						</configuration>
 					</execution>
+
 				</executions>
-				<configuration>
-					<skip>${mwe2.skip}</skip>
-					<includeProjectDependencies>false</includeProjectDependencies>
-					<includePluginDependencies>true</includePluginDependencies>
-					<mainClass>org.eclipse.emf.mwe2.launch.runtime.Mwe2Launcher</mainClass>
-					<arguments>
-						<argument>file://${project.basedir}/src/javamm/GenerateJavamm.mwe2</argument>
-						<argument>
-							-p
-						</argument>
-						<argument>
-							runtimeProject=/${project.basedir}
-						</argument>
-						<argument>
-							xbaseSources=archive:file:/${org.eclipse.xtext:org.eclipse.xtext.xbase:jar:sources}!
-						</argument>
-						<argument>
-							commonTypesSources=archive:file:/${org.eclipse.xtext:org.eclipse.xtext.common.types:jar:sources}!
-						</argument>
-					</arguments>
-				</configuration>
+				
 				<dependencies>
 					<dependency>
 						<groupId>org.eclipse.xtext</groupId>
