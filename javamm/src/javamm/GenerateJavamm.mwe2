@@ -48,6 +48,8 @@ Workflow {
 		// the Javamm genmodel needs to find the Xbase genmodel thus the latter was registered in the standalone setup
 		genModel = "platform:/resource/${projectName}/model/custom/Javamm.genmodel"
 		srcPath = "platform:/resource/${projectName}/src"
+		srcPath = "platform:/resource/org.eclipse.xtext.xbase.source"
+		srcPath = "platform:/resource/org.eclipse.xtext.common.types.source"
 	}
     
     component = Generator {
