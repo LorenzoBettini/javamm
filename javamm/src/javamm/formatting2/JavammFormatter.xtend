@@ -42,8 +42,13 @@ class JavammFormatter extends XbaseFormatter {
 	def dispatch void format(JavammProgram javammprogram, extension IFormattableDocument document) {
 		javammprogram.prepend[setNewLines(0, 0, 0); noSpace]
 		format(javammprogram.getImportSection(), document);
-		for (JavammMethod javammMethods : javammprogram.getJavammMethods()) {
-			format(javammMethods, document);
+		for (JavammMethod javammMethod : javammprogram.javammMethods) {
+			format(javammMethod, document);
+			
+			if (javammMethod != javammprogram.javammMethods.last)
+				javammMethod.append[setNewLines(2, 2, 2)]
+			else
+				javammMethod.append[setNewLines(1, 1, 2)]
 		}
 		format(javammprogram.getMain(), document);
 	}

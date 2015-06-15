@@ -24,6 +24,10 @@ class JavammFormatterTest extends JavammAbstractTest {
 					return 0;
 				}
 				
+				int n() {
+					return 0;
+				}
+				
 				System.out.println(m());
 				
 			'''
@@ -33,7 +37,35 @@ class JavammFormatterTest extends JavammAbstractTest {
 				import  java.util.List ;
 				import static  java.util.Arrays.* ;
 				
+				
 				int m() { return 0; }
+				int n() { return 0; }
+				
+				
+				System.out.println(m());
+				
+				
+			'''
+		]
+	}
+
+	@Test def void testProgramSpacesWithOnlyMain() {
+		assertFormatted[
+			expectation = '''
+				import java.util.List;
+				import static java.util.Arrays.*;
+				
+				System.out.println(m());
+				
+			'''
+			toBeFormatted = '''
+				
+				
+				import  java.util.List ;
+				import static  java.util.Arrays.* ;
+				
+				
+				
 				
 				System.out.println(m());
 				
