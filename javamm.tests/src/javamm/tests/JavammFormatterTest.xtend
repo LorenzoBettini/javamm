@@ -253,4 +253,26 @@ class JavammFormatterTest extends JavammAbstractTest {
 			'''
 		]
 	}
+
+	@Test def void testBinaryOperator() {
+		assertFormatted[
+			expectation = '''
+				int j = i + 0 * 1;
+			'''
+			toBeFormatted = '''
+				int j  =   i  +0  *  1 ;
+			'''
+		]
+	}
+
+	@Test def void testConditionalExpression() {
+		assertFormatted[
+			expectation = '''
+				int j = i > 0 ? i + 1 : 0;
+			'''
+			toBeFormatted = '''
+				int j  =   i  >  0  ?  i+1  :   0  ;
+			'''
+		]
+	}
 }

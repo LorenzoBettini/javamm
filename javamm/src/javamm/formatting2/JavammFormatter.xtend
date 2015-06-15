@@ -3,6 +3,7 @@
  */
 package javamm.formatting2;
 
+import java.util.List
 import javamm.javamm.JavammArrayAccessExpression
 import javamm.javamm.JavammArrayConstructorCall
 import javamm.javamm.JavammArrayDimension
@@ -10,6 +11,7 @@ import javamm.javamm.JavammArrayLiteral
 import javamm.javamm.JavammConditionalExpression
 import javamm.javamm.JavammJvmFormalParameter
 import javamm.javamm.JavammMethod
+import javamm.javamm.JavammPackage
 import javamm.javamm.JavammPrefixOperation
 import javamm.javamm.JavammProgram
 import javamm.javamm.JavammXAssignment
@@ -19,7 +21,6 @@ import javamm.javamm.Main
 import org.eclipse.xtext.common.types.JvmTypeReference
 import org.eclipse.xtext.formatting2.IFormattableDocument
 import org.eclipse.xtext.xbase.XBasicForLoopExpression
-import org.eclipse.xtext.xbase.XBinaryOperation
 import org.eclipse.xtext.xbase.XCasePart
 import org.eclipse.xtext.xbase.XConstructorCall
 import org.eclipse.xtext.xbase.XDoWhileExpression
@@ -32,8 +33,6 @@ import org.eclipse.xtext.xbase.XWhileExpression
 import org.eclipse.xtext.xbase.formatting2.XbaseFormatter
 
 import static org.eclipse.xtext.xbase.formatting2.XbaseFormatterPreferenceKeys.*
-import java.util.List
-import javamm.javamm.JavammPackage
 
 class JavammFormatter extends XbaseFormatter {
 	
@@ -107,16 +106,12 @@ class JavammFormatter extends XbaseFormatter {
 	}
 
 	def dispatch void format(JavammConditionalExpression javammconditionalexpression, extension IFormattableDocument document) {
-		// TODO: format HiddenRegions around keywords, attributes, cross references, etc. 
 		format(javammconditionalexpression.getThen(), document);
 		format(javammconditionalexpression.getElse(), document);
 		format(javammconditionalexpression.getIf(), document);
-	}
-
-	override dispatch void format(XBinaryOperation xbinaryoperation, extension IFormattableDocument document) {
-		// TODO: format HiddenRegions around keywords, attributes, cross references, etc. 
-		format(xbinaryoperation.getRightOperand(), document);
-		format(xbinaryoperation.getLeftOperand(), document);
+		
+		javammconditionalexpression.regionForKeyword("?").surround[oneSpace]
+		javammconditionalexpression.regionForKeyword(":").surround[oneSpace]
 	}
 
 	override dispatch void format(XFeatureCall xfeaturecall, extension IFormattableDocument document) {
