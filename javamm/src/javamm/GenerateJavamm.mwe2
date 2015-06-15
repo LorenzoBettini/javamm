@@ -55,7 +55,7 @@ Workflow {
 		// the Javamm genmodel needs to find the Xbase genmodel thus the latter was registered in the standalone setup
 		genModel = "platform:/resource/${projectName}/model/custom/Javamm.genmodel"
 		srcPath = "platform:/resource/${projectName}/src"
-		// this we our Impl classes will extend Xbase's ImplCustom classes
+		// this way our Impl classes will extend Xbase's ImplCustom classes
 		srcPath = "${xbaseSources}"
 		srcPath = "${commonTypesSources}"
 	}
