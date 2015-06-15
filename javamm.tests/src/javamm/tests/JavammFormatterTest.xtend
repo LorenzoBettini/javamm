@@ -131,6 +131,20 @@ class JavammFormatterTest extends JavammAbstractTest {
 		]
 	}
 
+	@Test def void testMainAsBlock() {
+		assertFormatted[
+			expectation = '''
+			{
+				System.out.println("1");
+				System.out.println("2");
+			}
+			'''
+			toBeFormatted = '''
+				{   System.out.println("1");  System.out.println("2") ;   }
+			'''
+		]
+	}
+
 	@Test def void testFormatSystemOut() {
 		assertFormatted[
 			toBeFormatted = '''

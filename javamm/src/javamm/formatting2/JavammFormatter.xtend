@@ -88,13 +88,6 @@ class JavammFormatter extends XbaseFormatter {
 		}
 	}
 
-//	override dispatch void format(XBlockExpression xblockexpression, extension IFormattableDocument document) {
-//		// TODO: format HiddenRegions around keywords, attributes, cross references, etc. 
-//		for (XExpression expressions : xblockexpression.getExpressions()) {
-//			format(expressions, document);
-//		}
-//	}
-
 	def dispatch void format(JavammXVariableDeclaration expr, extension IFormattableDocument document) {
 		expr.type.append[oneSpace]
 		expr.regionForKeyword("=").surround[oneSpace]
