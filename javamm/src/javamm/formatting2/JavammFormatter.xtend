@@ -18,11 +18,9 @@ import javamm.javamm.JavammXAssignment
 import javamm.javamm.JavammXMemberFeatureCall
 import javamm.javamm.JavammXVariableDeclaration
 import javamm.javamm.Main
-import org.eclipse.xtext.common.types.JvmTypeReference
 import org.eclipse.xtext.formatting2.IFormattableDocument
 import org.eclipse.xtext.xbase.XBasicForLoopExpression
 import org.eclipse.xtext.xbase.XCasePart
-import org.eclipse.xtext.xbase.XConstructorCall
 import org.eclipse.xtext.xbase.XDoWhileExpression
 import org.eclipse.xtext.xbase.XExpression
 import org.eclipse.xtext.xbase.XIfExpression
@@ -111,16 +109,6 @@ class JavammFormatter extends XbaseFormatter {
 		
 		javammconditionalexpression.regionForKeyword("?").surround[oneSpace]
 		javammconditionalexpression.regionForKeyword(":").surround[oneSpace]
-	}
-
-	override dispatch void format(XConstructorCall xconstructorcall, extension IFormattableDocument document) {
-		// TODO: format HiddenRegions around keywords, attributes, cross references, etc. 
-		for (JvmTypeReference typeArguments : xconstructorcall.getTypeArguments()) {
-			format(typeArguments, document);
-		}
-		for (XExpression arguments : xconstructorcall.getArguments()) {
-			format(arguments, document);
-		}
 	}
 
 	def dispatch void format(JavammArrayConstructorCall javammarrayconstructorcall, extension IFormattableDocument document) {

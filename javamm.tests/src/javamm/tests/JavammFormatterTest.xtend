@@ -275,4 +275,15 @@ class JavammFormatterTest extends JavammAbstractTest {
 			'''
 		]
 	}
+
+	@Test def void testConstructorCall() {
+		assertFormatted[
+			expectation = '''
+				new List<Integer, String>(1 + 3, 2);
+			'''
+			toBeFormatted = '''
+				new  List  < Integer  ,  String  >  (  1+3  ,   2  )  ;
+			'''
+		]
+	}
 }
