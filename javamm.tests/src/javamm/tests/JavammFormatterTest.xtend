@@ -14,6 +14,51 @@ class JavammFormatterTest extends JavammAbstractTest {
 	
 	@Inject extension FormatterTester
 
+	@Test def void testProgramSpaces() {
+		assertFormatted[
+			expectation = '''
+				import java.util.List;
+				import static java.util.Arrays.*;
+				
+				int m() {
+					return 0;
+				}
+				
+				System.out.println(m());
+				
+			'''
+			toBeFormatted = '''
+				
+				
+				import  java.util.List ;
+				import static  java.util.Arrays.* ;
+				
+				int m() { return 0; }
+				
+				System.out.println(m());
+				
+				
+			'''
+		]
+	}
+
+	@Test def void testProgramSpacesWithOnlyImports() {
+		assertFormatted[
+			expectation = '''
+				import java.util.List;
+				import static java.util.Arrays.*;
+				
+			'''
+			toBeFormatted = '''
+				
+				
+				import  java.util.List ;
+				import static  java.util.Arrays.* ;
+				
+			'''
+		]
+	}
+
 	@Test def void testFormatImportSection() {
 		assertFormatted[
 			expectation = '''

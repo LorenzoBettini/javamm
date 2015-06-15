@@ -40,7 +40,7 @@ class JavammFormatter extends XbaseFormatter {
 //	@Inject extension JavammGrammarAccess
 
 	def dispatch void format(JavammProgram javammprogram, extension IFormattableDocument document) {
-		// TODO: format HiddenRegions around keywords, attributes, cross references, etc. 
+		javammprogram.prepend[setNewLines(0, 0, 0); noSpace]
 		format(javammprogram.getImportSection(), document);
 		for (JavammMethod javammMethods : javammprogram.getJavammMethods()) {
 			format(javammMethods, document);
