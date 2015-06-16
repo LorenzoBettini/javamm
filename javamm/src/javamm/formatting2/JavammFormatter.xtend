@@ -148,14 +148,8 @@ class JavammFormatter extends XbaseFormatter {
 	}
 
 	def dispatch void format(JavammXMemberFeatureCall javammxmemberfeaturecall, extension IFormattableDocument document) {
-		// TODO: format HiddenRegions around keywords, attributes, cross references, etc. 
-		for (XExpression indexes : javammxmemberfeaturecall.getIndexes()) {
-			format(indexes, document);
-		}
-		for (XExpression memberCallArguments : javammxmemberfeaturecall.getMemberCallArguments()) {
-			format(memberCallArguments, document);
-		}
-		format(javammxmemberfeaturecall.getMemberCallTarget(), document);
+		super._format(javammxmemberfeaturecall, document) 
+		formatArrayIndexes(javammxmemberfeaturecall.getIndexes(), document)
 	}
 
 //	override dispatch void format(XMemberFeatureCall xmemberfeaturecall, extension IFormattableDocument document) {
