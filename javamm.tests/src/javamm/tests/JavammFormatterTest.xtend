@@ -287,6 +287,17 @@ class JavammFormatterTest extends JavammAbstractTest {
 		]
 	}
 
+	@Test def void testPostfixOperator() {
+		assertFormatted[
+			expectation = '''
+				i++;
+			'''
+			toBeFormatted = '''
+				i  ++  ;
+			'''
+		]
+	}
+
 	@Test def void testConstructorCall() {
 		assertFormatted[
 			expectation = '''

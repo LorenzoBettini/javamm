@@ -24,13 +24,14 @@ import org.eclipse.xtext.xbase.XCasePart
 import org.eclipse.xtext.xbase.XDoWhileExpression
 import org.eclipse.xtext.xbase.XExpression
 import org.eclipse.xtext.xbase.XIfExpression
+import org.eclipse.xtext.xbase.XPostfixOperation
 import org.eclipse.xtext.xbase.XSwitchExpression
 import org.eclipse.xtext.xbase.XVariableDeclaration
 import org.eclipse.xtext.xbase.XWhileExpression
 import org.eclipse.xtext.xbase.formatting2.XbaseFormatter
 
-import static org.eclipse.xtext.xbase.formatting2.XbaseFormatterPreferenceKeys.*
 import static org.eclipse.xtext.xbase.XbasePackage.Literals.*
+import static org.eclipse.xtext.xbase.formatting2.XbaseFormatterPreferenceKeys.*
 
 class JavammFormatter extends XbaseFormatter {
 	
@@ -134,6 +135,11 @@ class JavammFormatter extends XbaseFormatter {
 		javammprefixoperation.regionForFeature(XABSTRACT_FEATURE_CALL__FEATURE).append[noSpace]
 	}
 
+	def dispatch void format(XPostfixOperation xpostfixoperation, extension IFormattableDocument document) {
+		format(xpostfixoperation.getOperand(), document);
+		xpostfixoperation.regionForFeature(XABSTRACT_FEATURE_CALL__FEATURE).prepend[noSpace]
+	}
+
 	def dispatch void format(JavammArrayAccessExpression javammarrayaccessexpression, extension IFormattableDocument document) {
 		// TODO: format HiddenRegions around keywords, attributes, cross references, etc. 
 		for (XExpression indexes : javammarrayaccessexpression.getIndexes()) {
@@ -213,11 +219,6 @@ class JavammFormatter extends XbaseFormatter {
 			format(elements, document);
 		}
 	}
-
-//	override dispatch void format(XPostfixOperation xpostfixoperation, extension IFormattableDocument document) {
-//		// TODO: format HiddenRegions around keywords, attributes, cross references, etc. 
-//		format(xpostfixoperation.getOperand(), document);
-//	}
 
 	def private void formatArrayIndexes(List<XExpression> indexes, extension IFormattableDocument document) {
 		for (XExpression index : indexes) {
