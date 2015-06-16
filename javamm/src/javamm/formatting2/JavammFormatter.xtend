@@ -30,6 +30,7 @@ import org.eclipse.xtext.xbase.XWhileExpression
 import org.eclipse.xtext.xbase.formatting2.XbaseFormatter
 
 import static org.eclipse.xtext.xbase.formatting2.XbaseFormatterPreferenceKeys.*
+import static org.eclipse.xtext.xbase.XbasePackage.Literals.*
 
 class JavammFormatter extends XbaseFormatter {
 	
@@ -129,8 +130,8 @@ class JavammFormatter extends XbaseFormatter {
 //	}
 
 	def dispatch void format(JavammPrefixOperation javammprefixoperation, extension IFormattableDocument document) {
-		// TODO: format HiddenRegions around keywords, attributes, cross references, etc. 
 		format(javammprefixoperation.getOperand(), document);
+		javammprefixoperation.regionForFeature(XABSTRACT_FEATURE_CALL__FEATURE).append[noSpace]
 	}
 
 	def dispatch void format(JavammArrayAccessExpression javammarrayaccessexpression, extension IFormattableDocument document) {

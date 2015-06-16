@@ -276,6 +276,17 @@ class JavammFormatterTest extends JavammAbstractTest {
 		]
 	}
 
+	@Test def void testPrefixOperator() {
+		assertFormatted[
+			expectation = '''
+				++i;
+			'''
+			toBeFormatted = '''
+				++  i  ;
+			'''
+		]
+	}
+
 	@Test def void testConstructorCall() {
 		assertFormatted[
 			expectation = '''
