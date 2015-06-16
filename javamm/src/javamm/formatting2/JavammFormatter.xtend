@@ -143,11 +143,8 @@ class JavammFormatter extends XbaseFormatter {
 	}
 
 	def dispatch void format(JavammArrayAccessExpression javammarrayaccessexpression, extension IFormattableDocument document) {
-		// TODO: format HiddenRegions around keywords, attributes, cross references, etc. 
-		for (XExpression indexes : javammarrayaccessexpression.getIndexes()) {
-			format(indexes, document);
-		}
 		format(javammarrayaccessexpression.getArray(), document);
+		formatArrayIndexes(javammarrayaccessexpression.indexes, document)
 	}
 
 	def dispatch void format(JavammXMemberFeatureCall javammxmemberfeaturecall, extension IFormattableDocument document) {

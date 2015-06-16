@@ -241,6 +241,17 @@ class JavammFormatterTest extends JavammAbstractTest {
 		]
 	}
 
+	@Test def void testArrayAccesses() {
+		assertFormatted[
+			expectation = '''
+				j = i[0][1];
+			'''
+			toBeFormatted = '''
+				j = i [ 0 ] [ 1 ]   ;
+			'''
+		]
+	}
+
 	@Test def void testMethod() {
 		assertFormatted[
 			expectation = '''
