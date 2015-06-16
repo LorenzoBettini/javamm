@@ -21,6 +21,7 @@ import javamm.javamm.Main
 import org.eclipse.xtext.formatting2.IFormattableDocument
 import org.eclipse.xtext.xbase.XBasicForLoopExpression
 import org.eclipse.xtext.xbase.XCasePart
+import org.eclipse.xtext.xbase.XCastedExpression
 import org.eclipse.xtext.xbase.XDoWhileExpression
 import org.eclipse.xtext.xbase.XExpression
 import org.eclipse.xtext.xbase.XIfExpression
@@ -124,11 +125,12 @@ class JavammFormatter extends XbaseFormatter {
 		format(javammarrayconstructorcall.getArrayLiteral(), document);
 	}
 
-//	override dispatch void format(XCastedExpression xcastedexpression, extension IFormattableDocument document) {
-//		// TODO: format HiddenRegions around keywords, attributes, cross references, etc. 
-//		format(xcastedexpression.getType(), document);
-//		format(xcastedexpression.getTarget(), document);
-//	}
+	def dispatch void format(XCastedExpression xcastedexpression, extension IFormattableDocument document) {
+		format(xcastedexpression.getType(), document);
+		format(xcastedexpression.getTarget(), document);
+		xcastedexpression.regionForKeyword("(").surround[noSpace]
+		xcastedexpression.regionForKeyword(")").prepend[noSpace].append[oneSpace]
+	}
 
 	def dispatch void format(JavammPrefixOperation javammprefixoperation, extension IFormattableDocument document) {
 		format(javammprefixoperation.getOperand(), document);
