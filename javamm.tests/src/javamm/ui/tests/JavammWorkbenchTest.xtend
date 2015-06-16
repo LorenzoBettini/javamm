@@ -4,11 +4,10 @@ import com.google.inject.Inject
 import javamm.JavammUiInjectorProvider
 import javamm.tests.utils.ui.PDETargetPlatformUtils
 import javamm.tests.utils.ui.PluginProjectHelper
-import javamm.ui.internal.JavammActivator
 import org.eclipse.core.resources.IProject
 import org.eclipse.xtext.junit4.InjectWith
 import org.eclipse.xtext.junit4.XtextRunner
-import org.eclipse.xtext.junit4.ui.AbstractEditorTest
+import org.eclipse.xtext.junit4.ui.AbstractWorkbenchTest
 import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
@@ -18,7 +17,7 @@ import static org.eclipse.xtext.junit4.ui.util.IResourcesSetupUtil.*
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammUiInjectorProvider))
-class JavammEditorTest extends AbstractEditorTest {
+class JavammWorkbenchTest extends AbstractWorkbenchTest {
 	
 	@Inject PluginProjectHelper projectHelper
 	
@@ -28,10 +27,6 @@ class JavammEditorTest extends AbstractEditorTest {
 	
 	var IProject project
 	
-	override protected getEditorId() {
-		JavammActivator.JAVAMM_JAVAMM
-	}
-
 	@BeforeClass
 	def static void beforeClass() {
 		PDETargetPlatformUtils.setTargetPlatform();
@@ -49,7 +44,7 @@ class JavammEditorTest extends AbstractEditorTest {
 	}
 	
 	@Test
-	def void testEditorContentsModifiedInvalidatesComputedModelFeatures() {
+	def void testJavaFileIsGeneratedInSrcGen() {
 		createTestFile(
 '''
 System.out.println("Hello " + "world!");
