@@ -3,11 +3,10 @@
  */
 package javamm.formatting2;
 
+import com.google.inject.Inject
 import java.util.List
 import javamm.javamm.JavammArrayAccessExpression
 import javamm.javamm.JavammArrayConstructorCall
-import javamm.javamm.JavammArrayDimension
-import javamm.javamm.JavammArrayLiteral
 import javamm.javamm.JavammConditionalExpression
 import javamm.javamm.JavammJvmFormalParameter
 import javamm.javamm.JavammMethod
@@ -18,6 +17,7 @@ import javamm.javamm.JavammXAssignment
 import javamm.javamm.JavammXMemberFeatureCall
 import javamm.javamm.JavammXVariableDeclaration
 import javamm.javamm.Main
+import javamm.util.JavammModelUtil
 import org.eclipse.xtext.formatting2.IFormattableDocument
 import org.eclipse.xtext.xbase.XBasicForLoopExpression
 import org.eclipse.xtext.xbase.XCasePart
@@ -36,7 +36,7 @@ import static org.eclipse.xtext.xbase.formatting2.XbaseFormatterPreferenceKeys.*
 
 class JavammFormatter extends XbaseFormatter {
 	
-//	@Inject extension JavammGrammarAccess
+	@Inject extension JavammModelUtil
 
 	def dispatch void format(JavammProgram javammprogram, extension IFormattableDocument document) {
 		javammprogram.prepend[setNewLines(0, 0, 0); noSpace]
@@ -115,14 +115,28 @@ class JavammFormatter extends XbaseFormatter {
 	}
 
 	def dispatch void format(JavammArrayConstructorCall javammarrayconstructorcall, extension IFormattableDocument document) {
-		// TODO: format HiddenRegions around keywords, attributes, cross references, etc. 
-		for (JavammArrayDimension dimensions : javammarrayconstructorcall.getDimensions()) {
-			format(dimensions, document);
+		javammarrayconstructorcall.
+			regionForFeature(JavammPackage.eINSTANCE.javammArrayConstructorCall_Type).
+			prepend[oneSpace]
+		
+		// we must consider the case of a dimension with index expression
+		// and without index expression
+		for (XExpression index : javammarrayconstructorcall.arrayDimensionIndexAssociations) {
+			if (index != null) {
+				formatArrayIndex(index, document);
+			}
 		}
-		for (XExpression indexes : javammarrayconstructorcall.getIndexes()) {
-			format(indexes, document);
+		for (d : javammarrayconstructorcall.dimensions) {
+			d.regionForFeature(JavammPackage.eINSTANCE.javammArrayDimension_OpenBracket).
+				prepend[noSpace].append[noSpace]
+			d.immediatelyFollowingKeyword("]").prepend[noSpace]
 		}
-		format(javammarrayconstructorcall.getArrayLiteral(), document);
+		
+		val arrayLiteral = javammarrayconstructorcall.getArrayLiteral()
+		if (arrayLiteral != null) {
+			format(arrayLiteral, document);
+			arrayLiteral.regionForKeyword("{").prepend[oneSpace]
+		}
 	}
 
 	def dispatch void format(XCastedExpression xcastedexpression, extension IFormattableDocument document) {
@@ -151,14 +165,6 @@ class JavammFormatter extends XbaseFormatter {
 		super._format(javammxmemberfeaturecall, document) 
 		formatArrayIndexes(javammxmemberfeaturecall.getIndexes(), document)
 	}
-
-//	override dispatch void format(XMemberFeatureCall xmemberfeaturecall, extension IFormattableDocument document) {
-//		// TODO: format HiddenRegions around keywords, attributes, cross references, etc. 
-//		for (XExpression memberCallArguments : xmemberfeaturecall.getMemberCallArguments()) {
-//			format(memberCallArguments, document);
-//		}
-//		format(xmemberfeaturecall.getMemberCallTarget(), document);
-//	}
 
 	override dispatch void format(XBasicForLoopExpression xbasicforloopexpression, extension IFormattableDocument document) {
 		// TODO: format HiddenRegions around keywords, attributes, cross references, etc. 
@@ -206,18 +212,22 @@ class JavammFormatter extends XbaseFormatter {
 //		format(xcasepart.getThen(), document);
 //	}
 
-	def dispatch void format(JavammArrayLiteral javammarrayliteral, extension IFormattableDocument document) {
-		// TODO: format HiddenRegions around keywords, attributes, cross references, etc. 
-		for (XExpression elements : javammarrayliteral.getElements()) {
-			format(elements, document);
-		}
-	}
+//	def dispatch void format(JavammArrayLiteral javammarrayliteral, extension IFormattableDocument document) {
+//		// TODO: format HiddenRegions around keywords, attributes, cross references, etc. 
+//		for (XExpression elements : javammarrayliteral.getElements()) {
+//			format(elements, document);
+//		}
+//	}
 
 	def private void formatArrayIndexes(List<XExpression> indexes, extension IFormattableDocument document) {
 		for (XExpression index : indexes) {
-			index.immediatelyPrecedingKeyword("[").prepend[noSpace].append[noSpace]
-			format(index, document);
-			index.immediatelyFollowingKeyword("]").prepend[noSpace]
+			formatArrayIndex(index, document)
 		}
+	}
+	
+	private def formatArrayIndex(XExpression index, extension IFormattableDocument document) {
+		index.immediatelyPrecedingKeyword("[").prepend[noSpace].append[noSpace]
+		format(index, document);
+		index.immediatelyFollowingKeyword("]").prepend[noSpace]
 	}
 }

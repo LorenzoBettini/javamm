@@ -341,4 +341,34 @@ class JavammFormatterTest extends JavammAbstractTest {
 			'''
 		]
 	}
+
+	@Test def void testArrayConstructorCall() {
+		assertFormatted[
+			expectation = '''
+				new List<Integer, String>[0][1];
+			'''
+			toBeFormatted = '''
+				new  List  < Integer  ,  String  >  [ 0 ] [  1  ]  ;
+			'''
+		]
+	}
+
+	@Test def void testArrayConstructorCallWithArrayLiteral() {
+		assertFormatted[
+			expectation = '''
+				new List[1][] {0, 1, 1 + 2};
+				new List[1][2] {0, 1, 1 + 2};
+				new List[][2] {0, 1, 1 + 2};
+				new List[][] {0, 1, 1 + 2};
+				new List[][];
+			'''
+			toBeFormatted = '''
+				new  List    [  1  ] [    ]  {0 ,  1  ,  1+2 };
+				new  List    [  1  ] [  2  ]  {0 ,  1  ,  1+2 };
+				new  List    [    ] [  2  ]  {0 ,  1  ,  1+2 };
+				new  List    [    ] [    ]  {0 ,  1  ,  1+2 };
+				new  List    [    ] [    ]  ;
+			'''
+		]
+	}
 }
