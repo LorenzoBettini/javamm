@@ -7,6 +7,7 @@ import com.google.inject.Inject
 import java.util.List
 import javamm.javamm.JavammArrayAccessExpression
 import javamm.javamm.JavammArrayConstructorCall
+import javamm.javamm.JavammBranchingStatement
 import javamm.javamm.JavammConditionalExpression
 import javamm.javamm.JavammJvmFormalParameter
 import javamm.javamm.JavammMethod
@@ -19,12 +20,14 @@ import javamm.javamm.JavammXVariableDeclaration
 import javamm.javamm.Main
 import javamm.util.JavammModelUtil
 import org.eclipse.xtext.formatting2.IFormattableDocument
+import org.eclipse.xtext.xbase.XBlockExpression
 import org.eclipse.xtext.xbase.XCasePart
 import org.eclipse.xtext.xbase.XCastedExpression
 import org.eclipse.xtext.xbase.XDoWhileExpression
 import org.eclipse.xtext.xbase.XExpression
 import org.eclipse.xtext.xbase.XForLoopExpression
 import org.eclipse.xtext.xbase.XIfExpression
+import org.eclipse.xtext.xbase.XMemberFeatureCall
 import org.eclipse.xtext.xbase.XPostfixOperation
 import org.eclipse.xtext.xbase.XSwitchExpression
 import org.eclipse.xtext.xbase.XVariableDeclaration
@@ -33,7 +36,6 @@ import org.eclipse.xtext.xbase.formatting2.XbaseFormatter
 
 import static org.eclipse.xtext.xbase.XbasePackage.Literals.*
 import static org.eclipse.xtext.xbase.formatting2.XbaseFormatterPreferenceKeys.*
-import javamm.javamm.JavammBranchingStatement
 
 class JavammFormatter extends XbaseFormatter {
 	
@@ -99,6 +101,8 @@ class JavammFormatter extends XbaseFormatter {
 			additionalVariable.immediatelyPrecedingKeyword(",").prepend[noSpace].append[oneSpace]
 			additionalVariable.regionForKeyword("=").surround[oneSpace]
 		}
+
+		formatMandatorySemicolon(expr, document)
 	}
 
 	def dispatch void format(JavammXAssignment javammxassignment, extension IFormattableDocument document) {
@@ -157,18 +161,25 @@ class JavammFormatter extends XbaseFormatter {
 		xpostfixoperation.regionForFeature(XABSTRACT_FEATURE_CALL__FEATURE).prepend[noSpace]
 	}
 
-	def dispatch void format(JavammArrayAccessExpression javammarrayaccessexpression, extension IFormattableDocument document) {
-		format(javammarrayaccessexpression.getArray(), document);
-		formatArrayIndexes(javammarrayaccessexpression.indexes, document)
+	def dispatch void format(JavammArrayAccessExpression expr, extension IFormattableDocument document) {
+		format(expr.getArray(), document);
+		formatArrayIndexes(expr.indexes, document)
+		formatMandatorySemicolon(expr, document)
 	}
 
-	def dispatch void format(JavammXMemberFeatureCall javammxmemberfeaturecall, extension IFormattableDocument document) {
-		super._format(javammxmemberfeaturecall, document) 
-		formatArrayIndexes(javammxmemberfeaturecall.getIndexes(), document)
+	def dispatch void format(JavammXMemberFeatureCall expr, extension IFormattableDocument document) {
+		super._format(expr, document)
+		formatMandatorySemicolon(expr, document)
 	}
 
 	def dispatch void format(JavammBranchingStatement expr, extension IFormattableDocument document) {
 		expr.regionForFeature(JavammPackage.eINSTANCE.javammBranchingStatement_Instruction).surround[noSpace]
+		formatMandatorySemicolon(expr, document)
+	}
+
+	override dispatch void format(XMemberFeatureCall expr, extension IFormattableDocument document) {
+		super._format(expr, document)
+		formatMandatorySemicolon(expr, document)
 	}
 
 	override dispatch void format(XForLoopExpression expr, extension IFormattableDocument format) {
@@ -176,11 +187,38 @@ class JavammFormatter extends XbaseFormatter {
 		format(expr.declaredParam, format)
 	}
 
-	override dispatch void format(XIfExpression xifexpression, extension IFormattableDocument document) {
-		// TODO: format HiddenRegions around keywords, attributes, cross references, etc. 
-		format(xifexpression.getIf(), document);
-		format(xifexpression.getThen(), document);
-		format(xifexpression.getElse(), document);
+	override dispatch void format(XIfExpression expr, extension IFormattableDocument format) {
+		expr.^if.surround[noSpace]
+		expr.regionForKeyword("if").append[oneSpace]
+		if (expr.then instanceof XBlockExpression) {
+			expr.then.prepend(bracesInNewLine)
+			if (expr.^else != null)
+				expr.then.append(bracesInNewLine)
+		} else {
+			expr.then.prepend[newLine increaseIndentation]
+			if (expr.^else != null) {
+				expr.then.immediatelyFollowingKeyword(";").append[newLine; decreaseIndentation]
+			} else
+				expr.then.append[decreaseIndentation]
+		}
+		if (expr.^else instanceof XBlockExpression) {
+			expr.^else.prepend(bracesInNewLine)
+		} else if (expr.^else instanceof XIfExpression) {
+			expr.^else.prepend[oneSpace]
+		} else {
+			expr.^else.prepend[newLine increaseIndentation]
+			expr.^else.append[decreaseIndentation]
+		}
+		expr.^if.format(format)
+		expr.then.format(format)
+		if (expr.^else != null)
+			expr.^else.format(format)
+
+//		super._format(expr, format)
+		// this is required otherwise there's no space after the if
+		// again, probably due to the way we implement JavammXMemberFeatureCall
+		// (see also JavammHiddenRegionFormattingMerger)
+		expr.regionForKeyword("if").append[oneSpace; highPriority]
 	}
 
 	override dispatch void format(XWhileExpression xwhileexpression, extension IFormattableDocument document) {
@@ -190,9 +228,8 @@ class JavammFormatter extends XbaseFormatter {
 	}
 
 	override dispatch void format(XDoWhileExpression xdowhileexpression, extension IFormattableDocument document) {
-		// TODO: format HiddenRegions around keywords, attributes, cross references, etc. 
-		format(xdowhileexpression.getBody(), document);
-		format(xdowhileexpression.getPredicate(), document);
+		super._format(xdowhileexpression, document)
+		formatMandatorySemicolon(xdowhileexpression, document)
 	}
 
 	override dispatch void format(XSwitchExpression xswitchexpression, extension IFormattableDocument document) {
@@ -217,6 +254,10 @@ class JavammFormatter extends XbaseFormatter {
 //		}
 //	}
 
+	override createHiddenRegionFormattingMerger() {
+		new JavammHiddenRegionFormattingMerger(this)
+	}
+
 	def private void formatArrayIndexes(List<XExpression> indexes, extension IFormattableDocument document) {
 		for (XExpression index : indexes) {
 			formatArrayIndex(index, document)
@@ -224,8 +265,12 @@ class JavammFormatter extends XbaseFormatter {
 	}
 	
 	private def formatArrayIndex(XExpression index, extension IFormattableDocument document) {
-		index.immediatelyPrecedingKeyword("[").prepend[noSpace].append[noSpace]
+		index.immediatelyPrecedingKeyword("[").prepend[noSpace; highPriority].append[noSpace]
 		format(index, document);
 		index.immediatelyFollowingKeyword("]").prepend[noSpace]
+	}
+
+	private def formatMandatorySemicolon(XExpression expr, extension IFormattableDocument document) {
+		expr.immediatelyFollowingKeyword(";").prepend[noSpace]
 	}
 }

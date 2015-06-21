@@ -105,6 +105,61 @@ class JavammFormatterTest extends JavammAbstractTest {
 		]
 	}
 
+	@Test def void testSemicolonInSingleStatements() {
+		assertFormatted[
+			expectation = '''
+				if (s)
+					continue;
+				if (s)
+					System.out.println(s);
+				if (s)
+					a[0].println();
+				if (s)
+					a[0];
+				if (s)
+					int j = 0;
+				if (s)
+					do {
+						int j = 0;
+					} while (true);
+			'''
+			toBeFormatted = '''
+				if (s)
+					continue ;
+				if (s)
+					System.out.println(s) ;
+				if (s)
+					a[0].println() ;
+				if (s)
+					a [ 0 ] ;
+				if (s)
+					int  j  =  0  ;
+				if (s)
+					do { int j = 0; } while  (true);
+			'''
+		]
+	}
+
+	@Test def void testSemicolonInSingleStatements2() {
+		assertFormatted[
+			expectation = '''
+				if (s)
+					a[0].println();
+				
+				for (String s : strings)
+					a[0].println();
+			'''
+			toBeFormatted = '''
+				if (s)
+					a   [    0 ].println() ;
+				
+				for (String s : strings)
+					a   [    0 ].println() ;
+			'''
+		]
+	}
+
+
 	@Test def void testFormatBlock() {
 		assertFormatted[
 			expectation = '''
@@ -255,9 +310,11 @@ class JavammFormatterTest extends JavammAbstractTest {
 	@Test def void testMemberFeatureCallArrayAccesses() {
 		assertFormatted[
 			expectation = '''
+				args[0].length;
 				args[0][1].length;
 			'''
 			toBeFormatted = '''
+				args  [ 0 ]   . length   ;
 				args  [ 0 ] [ 1 ]  . length   ;
 			'''
 		]
@@ -390,6 +447,10 @@ class JavammFormatterTest extends JavammAbstractTest {
 	@Test def void testForEachLoop() {
 		assertFormatted[
 			expectation = '''
+				for (String s : strings)
+					continue;
+				for (String s : strings)
+					System.out.println(s);
 				for (String s : strings) {
 					System.out.println(s);
 				}
@@ -398,6 +459,10 @@ class JavammFormatterTest extends JavammAbstractTest {
 				}
 			'''
 			toBeFormatted = '''
+				for ( String  s  :  strings )
+					continue ;
+				for ( String  s  :  strings )
+					System.out.println(s) ;
 				for  ( String  s  :  strings )  {
 					System.out.println ( s ) ;
 				}
@@ -416,6 +481,36 @@ class JavammFormatterTest extends JavammAbstractTest {
 			'''
 			toBeFormatted = '''
 				continue ;  break   ;
+			'''
+		]
+	}
+
+	@Test def void testIfStatements() {
+		assertFormatted[
+			expectation = '''
+				if (args.length() == 0)
+					System.out.println("No args");
+				else
+					System.out.println("Args");
+				if (args.length() == 0)
+					System.out.println("No args");
+				else
+					System.out.println("Args");
+				if (args.length() == 0) {
+					System.out.println("No args");
+				} else {
+					System.out.println("Args");
+				}
+			'''
+			toBeFormatted = '''
+				if  ( args.length( )  ==  0 )
+					System.out.println ("No args") ; 
+				else 	System.out.println( "Args");
+				if  ( args.length( )  ==  0 )
+					System.out.println ("No args") ; 	else 	System.out.println( "Args");
+				if  ( args.length( )  ==  0 )   {
+					System.out.println ("No args");  }
+				else 	{System.out.println( "Args"); }
 			'''
 		]
 	}
