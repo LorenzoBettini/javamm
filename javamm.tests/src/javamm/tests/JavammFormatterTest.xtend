@@ -407,4 +407,16 @@ class JavammFormatterTest extends JavammAbstractTest {
 			'''
 		]
 	}
+
+	@Test def void testBranchingStatements() {
+		assertFormatted[
+			expectation = '''
+				continue;
+				break;
+			'''
+			toBeFormatted = '''
+				continue ;  break   ;
+			'''
+		]
+	}
 }

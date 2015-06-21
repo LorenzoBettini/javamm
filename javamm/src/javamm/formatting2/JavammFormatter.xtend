@@ -33,6 +33,7 @@ import org.eclipse.xtext.xbase.formatting2.XbaseFormatter
 
 import static org.eclipse.xtext.xbase.XbasePackage.Literals.*
 import static org.eclipse.xtext.xbase.formatting2.XbaseFormatterPreferenceKeys.*
+import javamm.javamm.JavammBranchingStatement
 
 class JavammFormatter extends XbaseFormatter {
 	
@@ -164,6 +165,10 @@ class JavammFormatter extends XbaseFormatter {
 	def dispatch void format(JavammXMemberFeatureCall javammxmemberfeaturecall, extension IFormattableDocument document) {
 		super._format(javammxmemberfeaturecall, document) 
 		formatArrayIndexes(javammxmemberfeaturecall.getIndexes(), document)
+	}
+
+	def dispatch void format(JavammBranchingStatement expr, extension IFormattableDocument document) {
+		expr.regionForFeature(JavammPackage.eINSTANCE.javammBranchingStatement_Instruction).surround[noSpace]
 	}
 
 	override dispatch void format(XForLoopExpression expr, extension IFormattableDocument format) {
