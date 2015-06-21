@@ -19,11 +19,11 @@ import javamm.javamm.JavammXVariableDeclaration
 import javamm.javamm.Main
 import javamm.util.JavammModelUtil
 import org.eclipse.xtext.formatting2.IFormattableDocument
-import org.eclipse.xtext.xbase.XBasicForLoopExpression
 import org.eclipse.xtext.xbase.XCasePart
 import org.eclipse.xtext.xbase.XCastedExpression
 import org.eclipse.xtext.xbase.XDoWhileExpression
 import org.eclipse.xtext.xbase.XExpression
+import org.eclipse.xtext.xbase.XForLoopExpression
 import org.eclipse.xtext.xbase.XIfExpression
 import org.eclipse.xtext.xbase.XPostfixOperation
 import org.eclipse.xtext.xbase.XSwitchExpression
@@ -166,16 +166,9 @@ class JavammFormatter extends XbaseFormatter {
 		formatArrayIndexes(javammxmemberfeaturecall.getIndexes(), document)
 	}
 
-	override dispatch void format(XBasicForLoopExpression xbasicforloopexpression, extension IFormattableDocument document) {
-		// TODO: format HiddenRegions around keywords, attributes, cross references, etc. 
-		for (XExpression initExpressions : xbasicforloopexpression.getInitExpressions()) {
-			format(initExpressions, document);
-		}
-		format(xbasicforloopexpression.getExpression(), document);
-		for (XExpression updateExpressions : xbasicforloopexpression.getUpdateExpressions()) {
-			format(updateExpressions, document);
-		}
-		format(xbasicforloopexpression.getEachExpression(), document);
+	override dispatch void format(XForLoopExpression expr, extension IFormattableDocument format) {
+		super._format(expr, format)
+		format(expr.declaredParam, format)
 	}
 
 	override dispatch void format(XIfExpression xifexpression, extension IFormattableDocument document) {

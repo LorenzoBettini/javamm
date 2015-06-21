@@ -371,4 +371,40 @@ class JavammFormatterTest extends JavammAbstractTest {
 			'''
 		]
 	}
+
+	@Test def void testBasicForLoop() {
+		assertFormatted[
+			expectation = '''
+				for (int i = 0; i < argsNum; i += 1) {
+					System.out.println("args[" + i + "] = " + args[i]);
+				}
+			'''
+			toBeFormatted = '''
+				for  (int  i  =  0  ; i  <  argsNum ;  i  +=  1 )  {
+					System.out.println ( "args[" + i + "] = " + args[i] );
+				}
+			'''
+		]
+	}
+
+	@Test def void testForEachLoop() {
+		assertFormatted[
+			expectation = '''
+				for (String s : strings) {
+					System.out.println(s);
+				}
+				for (final String s : strings) {
+					System.out.println(s);
+				}
+			'''
+			toBeFormatted = '''
+				for  ( String  s  :  strings )  {
+					System.out.println ( s ) ;
+				}
+				for  (  final  String  s  :  strings )  {
+					System.out.println ( s ) ;
+				}
+			'''
+		]
+	}
 }
