@@ -8,7 +8,8 @@ int gcd(int a, int b) {
 		} else {
 			b = b % a;
 		}
-	} if (a == 0) {
+	}
+	if (a == 0) {
 		return b;
 	} else {
 		return a;
@@ -16,5 +17,5 @@ int gcd(int a, int b) {
 }
 
 // this is the main program
-System.out.println(gcd( 21 , 7 ));
-System.out.println(gcd( 69 , 21 ));
+System.out.println(gcd(21, 7));
+System.out.println(gcd(69, 21));

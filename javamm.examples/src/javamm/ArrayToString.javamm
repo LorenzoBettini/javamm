@@ -11,4 +11,4 @@ String arrayToString(int[] a) {
 	return buffer;
 }
 
-System.out.println(arrayToString({ 1, 2, 3 }));
+System.out.println(arrayToString({1, 2, 3}));

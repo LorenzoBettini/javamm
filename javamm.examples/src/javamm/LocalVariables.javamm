@@ -1,17 +1,18 @@
 /**
  * Example 4.2 of the book
  */
-int f1( int b ) {
-  int a = b+1;
-  return a+1;
-}
-int f2( int a ) {
-  int b = a-2;
-  return b-2;
+int f1(int b) {
+	int a = b + 1;
+	return a + 1;
 }
 
-int b = 10,a = 10;
-System.out.println( "a: "+a+", b: "+b );
-b = f1( a );
-a = f2( b );
-System.out.println( "a: "+a+", b: "+b );
+int f2(int a) {
+	int b = a - 2;
+	return b - 2;
+}
+
+int b = 10, a = 10;
+System.out.println("a: " + a + ", b: " + b);
+b = f1(a);
+a = f2(b);
+System.out.println("a: " + a + ", b: " + b);

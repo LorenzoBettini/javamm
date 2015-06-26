@@ -1,21 +1,21 @@
 /**
  * Example 4.4 of the book
  */
-void doubleArray( int[] number ) {
-  for ( int i = 0; i<number.length; i++ ) {
-    number[i] = number[i]*2;
-  }
-}
-void printArray( int[] number ) {
-  System.out.print( "Array: " );
-  for (int i = 0; i<number.length; i++) {
-    System.out.print( number[i]+" " );
-  }
-  System.out.println(  );
+void doubleArray(int[] number) {
+	for (int i = 0; i < number.length; i++) {
+		number[i] = number[i] * 2;
+	}
 }
 
-int[] number = { 1, 2, 3, 4, 5 };
-printArray( number );
-doubleArray( number );
-printArray( number );
- 
+void printArray(int[] number) {
+	System.out.print("Array: ");
+	for (int i = 0; i < number.length; i++) {
+		System.out.print(number[i] + " ");
+	}
+	System.out.println();
+}
+
+int[] number = {1, 2, 3, 4, 5};
+printArray(number);
+doubleArray(number);
+printArray(number);

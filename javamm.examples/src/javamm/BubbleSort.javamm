@@ -2,21 +2,21 @@
  * Orders the passed array with the bubble sort algorithm
  */
 void bubbleSort(int[] array) {
-    boolean swapped = true;
-    int j = 0;
-    int tmp;
-    while (swapped) {
-        swapped = false;
-        j = j + 1;
-        for (int i = 0; i < array.length - j; i++) {
-            if (array[i] > array[i + 1]) {
-                tmp = array[i];
-                array[i] = array[i + 1];
-                array[i + 1] = tmp;
-                swapped = true;
-            }
-        }
-    }
+	boolean swapped = true;
+	int j = 0;
+	int tmp;
+	while (swapped) {
+		swapped = false;
+		j = j + 1;
+		for (int i = 0; i < array.length - j; i++) {
+			if (array[i] > array[i + 1]) {
+				tmp = array[i];
+				array[i] = array[i + 1];
+				array[i + 1] = tmp;
+				swapped = true;
+			}
+		}
+	}
 }
 
 /**
@@ -29,11 +29,11 @@ void printArray(int[] a) {
 	System.out.println("");
 }
 
-int[] test = { 10, 4, 2, 8, 1 };
+int[] test = {10, 4, 2, 8, 1};
 printArray(test);
 bubbleSort(test);
 printArray(test);
-test = { 10, 4, 2, 8, 1, 10, 4, 2, 8, 1 };
+test = {10, 4, 2, 8, 1, 10, 4, 2, 8, 1};
 printArray(test);
 bubbleSort(test);
 printArray(test);
