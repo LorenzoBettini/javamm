@@ -429,6 +429,19 @@ class JavammFormatterTest extends JavammAbstractTest {
 		]
 	}
 
+	@Test def void testArrayLiteral() {
+		assertFormatted[
+			expectation = '''
+				int[] a = {0, 1, 1 + 2};
+				int[][] b = {{0, 1}, 1 + 2};
+			'''
+			toBeFormatted = '''
+				int[] a = { 0 , 1 ,  1  +  2 } ;
+				int[][] b = { { 0 ,  1 } , 1 + 2};
+			'''
+		]
+	}
+
 	@Test def void testBasicForLoop() {
 		assertFormatted[
 			expectation = '''

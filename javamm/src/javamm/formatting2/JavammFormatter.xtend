@@ -239,19 +239,6 @@ class JavammFormatter extends XbaseFormatter {
 		xswitchexpression.regionForKeyword(")").prepend[noSpace]
 	}
 
-//	override dispatch void format(XCasePart xcasepart, extension IFormattableDocument document) {
-//		// TODO: format HiddenRegions around keywords, attributes, cross references, etc. 
-//		format(xcasepart.getCase(), document);
-//		format(xcasepart.getThen(), document);
-//	}
-
-//	def dispatch void format(JavammArrayLiteral javammarrayliteral, extension IFormattableDocument document) {
-//		// TODO: format HiddenRegions around keywords, attributes, cross references, etc. 
-//		for (XExpression elements : javammarrayliteral.getElements()) {
-//			format(elements, document);
-//		}
-//	}
-
 	override createHiddenRegionFormattingMerger() {
 		new JavammHiddenRegionFormattingMerger(this)
 	}
