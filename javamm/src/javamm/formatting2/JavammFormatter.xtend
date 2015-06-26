@@ -31,7 +31,6 @@ import org.eclipse.xtext.xbase.XMemberFeatureCall
 import org.eclipse.xtext.xbase.XPostfixOperation
 import org.eclipse.xtext.xbase.XSwitchExpression
 import org.eclipse.xtext.xbase.XVariableDeclaration
-import org.eclipse.xtext.xbase.XWhileExpression
 import org.eclipse.xtext.xbase.formatting2.XbaseFormatter
 
 import static org.eclipse.xtext.xbase.XbasePackage.Literals.*
@@ -221,15 +220,18 @@ class JavammFormatter extends XbaseFormatter {
 		expr.regionForKeyword("if").append[oneSpace; highPriority]
 	}
 
-	override dispatch void format(XWhileExpression xwhileexpression, extension IFormattableDocument document) {
-		// TODO: format HiddenRegions around keywords, attributes, cross references, etc. 
-		format(xwhileexpression.getPredicate(), document);
-		format(xwhileexpression.getBody(), document);
-	}
-
-	override dispatch void format(XDoWhileExpression xdowhileexpression, extension IFormattableDocument document) {
-		super._format(xdowhileexpression, document)
-		formatMandatorySemicolon(xdowhileexpression, document)
+	override dispatch void format(XDoWhileExpression expr, extension IFormattableDocument format) {
+		expr.regionForKeyword("while").append(whitespaceBetweenKeywordAndParenthesisML)
+		expr.predicate.prepend[noSpace].append[noSpace]
+		if (expr.body instanceof XBlockExpression) {
+			expr.body.prepend(bracesInNewLine).append(bracesInNewLine)
+		} else {
+			expr.body.immediatelyFollowingKeyword(";").append[newLine; decreaseIndentation]
+		}
+		expr.predicate.format(format)
+		expr.body.format(format)
+		// the following does not seem to work...
+		formatMandatorySemicolon(expr, format)
 	}
 
 	override dispatch void format(XSwitchExpression xswitchexpression, extension IFormattableDocument document) {
