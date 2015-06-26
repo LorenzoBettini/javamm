@@ -553,4 +553,17 @@ class JavammFormatterTest extends JavammAbstractTest {
 			'''
 		]
 	}
+
+	@Test def void testConditionalExpression() {
+		assertFormatted[
+			expectation = '''
+				int i = j > 0 ? 1 : '2';
+				int j = ( j > 0 ? 1 : '2' );
+			'''
+			toBeFormatted = '''
+				int i =  j  >  0  ?  1  :  '2' ;
+				int j =  ( j  >  0  ?  1  :  '2' ) ;
+			'''
+		]
+	}
 }

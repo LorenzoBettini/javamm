@@ -109,13 +109,13 @@ class JavammFormatter extends XbaseFormatter {
 		formatArrayIndexes(javammxassignment.getIndexes(), document)
 	}
 
-	def dispatch void format(JavammConditionalExpression javammconditionalexpression, extension IFormattableDocument document) {
-		format(javammconditionalexpression.getThen(), document);
-		format(javammconditionalexpression.getElse(), document);
-		format(javammconditionalexpression.getIf(), document);
-		
-		javammconditionalexpression.regionForKeyword("?").surround[oneSpace]
-		javammconditionalexpression.regionForKeyword(":").surround[oneSpace]
+	def dispatch void format(JavammConditionalExpression expr, extension IFormattableDocument document) {
+		format(expr.getThen(), document);
+		format(expr.getElse(), document);
+		format(expr.getIf(), document);
+
+		expr.regionForKeyword("?").surround[oneSpace]
+		expr.regionForKeyword(":").surround[oneSpace]
 	}
 
 	def dispatch void format(JavammArrayConstructorCall javammarrayconstructorcall, extension IFormattableDocument document) {
