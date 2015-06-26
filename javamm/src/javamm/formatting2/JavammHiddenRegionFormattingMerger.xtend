@@ -22,14 +22,7 @@ class JavammHiddenRegionFormattingMerger extends HiddenRegionFormattingMerger {
 	}
 
 	override merge(List<? extends IHiddenRegionFormatting> conflicting) {
-		if (conflicting.size == 2) {
-			if (conflicting.get(0).isNoSpaceWithHighPriority)
-				return conflicting.get(0)
-			if (conflicting.get(1).isNoSpaceWithHighPriority)
-				return conflicting.get(1)
-		}
-		
-		super.merge(conflicting)
+		conflicting.findFirst[isNoSpaceWithHighPriority] ?: super.merge(conflicting)
 	}
 
 	def private isNoSpaceWithHighPriority(IHiddenRegionFormatting f) {
