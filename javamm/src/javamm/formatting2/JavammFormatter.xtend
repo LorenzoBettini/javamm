@@ -19,6 +19,7 @@ import javamm.javamm.JavammXMemberFeatureCall
 import javamm.javamm.JavammXVariableDeclaration
 import javamm.javamm.Main
 import javamm.util.JavammModelUtil
+import org.eclipse.emf.common.util.EList
 import org.eclipse.xtext.formatting2.IFormattableDocument
 import org.eclipse.xtext.xbase.XBlockExpression
 import org.eclipse.xtext.xbase.XCastedExpression
@@ -34,6 +35,7 @@ import org.eclipse.xtext.xbase.formatting2.XbaseFormatter
 
 import static org.eclipse.xtext.xbase.XbasePackage.Literals.*
 import static org.eclipse.xtext.xbase.formatting2.XbaseFormatterPreferenceKeys.*
+import javamm.javamm.JavammSwitchStatements
 
 class JavammFormatter extends XbaseFormatter {
 	
@@ -84,16 +86,9 @@ class JavammFormatter extends XbaseFormatter {
 	}
 
 	def dispatch void format(Main main, extension IFormattableDocument document) {
-		for (child : main.expressions) {
-			child.format(document)
-			val sem = child.immediatelyFollowingKeyword(";")
-			if (sem != null)
-				sem.prepend[noSpace].append(blankLinesAroundExpression)
-			else
-				child.append(blankLinesAroundExpression)
-		}
+		formatExpressions(main.expressions, document, false)
 	}
-
+	
 	def dispatch void format(JavammXVariableDeclaration expr, extension IFormattableDocument document) {
 		expr.type.append[oneSpace]
 		expr.regionForKeyword("=").surround[oneSpace]
@@ -245,8 +240,31 @@ class JavammFormatter extends XbaseFormatter {
 		xswitchexpression.regionForKeyword(")").prepend[noSpace]
 	}
 
+	def dispatch void format(JavammSwitchStatements expr, extension IFormattableDocument document) {
+		formatExpressions(expr.expressions, document, true)
+	}
+
 	override createHiddenRegionFormattingMerger() {
 		new JavammHiddenRegionFormattingMerger(this)
+	}
+
+	private def formatExpressions(EList<XExpression> expressions, extension IFormattableDocument document,
+			boolean noLineAfterLastExpression
+	) {
+		val last = expressions.last
+		for (child : expressions) {
+			child.format(document)
+			val sem = child.immediatelyFollowingKeyword(";")
+
+			if (noLineAfterLastExpression && child == last) {
+				sem.prepend[noSpace]
+			} else {
+				if (sem != null)
+					sem.prepend[noSpace].append(blankLinesAroundExpression)
+				else
+					child.append(blankLinesAroundExpression)
+			}
+		}
 	}
 
 	def private void formatArrayIndexes(List<XExpression> indexes, extension IFormattableDocument document) {

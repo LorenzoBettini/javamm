@@ -628,4 +628,26 @@ class JavammFormatterTest extends JavammAbstractTest {
 			'''
 		]
 	}
+
+	@Test def void testSwitchWithCascadeCases() {
+		assertFormatted[
+			expectation = '''
+				switch (argsNum) {
+					case 0:
+					case 1:
+					case 2: System.out.println("0");
+					break;
+					default: System.out.println("default");
+				}
+			'''
+			toBeFormatted = '''
+				switch  ( argsNum )  {
+					case 0  :
+					case 1  :
+					case 2  :  System.out.println("0") ;  break;
+					default  :  System.out.println("default");
+				}
+			'''
+		]
+	}
 }
