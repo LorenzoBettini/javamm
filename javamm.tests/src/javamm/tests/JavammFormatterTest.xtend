@@ -579,4 +579,21 @@ class JavammFormatterTest extends JavammAbstractTest {
 			'''
 		]
 	}
+
+	@Test def void testSwitch() {
+		assertFormatted[
+			expectation = '''
+				switch (argsNum) {
+					case 0: System.out.println("0");
+					default: System.out.println("default");
+				}
+			'''
+			toBeFormatted = '''
+				switch  ( argsNum )  {
+					case 0  :  System.out.println("0");
+					default  :  System.out.println("default");
+				}
+			'''
+		]
+	}
 }

@@ -21,7 +21,6 @@ import javamm.javamm.Main
 import javamm.util.JavammModelUtil
 import org.eclipse.xtext.formatting2.IFormattableDocument
 import org.eclipse.xtext.xbase.XBlockExpression
-import org.eclipse.xtext.xbase.XCasePart
 import org.eclipse.xtext.xbase.XCastedExpression
 import org.eclipse.xtext.xbase.XDoWhileExpression
 import org.eclipse.xtext.xbase.XExpression
@@ -235,12 +234,9 @@ class JavammFormatter extends XbaseFormatter {
 	}
 
 	override dispatch void format(XSwitchExpression xswitchexpression, extension IFormattableDocument document) {
-		// TODO: format HiddenRegions around keywords, attributes, cross references, etc. 
-		format(xswitchexpression.getSwitch(), document);
-		for (XCasePart cases : xswitchexpression.getCases()) {
-			format(cases, document);
-		}
-		format(xswitchexpression.getDefault(), document);
+		super._format(xswitchexpression, document)
+		xswitchexpression.regionForKeyword("(").append[noSpace]
+		xswitchexpression.regionForKeyword(")").prepend[noSpace]
 	}
 
 //	override dispatch void format(XCasePart xcasepart, extension IFormattableDocument document) {
