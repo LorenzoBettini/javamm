@@ -501,6 +501,14 @@ class JavammFormatterTest extends JavammAbstractTest {
 				} else {
 					System.out.println("Args");
 				}
+				if (args.length() == 0) {
+					System.out.println("No args");
+				} else if (args.length() == 0) {
+					System.out.println("Args");
+				}
+				if (args.length() == 0) {
+					System.out.println("No args");
+				}
 			'''
 			toBeFormatted = '''
 				if  ( args.length( )  ==  0 )
@@ -511,6 +519,11 @@ class JavammFormatterTest extends JavammAbstractTest {
 				if  ( args.length( )  ==  0 )   {
 					System.out.println ("No args");  }
 				else 	{System.out.println( "Args"); }
+				if  ( args.length( )  ==  0 )   {
+					System.out.println ("No args");  }
+				else  if  ( args.length( )  ==  0 ) 	{System.out.println( "Args"); }
+				if  ( args.length( )  ==  0 )   {
+					System.out.println ("No args");  }
 			'''
 		]
 	}
