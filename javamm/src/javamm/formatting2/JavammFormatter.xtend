@@ -40,8 +40,14 @@ class JavammFormatter extends XbaseFormatter {
 	@Inject extension JavammModelUtil
 
 	def dispatch void format(JavammProgram javammprogram, extension IFormattableDocument document) {
-		javammprogram.prepend[setNewLines(0, 0, 0); noSpace]
-		format(javammprogram.getImportSection(), document);
+		val importSection = javammprogram.getImportSection()
+		if (importSection != null) {
+			// to avoid a useless newline at the beginning of the program
+			javammprogram.prepend[setNewLines(0, 0, 0); noSpace]
+			format(importSection, document);
+		} else {
+			javammprogram.prepend[setNewLines(0, 0, 1); noSpace]
+		}
 		for (JavammMethod javammMethod : javammprogram.javammMethods) {
 			format(javammMethod, document);
 			

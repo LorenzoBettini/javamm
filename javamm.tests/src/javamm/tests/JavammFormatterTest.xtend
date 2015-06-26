@@ -333,6 +333,25 @@ class JavammFormatterTest extends JavammAbstractTest {
 		]
 	}
 
+	@Test def void testMethodWithComment() {
+		assertFormatted[
+			expectation = '''
+				/**
+				 * This is a comment
+				 */
+				int m(int i, final String s) {
+					return 0;
+				}
+			'''
+			toBeFormatted = '''
+				/**
+				 * This is a comment
+				 */
+				int  m ( int  i ,  final  String  s )  {					return 0; 			}
+			'''
+		]
+	}
+
 	@Test def void testBinaryOperator() {
 		assertFormatted[
 			expectation = '''
