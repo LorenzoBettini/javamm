@@ -14,6 +14,7 @@ import javamm.javamm.JavammMethod
 import javamm.javamm.JavammPackage
 import javamm.javamm.JavammPrefixOperation
 import javamm.javamm.JavammProgram
+import javamm.javamm.JavammSwitchStatements
 import javamm.javamm.JavammXAssignment
 import javamm.javamm.JavammXMemberFeatureCall
 import javamm.javamm.JavammXVariableDeclaration
@@ -23,6 +24,7 @@ import org.eclipse.emf.common.util.EList
 import org.eclipse.xtext.formatting2.IFormattableDocument
 import org.eclipse.xtext.xbase.XBlockExpression
 import org.eclipse.xtext.xbase.XCastedExpression
+import org.eclipse.xtext.xbase.XClosure
 import org.eclipse.xtext.xbase.XDoWhileExpression
 import org.eclipse.xtext.xbase.XExpression
 import org.eclipse.xtext.xbase.XForLoopExpression
@@ -35,7 +37,12 @@ import org.eclipse.xtext.xbase.formatting2.XbaseFormatter
 
 import static org.eclipse.xtext.xbase.XbasePackage.Literals.*
 import static org.eclipse.xtext.xbase.formatting2.XbaseFormatterPreferenceKeys.*
-import javamm.javamm.JavammSwitchStatements
+import org.eclipse.xtext.xbase.XThrowExpression
+import org.eclipse.xtext.xbase.XInstanceOfExpression
+import org.eclipse.xtext.xbase.XSynchronizedExpression
+import org.eclipse.xtext.xbase.XTryCatchFinallyExpression
+import org.eclipse.xtext.xbase.XTypeLiteral
+import org.eclipse.xtext.xbase.XCatchClause
 
 class JavammFormatter extends XbaseFormatter {
 	
@@ -246,6 +253,34 @@ class JavammFormatter extends XbaseFormatter {
 
 	override createHiddenRegionFormattingMerger() {
 		new JavammHiddenRegionFormattingMerger(this)
+	}
+
+	override dispatch void format(XClosure expr, extension IFormattableDocument format) {
+		
+	}
+
+	override dispatch void format(XThrowExpression expr, extension IFormattableDocument format) {
+		
+	}
+
+	override dispatch void format(XInstanceOfExpression expr, extension IFormattableDocument format) {
+		
+	}
+
+	override dispatch void format(XSynchronizedExpression expr, extension IFormattableDocument format) {
+		
+	}
+
+	override dispatch void format(XTryCatchFinallyExpression expr, extension IFormattableDocument format) {
+		
+	}
+
+	override dispatch void format(XTypeLiteral expr, extension IFormattableDocument format) {
+		
+	}
+
+	override dispatch void format(XCatchClause expr, extension IFormattableDocument format) {
+		
 	}
 
 	private def formatExpressions(EList<XExpression> expressions, extension IFormattableDocument document,
