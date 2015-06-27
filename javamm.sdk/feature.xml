@@ -2,7 +2,7 @@
 <feature
       id="javamm.sdk"
       label="Javamm SDK Feature "
-      version="1.0.0.qualifier"
+      version="1.1.0.qualifier"
       provider-name="Lorenzo Bettini">
 
    <description url="https://github.com/LorenzoBettini/javamm">

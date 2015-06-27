@@ -2,7 +2,7 @@
 <feature
       id="javamm.ide.feature"
       label="Javamm IDE External Components"
-      version="1.0.0.qualifier"
+      version="1.1.0.qualifier"
       provider-name="Lorenzo Bettini">
 
    <description url="https://github.com/LorenzoBettini/javamm">
