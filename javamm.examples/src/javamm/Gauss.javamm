@@ -3,5 +3,5 @@
  */
 int n = 10;
 int sum;
-sum = n*(n+1)/2;
-System.out.println( "Sum of first "+n+" integers: "+sum );
+sum = n * (n + 1) / 2;
+System.out.println("Sum of first " + n + " integers: " + sum);

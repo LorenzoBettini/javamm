@@ -3,6 +3,6 @@ if (args.length() == 0) {
 } else {
 	int argsNum = args.length();
 	for (int i = 0; i < argsNum; i += 1) {
-		System.out.println("args[" + i + "] = " + args[i] );
+		System.out.println("args[" + i + "] = " + args[i]);
 	}
 }

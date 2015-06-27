@@ -3,7 +3,7 @@
  */
 void printArrayWithForLoop(String[] a) {
 	for (int i = 0; i < a.length; i += 1) {
-		System.out.println("args[" + i + "] = " + a[i] );
+		System.out.println("args[" + i + "] = " + a[i]);
 	}
 }
 
@@ -13,7 +13,7 @@ void printArrayWithForLoop(String[] a) {
 void printArrayWithWhileLoop(String[] a) {
 	int i = 0;
 	while (i < a.length) {
-		System.out.println("args[" + i + "] = " + a[i] );
+		System.out.println("args[" + i + "] = " + a[i]);
 		i = i + 1;
 	}
 }
@@ -23,12 +23,12 @@ void printArrayWithWhileLoop(String[] a) {
  */
 void printArrayWithDoWhileLoop(String[] a) {
 	int i = 0;
-	
+
 	if (i >= a.length)
 		return;
 
 	do {
-		System.out.println("args[" + i + "] = " + a[i] );
+		System.out.println("args[" + i + "] = " + a[i]);
 		i = i + 1;
 	} while (i < a.length);
 }

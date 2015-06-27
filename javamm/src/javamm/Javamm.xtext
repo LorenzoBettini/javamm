@@ -286,7 +286,7 @@ XCasePart:
  * Java switch's case expression does not require an explicit block { }
  */
 JavammSwitchStatements returns XExpression:
-	{XBlockExpression}
+	{JavammSwitchStatements}
 	(expressions+=JavammStatementOrBlock ';'*)*
 ;
 

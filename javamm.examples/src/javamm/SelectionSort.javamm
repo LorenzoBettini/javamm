@@ -1,31 +1,32 @@
 /**
  * Example 4.5 of the book
  */
-void selectionSort( int[] a ) {
-  int i,j,next,min,temp;
-  for (i = 0; i<a.length-1; i++) {
-    min = a[i];
-    next = i;
-    for (j = i+1; j<a.length; j++) {
-      if (a[j]<min) {
-        min = a[j];
-        next = j;
-      }
-    }
-    temp = a[i];
-    a[i] = a[next];
-    a[next] = temp;
-  }
-}
-void printArray( int[] number ) {
-  System.out.print( "Array: " );
-  for (int i = 0; i<number.length; i++) {
-    System.out.print( number[i]+" " );
-  }
-  System.out.println(  );
+void selectionSort(int[] a) {
+	int i, j, next, min, temp;
+	for (i = 0; i < a.length - 1; i++) {
+		min = a[i];
+		next = i;
+		for (j = i + 1; j < a.length; j++) {
+			if (a[j] < min) {
+				min = a[j];
+				next = j;
+			}
+		}
+		temp = a[i];
+		a[i] = a[next];
+		a[next] = temp;
+	}
 }
 
-int[] number = { 7,6,11,17,3,15,5,19,30,14 };
-printArray( number );
-selectionSort( number );
-printArray( number );
+void printArray(int[] number) {
+	System.out.print("Array: ");
+	for (int i = 0; i < number.length; i++) {
+		System.out.print(number[i] + " ");
+	}
+	System.out.println();
+}
+
+int[] number = {7, 6, 11, 17, 3, 15, 5, 19, 30, 14};
+printArray(number);
+selectionSort(number);
+printArray(number);

@@ -2,26 +2,26 @@
  * Prints a Checkers board
  */
 void printCheckers(char[][] d) {
-  System.out.println( "  +-+-+-+-+-+-+-+-+" );
-  int r = 0;
-  int c = 0;
-  for (r = 7; r >= 0; r = r-1) {
-    System.out.print( r+" |" );
-    for (c = 0; c < 7; c = c+1) {
-      System.out.print( d[r][c]+"|" );
-    }
-    System.out.println( d[r][c]+"|" );
-    System.out.println( "  +-+-+-+-+-+-+-+-+" );
-  }
-  System.out.print( "   " );
-  for (c = 0; c<7; c = c+1) {
-    System.out.print( c+" " );
-  }
-  System.out.println( c );
+	System.out.println("  +-+-+-+-+-+-+-+-+");
+	int r = 0;
+	int c = 0;
+	for (r = 7; r >= 0; r = r - 1) {
+		System.out.print(r + " |");
+		for (c = 0; c < 7; c = c + 1) {
+			System.out.print(d[r][c] + "|");
+		}
+		System.out.println(d[r][c] + "|");
+		System.out.println("  +-+-+-+-+-+-+-+-+");
+	}
+	System.out.print("   ");
+	for (c = 0; c < 7; c = c + 1) {
+		System.out.print(c + " ");
+	}
+	System.out.println(c);
 }
 
-printCheckers( 
-	{ 
+printCheckers(
+	{
 		{'1', '2', '3', '4', '5', '6', '7', '8'},
 		{'1', '2', '3', '4', '5', '6', '7', '8'},
 		{'1', '2', '3', '4', '5', '6', '7', '8'},

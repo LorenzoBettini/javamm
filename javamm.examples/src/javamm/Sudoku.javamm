@@ -1,81 +1,85 @@
 /**
  * Example Sudoku of the book
  */
-int[] nextCell( int[] c,int[][] s ) {
-  for (int j = c[1] + 1; j < s.length; j++) {
-    if (s[c[0]][j] == 0) {
-      return new int[] { c[0], j };
-    }
-  }
-  for (int i = c[0] + 1; i < s.length; i++) {
-    for (int j = 0; j < s.length; j++) {
-      if (s[i][j] == 0) {
-        return new int[] { i, j };
-      }
-    }
-  }
-  return new int[] { -1, -1 };
+int[] nextCell(int[] c, int[][] s) {
+	for (int j = c[1] + 1; j < s.length; j++) {
+		if (s[c[0]][j] == 0) {
+			return new int[] {c[0], j};
+		}
+	}
+	for (int i = c[0] + 1; i < s.length; i++) {
+		for (int j = 0; j < s.length; j++) {
+			if (s[i][j] == 0) {
+				return new int[] {i, j};
+			}
+		}
+	}
+	return new int[] {-1, -1};
 }
+
 boolean feasible(int d, int[] c, int n, int[][] s) {
-  for (int i = 0; i < n * n; i++) {
-    if (s[c[0]][i] == d) {
-      return false;
-    }
-  }
-  for (int i = 0; i < n * n; i++) {
-    if (s[i][c[1]] == d) {
-      return false;
-    }
-  }
-  int fr = (c[0] / n) * n;
-  int fc = (c[1] / n) * n;
-  for (int i = fr; i < fr + n; i++) {
-    for (int j = fc; j < fc + n; j++) {
-      if (s[i][j] == d) {
-        return false;
-      }
-    }
-  }
-  return true;
+	for (int i = 0; i < n * n; i++) {
+		if (s[c[0]][i] == d) {
+			return false;
+		}
+	}
+	for (int i = 0; i < n * n; i++) {
+		if (s[i][c[1]] == d) {
+			return false;
+		}
+	}
+	int fr = (c[0] / n) * n;
+	int fc = (c[1] / n) * n;
+	for (int i = fr; i < fr + n; i++) {
+		for (int j = fc; j < fc + n; j++) {
+			if (s[i][j] == d) {
+				return false;
+			}
+		}
+	}
+	return true;
 }
+
 boolean[] feasibleDigits(int[] c, int n, int[][] s) {
-  boolean[] r = new boolean[n * n];
-  for (int d = 1; d <= n * n; d++) {
-    r[d - 1] = feasible(d, c, n, s);
-  }
-  return r;
+	boolean[] r = new boolean[n * n];
+	for (int d = 1; d <= n * n; d++) {
+		r[d - 1] = feasible(d, c, n, s);
+	}
+	return r;
 }
+
 boolean solvable(int[] c, int n, int[][] s) {
-  boolean[] a = feasibleDigits(c, n, s);
-  for (int d = 1; d <= n*n; d++) {
-    if (a[d-1]) {
-      s[c[0]][c[1]] = d;
-      int[] nc = nextCell(c, s);
-      if (nc[0] >= 0 && !solvable(nc, n, s)) {
-        s[c[0]][c[1]] = 0;
-      } else {
-        return true;
-      }
-    }
-  }
-  return false;
+	boolean[] a = feasibleDigits(c, n, s);
+	for (int d = 1; d <= n * n; d++) {
+		if (a[d - 1]) {
+			s[c[0]][c[1]] = d;
+			int[] nc = nextCell(c, s);
+			if (nc[0] >= 0 && !solvable(nc, n, s)) {
+				s[c[0]][c[1]] = 0;
+			} else {
+				return true;
+			}
+		}
+	}
+	return false;
 }
+
 void main() {
-  int[][] s = { { 4, 0, 0, 0 }, { 0, 0, 0, 3 }, 
-    { 0, 1, 3, 0 },{ 0, 0, 0, 2 } };
-  int n = 2;
-  printBoard( s );
-  int[] p = nextCell(new int[] { 0, -1 }, s);
-  System.out.println(solvable(p, n, s));
-  printBoard( s );
+	int[][] s = {{4, 0, 0, 0}, {0, 0, 0, 3}, {0, 1, 3, 0}, {0, 0, 0, 2}};
+	int n = 2;
+	printBoard(s);
+	int[] p = nextCell(new int[] {0, -1}, s);
+	System.out.println(solvable(p, n, s));
+	printBoard(s);
 }
+
 void printBoard(int[][] s) {
-  for (int i = 0; i < s.length; i++) {
-    for (int j = 0; j < s.length; j++) {
-      System.out.print(s[i][j] + " ");
-    }
-   System.out.println();
-  }
+	for (int i = 0; i < s.length; i++) {
+		for (int j = 0; j < s.length; j++) {
+			System.out.print(s[i][j] + " ");
+		}
+		System.out.println();
+	}
 }
 
 main();

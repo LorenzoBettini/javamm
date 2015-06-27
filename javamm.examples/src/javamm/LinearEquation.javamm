@@ -2,17 +2,17 @@
  * Example 3.5 of the book
  */
 void solve(double a, double b) {
-  if (a==0) {
-    if (b==0) {
-      System.out.println( "Undetermined" );
-    }
-    if (b!=0) {
-      System.out.println( "Impossible" );
-    }
-  }
-  if (a!=0) {
-    System.out.println( "Solution: "+(-b/a) );
-  }
+	if (a == 0) {
+		if (b == 0) {
+			System.out.println("Undetermined");
+		}
+		if (b != 0) {
+			System.out.println("Impossible");
+		}
+	}
+	if (a != 0) {
+		System.out.println("Solution: " + (-b / a));
+	}
 }
 
-solve(0.5,-1);
+solve(0.5, -1);

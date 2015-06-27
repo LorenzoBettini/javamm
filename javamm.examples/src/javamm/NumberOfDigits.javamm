@@ -2,12 +2,12 @@
  * Example 3.13 of the book
  */
 int digitNumber(int number) {
-  int digitNumber = 1;
-  while (number/10>0) {
-    digitNumber = digitNumber+1;
-    number = number/10;
-  }
-  return  digitNumber;
+	int digitNumber = 1;
+	while (number / 10 > 0) {
+		digitNumber = digitNumber + 1;
+		number = number / 10;
+	}
+	return digitNumber;
 }
 
 System.out.println(digitNumber(1234567));

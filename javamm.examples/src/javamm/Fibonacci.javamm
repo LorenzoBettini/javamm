@@ -1,15 +1,15 @@
 /**
  * Example 4.11 of the book
  */
-long fibonacci( int n ) {
-  int i = 1;
-  long x = 1, y = 0;
-  while (i<n) {
-    i = i+1;
-    x = x+y;
-    y = x-y;
-  }
-  return x;
+long fibonacci(int n) {
+	int i = 1;
+	long x = 1, y = 0;
+	while (i < n) {
+		i = i + 1;
+		x = x + y;
+		y = x - y;
+	}
+	return x;
 }
 
 System.out.println(fibonacci(8));

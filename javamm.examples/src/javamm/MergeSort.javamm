@@ -2,55 +2,58 @@
  * Example 4.15 of the book
  */
 void printArray(int[] a) {
-  int na = a.length;
-  for (int i = 0; i < na; i++) {
-    System.out.print(a[i] + " ");
-  }
-  System.out.println();
+	int na = a.length;
+	for (int i = 0; i < na; i++) {
+		System.out.print(a[i] + " ");
+	}
+	System.out.println();
 }
-void sort( int[] a, int left, int right) {
-  if (left < right) {
-    int middle = (left + right) / 2;
-    sort(a,left, middle);
-    sort(a,middle + 1, right);
-    merge(a,left, middle, right);
-  }
+
+void sort(int[] a, int left, int right) {
+	if (left < right) {
+		int middle = (left + right) / 2;
+		sort(a, left, middle);
+		sort(a, middle + 1, right);
+		merge(a, left, middle, right);
+	}
 }
+
 void merge(int[] a, int left, int middle, int right) {
-  int[] b = new int[right-left+1];
-  int i = left;
-  int j = middle + 1;
-  int k = 0;
-  while ((i <= middle) && (j <= right)) {
-    if (a[i]<a[j]) {
-      b[k] = a[i];
-      i = i + 1;
-      k = k + 1;
-    } else {
-      b[k] = a[j];
-      j = j + 1;
-      k = k + 1;
-    }
-  }
-  while (i <= middle) {
-    b[k] = a[i];
-    i = i + 1;
-    k = k + 1;
-  }
-  while (j <= right) {
-    b[k] = a[j];
-    j = j + 1;
-    k = k + 1;
-  }
-  for (i = left; i <= right; i = i + 1) {
-    a[i] = b[i-left];
-  }
+	int[] b = new int[right - left + 1];
+	int i = left;
+	int j = middle + 1;
+	int k = 0;
+	while ((i <= middle) && (j <= right)) {
+		if (a[i] < a[j]) {
+			b[k] = a[i];
+			i = i + 1;
+			k = k + 1;
+		} else {
+			b[k] = a[j];
+			j = j + 1;
+			k = k + 1;
+		}
+	}
+	while (i <= middle) {
+		b[k] = a[i];
+		i = i + 1;
+		k = k + 1;
+	}
+	while (j <= right) {
+		b[k] = a[j];
+		j = j + 1;
+		k = k + 1;
+	}
+	for (i = left; i <= right; i = i + 1) {
+		a[i] = b[i - left];
+	}
 }
+
 void main() {
-  int[] a = { 7, 11, 9, 6, 12, 15, 8, 10, 14, 13 };
-  printArray(a);
-  sort(a, 0, a.length-1);
-  printArray(a);
+	int[] a = {7, 11, 9, 6, 12, 15, 8, 10, 14, 13};
+	printArray(a);
+	sort(a, 0, a.length - 1);
+	printArray(a);
 }
 
 main();
