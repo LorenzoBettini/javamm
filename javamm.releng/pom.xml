@@ -133,6 +133,10 @@
 
 		<profile>
 			<id>local</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+
 			<properties>
 				<target-file-name>local</target-file-name>
 			</properties>
