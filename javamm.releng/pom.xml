@@ -32,6 +32,8 @@
 		<platform-version>[3.9,4.0)</platform-version>
 		<fornax-oaw-m2-plugin-version>3.4.0</fornax-oaw-m2-plugin-version>
 
+		<target-file-name>mars</target-file-name>
+
 		<!-- <jacoco.reportPath>../target/jacoco.exec</jacoco.reportPath> -->
 		<!-- <findbugs.reportPath>../target/findbugs</findbugs.reportPath> -->
 
@@ -121,7 +123,7 @@
 		<profile>
 			<id>luna</id>
 			<activation>
-				<activeByDefault>true</activeByDefault>
+				<activeByDefault>false</activeByDefault>
 			</activation>
 
 			<properties>
@@ -144,7 +146,6 @@
 
 			<properties>
 				<findbugs.skip>true</findbugs.skip>
-				<target-file-name>luna</target-file-name>
 			</properties>
 
 			<modules>
