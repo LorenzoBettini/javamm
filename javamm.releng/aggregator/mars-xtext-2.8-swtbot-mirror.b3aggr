@@ -40,7 +40,6 @@
   <configurations architecture="x86_64"/>
   <configurations operatingSystem="linux" windowSystem="gtk"/>
   <configurations operatingSystem="linux" windowSystem="gtk" architecture="x86_64"/>
-  <configurations operatingSystem="macosx" windowSystem="cocoa"/>
   <configurations operatingSystem="macosx" windowSystem="cocoa" architecture="x86_64"/>
   <customCategories identifier="custom.rcp.components" label="Custom RCP Components"/>
 </aggregator:Aggregation>

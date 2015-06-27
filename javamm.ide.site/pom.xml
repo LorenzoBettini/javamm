@@ -37,6 +37,10 @@
 						<product>
 							<id>javamm.ide.product</id>
 							<archiveFileName>javamm-ide-${unqualifiedVersion}-${buildQualifier}</archiveFileName>
+							<rootFolders>
+								<!-- for MacOSX, make sure you use a folder ending with .app , see bug 463670 -->
+								<macosx>Eclipse.app</macosx>
+							</rootFolders>
 						</product>
 					</products>
 				</configuration>
@@ -73,7 +77,7 @@
 								<repository>
 									<id>luna</id>
 									<layout>p2</layout>
-									<url>http://download.eclipse.org/releases/luna</url>
+									<url>http://download.eclipse.org/releases/mars</url>
 								</repository>
 							</repositories>
 							<dependencies>
