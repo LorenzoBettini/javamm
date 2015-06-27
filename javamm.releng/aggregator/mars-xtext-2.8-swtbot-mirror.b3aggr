@@ -16,6 +16,7 @@
         <features name="org.eclipse.xtext.redist.source.feature.group" versionRange="[2.8.3,2.9.0)"/>
         <features name="org.eclipse.emf.mwe2.language.sdk.feature.group"/>
         <features name="org.eclipse.emf.mwe2.runtime.sdk.feature.group"/>
+        <features name="org.eclipse.emf.mwe2.launcher.feature.group"/>
       </repositories>
     </contributions>
     <contributions description="SwtBot" label="SwtBot">
