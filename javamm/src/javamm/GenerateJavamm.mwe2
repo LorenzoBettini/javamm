@@ -43,7 +43,7 @@ Workflow {
     	directory = "${runtimeProject}.tests/src-gen"
     }
 
-	component = mwe2.JavammEcoreGenerator {
+	component = mwe2.ecore.JavammEcoreGenerator {
 		// generate the Java code for the EPackage
 		// the Javamm genmodel needs to find the Xbase genmodel thus the latter was registered in the standalone setup
 		genModel = "platform:/resource/${projectName}/model/custom/Javamm.genmodel"

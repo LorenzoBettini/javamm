@@ -1,7 +1,7 @@
 /**
  * 
  */
-package javamm.mwe2;
+package javamm.mwe2.ecore;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.URIConverter;
