@@ -5,7 +5,7 @@ Bundle-SymbolicName: javamm.mwe2
 Bundle-Version: 1.1.0.qualifier
 Bundle-Vendor: Lorenzo Bettini
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Require-Bundle: org.eclipse.emf.mwe2.lib;visibility:=reexport,
- org.eclipse.emf.mwe2.runtime;visibility:=reexport,
+Require-Bundle: org.eclipse.emf.mwe2.lib,
+ org.eclipse.emf.mwe2.runtime,
  com.google.guava;bundle-version="15.0.0"
 Export-Package: javamm.mwe2
