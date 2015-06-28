@@ -10,6 +10,8 @@ import org.eclipse.emf.mwe2.ecore.EcoreGenerator;
 import com.google.common.base.Function;
 
 /**
+ * See https://bugs.eclipse.org/bugs/show_bug.cgi?id=471231
+ * 
  * @author Lorenzo Bettini
  *
  */
