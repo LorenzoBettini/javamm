@@ -140,6 +140,11 @@
 						<artifactId>org.eclipse.xtext.xbase</artifactId>
 						<version>${xtext-version}</version>
 					</dependency>
+					<dependency>
+						<groupId>javamm</groupId>
+						<artifactId>javamm.mwe2</artifactId>
+						<version>${project.version}</version>
+					</dependency>
 				</dependencies>
 			</plugin>
 
