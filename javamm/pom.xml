@@ -14,23 +14,6 @@
 
 	<build>
 		<plugins>
-			<!--
-				This is to get the path of the Xbase source jar dependency absolute path
-				See http://stackoverflow.com/questions/2359872/can-i-use-the-path-to-a-maven-dependency-as-a-property/6934552#6934552
-			-->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<version>2.10</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>properties</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-clean-plugin</artifactId>
@@ -71,30 +54,6 @@
 			</plugin>
 
 			<plugin>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<version>${maven-antrun-plugin.version}</version>
-				<executions>
-					<execution>
-						<id>show-properties</id>
-						<phase>generate-sources</phase>
-						<configuration>
-							<tasks>
-								<echo message="" />
-								<echo message="Path to xbase source jar" />
-								<echo message="${org.eclipse.xtext:org.eclipse.xtext.xbase:jar:sources}" />
-								<echo message="" />
-								<echo message="Path to common types source jar" />
-								<echo message="${org.eclipse.xtext:org.eclipse.xtext.common.types:jar:sources}" />
-							</tasks>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
-			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
 				<version>1.2.1</version>
@@ -118,12 +77,6 @@
 								<argument>
 									runtimeProject=/${project.basedir}
 								</argument>
-								<argument>
-									xbaseSources=archive:file:/${org.eclipse.xtext:org.eclipse.xtext.xbase:jar:sources}!
-								</argument>
-								<argument>
-									commonTypesSources=archive:file:/${org.eclipse.xtext:org.eclipse.xtext.common.types:jar:sources}!
-								</argument>
 							</arguments>
 						</configuration>
 					</execution>
@@ -140,6 +93,11 @@
 						<artifactId>org.eclipse.xtext.xbase</artifactId>
 						<version>${xtext-version}</version>
 					</dependency>
+					<dependency>
+						<groupId>javamm</groupId>
+						<artifactId>javamm.mwe2</artifactId>
+						<version>${project.version}</version>
+					</dependency>
 				</dependencies>
 			</plugin>
 
@@ -155,20 +113,4 @@
 		</plugins>
 	</build>
 	
-	<dependencies>
-		<!-- We need to download these source jars that will be used during the
-			mwe2 workflow to look for Xbase's ImplCustom classes -->
-		<dependency>
-			<groupId>org.eclipse.xtext</groupId>
-			<artifactId>org.eclipse.xtext.xbase</artifactId>
-			<version>${xtext-version}</version>
-			<classifier>sources</classifier>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.xtext</groupId>
-			<artifactId>org.eclipse.xtext.common.types</artifactId>
-			<version>${xtext-version}</version>
-			<classifier>sources</classifier>
-		</dependency>
-	</dependencies>
 </project>
