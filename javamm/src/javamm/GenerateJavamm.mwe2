@@ -12,13 +12,6 @@ var encoding = "UTF-8"
 //var grammarURI = "classpath:/javamm/Javamm.xtext"
 var grammarURI = "platform:/resource/${projectName}/src/javamm/Javamm.xtext"
 
-// used in the org.eclipse.emf.mwe2.ecore.EcoreGenerator to make our
-// Impl classes extend Xbase's ImplCustom classes
-// during the Maven/Tycho build we'll override these properties with
-// the absolute path of the source jars resolved as Maven dependencies.
-var xbaseSources = "platform:/resource/org.eclipse.xtext.xbase.source"
-var commonTypesSources = "platform:/resource/org.eclipse.xtext.common.types.source"
-
 Workflow {
     bean = StandaloneSetup {
     	// initialize the EMF singleton with proper classpath to platform:/resource mappings
@@ -55,9 +48,6 @@ Workflow {
 		// the Javamm genmodel needs to find the Xbase genmodel thus the latter was registered in the standalone setup
 		genModel = "platform:/resource/${projectName}/model/custom/Javamm.genmodel"
 		srcPath = "platform:/resource/${projectName}/src"
-		// this way our Impl classes will extend Xbase's ImplCustom classes
-		srcPath = "${xbaseSources}"
-		srcPath = "${commonTypesSources}"
 	}
     
     component = Generator {

@@ -32,9 +32,10 @@ public class JavammEcoreGenerator extends EcoreGenerator {
 		public String apply(String from) {
 			if (from.startsWith("org.eclipse.emf.ecore"))
 				return null;
+			String customClassName = from+"Custom";
+			String fromPath = from.replace('.', '/');
 			for(String srcPath: srcPaths) {
-				URI createURI = URI.createURI(srcPath+"/"+from.replace('.', '/')+"Custom.java");
-				String customClassName = from+"Custom";
+				URI createURI = URI.createURI(srcPath+"/"+fromPath+"Custom.java");
 				if (URIConverter.INSTANCE.exists(createURI, null)) {
 					return customClassName;
 				}
@@ -42,6 +43,9 @@ public class JavammEcoreGenerator extends EcoreGenerator {
 					generate(from,customClassName,createURI);
 					return customClassName;
 				}
+			}
+			if (getClass().getClassLoader().getResourceAsStream(fromPath + "Custom.class") != null) {
+				return customClassName;
 			}
 			return null;
 		}
