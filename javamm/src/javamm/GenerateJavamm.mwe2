@@ -128,8 +128,8 @@ Workflow {
     		fragment = quickfix.QuickfixProviderFragment auto-inject {}
     
     		// content assist API
-    		fragment = contentAssist.ContentAssistFragment auto-inject {}
-			// fragment = mwe2.contentassist.JavammContentAssistFragment auto-inject {}
+    		// fragment = contentAssist.ContentAssistFragment auto-inject {}
+			fragment = mwe2.contentassist.JavammContentAssistFragment auto-inject {}
 
     		// generates a more lightweight Antlr parser and lexer tailored for content assist
     		fragment = parser.antlr.XtextAntlrUiGeneratorFragment auto-inject {
