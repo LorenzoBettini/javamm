@@ -96,18 +96,11 @@ class JavammContentAssistFragment extends Xtend2GeneratorFragment implements IIn
 		
 		val superGrammar = getSuperGrammar()
 		if (superGrammar != null) {
-			val superGrammarFqFeatureNames = 
-				(
-					superGrammar.containedAssignments.map[fqFeatureName]+
-					superGrammar.rules.map[fqFeatureName]
-				).toSet
+			val superGrammarsFqFeatureNames = computeFqFeatureNamesFromSuperGrammars
+			val thisGrammarFqFeatureNames = computeFqFeatureNames(grammar).toSet
 
-			val thisGrammarFqFeatureNames = (
-					grammar.containedAssignments.map[fqFeatureName]+
-					grammar.rules.map[fqFeatureName]
-				).toSet
-			
-			toExclude = Sets.intersection(thisGrammarFqFeatureNames, superGrammarFqFeatureNames)
+			// all elements that are not already defined in some inherited grammars
+			toExclude = Sets.intersection(thisGrammarFqFeatureNames, superGrammarsFqFeatureNames)
 		}
 		
 		XpandFacade::create(ctx.xpandExecutionContext).evaluate2(
@@ -119,6 +112,26 @@ class JavammContentAssistFragment extends Xtend2GeneratorFragment implements IIn
 
 	private def getSuperGrammar() {
 		grammar.usedGrammars.head
+	}
+
+	def private computeFqFeatureNamesFromSuperGrammars() {
+		val superGrammars = newHashSet()
+		computeAllSuperGrammars(grammar, superGrammars)
+		superGrammars.map[computeFqFeatureNames].flatten.toSet
+	}
+
+	def private computeFqFeatureNames(Grammar grammar) {
+		grammar.containedAssignments.map[fqFeatureName]+
+		grammar.rules.map[fqFeatureName]
+	}
+
+	def private void computeAllSuperGrammars(Grammar current, Set<Grammar> visitedGrammars) {
+		for (s : current.usedGrammars) {
+			if (!visitedGrammars.contains(s)) {
+				visitedGrammars.add(s)
+				computeAllSuperGrammars(s, visitedGrammars)
+			}
+		}
 	}
 
 	def private getFqFeatureName(Assignment it) {
