@@ -53,23 +53,54 @@
 				</configuration>
 			</plugin>
 
+			<!-- With this copy, there's no need to specify additional dependencies in the exec-maven-plugin
+				and we will use the bundles from p2, not the maven artifacts
+				see https://github.com/cdietrich/xtext-maven-example/blob/master/org.xtext.example.mydsl/pom.xml -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/osgilib/</outputDirectory>
+							<excludeTransitive>true</excludeTransitive>
+							<addParentPoms>false</addParentPoms>
+							<excludeScope>provided</excludeScope>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
-				<version>1.2.1</version>
+				<version>1.4.0</version>
 				<executions>
 					<execution>
 						<id>mwe2Launcher</id>
 						<phase>generate-sources</phase>
 						<goals>
-							<goal>java</goal>
+							<goal>exec</goal>
 						</goals>
 						<configuration>
+							<executable>java</executable>
+							<killAfter>-1</killAfter>
+							<!-- We don't clean up the deamon Threads -> mwe launcher does not exit 
+								nicely when asked for interruption and the build hangs unnessesarily for 
+								15sec -->
+							<cleanupDaemonThreads>false</cleanupDaemonThreads>
 							<skip>${mwe2.skip}</skip>
-							<includeProjectDependencies>false</includeProjectDependencies>
+							<includeProjectDependencies>true</includeProjectDependencies>
 							<includePluginDependencies>true</includePluginDependencies>
-							<mainClass>org.eclipse.emf.mwe2.launch.runtime.Mwe2Launcher</mainClass>
 							<arguments>
+								<argument>-classpath</argument>
+								<argument>${project.build.directory}/osgilib/*</argument>
+								<argument>org.eclipse.emf.mwe2.launch.runtime.Mwe2Launcher</argument>
 								<argument>file://${project.basedir}/src/javamm/GenerateJavamm.mwe2</argument>
 								<argument>
 									-p
@@ -81,24 +112,6 @@
 						</configuration>
 					</execution>
 				</executions>
-				
-				<dependencies>
-					<dependency>
-						<groupId>org.eclipse.xtext</groupId>
-						<artifactId>org.eclipse.xtext.xtext</artifactId>
-						<version>${xtext-version}</version>
-					</dependency>
-					<dependency>
-						<groupId>org.eclipse.xtext</groupId>
-						<artifactId>org.eclipse.xtext.xbase</artifactId>
-						<version>${xtext-version}</version>
-					</dependency>
-					<dependency>
-						<groupId>javamm</groupId>
-						<artifactId>javamm.mwe2</artifactId>
-						<version>${project.version}</version>
-					</dependency>
-				</dependencies>
 			</plugin>
 
 			<plugin>
@@ -112,5 +125,13 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>javamm</groupId>
+			<artifactId>javamm.mwe2</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
 	
 </project>
