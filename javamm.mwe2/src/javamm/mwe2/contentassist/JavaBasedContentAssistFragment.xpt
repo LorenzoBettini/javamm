@@ -11,16 +11,16 @@
 
 «IMPORT org::eclipse::xtext»
 
-«EXTENSION org::eclipse::xtext::ui::generator::contentAssist::ContentAssist»
+«EXTENSION javamm::mwe2::contentassist::ContentAssist»
 «EXTENSION org::eclipse::xtext::GrammarUtil»
 «EXTENSION org::eclipse::xtext::generator::Naming»
 
 «DEFINE generate(String superClassName) FOR Grammar»
-	«EXPAND GenProposalProvider(superClassName)»
+	«EXPAND GenProposalProvider(superClassName, {})»
 	«EXPAND ProposalProvider(superClassName)»
 «ENDDEFINE»
 
-«DEFINE GenProposalProvider(String superClassName, Set[String] excludedFqnFeatureNames) FOR Grammar»
+«DEFINE GenProposalProvider(String superClassName, Collection[String] excludedFqnFeatureNames) FOR Grammar»
 «FILE getGenProposalProvider().asPath()+".java" SRC_GEN_UI -»
 «fileHeader()»
 package «getGenProposalProvider().toJavaPackage()»;
