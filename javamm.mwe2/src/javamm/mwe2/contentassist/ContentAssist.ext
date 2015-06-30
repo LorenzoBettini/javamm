@@ -27,5 +27,6 @@ String getFqFeatureName(AbstractRule this):
 String eClassName(EObject e) :
 	JAVA org.eclipse.xtext.ui.generator.contentAssist.JavaBasedContentAssistFragment.getClassName(org.eclipse.emf.ecore.EObject);
 
-	
+Set[String] getFqFeatureNamesToExclude(Grammar grammar) :
+	JAVA javamm.mwe2.contentassist.ContentAssistFragmentExtensions.getFqFeatureNamesToExclude(org.eclipse.xtext.Grammar);
 	

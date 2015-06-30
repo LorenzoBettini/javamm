@@ -1,7 +1,6 @@
 package javamm.mwe2.contentassist
 
 import com.google.common.collect.Sets
-import com.google.inject.Inject
 import java.util.Set
 import org.eclipse.xtext.AbstractRule
 import org.eclipse.xtext.Assignment
@@ -14,8 +13,6 @@ import static extension org.eclipse.xtext.GrammarUtil.*
  */
 class ContentAssistFragmentExtensions {
 
-	@Inject Grammar grammar
-
 	def String getFqFeatureName(Assignment it) {
 		containingParserRule().name.toFirstUpper() + "_" + feature.toFirstUpper();
 	}
@@ -24,16 +21,16 @@ class ContentAssistFragmentExtensions {
 		"_" + name;
 	}
 
-	def getSuperGrammar() {
+	def getSuperGrammar(Grammar grammar) {
 		grammar.usedGrammars.head
 	}
 
-	def Set<String> getFqFeatureNamesToExclude() {
+	def Set<String> getFqFeatureNamesToExclude(Grammar grammar) {
 		var Set<String> toExclude = <String>newHashSet()
 
-		val superGrammar = getSuperGrammar()
+		val superGrammar = getSuperGrammar(grammar)
 		if (superGrammar != null) {
-			val superGrammarsFqFeatureNames = computeFqFeatureNamesFromSuperGrammars
+			val superGrammarsFqFeatureNames = computeFqFeatureNamesFromSuperGrammars(grammar)
 			val thisGrammarFqFeatureNames = computeFqFeatureNames(grammar).toSet
 
 			// all elements that are not already defined in some inherited grammars
@@ -43,7 +40,7 @@ class ContentAssistFragmentExtensions {
 		return toExclude
 	}
 
-	def private computeFqFeatureNamesFromSuperGrammars() {
+	def private computeFqFeatureNamesFromSuperGrammars(Grammar grammar) {
 		val superGrammars = newHashSet()
 		computeAllSuperGrammars(grammar, superGrammars)
 		superGrammars.map[computeFqFeatureNames].flatten.toSet

@@ -64,7 +64,7 @@ class JavammContentAssistFragment extends Xtend2GeneratorFragment implements IIn
 	}
 	
 	def getSuperClassName() {
-		val superGrammar = getSuperGrammar()
+		val superGrammar = getSuperGrammar(grammar)
 		if(inheritImplementation && superGrammar != null)
 			superGrammar.proposalProviderName
 		else
@@ -92,7 +92,7 @@ class JavammContentAssistFragment extends Xtend2GeneratorFragment implements IIn
 		XpandFacade::create(ctx.xpandExecutionContext).evaluate2(
 			"javamm::mwe2::contentassist::JavaBasedContentAssistFragment::GenProposalProvider", 
 			grammar, 
-			<Object>newArrayList(superClassName, getFqFeatureNamesToExclude)
+			<Object>newArrayList(superClassName)
 		);
 	}
 	
