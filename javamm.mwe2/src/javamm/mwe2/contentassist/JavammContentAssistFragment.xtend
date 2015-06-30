@@ -3,7 +3,6 @@ package javamm.mwe2.contentassist
 import com.google.inject.Inject
 import org.eclipse.xpand2.XpandFacade
 import org.eclipse.xtend.lib.annotations.Accessors
-import org.eclipse.xtext.Assignment
 import org.eclipse.xtext.Grammar
 import org.eclipse.xtext.generator.BindFactory
 import org.eclipse.xtext.generator.Generator
@@ -14,14 +13,12 @@ import org.eclipse.xtext.generator.Xtend2ExecutionContext
 import org.eclipse.xtext.generator.Xtend2GeneratorFragment
 
 import static java.util.Collections.*
-
-import static extension org.eclipse.xtext.GrammarUtil.*
-import org.eclipse.xtext.AbstractRule
-import com.google.common.collect.Sets
-import java.util.Set
+import static org.eclipse.xtext.GrammarUtil.*
 
 class JavammContentAssistFragment extends Xtend2GeneratorFragment implements IInheriting, IStubGenerating {
-	
+
+	@Inject extension ContentAssistFragmentExtensions
+
 	@Inject extension Naming
 
 	@Inject Grammar grammar
@@ -92,54 +89,11 @@ class JavammContentAssistFragment extends Xtend2GeneratorFragment implements IIn
 			''')
 		}
 
-		var Set<String> toExclude = <String>newHashSet()
-		
-		val superGrammar = getSuperGrammar()
-		if (superGrammar != null) {
-			val superGrammarsFqFeatureNames = computeFqFeatureNamesFromSuperGrammars
-			val thisGrammarFqFeatureNames = computeFqFeatureNames(grammar).toSet
-
-			// all elements that are not already defined in some inherited grammars
-			toExclude = Sets.intersection(thisGrammarFqFeatureNames, superGrammarsFqFeatureNames)
-		}
-		
 		XpandFacade::create(ctx.xpandExecutionContext).evaluate2(
 			"javamm::mwe2::contentassist::JavaBasedContentAssistFragment::GenProposalProvider", 
 			grammar, 
-			<Object>newArrayList(superClassName, toExclude)
+			<Object>newArrayList(superClassName, getFqFeatureNamesToExclude)
 		);
-	}
-
-	private def getSuperGrammar() {
-		grammar.usedGrammars.head
-	}
-
-	def private computeFqFeatureNamesFromSuperGrammars() {
-		val superGrammars = newHashSet()
-		computeAllSuperGrammars(grammar, superGrammars)
-		superGrammars.map[computeFqFeatureNames].flatten.toSet
-	}
-
-	def private computeFqFeatureNames(Grammar grammar) {
-		grammar.containedAssignments.map[fqFeatureName]+
-		grammar.rules.map[fqFeatureName]
-	}
-
-	def private void computeAllSuperGrammars(Grammar current, Set<Grammar> visitedGrammars) {
-		for (s : current.usedGrammars) {
-			if (!visitedGrammars.contains(s)) {
-				visitedGrammars.add(s)
-				computeAllSuperGrammars(s, visitedGrammars)
-			}
-		}
-	}
-
-	def private getFqFeatureName(Assignment it) {
-		containingParserRule().name.toFirstUpper()+"_"+feature.toFirstUpper();
-	}
-
-	def private getFqFeatureName(AbstractRule it) {
-		"_" + name;
 	}
 	
 }
