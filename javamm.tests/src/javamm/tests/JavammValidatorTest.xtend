@@ -727,6 +727,28 @@ class JavammValidatorTest extends JavammAbstractTest {
 		assignToParam.parseAndAssertNoErrors
 	}
 
+	@Test def void testInstanceOfWithoutExplicitCast() {
+		'''
+		import java.util.Date;
+		
+		Object d = new Date();
+		if (d instanceof Date) {
+			System.out.println(((Date)d).getTime());
+		}
+		'''.parseAndAssertNoIssues
+	}
+
+	@Test def void testInstanceOfWithoutExplicitCastError() {
+		'''
+		import java.util.Date;
+		
+		Object d = new Date();
+		if (d instanceof Date) {
+			System.out.println(d.getTime());
+		}
+		'''.parse.assertErrorsAsStrings("The method getTime() is undefined")
+	}
+
 	def private assertNumberLiteralTypeMismatch(EObject o, String expectedType, String actualType) {
 		o.assertTypeMismatch(XbasePackage.eINSTANCE.XNumberLiteral, expectedType, actualType)
 	}
