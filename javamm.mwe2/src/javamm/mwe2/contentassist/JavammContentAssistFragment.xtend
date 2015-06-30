@@ -8,6 +8,11 @@ import org.eclipse.xtext.generator.Naming
 import org.eclipse.xtext.generator.Xtend2ExecutionContext
 import org.eclipse.xtext.ui.generator.contentAssist.ContentAssistFragment
 
+/**
+ * Modified for https://bugs.eclipse.org/bugs/show_bug.cgi?id=471434
+ * 
+ * @author Lorenzo Bettini
+ */
 class JavammContentAssistFragment extends ContentAssistFragment {
 
 	@Inject extension Naming

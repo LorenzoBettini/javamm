@@ -8,6 +8,8 @@ import org.eclipse.xtext.ui.generator.contentAssist.JavaBasedContentAssistFragme
 /**
  * Just to have the same name of the Xpand template.
  * 
+ * See https://bugs.eclipse.org/bugs/show_bug.cgi?id=471434
+ * 
  * @author Lorenzo Bettini
  *
  */
