@@ -32,7 +32,7 @@ class JavammContentAssistFragment extends ContentAssistFragment {
 		}
 
 		XpandFacade::create(ctx.xpandExecutionContext).evaluate2(
-			"javamm::mwe2::contentassist::JavaBasedContentAssistFragment::GenProposalProvider", 
+			"javamm::mwe2::contentassist::JavammJavaBasedContentAssistFragment::GenProposalProvider", 
 			grammar, 
 			<Object>newArrayList(superClassName)
 		);
