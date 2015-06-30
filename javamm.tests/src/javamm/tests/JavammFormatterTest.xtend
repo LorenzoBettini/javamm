@@ -666,6 +666,17 @@ class JavammFormatterTest extends JavammAbstractTest {
 		]
 	}
 
+	@Test def void testInstanceOf() {
+		assertFormatted[
+			expectation = '''
+				boolean b = d instanceof String;
+			'''
+			toBeFormatted = '''
+				boolean b = d  instanceof  String ;
+			'''
+		]
+	}
+
 	/**
 	 * TODO we should disable function type refs
 	 */
@@ -694,7 +705,6 @@ class JavammFormatterTest extends JavammAbstractTest {
 		callFormat(typeFactory.createJvmFormalParameter)
 		callFormat(xbaseFactory.createXClosure)
 		callFormat(xbaseFactory.createXThrowExpression)
-		callFormat(xbaseFactory.createXInstanceOfExpression)
 		callFormat(xbaseFactory.createXSynchronizedExpression)
 		callFormat(xbaseFactory.createXTryCatchFinallyExpression)
 		callFormat(xbaseFactory.createXTypeLiteral)

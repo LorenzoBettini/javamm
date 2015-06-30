@@ -19,6 +19,12 @@ abstract class JavammAbstractTest {
 		]
 	}
 
+	def protected parseAndAssertNoIssues(CharSequence input) {
+		input.parse => [
+			assertNoIssues
+		]
+	}
+
 	def protected assertEqualsStrings(CharSequence expected, CharSequence actual) {
 		assertEquals(expected.toString().replaceAll("\r", ""), actual.toString());
 	}

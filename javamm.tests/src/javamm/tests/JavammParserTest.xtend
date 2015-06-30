@@ -32,6 +32,7 @@ import org.junit.runner.RunWith
 
 import static extension org.junit.Assert.*
 import javamm.javamm.JavammConditionalExpression
+import org.eclipse.xtext.xbase.XInstanceOfExpression
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammInjectorProvider))
@@ -555,6 +556,28 @@ class JavammParserTest extends JavammAbstractTest {
 		]
 	}
 
+	@Test def void testInstanceOf() {
+		'''
+		String s;
+		boolean b = s instanceof String;
+		'''.assertMainLastExpression[
+			variableDeclarationRight.instanceOf => [
+				assertTrue(expression instanceof XFeatureCall)
+			]
+		]
+	}
+
+	@Test def void testIncompleteInstanceOf() {
+		'''
+		String s;
+		boolean b = s instanceof 
+		'''.assertMainLastExpression[
+			variableDeclarationRight.instanceOf => [
+				assertTrue(expression instanceof XFeatureCall)
+			]
+		]
+	}
+
 	@Test def void testNoQuestionMarkParsedAsBinaryExpression() {
 		'''
 		int j = 0;
@@ -634,5 +657,9 @@ class JavammParserTest extends JavammAbstractTest {
 
 	private def getConditional(XExpression it) {
 		it as JavammConditionalExpression
+	}
+
+	private def getInstanceOf(XExpression it) {
+		it as XInstanceOfExpression
 	}
 }

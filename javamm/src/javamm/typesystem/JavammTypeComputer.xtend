@@ -16,6 +16,7 @@ import org.eclipse.xtext.common.types.util.Primitives
 import org.eclipse.xtext.diagnostics.Severity
 import org.eclipse.xtext.validation.EObjectDiagnosticImpl
 import org.eclipse.xtext.xbase.XExpression
+import org.eclipse.xtext.xbase.XInstanceOfExpression
 import org.eclipse.xtext.xbase.XStringLiteral
 import org.eclipse.xtext.xbase.XSwitchExpression
 import org.eclipse.xtext.xbase.XVariableDeclaration
@@ -91,6 +92,17 @@ class JavammTypeComputer extends PatchedTypeComputer {
 		if (object.^default != null) {
 			state.withoutExpectation.computeTypes(object.^default)
 		}
+	}
+
+	/**
+	 * In Javamm we must keep the semantics and typing of Java for instanceof expressions,
+	 * which do not imply a subsequent implicit cast like in Xbase.
+	 */
+	override protected reassignCheckedType(XExpression condition, XExpression guardedExpression, ITypeComputationState state) {
+		if (condition instanceof XInstanceOfExpression) {
+			return state
+		}
+		return super.reassignCheckedType(condition, guardedExpression, state)
 	}
 
 	def protected _computeTypes(JavammXVariableDeclaration object, ITypeComputationState state) {

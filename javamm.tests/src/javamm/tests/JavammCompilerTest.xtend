@@ -2100,6 +2100,39 @@ public class MyFile {
 		)
 	}
 
+	@Test def void testInstanceOf() {
+		'''
+		import java.util.Collection;
+		import java.util.List;
+		import java.util.ArrayList;
+		
+		Collection<String> strings = new ArrayList<String>();
+		if (strings instanceof List) {
+			// get is in List but not in Collection
+			System.out.println(((List)strings).get(0));
+		}
+		'''.checkCompilation(
+'''
+package javamm;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    Collection<String> strings = new ArrayList<String>();
+    if ((strings instanceof List)) {
+      Object _get = ((List) strings).get(0);
+      System.out.println(_get);
+    }
+  }
+}
+'''
+		)
+	}
+
 	@Test def void testBubbleSort() {
 		bubbleSort.checkCompilation(
 '''
