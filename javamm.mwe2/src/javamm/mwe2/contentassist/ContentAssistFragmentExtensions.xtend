@@ -13,19 +13,19 @@ import static extension org.eclipse.xtext.GrammarUtil.*
  */
 class ContentAssistFragmentExtensions {
 
-	def String getFqFeatureName(Assignment it) {
+	def static String getFqFeatureName(Assignment it) {
 		containingParserRule().name.toFirstUpper() + "_" + feature.toFirstUpper();
 	}
 
-	def String getFqFeatureName(AbstractRule it) {
+	def static String getFqFeatureName(AbstractRule it) {
 		"_" + name;
 	}
 
-	def getSuperGrammar(Grammar grammar) {
+	def static Grammar getSuperGrammar(Grammar grammar) {
 		grammar.usedGrammars.head
 	}
 
-	def Set<String> getFqFeatureNamesToExclude(Grammar grammar) {
+	def static Set<String> getFqFeatureNamesToExclude(Grammar grammar) {
 		var Set<String> toExclude = <String>newHashSet()
 
 		val superGrammar = getSuperGrammar(grammar)
@@ -40,17 +40,17 @@ class ContentAssistFragmentExtensions {
 		return toExclude
 	}
 
-	def private computeFqFeatureNamesFromSuperGrammars(Grammar grammar) {
+	def static private Set<String> computeFqFeatureNamesFromSuperGrammars(Grammar grammar) {
 		val superGrammars = newHashSet()
 		computeAllSuperGrammars(grammar, superGrammars)
 		superGrammars.map[computeFqFeatureNames].flatten.toSet
 	}
 
-	def private computeFqFeatureNames(Grammar grammar) {
+	def static private Iterable<String> computeFqFeatureNames(Grammar grammar) {
 		grammar.containedAssignments.map[fqFeatureName] + grammar.rules.map[fqFeatureName]
 	}
 
-	def private void computeAllSuperGrammars(Grammar current, Set<Grammar> visitedGrammars) {
+	def static private void computeAllSuperGrammars(Grammar current, Set<Grammar> visitedGrammars) {
 		for (s : current.usedGrammars) {
 			if (!visitedGrammars.contains(s)) {
 				visitedGrammars.add(s)

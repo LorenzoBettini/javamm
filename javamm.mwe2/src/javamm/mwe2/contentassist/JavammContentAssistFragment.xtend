@@ -15,9 +15,9 @@ import org.eclipse.xtext.generator.Xtend2GeneratorFragment
 import static java.util.Collections.*
 import static org.eclipse.xtext.GrammarUtil.*
 
-class JavammContentAssistFragment extends Xtend2GeneratorFragment implements IInheriting, IStubGenerating {
+import static extension javamm.mwe2.contentassist.ContentAssistFragmentExtensions.*
 
-	@Inject extension ContentAssistFragmentExtensions
+class JavammContentAssistFragment extends Xtend2GeneratorFragment implements IInheriting, IStubGenerating {
 
 	@Inject extension Naming
 
