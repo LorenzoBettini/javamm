@@ -7,5 +7,13 @@ Bundle-Vendor: Lorenzo Bettini
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Require-Bundle: org.eclipse.emf.mwe2.lib,
  org.eclipse.emf.mwe2.runtime,
- com.google.guava;bundle-version="15.0.0"
-Export-Package: javamm.mwe2.ecore
+ com.google.guava;bundle-version="15.0.0",
+ org.eclipse.xtend.lib,
+ org.eclipse.xtend.lib.macro,
+ org.eclipse.xtext.xbase.lib,
+ org.eclipse.xtext.generator,
+ com.google.inject,
+ org.eclipse.xtext
+Export-Package: javamm.mwe2.contentassist,
+ javamm.mwe2.ecore
+
