@@ -20,7 +20,7 @@
       </vmArgsMac>
    </launcherArgs>
 
-   <windowImages i16="eclipse16.gif" i32="eclipse32.gif" i48="eclipse48.gif" i64="eclipse16.png" i128="eclipse32.png" i256="eclipse48.png"/>
+   <windowImages i16="/javamm.ide/images/javamm-16.gif" i32="/javamm.ide/images/javamm-32.gif" i48="/javamm.ide/images/javamm-48.gif" i64="/javamm.ide/images/javamm-64.png" i128="/javamm.ide/images/javamm-128.png" i256="/javamm.ide/images/javamm-256.png"/>
 
    <splash
       location="org.eclipse.platform"
