@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="JavammIDE" uid="javamm.ide.product" id="org.eclipse.sdk.ide" application="org.eclipse.ui.ide.workbench" version="1.1.0.qualifier" useFeatures="true" includeLaunchers="true">
+<product name="JavammIDE" uid="javamm.eclipse.ide.product" id="javamm.ide.product" application="org.eclipse.ui.ide.workbench" version="1.1.0.qualifier" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <image path="eclipse_lg.gif"/>
@@ -20,16 +20,19 @@
       </vmArgsMac>
    </launcherArgs>
 
-   <windowImages i16="eclipse16.gif" i32="eclipse32.gif" i48="eclipse48.gif" i64="eclipse16.png" i128="eclipse32.png" i256="eclipse48.png"/>
+   <windowImages i16="/javamm.ide/images/javamm-16.gif" i32="/javamm.ide/images/javamm-32.gif" i48="/javamm.ide/images/javamm-48.gif" i64="/javamm.ide/images/javamm-64.png" i128="/javamm.ide/images/javamm-128.png" i256="/javamm.ide/images/javamm-256.png"/>
 
    <splash
       location="org.eclipse.platform"
       startupProgressRect="2,290,448,10"
       startupMessageRect="7,225,320,20"
       startupForegroundColor="FFFFFF" />
-   <launcher>
+   <launcher name="eclipse">
+      <linux icon="../javamm.ide/images/javamm-64.xpm"/>
+      <macosx icon="../javamm.ide/images/javamm.icns"/>
       <solaris/>
-      <win useIco="false">
+      <win useIco="true">
+         <ico path="../javamm.ide/images/javamm.ico"/>
          <bmp/>
       </win>
    </launcher>

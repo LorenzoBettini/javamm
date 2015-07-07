@@ -35,7 +35,7 @@
 				<configuration>
 					<products>
 						<product>
-							<id>javamm.ide.product</id>
+							<id>javamm.eclipse.ide.product</id>
 							<archiveFileName>javamm-ide-${unqualifiedVersion}-${buildQualifier}</archiveFileName>
 							<rootFolders>
 								<!-- for MacOSX, make sure you use a folder ending with .app , see bug 463670 -->
