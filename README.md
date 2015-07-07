@@ -16,4 +16,12 @@ IMPORTANT: Java-- requires Xtext, if this is not already installed, all dependen
 Alternatively, you can download a complete Eclipse distribution with Java-- installed; choose the one for your OS and architecture:
 http://sourceforge.net/projects/javamm/files/products/
 
+## Temporary Development Snapshots.
+
+The snapshots are not necessarily stable, and they will be removed when the new version is released.
+
+Update site: http://sourceforge.net/projects/javamm/files/snapshots/updates/releases
+
+Eclipse distributions: http://sourceforge.net/projects/javamm/files/snapshots/products/
+
 [![Build Status](https://travis-ci.org/LorenzoBettini/javamm.svg?branch=master)](https://travis-ci.org/LorenzoBettini/javamm)
