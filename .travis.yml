@@ -12,6 +12,11 @@ env: DISPLAY=:99.0
 
 install: true
 
+addons:
+  apt:
+    packages:
+    - metacity
+
 #before_install:
 # - sudo apt-get update
 # - sudo apt-get install gnome-themes-standard
@@ -20,7 +25,8 @@ install: true
 
 before_script:
  - sh -e /etc/init.d/xvfb start
+ - metacity --sm-disable --replace 2> metacity.err &
  
 script:
  - export
- - mvn -f javamm.releng/pom.xml clean verify -U -Dfindbugs.skip=true
+ - mvn -f javamm.releng/pom.xml clean verify -U -Dfindbugs.skip=true -Pide-tests
