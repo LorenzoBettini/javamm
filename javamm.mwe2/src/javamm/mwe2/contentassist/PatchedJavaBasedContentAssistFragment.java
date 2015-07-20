@@ -13,6 +13,6 @@ import org.eclipse.xtext.ui.generator.contentAssist.JavaBasedContentAssistFragme
  * @author Lorenzo Bettini
  *
  */
-public class JavammJavaBasedContentAssistFragment extends JavaBasedContentAssistFragment {
+public class PatchedJavaBasedContentAssistFragment extends JavaBasedContentAssistFragment {
 
 }

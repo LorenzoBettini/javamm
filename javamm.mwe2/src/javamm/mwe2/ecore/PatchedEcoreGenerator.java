@@ -15,7 +15,7 @@ import com.google.common.base.Function;
  * @author Lorenzo Bettini
  *
  */
-public class JavammEcoreGenerator extends EcoreGenerator {
+public class PatchedEcoreGenerator extends EcoreGenerator {
 
 	private boolean generateCustomClasses = false;
 	

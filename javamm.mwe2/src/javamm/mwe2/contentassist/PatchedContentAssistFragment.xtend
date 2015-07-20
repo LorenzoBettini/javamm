@@ -13,7 +13,7 @@ import org.eclipse.xtext.ui.generator.contentAssist.ContentAssistFragment
  * 
  * @author Lorenzo Bettini
  */
-class JavammContentAssistFragment extends ContentAssistFragment {
+class PatchedContentAssistFragment extends ContentAssistFragment {
 
 	@Inject extension Naming
 
@@ -37,7 +37,7 @@ class JavammContentAssistFragment extends ContentAssistFragment {
 		}
 
 		XpandFacade::create(ctx.xpandExecutionContext).evaluate2(
-			"javamm::mwe2::contentassist::JavammJavaBasedContentAssistFragment::GenProposalProvider", 
+			"javamm::mwe2::contentassist::PatchedJavaBasedContentAssistFragment::GenProposalProvider", 
 			grammar, 
 			<Object>newArrayList(superClassName)
 		);
