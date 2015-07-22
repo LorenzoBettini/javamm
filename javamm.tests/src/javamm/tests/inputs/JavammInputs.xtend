@@ -666,6 +666,21 @@ class JavammInputs {
 		'''
 	}
 
+	def switchStatementReturnType() {
+		'''
+		int move(int p) {
+			switch (p) {
+				case 0: return 2;
+				case 1: return 1;
+				case 2: return 1;
+				case 3: return 2;
+				case 4: return 1;
+				default: return -1;
+			}
+		}
+		'''
+	}
+
 	def varNameSameAsMethodName() {
 '''
 int numOfDigits(int num) {
