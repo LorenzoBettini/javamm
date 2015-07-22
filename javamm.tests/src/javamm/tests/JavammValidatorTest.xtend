@@ -302,6 +302,30 @@ class JavammValidatorTest extends JavammAbstractTest {
 		)
 	}
 
+	@Test def void testInvalidSwitchReturnType() {
+		'''
+		int move(int p) {
+			switch (p) {
+				case 0: return "2";
+				default: return -1;
+			}
+		}
+		'''.parse.assertTypeMismatch(
+			XbasePackage.eINSTANCE.XStringLiteral,
+			"int", "String"
+		)
+	}
+
+	@Test def void testInvalidSwitchWithoutDefault() {
+		'''
+		int move(int p) {
+			switch (p) {
+				case 0: return 1;
+			}
+		}
+		'''.parse.assertErrorsAsStrings("Missing default branch in the presence of expected type int")
+	}
+
 	@Test def void testMissingSemicolonInAssignment() {
 		'''
 		int i = 0;

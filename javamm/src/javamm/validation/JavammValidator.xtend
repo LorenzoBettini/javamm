@@ -55,6 +55,7 @@ class JavammValidator extends XbaseValidator {
 	public static val INVALID_BRANCHING_STATEMENT = PREFIX + "InvalidBranchingStatement"
 	public static val MISSING_SEMICOLON = PREFIX + "MissingSemicolon"
 	public static val MISSING_PARENTHESES = PREFIX + "MissingParentheses"
+	public static val MISSING_DEFAULT = PREFIX + "MissingDefault"
 	public static val DUPLICATE_METHOD = PREFIX + "DuplicateMethod"
 	public static val ARRAY_CONSTRUCTOR_EITHER_DIMENSION_EXPRESSION_OR_INITIALIZER = PREFIX + "ArrayConstructorEitherDimensionExpressionOrInitializer"
 	public static val ARRAY_CONSTRUCTOR_BOTH_DIMENSION_EXPRESSION_AND_INITIALIZER = PREFIX + "ArrayConstructorBothDimensionExpressionAndInitializer"

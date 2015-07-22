@@ -79,6 +79,7 @@ class JavammTypeComputer extends PatchedTypeComputer {
 	 * case expressions 
 	 */
 	override protected _computeTypes(XSwitchExpression object, ITypeComputationState state) {
+		val typeExpectation = state.expectations.findFirst[expectedType != null]
 		val computedType = state.computeTypes(object.getSwitch());
 		
 		val expressionType = computedType.getActualExpressionType();
@@ -91,6 +92,16 @@ class JavammTypeComputer extends PatchedTypeComputer {
 		
 		if (object.^default != null) {
 			state.withoutExpectation.computeTypes(object.^default)
+		} else if (typeExpectation != null) {
+			val diagnostic = new EObjectDiagnosticImpl(
+				Severity.ERROR,
+				JavammValidator.MISSING_DEFAULT, 
+				"Missing default branch in the presence of expected type " + expressionType.simpleName,
+				object,
+				null,
+				-1,
+				null);
+			state.addDiagnostic(diagnostic);
 		}
 	}
 
