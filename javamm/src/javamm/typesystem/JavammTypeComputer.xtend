@@ -79,19 +79,19 @@ class JavammTypeComputer extends PatchedTypeComputer {
 	 * case expressions 
 	 */
 	override protected _computeTypes(XSwitchExpression object, ITypeComputationState state) {
-		val computedType = state.withNonVoidExpectation.computeTypes(object.getSwitch());
+		val computedType = state.computeTypes(object.getSwitch());
+		
 		val expressionType = computedType.getActualExpressionType();
-
+		
 		for (c : object.cases) {
 			val caseState = state.withExpectation(expressionType)
 			caseState.computeTypes(c.^case)
 			state.withoutExpectation.computeTypes(c.then)
 		}
-
+		
 		if (object.^default != null) {
 			state.withoutExpectation.computeTypes(object.^default)
 		}
-		state.acceptActualType(getPrimitiveVoid(state));
 	}
 
 	/**
