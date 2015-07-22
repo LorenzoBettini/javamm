@@ -178,12 +178,10 @@ class JavammTypeComputer extends PatchedTypeComputer {
 	private def computeTypesOfArrayAccess(JavammArrayAccess arrayAccess, 
 		ILinkingCandidate best, ITypeComputationState state, EStructuralFeature featureForError
 	) {
-		if (!arrayAccess.indexes.empty) {
-			checkArrayIndexHasTypeInt(arrayAccess, state);
-			val expressionState = state as ExpressionTypeComputationState
-			val featureType = getDeclaredType(best.feature, expressionState)
-			componentTypeOfArrayAccess(arrayAccess, featureType, state, featureForError)
-		}
+		checkArrayIndexHasTypeInt(arrayAccess, state);
+		val expressionState = state as ExpressionTypeComputationState
+		val featureType = getDeclaredType(best.feature, expressionState)
+		componentTypeOfArrayAccess(arrayAccess, featureType, state, featureForError)
 	}
 	
 	private def componentTypeOfArrayAccess(JavammArrayAccess arrayAccess, LightweightTypeReference type, ITypeComputationState state, EStructuralFeature featureForError) {
