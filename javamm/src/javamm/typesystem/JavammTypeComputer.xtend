@@ -113,27 +113,24 @@ class JavammTypeComputer extends PatchedTypeComputer {
 				caseState.computeTypes(casePart.getCase());
 			}
 			val then = casePart.getThen();
-			if (then != null) {
-				if (then.isSureBranchStatement) {
-					val thenState = allCasePartsState.withTypeCheckpoint(casePart);
-					thenState.afterScope(casePart);
-					thenState.computeTypes(then);
-				} else {
-					// Since in Java without a break we fall through on the next case or default
-					// then we must influence the typing of the all switch expression,
-					// e.g., this code must be valid if an int is expected
-					// switch (p) {
-					// 		case 0: System.out.println("0"); // the default is executed anyway
-					//		default: return -1;
-					// }
-					allCasePartsState.withoutExpectation.computeTypes(then)
-				}
+			// then is never null
+			if (then.isSureBranchStatement) {
+				val thenState = allCasePartsState.withTypeCheckpoint(casePart);
+				thenState.afterScope(casePart);
+				thenState.computeTypes(then);
+			} else {
+				// Since in Java without a break we fall through on the next case or default
+				// then we must influence the typing of the all switch expression,
+				// e.g., this code must be valid if an int is expected
+				// switch (p) {
+				// 		case 0: System.out.println("0"); // the default is executed anyway
+				//		default: return -1;
+				// }
+				allCasePartsState.withoutExpectation.computeTypes(then)
+			}
 //				if (branchExpressionProcessor != null) {
 //					branchExpressionProcessor.process(thenResult);
 //				}
-			} else {
-				allCasePartsState.afterScope(casePart);
-			}
 		}
 		val defaultCase = object.getDefault();
 		if (defaultCase != null) {
