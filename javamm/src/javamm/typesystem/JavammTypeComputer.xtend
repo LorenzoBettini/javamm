@@ -79,30 +79,91 @@ class JavammTypeComputer extends PatchedTypeComputer {
 	 * case expressions 
 	 */
 	override protected _computeTypes(XSwitchExpression object, ITypeComputationState state) {
-		val typeExpectation = state.expectations.findFirst[expectedType != null]
-		val computedType = state.computeTypes(object.getSwitch());
+		val switchExpressionState = state.withNonVoidExpectation
+		val computedType = switchExpressionState.computeTypes(object.getSwitch());
 		
+		val allCasePartsState = state;
 		val expressionType = computedType.getActualExpressionType();
 		
-		for (c : object.cases) {
-			val caseState = state.withExpectation(expressionType)
-			caseState.computeTypes(c.^case)
-			state.withoutExpectation.computeTypes(c.then)
+		allCasePartsState.withinScope(object);
+
+//		var BranchExpressionProcessor branchExpressionProcessor = null
+//		if (object.getDefault() == null) {
+//			branchExpressionProcessor = new BranchExpressionProcessor(state, object) {
+//				override protected String getMessage() {
+//					return "Missing default branch for switch expression with primitive type";
+//				}
+//			}			
+//		}
+		
+		val cases = getCases(object);
+		for(var i = 0; i < cases.size(); i++) {
+			val casePart = cases.get(i);
+			// assign the type for the switch expression if possible and use that one for the remaining things
+			val casePartState = allCasePartsState.withTypeCheckpoint(casePart);
+
+			// Xbase: val caseState = casePartState.withNonVoidExpectation();
+			// we must use the type of the switch's expression to type the case part
+			val caseState = casePartState.withExpectation(expressionType)
+			caseState.withinScope(casePart);
+			if (casePart.getCase() != null) {
+				caseState.computeTypes(casePart.getCase());
+			}
+			val then = casePart.getThen();
+			if (then != null) {
+				val thenState = allCasePartsState.withTypeCheckpoint(casePart);
+				thenState.afterScope(casePart);
+				thenState.computeTypes(then);
+//				if (branchExpressionProcessor != null) {
+//					branchExpressionProcessor.process(thenResult);
+//				}
+			} else {
+				allCasePartsState.afterScope(casePart);
+			}
+		}
+		val defaultCase = object.getDefault();
+		if (defaultCase != null) {
+			allCasePartsState.computeTypes(object.getDefault());
+		} else { // if (branchExpressionProcessor != null) {
+			// branchExpressionProcessor.commit();
+			val typeExpectation = state.expectations.findFirst[expectedType != null]
+			if (typeExpectation != null) {
+				val diagnostic = new EObjectDiagnosticImpl(
+					Severity.ERROR,
+					JavammValidator.MISSING_DEFAULT, 
+					"Missing default branch in the presence of expected type " + expressionType.simpleName,
+					object,
+					null,
+					-1,
+					null);
+				state.addDiagnostic(diagnostic);
+			}
 		}
 		
-		if (object.^default != null) {
-			state.withoutExpectation.computeTypes(object.^default)
-		} else if (typeExpectation != null) {
-			val diagnostic = new EObjectDiagnosticImpl(
-				Severity.ERROR,
-				JavammValidator.MISSING_DEFAULT, 
-				"Missing default branch in the presence of expected type " + expressionType.simpleName,
-				object,
-				null,
-				-1,
-				null);
-			state.addDiagnostic(diagnostic);
-		}
+//		val typeExpectation = state.expectations.findFirst[expectedType != null]
+//		val computedType = state.computeTypes(object.getSwitch());
+//		
+//		val expressionType = computedType.getActualExpressionType();
+//		
+//		for (c : object.cases) {
+//			val caseState = state.withExpectation(expressionType)
+//			caseState.computeTypes(c.^case)
+//			state.withoutExpectation.computeTypes(c.then)
+//		}
+//		
+//		if (object.^default != null) {
+//			state.withoutExpectation.computeTypes(object.^default)
+//		} else if (typeExpectation != null) {
+//			val diagnostic = new EObjectDiagnosticImpl(
+//				Severity.ERROR,
+//				JavammValidator.MISSING_DEFAULT, 
+//				"Missing default branch in the presence of expected type " + expressionType.simpleName,
+//				object,
+//				null,
+//				-1,
+//				null);
+//			state.addDiagnostic(diagnostic);
+//		}
 	}
 
 	/**

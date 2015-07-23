@@ -1525,6 +1525,44 @@ public class MyFile {
 		)
 	}
 
+	@Test def void testSwitchStatementReturnTypeWithFallback() {
+		'''
+		int move(int p) {
+			switch (p) {
+				case 0: System.out.println("0"); // the default is executed
+				default: return -1;
+			}
+		}
+		'''.checkCompilation(
+'''
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static int move(int p) {
+    switch (p) {
+      case 0:
+        return 2;
+      case 1:
+        return 1;
+      case 2:
+        return 1;
+      case 3:
+        return 2;
+      case 4:
+        return 1;
+      default:
+        return (-1);
+    }
+  }
+  
+  public static void main(String[] args) {
+  }
+}
+'''
+		)
+	}
+
 	@Test def void testVarNameSameAsMethodName() {
 		varNameSameAsMethodName.checkCompilation(
 '''

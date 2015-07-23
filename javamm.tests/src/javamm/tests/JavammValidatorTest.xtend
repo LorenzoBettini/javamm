@@ -316,6 +316,20 @@ class JavammValidatorTest extends JavammAbstractTest {
 		)
 	}
 
+	@Test def void testInvalidSwitchReturnType2() {
+		'''
+		int move(int p) {
+			switch (p) {
+				case 0: System.out.println("0"); break;
+				default: return -1;
+			}
+		}
+		'''.parse.assertTypeMismatch(
+			javammPack.javammBreakStatement,
+			"int", "void"
+		)
+	}
+
 	@Test def void testInvalidSwitchWithoutDefault() {
 		'''
 		int move(int p) {
@@ -325,6 +339,27 @@ class JavammValidatorTest extends JavammAbstractTest {
 		}
 		'''.parse.assertErrorsAsStrings("Missing default branch in the presence of expected type int")
 	}
+
+	@Test def void testValidSwitchReturnTypeWithFallback() {
+		'''
+		int move(int p) {
+			switch (p) {
+				case 0: System.out.println("0"); // the default is executed
+				default: return -1;
+			}
+		}
+		'''.parse.assertNoErrors
+	}
+
+//	@Test def void testWarningSwitchMissingDefaultBranchForPrimitiveType() {
+//		'''
+//		void move(int p) {
+//			switch (p) {
+//				case 0: System.out.println("0");
+//			}
+//		}
+//		'''.parse.assertIssuesAsStrings("Missing default branch for switch expression with primitive type")
+//	}
 
 	@Test def void testMissingSemicolonInAssignment() {
 		'''
