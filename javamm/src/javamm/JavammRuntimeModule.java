@@ -5,6 +5,7 @@ package javamm;
 
 import javamm.compiler.JavammJvmModelGenerator;
 import javamm.compiler.JavammXbaseCompiler;
+import javamm.controlflow.JavammEarlyExitComputer;
 import javamm.conversion.JavammValueConverterService;
 import javamm.imports.JavammRewritableImportSection.JavammRewritableImportSectionFactory;
 import javamm.scoping.JavammOperatorMapping;
@@ -18,6 +19,7 @@ import org.eclipse.xtext.generator.IGenerator;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.validation.IDiagnosticConverter;
 import org.eclipse.xtext.xbase.compiler.XbaseCompiler;
+import org.eclipse.xtext.xbase.controlflow.IEarlyExitComputer;
 import org.eclipse.xtext.xbase.imports.RewritableImportSection;
 import org.eclipse.xtext.xbase.scoping.featurecalls.OperatorMapping;
 import org.eclipse.xtext.xbase.typesystem.computation.ITypeComputer;
@@ -68,4 +70,7 @@ public class JavammRuntimeModule extends javamm.AbstractJavammRuntimeModule {
 		return JavammQualifiedNameProvider.class;
 	}
 
+	public Class<? extends IEarlyExitComputer> bindIEarlyExitComputer() {
+		return JavammEarlyExitComputer.class;
+	}
 }
