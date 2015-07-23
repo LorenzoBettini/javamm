@@ -20,8 +20,6 @@ class JavammEarlyExitComputer extends DefaultEarlyExitComputer {
 	@Inject extension JavammBranchingStatementDetector
 
 	dispatch override protected Collection<ExitPoint> exitPoints(XSwitchExpression expression) {
-		var Collection<ExitPoint> switchExitPoints = getExitPoints(expression.getSwitch())
-		if(isNotEmpty(switchExitPoints)) return switchExitPoints
 		var Collection<ExitPoint> result = Lists.newArrayList()
 		for (XCasePart casePart : expression.getCases()) {
 			var XExpression then = casePart.getThen()

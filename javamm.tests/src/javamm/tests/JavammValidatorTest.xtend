@@ -284,6 +284,20 @@ class JavammValidatorTest extends JavammAbstractTest {
 		'''.parseAndAssertNoErrors
 	}
 
+	@Test def void testInvalidSwitchExpression() {
+		'''
+		switch (return 0) {
+			default: 
+				System.out.println("default");
+				break;
+		}
+		'''.parse.assertError(
+			XbasePackage.eINSTANCE.XSwitchExpression,
+			Diagnostic.SYNTAX_DIAGNOSTIC,
+			"no viable alternative at input 'return'"
+		)
+	}
+
 	@Test def void testInvalidSwitchCaseType() {
 		'''
 		String firstArg = args[0];
