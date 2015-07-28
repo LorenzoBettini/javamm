@@ -451,11 +451,9 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 		if (expr instanceof JavammArrayAccess) {
 			JavammArrayAccess access = (JavammArrayAccess) expr;
 			for (XExpression index : access.getIndexes()) {
-				if (index != null) {
-					b.append("[");
-					internalToJavaExpression(index, b);
-					b.append("]");
-				}
+				b.append("[");
+				internalToJavaExpression(index, b);
+				b.append("]");
 			}
 		}
 	}
