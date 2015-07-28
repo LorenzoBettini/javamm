@@ -31,7 +31,7 @@ public class JavammExpressionArgumentFactory extends ExpressionArgumentFactory {
 			JavammXAssignment assignment = (JavammXAssignment) expression;
 			LightweightTypeReference featureType = assignmentFeatureCallArguments.getDeclaredType();
 			// if it's an array access we must take the array component type
-			if (featureType instanceof ArrayTypeReference && !assignment.getIndexes().isEmpty()) {
+			if (featureType instanceof ArrayTypeReference) {
 				return new AssignmentFeatureCallArguments(assignment.getValue(), 
 						getComponentType(featureType, assignment));
 			} else {
