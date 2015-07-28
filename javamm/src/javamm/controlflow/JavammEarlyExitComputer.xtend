@@ -23,15 +23,13 @@ class JavammEarlyExitComputer extends DefaultEarlyExitComputer {
 		var Collection<ExitPoint> result = Lists.newArrayList()
 		for (XCasePart casePart : expression.getCases()) {
 			var XExpression then = casePart.getThen()
-			if (then != null) {
-				var Collection<ExitPoint> caseExit = getExitPoints(then)
-				// if there is not a break then in Java it is an automatic fall through
-				// so we must not consider this case
-				if(then.isSureBranchStatement && !isNotEmpty(caseExit)) {
-					return Collections.emptyList()
-				} else {
-					result.addAll(caseExit)
-				}
+			var Collection<ExitPoint> caseExit = getExitPoints(then)
+			// if there is not a break then in Java it is an automatic fall through
+			// so we must not consider this case
+			if(then.isSureBranchStatement && !isNotEmpty(caseExit)) {
+				return Collections.emptyList()
+			} else {
+				result.addAll(caseExit)
 			}
 		}
 		var Collection<ExitPoint> defaultExit = getExitPoints(expression.getDefault())
