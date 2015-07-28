@@ -37,7 +37,7 @@ class JavammJvmModelGenerator extends JvmModelGenerator {
 				(parameterType as JvmGenericArrayTypeReference).componentType.serializeSafely("Object", tracedAppendable)
 			}
 			tracedAppendable.append("...")
-		} else if (parameterType != null) {
+		} else {
 			parameterType.serializeSafely("Object", tracedAppendable)
 		}
 		tracedAppendable.append(" ")
