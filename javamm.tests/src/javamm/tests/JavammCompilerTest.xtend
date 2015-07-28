@@ -852,6 +852,28 @@ public class MyFile {
 		 */
 	}
 
+	@Test def void testForLoopTranslatedToJavaForNoExpression() {
+		'''
+		int argsNum = args.length();
+		for (int i = 0; ; i++)
+			System.out.println(""+i);
+		'''.checkCompilation(
+'''
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int argsNum = args.length;
+    for (int i = 0;; i++) {
+      System.out.println(("" + Integer.valueOf(i)));
+    }
+  }
+}
+'''
+			)
+	}
+
 	@Test def void testContinueInForLoopTranslatedToJavaFor() {
 		continueInForLoopTranslatedToJavaFor.checkCompilation(
 '''
@@ -1631,6 +1653,31 @@ public class MyFile {
     System.out.println((a == "a"));
     boolean _equals = "a".equals("a");
     System.out.println(_equals);
+  }
+}
+'''
+			)
+	}
+
+	@Test def void testSeveralUpdatesInForLoop() {
+		'''
+		for (int i, j = 1; i < 0; i++, j++) {
+			System.out.println(i);
+			System.out.println(j);
+		}
+		'''.checkCompilation(
+'''
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    for (int i = 0, j = 1; (i < 0); i++, j++) {
+      {
+        System.out.println(i);
+        System.out.println(j);
+      }
+    }
   }
 }
 '''

@@ -388,22 +388,18 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 			
 			caseAppendable.append(":");
 			XExpression then = casePart.getThen();
-			if (then != null) {
-				executeThenPart(expr, switchResultName, then, caseAppendable, isReferenced);
-			}
+			executeThenPart(expr, switchResultName, then, caseAppendable, isReferenced);
 			caseAppendable.decreaseIndentation();
 		}
 		if (expr.getDefault() != null) {
 			ILocationData location = getLocationOfDefault(expr);
-			ITreeAppendable defaultAppendable = location != null ? b.trace(location) : b;
+			ITreeAppendable defaultAppendable = b.trace(location);
 			
 			defaultAppendable.newLine().increaseIndentation().append("default:");
 
-			if (expr.getDefault() != null) {
-				defaultAppendable.openPseudoScope();
-				executeThenPart(expr, switchResultName, expr.getDefault(), defaultAppendable, isReferenced);
-				defaultAppendable.closeScope();
-			}
+			defaultAppendable.openPseudoScope();
+			executeThenPart(expr, switchResultName, expr.getDefault(), defaultAppendable, isReferenced);
+			defaultAppendable.closeScope();
 
 			defaultAppendable.decreaseIndentation();
 		}
