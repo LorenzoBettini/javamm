@@ -330,7 +330,10 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 		// custom implementation:
 		// if the each expression contains sure branching statements then
 		// we must not generate the update expression and the check expression
-		if (!branchingStatementDetector.isSureBranchStatement(eachExpression) && !isEarlyExit(eachExpression)) {
+		// not that we don't check if eachExpression is early exit: if it was,
+		// then we'd get a validation error for unreachable statement,
+		// see javamm.tests.JavammValidatorTest.testDeadCodeInForLoopTranslatedToJavaWhileEarlyExit()
+		if (!branchingStatementDetector.isSureBranchStatement(eachExpression)) {
 			EList<XExpression> updateExpressions = expr.getUpdateExpressions();
 			
 			for (XExpression updateExpression : updateExpressions) {
