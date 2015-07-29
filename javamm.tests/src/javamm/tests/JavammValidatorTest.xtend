@@ -822,6 +822,20 @@ class JavammValidatorTest extends JavammAbstractTest {
 		'''.parse.assertErrorsAsStrings("The method getTime() is undefined")
 	}
 
+	@Test def void testInvalidUseOfVarArgs() {
+		val input = '''
+		void m(int... i, String... a) {
+			
+		}
+		'''
+		input.parse.assertError(
+			javammPack.javammJvmFormalParameter,
+			JavammValidator.INVALID_USE_OF_VAR_ARGS,
+			input.indexOf("..."), 3,
+			"A vararg must be the last parameter."
+		)
+	}
+
 	def private assertNumberLiteralTypeMismatch(EObject o, String expectedType, String actualType) {
 		o.assertTypeMismatch(XbasePackage.eINSTANCE.XNumberLiteral, expectedType, actualType)
 	}
