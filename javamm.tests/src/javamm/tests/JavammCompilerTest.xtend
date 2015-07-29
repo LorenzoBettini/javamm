@@ -2266,6 +2266,31 @@ public class MyFile {
 		)
 	}
 
+	@Test def void testParameterVarArgs2() {
+		'''
+		void m(int l, String... a) {
+			for (int i = 0; i < l; i++)
+				System.out.println(a[i]);
+		}
+		'''.checkCompilation(
+'''
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void m(int l, String... a) {
+    for (int i = 0; (i < l); i++) {
+      System.out.println(a[i]);
+    }
+  }
+  
+  public static void main(String[] args) {
+  }
+}
+'''
+		)
+	}
+
 	@Test def void testBubbleSort() {
 		bubbleSort.checkCompilation(
 '''
