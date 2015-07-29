@@ -39,6 +39,8 @@ import org.eclipse.xtext.xbase.XbasePackage
 import org.eclipse.xtext.xbase.typesystem.util.Multimaps2
 import org.eclipse.xtext.xbase.validation.XbaseValidator
 import org.eclipse.xtext.xtype.XImportDeclaration
+import javamm.javamm.JavammJvmFormalParameter
+import java.util.List
 
 //import org.eclipse.xtext.validation.Check
 
@@ -60,6 +62,7 @@ class JavammValidator extends XbaseValidator {
 	public static val ARRAY_CONSTRUCTOR_EITHER_DIMENSION_EXPRESSION_OR_INITIALIZER = PREFIX + "ArrayConstructorEitherDimensionExpressionOrInitializer"
 	public static val ARRAY_CONSTRUCTOR_BOTH_DIMENSION_EXPRESSION_AND_INITIALIZER = PREFIX + "ArrayConstructorBothDimensionExpressionAndInitializer"
 	public static val ARRAY_CONSTRUCTOR_DIMENSION_EXPRESSION_AFTER_EMPTY_DIMENSION = PREFIX + "ArrayConstructorDimensionExpressionAfterEmptyExpression"
+	public static val INVALID_USE_OF_VAR_ARGS = PREFIX + "InvalidUseOfVarArgs"
 	
 	static val xbasePackage = XbasePackage.eINSTANCE;
 	
@@ -183,6 +186,19 @@ class JavammValidator extends XbaseValidator {
 	@Check
 	def checkMissingSemicolon(XImportDeclaration e) {
 		checkMissingSemicolonInternal(e)
+	}
+
+	@Check
+	def void checkVarArgComesLast(JavammJvmFormalParameter param) {
+		if (param.isVarArgs()) {
+			val params = param.eContainer().eGet(param.eContainingFeature()) as List<JavammJvmFormalParameter>
+			if (param != params.last) {
+				error("A vararg must be the last parameter.", 
+					param, javammPackage.javammJvmFormalParameter_VarArgs,
+					javamm.validation.JavammValidator.INVALID_USE_OF_VAR_ARGS
+				);
+			}
+		}
 	}
 
 	def private checkMissingSemicolonInternal(EObject e) {

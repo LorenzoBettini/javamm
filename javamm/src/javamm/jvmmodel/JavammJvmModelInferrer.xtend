@@ -1,11 +1,11 @@
 package javamm.jvmmodel
 
 import com.google.inject.Inject
+import javamm.javamm.JavammProgram
+import org.eclipse.xtext.naming.IQualifiedNameProvider
 import org.eclipse.xtext.xbase.jvmmodel.AbstractModelInferrer
 import org.eclipse.xtext.xbase.jvmmodel.IJvmDeclaredTypeAcceptor
 import org.eclipse.xtext.xbase.jvmmodel.JvmTypesBuilder
-import javamm.javamm.JavammProgram
-import org.eclipse.xtext.naming.IQualifiedNameProvider
 
 /**
  * <p>Infers a JVM model from the source model.</p> 
@@ -59,7 +59,13 @@ class JavammJvmModelInferrer extends AbstractModelInferrer {
    					static = true
    					
    					for (p : m.params) {
-   						parameters += p.toParameter(p.name, p.parameterType)
+   						var parameterType = p.parameterType
+   						if (p.varArgs) {
+	   						// varArgs is a property of JvmExecutable
+	   						varArgs = p.varArgs
+   							parameterType = parameterType.addArrayTypeDimension
+   						}
+						parameters += p.toParameter(p.name, parameterType)
    					}
    					
    					body = m.body
