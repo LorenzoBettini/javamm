@@ -166,12 +166,7 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 	@Override
 	protected void assignmentToJavaExpression(XAssignment expr, ITreeAppendable b, boolean isExpressionContext) {
 		final JvmIdentifiableElement feature = expr.getFeature();
-		if (feature instanceof JvmOperation) {
-			boolean appendReceiver = appendReceiver(expr, b, isExpressionContext);
-			if (appendReceiver)
-				b.append(".");
-			appendFeatureCall(expr, b);
-		} else {
+		if (!(feature instanceof JvmOperation)) {
 			boolean isArgument = expr.eContainer() instanceof XAbstractFeatureCall;
 			if (isArgument) {
 				EStructuralFeature containingFeature = expr.eContainingFeature();
@@ -183,9 +178,8 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 				}
 			}
 			if (feature instanceof JvmField) {
-				boolean appendReceiver = appendReceiver(expr, b, isExpressionContext);
-				if (appendReceiver)
-					b.append(".");
+				appendReceiver(expr, b, isExpressionContext);
+				b.append(".");
 				appendFeatureCall(expr, b);
 			} else {
 				String name = b.getName(expr.getFeature());
@@ -201,7 +195,11 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 			if (isArgument) {
 				b.append(")");
 			}
+
+			return;
 		}
+
+		super.assignmentToJavaExpression(expr, b, isExpressionContext);
 	}
 
 	/**

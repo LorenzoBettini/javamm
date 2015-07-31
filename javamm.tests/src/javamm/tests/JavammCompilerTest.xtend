@@ -2291,6 +2291,50 @@ public class MyFile {
 		)
 	}
 
+	@Test def void testAssignmentToAssignment() {
+		'''
+		int i, j;
+		i = j = 0;
+		'''.checkCompilation(
+'''
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int i = 0;
+    int j = 0;
+    i = (j = 0);
+  }
+}
+'''
+		)
+	}
+
+	@Test def void testAssignmentAsCallArgument() {
+		'''
+		void m(String s) {
+			String s1;
+			m(s1 = s);
+		}
+		'''.checkCompilation(
+'''
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void m(String s) {
+    String s1 = null;
+    MyFile.m(s1 = s);
+  }
+  
+  public static void main(String[] args) {
+  }
+}
+'''
+		)
+	}
+
 	@Test def void testBubbleSort() {
 		bubbleSort.checkCompilation(
 '''
