@@ -51,13 +51,17 @@ System.out.println("Hello " + "world!");
 '''
 		)
 		
-		reallyWaitForAutoBuild
+		waitForBuild
 		projectHelper.assertNoErrors
 		reallyWaitForAutoBuild
 		val srcGenFolder = project.getFolder("src-gen/javamm")
-		assertTrue(srcGenFolder.exists)
+		if (!srcGenFolder.exists) {
+			println("pausing since src-gen/javamm folder does not exist yet...")
+			Thread.sleep(5000)
+		}
+		assertTrue("src-gen/javamm does not exist", srcGenFolder.exists)
 		val genfile = srcGenFolder.getFile(TEST_FILE + ".java")
-		assertTrue(genfile.exists())
+		assertTrue(TEST_FILE + ".java does not exist", genfile.exists())
 	}
 
 }
