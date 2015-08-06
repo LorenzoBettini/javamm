@@ -81,7 +81,7 @@ class JavammWizardTest extends AbstractWorkbenchTest {
 		assertTrue(file.exists())
 		waitForBuild
 		projectHelper.assertNoErrors
-		reallyWaitForAutoBuild
+		waitForBuild
 		val srcGenFolder = project.getFolder("src-gen/javamm")
 		assertTrue("src-gen/javamm does not exist", srcGenFolder.exists)
 		val genfile = srcGenFolder.getFile(JavammTestableNewFileWizard.TEST_FILE + ".java")
