@@ -43,7 +43,7 @@ Workflow {
     	directory = "${runtimeProject}.tests/src-gen"
     }
 
-	component = mwe2.ecore.PatchedEcoreGenerator {
+	component = org.eclipse.emf.mwe2.ecore.EcoreGenerator {
 		// generate the Java code for the EPackage
 		// the Javamm genmodel needs to find the Xbase genmodel thus the latter was registered in the standalone setup
 		genModel = "platform:/resource/${projectName}/model/custom/Javamm.genmodel"
@@ -131,8 +131,7 @@ Workflow {
     		// fragment = contentAssist.ContentAssistFragment auto-inject {}
     		// fragment = mwe2.contentassist.JavammContentAssistFragment auto-inject {}
 
-    		// See https://bugs.eclipse.org/bugs/show_bug.cgi?id=471434
-    		fragment = mwe2.contentassist.PatchedJavaBasedContentAssistFragment auto-inject {}
+    		fragment = contentAssist.JavaBasedContentAssistFragment auto-inject {}
 
     		// generates a more lightweight Antlr parser and lexer tailored for content assist
     		fragment = parser.antlr.XtextAntlrUiGeneratorFragment auto-inject {
