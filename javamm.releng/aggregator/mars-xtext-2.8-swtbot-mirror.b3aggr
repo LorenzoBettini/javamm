@@ -11,12 +11,12 @@
     </contributions>
     <contributions description="Xtext Releases" label="Xtext Releases">
       <repositories location="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases">
-        <features name="org.eclipse.xtext.sdk.feature.group" versionRange="[2.8.3,2.9.0)"/>
-        <features name="org.eclipse.xtext.redist.feature.group" versionRange="[2.8.3,2.9.0)"/>
-        <features name="org.eclipse.xtext.redist.source.feature.group" versionRange="[2.8.3,2.9.0)"/>
-        <features name="org.eclipse.emf.mwe2.language.sdk.feature.group"/>
-        <features name="org.eclipse.emf.mwe2.runtime.sdk.feature.group"/>
-        <features name="org.eclipse.emf.mwe2.launcher.feature.group"/>
+        <features name="org.eclipse.xtext.sdk.feature.group" versionRange="[2.8.4,2.9.0)"/>
+        <features name="org.eclipse.xtext.redist.feature.group" versionRange="[2.8.4,2.9.0)"/>
+        <features name="org.eclipse.xtext.redist.source.feature.group" versionRange="[2.8.4,2.9.0)"/>
+        <features name="org.eclipse.emf.mwe2.language.sdk.feature.group" versionRange="2.8.1"/>
+        <features name="org.eclipse.emf.mwe2.runtime.sdk.feature.group" versionRange="2.8.1"/>
+        <features name="org.eclipse.emf.mwe2.launcher.feature.group" versionRange="2.8.1"/>
       </repositories>
     </contributions>
     <contributions description="SwtBot" label="SwtBot">

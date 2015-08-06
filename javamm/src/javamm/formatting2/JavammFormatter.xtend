@@ -31,7 +31,6 @@ import org.eclipse.xtext.xbase.XExpression
 import org.eclipse.xtext.xbase.XForLoopExpression
 import org.eclipse.xtext.xbase.XIfExpression
 import org.eclipse.xtext.xbase.XMemberFeatureCall
-import org.eclipse.xtext.xbase.XPostfixOperation
 import org.eclipse.xtext.xbase.XSwitchExpression
 import org.eclipse.xtext.xbase.XSynchronizedExpression
 import org.eclipse.xtext.xbase.XThrowExpression
@@ -149,7 +148,7 @@ class JavammFormatter extends XbaseFormatter {
 		}
 	}
 
-	def dispatch void format(XCastedExpression xcastedexpression, extension IFormattableDocument document) {
+	override dispatch void format(XCastedExpression xcastedexpression, extension IFormattableDocument document) {
 		format(xcastedexpression.getType(), document);
 		format(xcastedexpression.getTarget(), document);
 		xcastedexpression.regionForKeyword("(").surround[noSpace]
@@ -159,14 +158,6 @@ class JavammFormatter extends XbaseFormatter {
 	def dispatch void format(JavammPrefixOperation javammprefixoperation, extension IFormattableDocument document) {
 		format(javammprefixoperation.getOperand(), document);
 		javammprefixoperation.regionForFeature(XABSTRACT_FEATURE_CALL__FEATURE).append[noSpace]
-	}
-
-	/**
-	 * This can be removed when https://bugs.eclipse.org/bugs/show_bug.cgi?id=471239 is applied
-	 */
-	def dispatch void format(XPostfixOperation xpostfixoperation, extension IFormattableDocument document) {
-		format(xpostfixoperation.getOperand(), document);
-		xpostfixoperation.regionForFeature(XABSTRACT_FEATURE_CALL__FEATURE).prepend[noSpace]
 	}
 
 	def dispatch void format(JavammArrayAccessExpression expr, extension IFormattableDocument document) {
