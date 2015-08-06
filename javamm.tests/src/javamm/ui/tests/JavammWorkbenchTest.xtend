@@ -53,6 +53,7 @@ System.out.println("Hello " + "world!");
 		
 		reallyWaitForAutoBuild
 		projectHelper.assertNoErrors
+		reallyWaitForAutoBuild
 		val srcGenFolder = project.getFolder("src-gen/javamm")
 		assertTrue(srcGenFolder.exists)
 		val genfile = srcGenFolder.getFile(TEST_FILE + ".java")
