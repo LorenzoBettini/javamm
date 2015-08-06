@@ -1,9 +1,7 @@
 package javamm.swtbot.tests;
 
 import static org.eclipse.swtbot.swt.finder.waits.Conditions.shellCloses;
-import static org.eclipse.xtext.junit4.ui.util.IResourcesSetupUtil.cleanWorkspace;
-import static org.eclipse.xtext.junit4.ui.util.IResourcesSetupUtil.root;
-import static org.eclipse.xtext.junit4.ui.util.IResourcesSetupUtil.waitForAutoBuild;
+import static org.eclipse.xtext.junit4.ui.util.IResourcesSetupUtil.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -77,7 +75,7 @@ public class AbstractJavammSwtbotTest {
 	@After
 	public void runAfterEveryTest() throws CoreException {
 		cleanWorkspace();
-		waitForAutoBuild();
+		waitForBuild();
 	}
 
 	protected static void closeWelcomePage() throws InterruptedException {
@@ -198,7 +196,7 @@ public class AbstractJavammSwtbotTest {
 		bot.waitUntil(shellCloses(shell), SWTBotPreferences.TIMEOUT);
 		assertTrue("Project doesn't exist", isProjectCreated(TEST_PROJECT));
 		
-		waitForAutoBuild();
+		reallyWaitForAutoBuild();
 	}
 
 	protected void createFile(String fileType, String name, String...path) {
@@ -214,7 +212,7 @@ public class AbstractJavammSwtbotTest {
 		bot.waitUntil(shellCloses(shell), SWTBotPreferences.TIMEOUT);
 		assertTrue("File doesn't exist", isFileCreated(TEST_PROJECT, path));
 		
-		waitForAutoBuild();
+		reallyWaitForAutoBuild();
 	}
 
 	protected void importExampleProjectAndAssertNoErrorMarker(String projectType,
@@ -236,7 +234,7 @@ public class AbstractJavammSwtbotTest {
 		bot.waitUntil(shellCloses(shell), SWTBotPreferences.TIMEOUT);
 		assertTrue("Project doesn't exist", isProjectCreated(mainProjectId));
 
-		waitForAutoBuild();
+		reallyWaitForAutoBuild();
 		assertErrorsInProject(0);
 	}
 

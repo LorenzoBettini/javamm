@@ -51,7 +51,7 @@ System.out.println("Hello " + "world!");
 '''
 		)
 		
-		waitForAutoBuild
+		reallyWaitForAutoBuild
 		projectHelper.assertNoErrors
 		val srcGenFolder = project.getFolder("src-gen/javamm")
 		assertTrue(srcGenFolder.exists)
