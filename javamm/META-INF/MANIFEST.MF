@@ -5,13 +5,13 @@ Bundle-Vendor: Lorenzo Bettini
 Bundle-Version: 1.1.0.qualifier
 Bundle-SymbolicName: javamm; singleton:=true
 Bundle-ActivationPolicy: lazy
-Require-Bundle: org.eclipse.xtext;bundle-version="[2.8.3,2.9.0)";visibility:=reexport,
+Require-Bundle: org.eclipse.xtext;bundle-version="[2.8.4,2.9.0)";visibility:=reexport,
  org.eclipse.xtext.xbase;resolution:=optional;visibility:=reexport,
  org.eclipse.xtext.generator;resolution:=optional,
  org.apache.commons.logging;bundle-version="1.0.4";resolution:=optional,
  org.eclipse.emf.codegen.ecore;resolution:=optional,
  org.eclipse.emf.mwe.utils;resolution:=optional,
- org.eclipse.emf.mwe2.launch;resolution:=optional,
+ org.eclipse.emf.mwe2.launch;bundle-version="2.8.1";resolution:=optional,
  org.eclipse.xtext.util,
  org.eclipse.emf.ecore,
  org.eclipse.emf.common,
