@@ -45,10 +45,13 @@ class JavammWizardTest extends AbstractWorkbenchTest {
 							Thread.sleep(5000)
 						}
 						getShell().getDisplay().syncExec[
-							println("pressing finish button")
-							finishPressed();
+							println("perform finish")
+							//finishPressed();
+							wizard.performFinish
+							println("finish performed")
+							println("closing shell")
+							getShell().close;
 						]
-						println("finish button pressed")
 						attempt = 0
 						while (getShell() != null && (attempt++) < 5) {
 							println("Waiting for shell to be disposed")
