@@ -44,10 +44,16 @@ class JavammWizardTest extends AbstractWorkbenchTest {
 							println("Waiting for shell to become active")
 							Thread.sleep(5000)
 						}
-						getShell().getDisplay().asyncExec[
+						getShell().getDisplay().syncExec[
 							println("pressing finish button")
 							finishPressed();
-						]					
+						]
+						println("finish button pressed")
+						attempt = 0
+						while (getShell() != null && (attempt++) < 5) {
+							println("Waiting for shell to be disposed")
+							Thread.sleep(5000)
+						}
 					}			
 				};
 				thread.start();
