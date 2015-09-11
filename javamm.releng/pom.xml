@@ -9,6 +9,7 @@
 		<module>../javamm.targetplatform</module>
 		<module>../javamm.runtime</module>
 		<module>../javamm</module>
+		<module>../javamm.selfassessment.builder</module>
 		<module>../javamm.ui</module>
 		<module>../javamm.examples</module>
 		<module>../javamm.ui.examples</module>

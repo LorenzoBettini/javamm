@@ -35,8 +35,7 @@ class JavammWorkbenchTest extends AbstractWorkbenchTest {
 	@Before
 	override void setUp() {
 		super.setUp
-		project = projectHelper.createJavaPluginProject
-			(TEST_PROJECT, newArrayList("javamm.runtime")).project
+		project = projectHelper.createJavammPluginProject(TEST_PROJECT).project
 	}
 	
 	def createTestFile(CharSequence contents) {

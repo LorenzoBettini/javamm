@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         id="selfAssessmentBuilder"
+         name="SelfAssessment Project Builder"
+         point="org.eclipse.core.resources.builders">
+      <builder
+            hasNature="true">
+         <run
+               class="javamm.selfassessment.builder.builder.SelfAssessmentBuilder">
+         </run>
+      </builder>
+   </extension>
+   <extension
+         id="selfAssessmentNature"
+         name="SelfAssessment Project Nature"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="javamm.selfassessment.builder.builder.SelfAssessmentNature">
+         </run>
+      </runtime>
+      <builder
+            id="javamm.selfassessment.builder.selfAssessmentBuilder">
+      </builder>
+   </extension>
+   <extension
+         id="xmlProblem"
+         name="XML Problem"
+         point="org.eclipse.core.resources.markers">
+      <super
+            type="org.eclipse.core.resources.problemmarker">
+      </super>
+      <persistent
+            value="true">
+      </persistent>
+   </extension>
+
+</plugin>
