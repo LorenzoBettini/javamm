@@ -18,7 +18,17 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 
+/**
+ * A project builder for self-assessment project sets: it copies the class files
+ * from the bin directory of the teacher's project into the library folder of the
+ * student's project.
+ * 
+ * @author Lorenzo Bettini
+ *
+ */
 public class SelfAssessmentBuilder extends IncrementalProjectBuilder {
+
+	public static final String BIN = "bin";
 
 	class SelfAssessmentBuilderDeltaVisitor implements IResourceDeltaVisitor {
 		private IProgressMonitor monitor;
@@ -37,13 +47,10 @@ public class SelfAssessmentBuilder extends IncrementalProjectBuilder {
 			IResource resource = delta.getResource();
 			if (isClassFile(resource)) {
 				switch (delta.getKind()) {
-				case IResourceDelta.ADDED:
-					copyToStudentProject(resource, monitor);
-					break;
 				case IResourceDelta.REMOVED:
 					removeFromStudentProject(resource, monitor);
 					break;
-				case IResourceDelta.CHANGED:
+				default:
 					copyToStudentProject(resource, monitor);
 					break;
 				}
@@ -77,17 +84,12 @@ public class SelfAssessmentBuilder extends IncrementalProjectBuilder {
 	 *      java.util.Map, org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	@Override
-	protected IProject[] build(int kind, Map<String, String> args, IProgressMonitor monitor)
-			throws CoreException {
-		if (kind == FULL_BUILD) {
+	protected IProject[] build(int kind, Map<String, String> args, IProgressMonitor monitor) throws CoreException {
+		IResourceDelta delta = getDelta(getProject());
+		if (delta == null) {
 			fullBuild(monitor);
 		} else {
-			IResourceDelta delta = getDelta(getProject());
-			if (delta == null) {
-				fullBuild(monitor);
-			} else {
-				incrementalBuild(delta, monitor);
-			}
+			incrementalBuild(delta, monitor);
 		}
 		return null;
 	}
@@ -98,7 +100,7 @@ public class SelfAssessmentBuilder extends IncrementalProjectBuilder {
 
 	private void fullCopy(IProgressMonitor monitor) throws CoreException {
 		clearStudentProjectDestination(monitor);
-		for (IResource member : getProject().getFolder("bin").members()) {
+		for (IResource member : getProject().getFolder(BIN).members()) {
 			copyClassFiles(member, monitor);
 		}
 	}
@@ -126,16 +128,11 @@ public class SelfAssessmentBuilder extends IncrementalProjectBuilder {
 	}
 
 	private void copyToStudentProject(IResource resource, IProgressMonitor monitor) throws CoreException {
-		IPath finalDestinationPath = getStudentProjectDestinationPath(resource);
+		// before copying we must remove possible already existing file
+		IFile file = removeFromStudentProject(resource, monitor);
+		createRecursive(file.getParent());
+		IPath finalDestinationPath = file.getFullPath();
 		resource.copy(finalDestinationPath, true, monitor);
-	}
-
-	private IPath getStudentProjectDestinationPath(IResource resource) throws CoreException {
-		IFolder studentProjectDestinationSubFolder = getStudentProjectDestinationFolder(resource);
-		createRecursive(studentProjectDestinationSubFolder);
-		String resourceName = resource.getName();
-		IPath finalDestinationPath = studentProjectDestinationSubFolder.getFullPath().append(resourceName);
-		return finalDestinationPath;
 	}
 
 	private IFolder getStudentProjectDestinationFolder(IResource resource) {
@@ -147,12 +144,13 @@ public class SelfAssessmentBuilder extends IncrementalProjectBuilder {
 		return studentProjectDestinationSubFolder;
 	}
 
-	private void removeFromStudentProject(IResource resource, IProgressMonitor monitor) throws CoreException {
+	private IFile removeFromStudentProject(IResource resource, IProgressMonitor monitor) throws CoreException {
 		IFolder destinationFolder = getStudentProjectDestinationFolder(resource);
 		IFile file = destinationFolder.getFile(resource.getName());
 		if (file.exists()) {
 			file.delete(true, monitor);
 		}
+		return file;
 	}
 
 	private void createRecursive(final IContainer resource) throws CoreException {

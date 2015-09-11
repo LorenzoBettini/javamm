@@ -2,8 +2,10 @@ package javamm.ui.tests
 
 import com.google.inject.Inject
 import javamm.JavammUiInjectorProvider
+import javamm.selfassessment.builder.builder.SelfAssessmentNature
 import javamm.tests.utils.ui.PDETargetPlatformUtils
 import javamm.tests.utils.ui.PluginProjectHelper
+import org.eclipse.core.resources.IFile
 import org.eclipse.core.resources.IProject
 import org.eclipse.xtext.junit4.InjectWith
 import org.eclipse.xtext.junit4.XtextRunner
@@ -14,12 +16,10 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import static org.eclipse.xtext.junit4.ui.util.IResourcesSetupUtil.*
-import javamm.selfassessment.builder.builder.SelfAssessmentNature
-import org.eclipse.core.resources.IFile
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammUiInjectorProvider))
-class JavammSelfAssessmentProjectTest extends AbstractWorkbenchTest {
+class JavammSelfAssessmentBuilderTest extends AbstractWorkbenchTest {
 	
 	@Inject PluginProjectHelper projectHelper
 	
@@ -95,6 +95,44 @@ class JavammSelfAssessmentProjectTest extends AbstractWorkbenchTest {
 		getFileFromSolutionPath("example/sub/ExampleSub.class").assertFileDoesNotExist
 	}
 
+	@Test
+	def void testOriginalJavammFileIsNotCopied() {
+		createSimpleJavammFile(TEST_TEACHER_PROJECT, "javamm", "Example", 
+			'''
+			int m() {
+				return 0;
+			}
+			'''
+		)
+		waitForBuild
+		getFileFromSolutionPath("javamm/Example.class").assertFileExists
+		getFolderFromSolutionPath("javamm") => [
+			1.assertEquals(members.length)
+		]
+	}
+
+	@Test
+	def void testChangeOfJavammFile() {
+		createSimpleJavammFile(TEST_TEACHER_PROJECT, "javamm", "Example", 
+			'''
+			int m() {
+				return 0;
+			}
+			'''
+		)
+		waitForBuild
+		getFileFromSolutionPath("javamm/Example.class").assertFileExists
+		createSimpleJavammFile(TEST_TEACHER_PROJECT, "javamm", "Example", 
+			'''
+			int m2() {
+				return 0;
+			}
+			'''
+		)
+		waitForBuild
+		getFileFromSolutionPath("javamm/Example.class").assertFileExists
+	}
+
 	def private createSimpleJavaFile(String projectName, String packageName, String className, CharSequence contents) {
 		createFile(
 			projectName + "/src/" + packageName.replace('.', '/') + "/" + className + ".java",
@@ -108,8 +146,19 @@ class JavammSelfAssessmentProjectTest extends AbstractWorkbenchTest {
 		)
 	}
 
+	def private createSimpleJavammFile(String projectName, String packageName, String className, String contents) {
+		createFile(
+			projectName + "/src/" + packageName.replace('.', '/') + "/" + className + ".javamm",
+			contents
+		)
+	}
+
 	def private getFileFromSolutionPath(String path) {
 		studentProject.getFile(SOLUTION + "/" + path)
+	}
+
+	def private getFolderFromSolutionPath(String path) {
+		studentProject.getFolder(SOLUTION + "/" + path)
 	}
 
 	def private getFileFromTeacherSourcePath(String path) {
