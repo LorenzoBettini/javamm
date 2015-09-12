@@ -20,8 +20,8 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 
 /**
  * A project builder for self-assessment project sets: it copies the class files
- * from the bin directory of the teacher's project into the library folder of the
- * student's project.
+ * from the bin directory of the teacher's project into the library folder of
+ * the student's project.
  * 
  * @author Lorenzo Bettini
  *
@@ -30,18 +30,15 @@ public class SelfAssessmentBuilder extends IncrementalProjectBuilder {
 
 	public static final String BIN = "bin";
 
+	public static final String BUILDER_ID = "javamm.selfassessment.builder.selfAssessmentBuilder";
+
 	class SelfAssessmentBuilderDeltaVisitor implements IResourceDeltaVisitor {
 		private IProgressMonitor monitor;
-		
+
 		public SelfAssessmentBuilderDeltaVisitor(IProgressMonitor monitor) {
 			this.monitor = monitor;
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.core.resources.IResourceDeltaVisitor#visit(org.eclipse.core.resources.IResourceDelta)
-		 */
 		@Override
 		public boolean visit(IResourceDelta delta) throws CoreException {
 			IResource resource = delta.getResource();
@@ -55,14 +52,14 @@ public class SelfAssessmentBuilder extends IncrementalProjectBuilder {
 					break;
 				}
 			}
-			//return true to continue visiting children.
+			// return true to continue visiting children.
 			return true;
 		}
 	}
 
 	class SelfAssessmentBuilderResourceVisitor implements IResourceVisitor {
 		private IProgressMonitor monitor;
-		
+
 		public SelfAssessmentBuilderResourceVisitor(IProgressMonitor monitor) {
 			this.monitor = monitor;
 		}
@@ -75,14 +72,6 @@ public class SelfAssessmentBuilder extends IncrementalProjectBuilder {
 		}
 	}
 
-	public static final String BUILDER_ID = "javamm.selfassessment.builder.selfAssessmentBuilder";
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.core.internal.events.InternalBuilder#build(int,
-	 *      java.util.Map, org.eclipse.core.runtime.IProgressMonitor)
-	 */
 	@Override
 	protected IProject[] build(int kind, Map<String, String> args, IProgressMonitor monitor) throws CoreException {
 		IResourceDelta delta = getDelta(getProject());
@@ -115,10 +104,15 @@ public class SelfAssessmentBuilder extends IncrementalProjectBuilder {
 			copyToStudentProject(resource, monitor);
 		}
 	}
-	
+
 	private void clearStudentProjectDestination(IProgressMonitor monitor) throws CoreException {
 		IFolder folder = getStudentProjectDestinationFolder();
-		folder.delete(true, monitor);
+		// don't delete the whole folder, but only its contents.
+		// deleting the folder would make PDE complain about missing library
+		// folder
+		for (IResource resource : folder.members()) {
+			resource.delete(true, monitor);
+		}
 	}
 
 	private IFolder getStudentProjectDestinationFolder() {
@@ -166,8 +160,7 @@ public class SelfAssessmentBuilder extends IncrementalProjectBuilder {
 		getProject().accept(new SelfAssessmentBuilderResourceVisitor(monitor));
 	}
 
-	protected void incrementalBuild(IResourceDelta delta,
-			IProgressMonitor monitor) throws CoreException {
+	protected void incrementalBuild(IResourceDelta delta, IProgressMonitor monitor) throws CoreException {
 		// the visitor does the work.
 		delta.accept(new SelfAssessmentBuilderDeltaVisitor(monitor));
 	}
@@ -175,11 +168,12 @@ public class SelfAssessmentBuilder extends IncrementalProjectBuilder {
 	private IPath getStudentProjectDestination() {
 		return fromTeacherProjectToStudentProject().append(SelfAssessmentNature.STUDENT_PROJECT_SOLUTION_PATH);
 	}
-	
+
 	private IPath fromTeacherProjectToStudentProject() {
 		IPath projectPath = getProject().getFullPath();
-		IPath studentProjectPath = projectPath.removeFileExtension().addFileExtension(SelfAssessmentNature.STUDENT_PROJECT_SUFFIX_NAME);
-		
+		IPath studentProjectPath = projectPath.removeFileExtension()
+				.addFileExtension(SelfAssessmentNature.STUDENT_PROJECT_SUFFIX_NAME);
+
 		return studentProjectPath;
 	}
 }

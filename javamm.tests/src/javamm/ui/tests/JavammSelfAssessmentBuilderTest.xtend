@@ -27,6 +27,8 @@ class JavammSelfAssessmentBuilderTest extends AbstractWorkbenchTest {
 
 	val TEST_TEACHER_PROJECT = TEST_PROJECT + SelfAssessmentNature.TEACHER_PROJECT_SUFFIX
 
+	val TEST_STUDENT_PROJECT = TEST_PROJECT + SelfAssessmentNature.STUDENT_PROJECT_SUFFIX
+
 	val SOLUTION = SelfAssessmentNature.STUDENT_PROJECT_SOLUTION_PATH
 
 	var IProject studentProject
@@ -133,6 +135,54 @@ class JavammSelfAssessmentBuilderTest extends AbstractWorkbenchTest {
 		getFileFromSolutionPath("javamm/Example.class").assertFileExists
 	}
 
+	@Test
+	def void testCreatingFileInTeacherProjectFixesProblemsInStudentProject() {
+		createSimpleJavaFile(TEST_STUDENT_PROJECT, "excercise", "ExampleExcercise",
+			'''
+			// this must be defined in the teacher's project
+			example.ExampleSolution solution = null;
+			'''
+		)
+		
+		waitForBuild
+		// ExampleSolution is not yet defined
+		assertErrors("example cannot be resolved to a type")
+		
+		// create the solution in the teacher's project
+		createSimpleJavaFile(TEST_TEACHER_PROJECT, "example", "ExampleSolution", "")
+
+		// we wait for the .class file to be copied in the student's project
+		waitForBuild
+		// we wait for the student's project to be recompiled
+		waitForBuild
+		// now the solution .class should have been copied in the student's project
+		assertNoErrors
+	}
+
+	@Test
+	def void testCreatingJavammFileInTeacherProjectFixesProblemsInStudentProject() {
+		createSimpleJavaFile(TEST_STUDENT_PROJECT, "excercise", "ExampleExcercise",
+			'''
+			// this must be defined in the teacher's project
+			javamm.ExampleSolution solution = null;
+			'''
+		)
+		
+		waitForBuild
+		// ExampleSolution is not yet defined
+		assertErrors("javamm cannot be resolved to a type")
+		
+		// create the solution in the teacher's project
+		createSimpleJavammFile(TEST_TEACHER_PROJECT, "javamm", "ExampleSolution", "")
+
+		// we wait for the .class file to be copied in the student's project
+		waitForBuild
+		// we wait for the student's project to be recompiled
+		waitForBuild
+		// now the solution .class should have been copied in the student's project
+		assertNoErrors
+	}
+
 	def private createSimpleJavaFile(String projectName, String packageName, String className, CharSequence contents) {
 		createFile(
 			projectName + "/src/" + packageName.replace('.', '/') + "/" + className + ".java",
@@ -171,5 +221,13 @@ class JavammSelfAssessmentBuilderTest extends AbstractWorkbenchTest {
 
 	def private assertFileDoesNotExist(IFile file) {
 		assertFalse("file does exist: " + file.fullPath, file.exists)	
+	}
+
+	def private assertErrors(CharSequence expected) {
+		projectHelper.assertErrors(expected)
+	}
+
+	def private assertNoErrors() {
+		projectHelper.assertNoErrors
 	}
 }

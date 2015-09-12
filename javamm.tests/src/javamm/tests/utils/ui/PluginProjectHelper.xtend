@@ -85,16 +85,32 @@ class PluginProjectHelper {
 	}
 
 	def assertNoErrors() {
-		val markers = root.findMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE).
-			filter[
-				getAttribute(IMarker.SEVERITY, IMarker.SEVERITY_INFO) == IMarker.SEVERITY_ERROR
-			]
+		val markers = getErrorMarkers()
 		assertEquals(
 			"unexpected errors:\n" +
-			markers.map[getAttribute(IMarker.LOCATION) + 
-				", " + getAttribute(IMarker.MESSAGE)].join("\n"),
+			markers.map[getAttribute(IMarker.MESSAGE)].join("\n"),
 			0, 
 			markers.size
 		)
 	}
+
+	def assertErrors(CharSequence expected) {
+		val markers = getErrorMarkers()
+		assertEqualsStrings(
+			expected,
+			markers.map[getAttribute(IMarker.MESSAGE)].join("\n")
+		)
+	}
+	
+	def getErrorMarkers() {
+		root.findMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE).
+			filter[
+				getAttribute(IMarker.SEVERITY, IMarker.SEVERITY_INFO) == IMarker.SEVERITY_ERROR
+			]
+	}
+
+	def protected assertEqualsStrings(CharSequence expected, CharSequence actual) {
+		assertEquals(expected.toString().replaceAll("\r", ""), actual.toString());
+	}
+
 }
