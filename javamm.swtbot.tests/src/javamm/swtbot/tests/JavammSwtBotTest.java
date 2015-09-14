@@ -37,6 +37,7 @@ public class JavammSwtBotTest extends AbstractJavammSwtbotTest {
 				TEST_PROJECT + JavammSelfAssessmentNature.STUDENT_PROJECT_SUFFIX);
 		assertProjectCreated(TEST_PROJECT + JavammSelfAssessmentNature.TEACHER_PROJECT_SUFFIX);
 		waitForBuild();
+		waitForBuild();
 		assertErrorsInProject(0);
 	}
 
