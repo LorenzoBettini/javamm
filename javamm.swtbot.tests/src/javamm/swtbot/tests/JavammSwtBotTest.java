@@ -14,6 +14,8 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import javamm.selfassessment.builder.builder.JavammSelfAssessmentNature;
+
 /**
  * @author Lorenzo Bettini
  *
@@ -26,6 +28,14 @@ public class JavammSwtBotTest extends AbstractJavammSwtbotTest {
 	@Test
 	public void canCreateANewJavammProject() throws CoreException {
 		createProjectAndAssertNoErrorMarker(PROJECT_TYPE);
+	}
+
+	@Test
+	public void canCreateNewJavammSelfAssessmentProjects() throws CoreException {
+		createProjectAndAssertCreated(SELF_ASSESSMENT_PROJECT_TYPE,
+				TEST_PROJECT + JavammSelfAssessmentNature.STUDENT_PROJECT_SUFFIX);
+		assertProjectCreated(TEST_PROJECT + JavammSelfAssessmentNature.TEACHER_PROJECT_SUFFIX);
+		assertErrorsInProject(0);
 	}
 
 	@Test

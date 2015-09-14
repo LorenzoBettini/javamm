@@ -33,6 +33,7 @@ public class AbstractJavammSwtbotTest {
 
 	public static final String CATEGORY_NAME = "Java--";
 	protected static final String PROJECT_TYPE = "Java-- Project";
+	protected static final String SELF_ASSESSMENT_PROJECT_TYPE = "Java-- Self-Assessment Projects";
 	protected static final String TEST_PROJECT = "MyTestProject";
 	protected static SWTWorkbenchBot bot;
 
@@ -179,6 +180,10 @@ public class AbstractJavammSwtbotTest {
 	}
 
 	protected void createProject(String projectType) {
+		createProjectAndAssertCreated(projectType, TEST_PROJECT);
+	}
+
+	protected void createProjectAndAssertCreated(String projectType, String projectName) {
 		bot.menu("File").menu("New").menu("Project...").click();
 
 		SWTBotShell shell = bot.shell("New Project");
@@ -194,9 +199,13 @@ public class AbstractJavammSwtbotTest {
 
 		// creation of a project might require some time
 		bot.waitUntil(shellCloses(shell), SWTBotPreferences.TIMEOUT);
-		assertTrue("Project doesn't exist", isProjectCreated(TEST_PROJECT));
+		assertProjectCreated(projectName);
 		
 		reallyWaitForAutoBuild();
+	}
+
+	protected void assertProjectCreated(String projectName) {
+		assertTrue("Project doesn't exist", isProjectCreated(projectName));
 	}
 
 	protected void createFile(String fileType, String name, String...path) {
@@ -232,7 +241,7 @@ public class AbstractJavammSwtbotTest {
 
 		// creation of a project might require some time
 		bot.waitUntil(shellCloses(shell), SWTBotPreferences.TIMEOUT);
-		assertTrue("Project doesn't exist", isProjectCreated(mainProjectId));
+		assertProjectCreated(mainProjectId);
 
 		reallyWaitForAutoBuild();
 		assertErrorsInProject(0);
