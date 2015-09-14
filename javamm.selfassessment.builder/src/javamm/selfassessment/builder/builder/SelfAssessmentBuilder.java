@@ -79,6 +79,9 @@ public class SelfAssessmentBuilder extends IncrementalProjectBuilder {
 			fullBuild(monitor);
 		} else {
 			incrementalBuild(delta, monitor);
+			// refresh the student project
+			workspaceRoot().getProject(fromTeacherProjectNameToStudentProjectName())
+					.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 		}
 		return null;
 	}
@@ -116,9 +119,13 @@ public class SelfAssessmentBuilder extends IncrementalProjectBuilder {
 	}
 
 	private IFolder getStudentProjectDestinationFolder() {
-		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+		IWorkspaceRoot root = workspaceRoot();
 		IFolder folder = root.getFolder(getStudentProjectDestination());
 		return folder;
+	}
+
+	private IWorkspaceRoot workspaceRoot() {
+		return ResourcesPlugin.getWorkspace().getRoot();
 	}
 
 	private void copyToStudentProject(IResource resource, IProgressMonitor monitor) throws CoreException {
@@ -175,5 +182,11 @@ public class SelfAssessmentBuilder extends IncrementalProjectBuilder {
 				.addFileExtension(SelfAssessmentNature.STUDENT_PROJECT_SUFFIX_NAME);
 
 		return studentProjectPath;
+	}
+
+	private String fromTeacherProjectNameToStudentProjectName() {
+		String teacherProjectName = getProject().getName();
+		return teacherProjectName.replace(SelfAssessmentNature.TEACHER_PROJECT_SUFFIX,
+				SelfAssessmentNature.STUDENT_PROJECT_SUFFIX);
 	}
 }

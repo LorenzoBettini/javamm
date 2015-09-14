@@ -1,13 +1,16 @@
 /**
  * 
  */
-package javamm.ui.wizard;
+package javamm.ui.wizard.selfassessment;
 
 import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
-import org.eclipse.xtext.ui.wizard.IProjectCreator;
 import org.eclipse.xtext.ui.wizard.IProjectInfo;
 
 import com.google.inject.Inject;
+
+import javamm.selfassessment.builder.builder.SelfAssessmentNature;
+import javamm.ui.wizard.JavammNewProjectWizard;
+import javamm.ui.wizard.JavammProjectInfo;
 
 /**
  * We need to redefine it just to change Javamm to Java--
@@ -15,14 +18,14 @@ import com.google.inject.Inject;
  * @author Lorenzo Bettini
  *
  */
-public class JavammNewProjectWizardCustom extends JavammNewProjectWizard {
+public class JavammNewSelfAssessmentProjectWizard extends JavammNewProjectWizard {
 
 	private WizardNewProjectCreationPage mainPage;
 
 	@Inject
-	public JavammNewProjectWizardCustom(IProjectCreator projectCreator) {
+	public JavammNewSelfAssessmentProjectWizard(JavammSelfAssessmentProjectCreator projectCreator) {
 		super(projectCreator);
-		setWindowTitle("New Java-- Project");
+		setWindowTitle("New Java-- Self-Assessment Projects");
 	}
 	
 	/**
@@ -32,8 +35,8 @@ public class JavammNewProjectWizardCustom extends JavammNewProjectWizard {
 	@Override
 	public void addPages() {
 		mainPage = new WizardNewProjectCreationPage("basicNewProjectPage");
-		mainPage.setTitle("Java-- Project");
-		mainPage.setDescription("Create a new Java-- project.");
+		mainPage.setTitle("Java-- Self-Assessment Projects");
+		mainPage.setDescription("Create a new Java-- self-assessment project set.");
 		addPage(mainPage);
 	}
 
@@ -43,8 +46,15 @@ public class JavammNewProjectWizardCustom extends JavammNewProjectWizard {
 	@Override
 	protected IProjectInfo getProjectInfo() {
 		JavammProjectInfo projectInfo = new JavammProjectInfo();
-		projectInfo.setProjectName(mainPage.getProjectName());
+		projectInfo.setProjectName(getTeacherStudentProjectName());
 		return projectInfo;
 	}
-	
+
+	protected String getMainPageProjectName() {
+		return mainPage.getProjectName();
+	}
+
+	protected String getTeacherStudentProjectName() {
+		return getMainPageProjectName() + SelfAssessmentNature.STUDENT_PROJECT_SUFFIX;
+	}
 }

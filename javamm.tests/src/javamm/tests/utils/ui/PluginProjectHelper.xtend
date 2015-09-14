@@ -42,7 +42,8 @@ class PluginProjectHelper {
 		) => [
 			val solutionFolder = createFolder(path.append(SelfAssessmentNature.STUDENT_PROJECT_SOLUTION_PATH))
 			val classpath = newArrayList(rawClasspath)
-			val libEntry = JavaCore.newLibraryEntry(solutionFolder.fullPath, null, null)
+			val solutionFolderFullPath = solutionFolder.fullPath
+			val libEntry = JavaCore.newLibraryEntry(solutionFolderFullPath, null, null)
 			classpath += libEntry
 			setRawClasspath(classpath, monitor)
 		]
@@ -80,7 +81,7 @@ class PluginProjectHelper {
 		projectFactory.addRequiredBundles(requiredBundles);
 		projectFactory.addExportedPackages(exportedPackages)
 		val result = projectFactory.createProject(new NullProgressMonitor(), null);
-		JavaProjectSetupUtil.makeJava5Compliant(JavaCore.create(result));
+		JavaCore.create(result);
 		return JavaProjectSetupUtil.findJavaProject(projectName);
 	}
 

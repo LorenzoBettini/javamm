@@ -25,7 +25,8 @@ Require-Bundle: javamm;visibility:=reexport,
  org.eclipse.xpand,
  org.eclipse.jdt.core,
  org.eclipse.jdt.ui,
- org.eclipse.jdt.launching
+ org.eclipse.jdt.launching,
+ javamm.selfassessment.builder
 Import-Package: org.apache.log4j
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: javamm.ui.contentassist,
@@ -33,5 +34,6 @@ Export-Package: javamm.ui.contentassist,
  javamm.ui.internal,
  javamm.ui.quickfix,
  javamm.ui.wizard,
- javamm.ui.wizard.file
+ javamm.ui.wizard.file,
+ javamm.ui.wizard.selfassessment
 Bundle-Activator: javamm.ui.internal.JavammActivator
