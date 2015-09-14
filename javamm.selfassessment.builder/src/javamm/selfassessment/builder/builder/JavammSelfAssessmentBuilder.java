@@ -26,7 +26,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
  * @author Lorenzo Bettini
  *
  */
-public class SelfAssessmentBuilder extends IncrementalProjectBuilder {
+public class JavammSelfAssessmentBuilder extends IncrementalProjectBuilder {
 
 	public static final String BIN = "bin";
 
@@ -166,18 +166,18 @@ public class SelfAssessmentBuilder extends IncrementalProjectBuilder {
 	}
 
 	private IPath getStudentProjectDestination() {
-		return fromTeacherProjectToStudentProject().append(SelfAssessmentNature.STUDENT_PROJECT_SOLUTION_PATH);
+		return fromTeacherProjectToStudentProject().append(JavammSelfAssessmentNature.STUDENT_PROJECT_SOLUTION_PATH);
 	}
 
 	private IPath fromTeacherProjectToStudentProject() {
 		IPath projectPath = getProject().getFullPath();
 		return projectPath.removeFileExtension()
-				.addFileExtension(SelfAssessmentNature.STUDENT_PROJECT_SUFFIX_NAME);
+				.addFileExtension(JavammSelfAssessmentNature.STUDENT_PROJECT_SUFFIX_NAME);
 	}
 
 	private String fromTeacherProjectNameToStudentProjectName() {
 		String teacherProjectName = getProject().getName();
-		return teacherProjectName.replace(SelfAssessmentNature.TEACHER_PROJECT_SUFFIX,
-				SelfAssessmentNature.STUDENT_PROJECT_SUFFIX);
+		return teacherProjectName.replace(JavammSelfAssessmentNature.TEACHER_PROJECT_SUFFIX,
+				JavammSelfAssessmentNature.STUDENT_PROJECT_SUFFIX);
 	}
 }

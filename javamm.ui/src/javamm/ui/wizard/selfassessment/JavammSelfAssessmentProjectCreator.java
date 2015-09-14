@@ -18,8 +18,8 @@ import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import javamm.selfassessment.builder.builder.SelfAssessmentBuilder;
-import javamm.selfassessment.builder.builder.SelfAssessmentNature;
+import javamm.selfassessment.builder.builder.JavammSelfAssessmentBuilder;
+import javamm.selfassessment.builder.builder.JavammSelfAssessmentNature;
 import javamm.ui.wizard.JavammProjectCreatorCustom;
 
 public class JavammSelfAssessmentProjectCreator extends JavammProjectCreatorCustom {
@@ -57,12 +57,12 @@ public class JavammSelfAssessmentProjectCreator extends JavammProjectCreatorCust
 		JavammSelfAssessmentPluginProjectFactory projectFactory = (JavammSelfAssessmentPluginProjectFactory) configureProjectFactory(
 				createProjectFactory());
 
-		projectFactory.createFile(STUDENT_SOLUTION_FILE_NAME, project.getFolder(SOLUTION_FILE_PATH),
+		projectFactory.createFileInContainer(STUDENT_SOLUTION_FILE_NAME, project.getFolder(SOLUTION_FILE_PATH),
 				projectFiles.studentSolution(), monitor);
-		projectFactory.createFile(STUDENT_TEST_FILE_NAME, project.getFolder(STUDENT_TEST_FILE_PATH),
+		projectFactory.createFileInContainer(STUDENT_TEST_FILE_NAME, project.getFolder(STUDENT_TEST_FILE_PATH),
 				projectFiles.studentTest(), monitor);
 
-		IFolder solutionFolder = project.getFolder(SelfAssessmentNature.STUDENT_PROJECT_SOLUTION_PATH);
+		IFolder solutionFolder = project.getFolder(JavammSelfAssessmentNature.STUDENT_PROJECT_SOLUTION_PATH);
 
 		IJavaProject javaProject = JavaCore.create(project);
 
@@ -83,16 +83,16 @@ public class JavammSelfAssessmentProjectCreator extends JavammProjectCreatorCust
 				createProjectFactory());
 
 		String studentProjectName = project.getName();
-		String teacherProjectName = studentProjectName.replace(SelfAssessmentNature.STUDENT_PROJECT_SUFFIX,
-				SelfAssessmentNature.TEACHER_PROJECT_SUFFIX);
+		String teacherProjectName = studentProjectName.replace(JavammSelfAssessmentNature.STUDENT_PROJECT_SUFFIX,
+				JavammSelfAssessmentNature.TEACHER_PROJECT_SUFFIX);
 		projectFactory.setProjectName(teacherProjectName);
 		projectFactory.getFolders().clear();
 		projectFactory.addFolders(Lists.newArrayList(SRC_ROOT, SRC_GEN_ROOT));
-		projectFactory.addProjectNatures(SelfAssessmentNature.NATURE_ID);
-		projectFactory.addBuilderIds(SelfAssessmentBuilder.BUILDER_ID);
+		projectFactory.addProjectNatures(JavammSelfAssessmentNature.NATURE_ID);
+		projectFactory.addBuilderIds(JavammSelfAssessmentBuilder.BUILDER_ID);
 		IProject teacherProject = projectFactory.createProject(monitor, null);
 		
-		projectFactory.createFile(TEACHER_SOLUTION_FILE_NAME, teacherProject.getFolder(SOLUTION_FILE_PATH),
+		projectFactory.createFileInContainer(TEACHER_SOLUTION_FILE_NAME, teacherProject.getFolder(SOLUTION_FILE_PATH),
 				projectFiles.teacherSolution(), monitor);
 	}
 }

@@ -8,7 +8,7 @@ import org.eclipse.xtext.ui.wizard.IProjectInfo;
 
 import com.google.inject.Inject;
 
-import javamm.selfassessment.builder.builder.SelfAssessmentNature;
+import javamm.selfassessment.builder.builder.JavammSelfAssessmentNature;
 import javamm.ui.wizard.JavammNewProjectWizard;
 import javamm.ui.wizard.JavammProjectInfo;
 
@@ -55,6 +55,6 @@ public class JavammNewSelfAssessmentProjectWizard extends JavammNewProjectWizard
 	}
 
 	protected String getTeacherStudentProjectName() {
-		return getMainPageProjectName() + SelfAssessmentNature.STUDENT_PROJECT_SUFFIX;
+		return getMainPageProjectName() + JavammSelfAssessmentNature.STUDENT_PROJECT_SUFFIX;
 	}
 }

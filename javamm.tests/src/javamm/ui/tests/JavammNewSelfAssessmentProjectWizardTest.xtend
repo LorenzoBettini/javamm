@@ -13,7 +13,7 @@ import org.junit.runner.RunWith
 
 import static org.eclipse.xtext.junit4.ui.util.IResourcesSetupUtil.*
 import javamm.tests.utils.ui.JavammTestableNewSelfAssessmentProjectWizard
-import javamm.selfassessment.builder.builder.SelfAssessmentNature
+import javamm.selfassessment.builder.builder.JavammSelfAssessmentNature
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammUiInjectorProvider))
@@ -28,10 +28,10 @@ class JavammNewSelfAssessmentProjectWizardTest extends JavammAbstractWizardTest 
 		println("Using wizard...")
 		createAndFinishWizardDialog(wizard)
 		val studentProject = root.getProject(JavammTestableNewProjectWizard.TEST_PROJECT +
-			SelfAssessmentNature.STUDENT_PROJECT_SUFFIX)
+			JavammSelfAssessmentNature.STUDENT_PROJECT_SUFFIX)
 		assertTrue("student project does not exist", studentProject.exists())
 		val teacherProject = root.getProject(JavammTestableNewProjectWizard.TEST_PROJECT +
-			SelfAssessmentNature.TEACHER_PROJECT_SUFFIX)
+			JavammSelfAssessmentNature.TEACHER_PROJECT_SUFFIX)
 		assertTrue("teacher project does not exist", teacherProject.exists())
 		println("Waiting for build...")
 		// we wait for the .class file to be copied in the student's project

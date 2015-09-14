@@ -3,8 +3,6 @@ package javamm.tests.utils.ui
 import com.google.inject.Inject
 import com.google.inject.Provider
 import java.util.List
-import javamm.selfassessment.builder.builder.SelfAssessmentBuilder
-import javamm.selfassessment.builder.builder.SelfAssessmentNature
 import org.eclipse.core.resources.IMarker
 import org.eclipse.core.resources.IResource
 import org.eclipse.core.runtime.NullProgressMonitor
@@ -16,9 +14,11 @@ import org.eclipse.xtext.ui.util.PluginProjectFactory
 
 import static org.eclipse.xtext.junit4.ui.util.IResourcesSetupUtil.*
 import static org.junit.Assert.*
+import javamm.selfassessment.builder.builder.JavammSelfAssessmentBuilder
+import javamm.selfassessment.builder.builder.JavammSelfAssessmentNature
 
 class PluginProjectHelper {
-	
+
 	@Inject Provider<PluginProjectFactory> projectFactoryProvider
 
 	val defaultBuilderIds = newArrayList(JavaCore.BUILDER_ID, 
@@ -37,10 +37,10 @@ class PluginProjectHelper {
 	def IJavaProject createJavammStudentProject(String projectPrefix) {
 		val required = defaultRequiredBundles + newArrayList("org.junit")
 		createJavaPluginProject(
-			projectPrefix + SelfAssessmentNature.STUDENT_PROJECT_SUFFIX,
+			projectPrefix + JavammSelfAssessmentNature.STUDENT_PROJECT_SUFFIX,
 			required.toList
 		) => [
-			val solutionFolder = createFolder(path.append(SelfAssessmentNature.STUDENT_PROJECT_SOLUTION_PATH))
+			val solutionFolder = createFolder(path.append(JavammSelfAssessmentNature.STUDENT_PROJECT_SOLUTION_PATH))
 			val classpath = newArrayList(rawClasspath)
 			val solutionFolderFullPath = solutionFolder.fullPath
 			val libEntry = JavaCore.newLibraryEntry(solutionFolderFullPath, null, null)
@@ -51,11 +51,11 @@ class PluginProjectHelper {
 
 	def IJavaProject createJavammTeacherProject(String projectPrefix) {
 		createJavaPluginProject(
-			projectPrefix + SelfAssessmentNature.TEACHER_PROJECT_SUFFIX,
+			projectPrefix + JavammSelfAssessmentNature.TEACHER_PROJECT_SUFFIX,
 			defaultRequiredBundles,
 			#[],
-			(defaultBuilderIds + newArrayList(SelfAssessmentBuilder.BUILDER_ID)).toList,
-			(defaultNatureIds + newArrayList(SelfAssessmentNature.NATURE_ID)).toList
+			(defaultBuilderIds + newArrayList(JavammSelfAssessmentBuilder.BUILDER_ID)).toList,
+			(defaultNatureIds + newArrayList(JavammSelfAssessmentNature.NATURE_ID)).toList
 		)
 	}
 

@@ -2,7 +2,6 @@ package javamm.ui.tests
 
 import com.google.inject.Inject
 import javamm.JavammUiInjectorProvider
-import javamm.selfassessment.builder.builder.SelfAssessmentNature
 import javamm.tests.utils.ui.PDETargetPlatformUtils
 import javamm.tests.utils.ui.PluginProjectHelper
 import org.eclipse.core.resources.IFile
@@ -16,20 +15,21 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import static org.eclipse.xtext.junit4.ui.util.IResourcesSetupUtil.*
+import javamm.selfassessment.builder.builder.JavammSelfAssessmentNature
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammUiInjectorProvider))
 class JavammSelfAssessmentBuilderTest extends AbstractWorkbenchTest {
-	
+
 	@Inject PluginProjectHelper projectHelper
 	
 	val TEST_PROJECT = "mytestproject"
 
-	val TEST_TEACHER_PROJECT = TEST_PROJECT + SelfAssessmentNature.TEACHER_PROJECT_SUFFIX
+	val TEST_TEACHER_PROJECT = TEST_PROJECT + JavammSelfAssessmentNature.TEACHER_PROJECT_SUFFIX
 
-	val TEST_STUDENT_PROJECT = TEST_PROJECT + SelfAssessmentNature.STUDENT_PROJECT_SUFFIX
+	val TEST_STUDENT_PROJECT = TEST_PROJECT + JavammSelfAssessmentNature.STUDENT_PROJECT_SUFFIX
 
-	val SOLUTION = SelfAssessmentNature.STUDENT_PROJECT_SOLUTION_PATH
+	val SOLUTION = JavammSelfAssessmentNature.STUDENT_PROJECT_SOLUTION_PATH
 
 	var IProject studentProject
 

@@ -40,8 +40,7 @@ public class PluginProjectFactoryCustom extends PluginProjectFactory {
 		createFile("build.properties", project, content.toString(), progressMonitor);
 	}
 
-	@Override
-	public IFile createFile(String name, IContainer container, String content, IProgressMonitor progressMonitor) {
+	public IFile createFileInContainer(String name, IContainer container, String content, IProgressMonitor progressMonitor) {
 		return super.createFile(name, container, content, progressMonitor);
 	}
 

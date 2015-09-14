@@ -9,7 +9,7 @@
       <builder
             hasNature="true">
          <run
-               class="javamm.selfassessment.builder.builder.SelfAssessmentBuilder">
+               class="javamm.selfassessment.builder.builder.JavammSelfAssessmentBuilder">
          </run>
       </builder>
    </extension>
@@ -19,7 +19,7 @@
          point="org.eclipse.core.resources.natures">
       <runtime>
          <run
-               class="javamm.selfassessment.builder.builder.SelfAssessmentNature">
+               class="javamm.selfassessment.builder.builder.JavammSelfAssessmentNature">
          </run>
       </runtime>
       <builder
