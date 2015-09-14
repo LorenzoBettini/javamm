@@ -72,6 +72,19 @@ class JavammSelfAssessmentBuilderTest extends AbstractWorkbenchTest {
 	}
 
 	@Test
+	def void testSolutionFolderContentsRemovedBeforeCopyingClassFiles() {
+		val solutionFolder = studentProject.getFolder(SOLUTION)
+		val file = solutionFolder.getFile("foo")
+		createFile(file.fullPath, "")
+		solutionFolder.getFile("foo").exists.assertTrue
+		
+		createSimpleJavaFile(TEST_TEACHER_PROJECT, "example.sub", "ExampleSub", "")
+		waitForBuild
+		// the solution folder should have been emptied before copying the .class files
+		solutionFolder.getFile("foo").exists.assertFalse
+	}
+
+	@Test
 	def void testRemoval() {
 		createSimpleJavaFile(TEST_TEACHER_PROJECT, "example.sub", "ExampleSub", "")
 		waitForBuild
