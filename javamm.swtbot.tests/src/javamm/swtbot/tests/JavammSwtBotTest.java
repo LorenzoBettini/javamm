@@ -3,6 +3,7 @@
  */
 package javamm.swtbot.tests;
 
+import static org.eclipse.xtext.junit4.ui.util.IResourcesSetupUtil.waitForBuild;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.core.runtime.CoreException;
@@ -35,6 +36,7 @@ public class JavammSwtBotTest extends AbstractJavammSwtbotTest {
 		createProjectAndAssertCreated(SELF_ASSESSMENT_PROJECT_TYPE,
 				TEST_PROJECT + JavammSelfAssessmentNature.STUDENT_PROJECT_SUFFIX);
 		assertProjectCreated(TEST_PROJECT + JavammSelfAssessmentNature.TEACHER_PROJECT_SUFFIX);
+		waitForBuild();
 		assertErrorsInProject(0);
 	}
 
