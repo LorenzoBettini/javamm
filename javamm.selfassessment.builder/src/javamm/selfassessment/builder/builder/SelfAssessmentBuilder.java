@@ -43,13 +43,10 @@ public class SelfAssessmentBuilder extends IncrementalProjectBuilder {
 		public boolean visit(IResourceDelta delta) throws CoreException {
 			IResource resource = delta.getResource();
 			if (isClassFile(resource)) {
-				switch (delta.getKind()) {
-				case IResourceDelta.REMOVED:
+				if (delta.getKind() == IResourceDelta.REMOVED) {
 					removeFromStudentProject(resource, monitor);
-					break;
-				default:
+				} else {
 					copyToStudentProject(resource, monitor);
-					break;
 				}
 			}
 			// return true to continue visiting children.
@@ -119,9 +116,7 @@ public class SelfAssessmentBuilder extends IncrementalProjectBuilder {
 	}
 
 	private IFolder getStudentProjectDestinationFolder() {
-		IWorkspaceRoot root = workspaceRoot();
-		IFolder folder = root.getFolder(getStudentProjectDestination());
-		return folder;
+		return workspaceRoot().getFolder(getStudentProjectDestination());
 	}
 
 	private IWorkspaceRoot workspaceRoot() {
@@ -140,9 +135,7 @@ public class SelfAssessmentBuilder extends IncrementalProjectBuilder {
 		IPath projectRelative = resource.getProjectRelativePath();
 		// remove project and bin folder
 		IPath classFileRelativePath = projectRelative.removeFirstSegments(1).removeLastSegments(1);
-		IFolder studentProjectDestinationFolder = getStudentProjectDestinationFolder();
-		IFolder studentProjectDestinationSubFolder = studentProjectDestinationFolder.getFolder(classFileRelativePath);
-		return studentProjectDestinationSubFolder;
+		return getStudentProjectDestinationFolder().getFolder(classFileRelativePath);
 	}
 
 	private IFile removeFromStudentProject(IResource resource, IProgressMonitor monitor) throws CoreException {
@@ -178,10 +171,8 @@ public class SelfAssessmentBuilder extends IncrementalProjectBuilder {
 
 	private IPath fromTeacherProjectToStudentProject() {
 		IPath projectPath = getProject().getFullPath();
-		IPath studentProjectPath = projectPath.removeFileExtension()
+		return projectPath.removeFileExtension()
 				.addFileExtension(SelfAssessmentNature.STUDENT_PROJECT_SUFFIX_NAME);
-
-		return studentProjectPath;
 	}
 
 	private String fromTeacherProjectNameToStudentProjectName() {

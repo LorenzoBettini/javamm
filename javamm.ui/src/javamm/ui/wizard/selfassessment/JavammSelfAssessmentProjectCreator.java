@@ -70,7 +70,7 @@ public class JavammSelfAssessmentProjectCreator extends JavammProjectCreatorCust
 
 		List<IClasspathEntry> classpath = Lists.newArrayList(javaProject.getRawClasspath());
 		classpath.add(JavaCore.newLibraryEntry(solutionFolder.getFullPath(), null, null));
-		javaProject.setRawClasspath(((IClasspathEntry[]) Conversions.unwrapArray(classpath, IClasspathEntry.class)),
+		javaProject.setRawClasspath((IClasspathEntry[]) Conversions.unwrapArray(classpath, IClasspathEntry.class),
 				monitor);
 
 		StringBuilder contentsForBuildProperties = projectFactory.getContentsForBuildProperties();
