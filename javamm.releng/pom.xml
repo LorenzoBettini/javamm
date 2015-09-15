@@ -9,6 +9,7 @@
 		<module>../javamm.targetplatform</module>
 		<module>../javamm.runtime</module>
 		<module>../javamm</module>
+		<module>../javamm.selfassessment.builder</module>
 		<module>../javamm.ui</module>
 		<module>../javamm.examples</module>
 		<module>../javamm.ui.examples</module>
@@ -42,12 +43,12 @@
 		<sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
 		<sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
 		<!--  <sonar.junit.reportsPath>../${project.artifactId}.tests/target/surefire-reports/</sonar.junit.reportsPath> -->
-		<sonar.exclusions>file:**/*JvmModelGenerator.java,file:**/New*FileWizard*.java,file:**/src-gen/**,file:**/emf-gen/**,file:**/impl/*ImplCustom.java,file:**/tests/**,**/*RuntimeModule.java,**/*UiModule.java,**/*XcoreReader.java,**/*UiExamples.java,**/*TypeSystemGen*.java,**/*StandaloneSetup*.java</sonar.exclusions>
+		<sonar.exclusions>file:**/ui/launch/*.java,file:**/*SelfAssessmentNature.java,file:**/*JvmModelGenerator.java,file:**/New*FileWizard*.java,file:**/src-gen/**,file:**/emf-gen/**,file:**/impl/*ImplCustom.java,file:**/tests/**,**/*RuntimeModule.java,**/*UiModule.java,**/*XcoreReader.java,**/*UiExamples.java,**/*TypeSystemGen*.java,**/*StandaloneSetup*.java</sonar.exclusions>
 		
 		<!-- see http://sonarqube.15.x6.nabble.com/sonar-issue-ignore-multicriteria-td5021722.html and
 		 http://stackoverflow.com/questions/21825469/configure-sonar-sonar-issue-ignore-multicriteria-through-maven
 		 for the multicriteria property -->
-		<sonar.issue.ignore.multicriteria>e11,e12,e13,e14,e2,e3,e4,e5</sonar.issue.ignore.multicriteria>
+		<sonar.issue.ignore.multicriteria>e11,e12,e13,e14,e2,e3,e4,e5,e6</sonar.issue.ignore.multicriteria>
 		
 		<!-- standard convention for method names: in the outline tree provider we
 		 must use methods that start with _ and they'd violate the rule squid:S00100 -->
@@ -79,6 +80,10 @@
 		<!-- Useless parenthesis; these files use code automatically generated -->
 		<sonar.issue.ignore.multicriteria.e5.ruleKey>squid:UselessParenthesesCheck</sonar.issue.ignore.multicriteria.e5.ruleKey>
 		<sonar.issue.ignore.multicriteria.e5.resourceKey>**/*AbstractXbaseProposalProvider.java</sonar.issue.ignore.multicriteria.e5.resourceKey>
+
+		<!-- Eclipse builder IProject[] build is expected to return null in some cases -->
+		<sonar.issue.ignore.multicriteria.e6.ruleKey>squid:S1168</sonar.issue.ignore.multicriteria.e6.ruleKey>
+		<sonar.issue.ignore.multicriteria.e6.resourceKey>**/*SelfAssessmentBuilder.java</sonar.issue.ignore.multicriteria.e6.resourceKey>
 		
 		<!--  sonar.skippedModules is deprecated: https://jira.codehaus.org/browse/SONAR-5109 -->
 		<!-- instead we must use advanced reactor options: https://jira.codehaus.org/browse/MSONAR-61  -->

@@ -627,6 +627,14 @@
             name="Java-- File"
             project="false">
       </wizard>
+      <wizard
+            category="javamm.ui.category"
+            class="javamm.ui.JavammExecutableExtensionFactory:javamm.ui.wizard.selfassessment.JavammNewSelfAssessmentProjectWizard"
+            icon="icons/javamm_project.gif"
+            id="javamm.ui.wizard.selfassessment.JavammNewSelfAssessmentProjectWizard"
+            name="Java-- Self-Assessment Projects"
+            project="true">
+      </wizard>
       <category
             id="javamm.ui.category"
             name="Java--">

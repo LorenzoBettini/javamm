@@ -12,12 +12,14 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import static org.eclipse.xtext.junit4.ui.util.IResourcesSetupUtil.*
+import javamm.tests.utils.ui.JavammTestableNewSelfAssessmentProjectWizard
+import javamm.selfassessment.builder.builder.JavammSelfAssessmentNature
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammUiInjectorProvider))
-class JavammNewProjectWizardTest extends JavammAbstractWizardTest {
+class JavammNewSelfAssessmentProjectWizardTest extends JavammAbstractWizardTest {
 
-	@Inject Provider<JavammTestableNewProjectWizard> wizardProvider
+	@Inject Provider<JavammTestableNewSelfAssessmentProjectWizard> wizardProvider
 
 	@Test def void testJavammNewProjectWizard() {
 		println("Creating new project wizard...")
@@ -25,9 +27,16 @@ class JavammNewProjectWizardTest extends JavammAbstractWizardTest {
 		wizard.init(PlatformUI.getWorkbench(), new StructuredSelection());
 		println("Using wizard...")
 		createAndFinishWizardDialog(wizard)
-		val project = root.getProject(JavammTestableNewProjectWizard.TEST_PROJECT)
-		assertTrue(project.exists())
+		val studentProject = root.getProject(JavammTestableNewProjectWizard.TEST_PROJECT +
+			JavammSelfAssessmentNature.STUDENT_PROJECT_SUFFIX)
+		assertTrue("student project does not exist", studentProject.exists())
+		val teacherProject = root.getProject(JavammTestableNewProjectWizard.TEST_PROJECT +
+			JavammSelfAssessmentNature.TEACHER_PROJECT_SUFFIX)
+		assertTrue("teacher project does not exist", teacherProject.exists())
 		println("Waiting for build...")
+		// we wait for the .class file to be copied in the student's project
+		waitForBuild
+		// we wait for the student's project to be recompiled
 		waitForBuild
 		projectHelper.assertNoErrors
 		println("No errors in project, OK!")

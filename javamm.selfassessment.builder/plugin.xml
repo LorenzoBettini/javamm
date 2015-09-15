@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         id="javammSelfAssessmentBuilder"
+         name="Java-- SelfAssessment Project Builder"
+         point="org.eclipse.core.resources.builders">
+      <builder
+            hasNature="true">
+         <run
+               class="javamm.selfassessment.builder.builder.JavammSelfAssessmentBuilder">
+         </run>
+      </builder>
+   </extension>
+   <extension
+         id="javammSelfAssessmentNature"
+         name="Java-- SelfAssessment Project Nature"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="javamm.selfassessment.builder.builder.JavammSelfAssessmentNature">
+         </run>
+      </runtime>
+      <builder
+            id="javamm.selfassessment.builder.javammSelfAssessmentBuilder">
+      </builder>
+   </extension>
+
+</plugin>

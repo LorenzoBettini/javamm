@@ -3,6 +3,7 @@
  */
 package javamm.swtbot.tests;
 
+import static org.eclipse.xtext.junit4.ui.util.IResourcesSetupUtil.waitForBuild;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.core.runtime.CoreException;
@@ -13,6 +14,8 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import javamm.selfassessment.builder.builder.JavammSelfAssessmentNature;
 
 /**
  * @author Lorenzo Bettini
@@ -26,6 +29,16 @@ public class JavammSwtBotTest extends AbstractJavammSwtbotTest {
 	@Test
 	public void canCreateANewJavammProject() throws CoreException {
 		createProjectAndAssertNoErrorMarker(PROJECT_TYPE);
+	}
+
+	@Test
+	public void canCreateNewJavammSelfAssessmentProjects() throws CoreException {
+		createProjectAndAssertCreated(SELF_ASSESSMENT_PROJECT_TYPE,
+				TEST_PROJECT + JavammSelfAssessmentNature.STUDENT_PROJECT_SUFFIX);
+		assertProjectCreated(TEST_PROJECT + JavammSelfAssessmentNature.TEACHER_PROJECT_SUFFIX);
+		waitForBuild();
+		waitForBuild();
+		assertErrorsInProject(0);
 	}
 
 	@Test

@@ -42,7 +42,7 @@ public class JavammNewProjectWizardCustom extends JavammNewProjectWizard {
 	 */
 	@Override
 	protected IProjectInfo getProjectInfo() {
-		javamm.ui.wizard.JavammProjectInfo projectInfo = new javamm.ui.wizard.JavammProjectInfo();
+		JavammProjectInfo projectInfo = new JavammProjectInfo();
 		projectInfo.setProjectName(mainPage.getProjectName());
 		return projectInfo;
 	}
