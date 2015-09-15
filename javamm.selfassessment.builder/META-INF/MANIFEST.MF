@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Builder
 Bundle-SymbolicName: javamm.selfassessment.builder;singleton:=true
-Bundle-Version: 1.2.0.qualifier
+Bundle-Version: 1.2.1.qualifier
 Bundle-Activator: javamm.selfassessment.builder.Activator
 Bundle-Vendor: Lorenzo Bettini
 Require-Bundle: org.eclipse.ui,
