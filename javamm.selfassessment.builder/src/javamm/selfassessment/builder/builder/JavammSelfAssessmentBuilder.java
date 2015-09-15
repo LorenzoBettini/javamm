@@ -30,7 +30,7 @@ public class JavammSelfAssessmentBuilder extends IncrementalProjectBuilder {
 
 	public static final String BIN = "bin";
 
-	public static final String BUILDER_ID = "javamm.selfassessment.builder.selfAssessmentBuilder";
+	public static final String BUILDER_ID = "javamm.selfassessment.builder.javammSelfAssessmentBuilder";
 
 	class SelfAssessmentBuilderDeltaVisitor implements IResourceDeltaVisitor {
 		private IProgressMonitor monitor;

@@ -11,7 +11,7 @@ public class JavammSelfAssessmentNature implements IProjectNature {
 	/**
 	 * ID of this project nature
 	 */
-	public static final String NATURE_ID = "javamm.selfassessment.builder.selfAssessmentNature";
+	public static final String NATURE_ID = "javamm.selfassessment.builder.javammSelfAssessmentNature";
 
 	/**
 	 * Suffix of student's project
