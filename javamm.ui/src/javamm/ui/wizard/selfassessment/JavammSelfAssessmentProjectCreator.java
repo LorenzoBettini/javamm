@@ -22,6 +22,14 @@ import javamm.selfassessment.builder.builder.JavammSelfAssessmentBuilder;
 import javamm.selfassessment.builder.builder.JavammSelfAssessmentNature;
 import javamm.ui.wizard.JavammProjectCreatorCustom;
 
+/**
+ * This creates both the student's project and the teacher's project, adding
+ * example contents, including a Junit test, and setting our builder in the
+ * teacher's project.
+ * 
+ * @author Lorenzo Bettini
+ *
+ */
 public class JavammSelfAssessmentProjectCreator extends JavammProjectCreatorCustom {
 
 	protected static final String TESTS_ROOT = "tests";

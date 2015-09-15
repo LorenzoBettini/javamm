@@ -13,7 +13,7 @@ import javamm.ui.wizard.JavammNewProjectWizard;
 import javamm.ui.wizard.JavammProjectInfo;
 
 /**
- * We need to redefine it just to change Javamm to Java--
+ * We need to redefine it just to change titles, descriptions and project names.
  * 
  * @author Lorenzo Bettini
  *
