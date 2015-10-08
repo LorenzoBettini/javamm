@@ -4,8 +4,10 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
+ * Utility class with methods for requesting input using a Swing dialog.
+ * 
  * @author Pierluigi Crescenzi - Initial contribution and API
- *
+ * @since 1.3
  */
 public class Input {
 	public static int getInt(String message) {
