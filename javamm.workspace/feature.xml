@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="javamm.workspace"
+      label="Java-- Workspace"
+      version="1.2.1.qualifier"
+      provider-name="Lorenzo Bettini">
+
+   <description url="http://javamm.sourceforge.net/">
+      This is just a feature project to be used in Oomph setup
+   </description>
+
+   <copyright url="http://www.example.com/copyright">
+      [Enter Copyright Description here.]
+   </copyright>
+
+   <license url="http://www.example.com/license">
+      [Enter License Description here.]
+   </license>
+
+   <includes
+         id="javamm.sdk"
+         version="0.0.0"/>
+
+   <includes
+         id="javamm.ide.feature"
+         version="0.0.0"/>
+
+   <plugin
+         id="javamm.examples"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="javamm.ide"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+   <plugin
+         id="javamm.swtbot.tests"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="javamm.tests"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>
