@@ -100,7 +100,7 @@
 									<goal>run</goal>
 								</goals>
 							</execution>
-	
+							
 							<execution>
 								<id>deploy-repository</id>
 								<phase>verify</phase>
@@ -114,11 +114,62 @@
 									<goal>run</goal>
 								</goals>
 							</execution>
+							
+							<execution>
+								<id>deploy-zipped-repository</id>
+								<phase>verify</phase>
+								<configuration>
+									<target>
+										<ant antfile="${ant-files-path}/rsync.ant" 
+													target="rsync-copy-dir-contents">
+											<property name="rsync.remote.dir" value="${rsync.remote.zips.dir}/${unqualifiedVersion}/"/>
+											<property name="rsync.local.dir" value="${project.build.directory}/"/>
+										</ant>
+									</target>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
 						</executions>
 					</plugin>
 				</plugins>
 			</build>
+		</profile>
+		
+		<profile>
+			<!-- in this case we still copy the zipped update site to the remote zips directory -->
+			<id>release-ide-composite</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
 
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<version>${maven-antrun-plugin.version}</version>
+						<executions>
+							<execution>
+								<id>deploy-zipped-repository</id>
+								<phase>verify</phase>
+								<configuration>
+									<target>
+										<ant antfile="${ant-files-path}/rsync.ant" 
+													target="rsync-copy-dir-contents">
+											<property name="rsync.remote.dir" value="${rsync.remote.zips.dir}/${unqualifiedVersion}/"/>
+											<property name="rsync.local.dir" value="${project.build.directory}/"/>
+										</ant>
+									</target>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
 		</profile>
 	</profiles>
 </project>
