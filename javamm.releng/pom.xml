@@ -155,6 +155,7 @@
 				<activeByDefault>false</activeByDefault>
 			</activation>
 			<properties>
+				<includeAllDependencies>false</includeAllDependencies>
 				<updates.dir>javamm-snapshots</updates.dir>
 				<remote.updates.dir>snapshots/updates/releases</remote.updates.dir>
 				<remote.zips.dir>snapshots/zips</remote.zips.dir>
