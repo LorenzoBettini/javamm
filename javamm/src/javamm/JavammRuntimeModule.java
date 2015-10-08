@@ -6,6 +6,7 @@ package javamm;
 import org.eclipse.xtext.conversion.IValueConverterService;
 import org.eclipse.xtext.generator.IGenerator;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
+import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider;
 import org.eclipse.xtext.validation.IDiagnosticConverter;
 import org.eclipse.xtext.xbase.compiler.XbaseCompiler;
 import org.eclipse.xtext.xbase.controlflow.IEarlyExitComputer;
@@ -82,7 +83,7 @@ public class JavammRuntimeModule extends javamm.AbstractJavammRuntimeModule {
 	public void configureIScopeProviderDelegate(Binder binder) {
 		binder.bind(org.eclipse.xtext.scoping.IScopeProvider.class)
 				.annotatedWith(
-						Names.named(org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider.NAMED_DELEGATE))
+						Names.named(AbstractDeclarativeScopeProvider.NAMED_DELEGATE))
 				.to(JavammImportedNamespaceScopeProvider.class);
 	}
 }
