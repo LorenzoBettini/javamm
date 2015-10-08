@@ -24,7 +24,7 @@ public class Input {
 				continue;
 			}
 		}
-		return (number);
+		return number;
 	}
 
 	public static long getLong(String message) {
@@ -36,7 +36,7 @@ public class Input {
 		} catch (NumberFormatException nfe) {
 			number = 0;
 		}
-		return (number);
+		return number;
 	}
 
 	public static double getDouble(String message) {
@@ -48,21 +48,21 @@ public class Input {
 		} catch (NumberFormatException nfe) {
 			number = 0;
 		}
-		return (number);
+		return number;
 	}
 
 	public static char getChar(String message) {
 		InputFrame inf = new InputFrame(message);
 		if (inf.text.length() > 0) {
-			return (inf.text.charAt(0));
+			return inf.text.charAt(0);
 		} else {
-			return (' ');
+			return ' ';
 		}
 	}
 
 	public static String getString(String message) {
 		InputFrame inf = new InputFrame(message);
-		return (inf.text);
+		return inf.text;
 	}
 }
 
