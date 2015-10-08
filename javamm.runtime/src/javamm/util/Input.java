@@ -10,6 +10,11 @@ import javax.swing.JOptionPane;
  * @since 1.3
  */
 public class Input {
+
+	private Input() {
+		// not meant to be instantiated
+	}
+
 	public static int getInt(String message) {
 		InputFrame inf = new InputFrame(message);
 		String text = inf.text;
