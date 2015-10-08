@@ -183,7 +183,7 @@ class JavammSelfAssessmentBuilderTest extends AbstractWorkbenchTest {
 		
 		waitForBuild
 		// ExampleSolution is not yet defined
-		assertErrors("javamm cannot be resolved to a type")
+		assertErrors("javamm.ExampleSolution cannot be resolved to a type")
 		
 		// create the solution in the teacher's project
 		createSimpleJavammFile(TEST_TEACHER_PROJECT, "javamm", "ExampleSolution", "")
