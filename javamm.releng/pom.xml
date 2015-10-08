@@ -101,20 +101,22 @@
 		
 		<!-- properties for deploying the composite update site and zipped products on Sourceforge -->
 		
-		<!-- since this is used in the pluginManagement section, we need to make sure
+		<!-- since this could be used in the pluginManagement section, we need to make sure
 			the path always points to this pom's directory; project.basedir will always point
 			to the directory of the pom where the pluginManagement's plugins are used -->
 		<ant-files-path>${project.basedir}/../javamm.releng/ant</ant-files-path>
 
-		<!-- the subdirectory for the composite update site -->
 		<updates.dir>javamm</updates.dir>
 		<site.label>Java-- Site</site.label>
-
 		<remote.dir>lbettini,javamm@frs.sourceforge.net:/home/frs/project/javamm</remote.dir>
+		<remote.updates.dir>updates/releases</remote.updates.dir>
+		<remote.zips.dir>zips</remote.zips.dir>
 	
+		<!-- remote host zips dir -->
+		<rsync.remote.zips.dir>${remote.dir}/${remote.zips.dir}</rsync.remote.zips.dir> 
+		<!-- remote rsync host -->
+		<rsync.remote.dir>${remote.dir}/${remote.updates.dir}/</rsync.remote.dir> 
 		<!-- local source directory of p2 site for rsync -->
-		<rsync.remote.dir>${remote.dir}/updates/releases/</rsync.remote.dir>
-		<!-- remote directory of p2 site for rsync -->
 		<rsync.local.dir>${user.home}/p2.repositories/${updates.dir}/</rsync.local.dir>
 
 		<!-- pass "-n" to perform a trial run with no changes made -->
@@ -144,6 +146,19 @@
 
 			<properties>
 				<target-file-name>local</target-file-name>
+			</properties>
+		</profile>
+
+		<profile>
+			<id>release-snapshots</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<updates.dir>javamm-snapshots</updates.dir>
+				<remote.updates.dir>snapshots/updates/releases</remote.updates.dir>
+				<remote.zips.dir>snapshots/zips</remote.zips.dir>
+				<site.label>Java-- Snapshot Site</site.label>
 			</properties>
 		</profile>
 
