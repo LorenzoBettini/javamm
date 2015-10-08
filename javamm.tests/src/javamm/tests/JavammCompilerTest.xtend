@@ -4,7 +4,7 @@ import com.google.common.base.Joiner
 import com.google.inject.Inject
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream
-import javamm.JavammInjectorProvider
+import javamm.JavammInjectorProviderCustom
 import org.eclipse.xtext.diagnostics.Severity
 import org.eclipse.xtext.junit4.InjectWith
 import org.eclipse.xtext.junit4.TemporaryFolder
@@ -18,7 +18,7 @@ import org.junit.runner.RunWith
 import static extension org.junit.Assert.*
 
 @RunWith(typeof(XtextRunner))
-@InjectWith(typeof(JavammInjectorProvider))
+@InjectWith(typeof(JavammInjectorProviderCustom))
 class JavammCompilerTest extends JavammAbstractTest {
 
 	@Rule @Inject public TemporaryFolder temporaryFolder
@@ -2384,6 +2384,46 @@ true
 3 4 1 2 
 '''
 		)
+	}
+
+	@Test def void testJavammRuntimeLibrary() {
+		'''
+import javamm.util.Input;
+
+Input.getInt("an int");
+		'''.checkCompilation(
+'''
+package javamm;
+
+import javamm.util.Input;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    Input.getInt("an int");
+  }
+}
+'''
+			)
+	}
+
+	@Test def void testJavammRuntimeLibraryFullyQualified() {
+		'''
+javamm.util.Input.getInt("an int");
+		'''.checkCompilation(
+'''
+package javamm;
+
+import javamm.util.Input;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    Input.getInt("an int");
+  }
+}
+'''
+			)
 	}
 
 	def private checkCompilation(CharSequence input, CharSequence expectedGeneratedJava) {
