@@ -2426,6 +2426,25 @@ public class MyFile {
 			)
 	}
 
+	@Test def void testJavammRuntimeLibraryWithoutImport() {
+		'''
+Input.getInt("an int");
+		'''.checkCompilation(
+'''
+package javamm;
+
+import javamm.util.Input;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    Input.getInt("an int");
+  }
+}
+'''
+			)
+	}
+
 	def private checkCompilation(CharSequence input, CharSequence expectedGeneratedJava) {
 		checkCompilation(input, expectedGeneratedJava, true)
 	}

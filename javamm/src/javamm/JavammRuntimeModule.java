@@ -3,17 +3,6 @@
  */
 package javamm;
 
-import javamm.compiler.JavammJvmModelGenerator;
-import javamm.compiler.JavammXbaseCompiler;
-import javamm.controlflow.JavammEarlyExitComputer;
-import javamm.conversion.JavammValueConverterService;
-import javamm.imports.JavammRewritableImportSection.JavammRewritableImportSectionFactory;
-import javamm.scoping.JavammOperatorMapping;
-import javamm.scoping.JavammQualifiedNameProvider;
-import javamm.typesystem.JavammExpressionArgumentFactory;
-import javamm.typesystem.JavammTypeComputer;
-import javamm.validation.JavammDiagnosticConverter;
-
 import org.eclipse.xtext.conversion.IValueConverterService;
 import org.eclipse.xtext.generator.IGenerator;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
@@ -24,6 +13,21 @@ import org.eclipse.xtext.xbase.imports.RewritableImportSection;
 import org.eclipse.xtext.xbase.scoping.featurecalls.OperatorMapping;
 import org.eclipse.xtext.xbase.typesystem.computation.ITypeComputer;
 import org.eclipse.xtext.xbase.typesystem.internal.ExpressionArgumentFactory;
+
+import com.google.inject.Binder;
+import com.google.inject.name.Names;
+
+import javamm.compiler.JavammJvmModelGenerator;
+import javamm.compiler.JavammXbaseCompiler;
+import javamm.controlflow.JavammEarlyExitComputer;
+import javamm.conversion.JavammValueConverterService;
+import javamm.imports.JavammRewritableImportSection.JavammRewritableImportSectionFactory;
+import javamm.scoping.JavammImportedNamespaceScopeProvider;
+import javamm.scoping.JavammOperatorMapping;
+import javamm.scoping.JavammQualifiedNameProvider;
+import javamm.typesystem.JavammExpressionArgumentFactory;
+import javamm.typesystem.JavammTypeComputer;
+import javamm.validation.JavammDiagnosticConverter;
 
 
 /**
@@ -72,5 +76,13 @@ public class JavammRuntimeModule extends javamm.AbstractJavammRuntimeModule {
 
 	public Class<? extends IEarlyExitComputer> bindIEarlyExitComputer() {
 		return JavammEarlyExitComputer.class;
+	}
+
+	@Override
+	public void configureIScopeProviderDelegate(Binder binder) {
+		binder.bind(org.eclipse.xtext.scoping.IScopeProvider.class)
+				.annotatedWith(
+						Names.named(org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider.NAMED_DELEGATE))
+				.to(JavammImportedNamespaceScopeProvider.class);
 	}
 }
