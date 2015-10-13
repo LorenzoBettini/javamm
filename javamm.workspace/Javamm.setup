@@ -39,6 +39,11 @@
     <description>Set the ReservedCodeCacheSize to work with the projects of ${scope.project.label}</description>
   </setupTask>
   <setupTask
+      xsi:type="setup:EclipseIniTask"
+      option="-Doomph.redirection.javamm="
+      value="https://raw.githubusercontent.com/LorenzoBettini/javamm/master/javamm.workspace/Javamm.setup->${git.clone.location|uri}/javamm.workspace/Javamm.setup"
+      vm="true"/>
+  <setupTask
       xsi:type="setup:CompoundTask"
       name="org.eclipse.jdt.launching">
     <setupTask
@@ -377,7 +382,7 @@
             pattern=".*\.tests(\..*)?"/>
         <operand
             xsi:type="workingsets:ExclusionPredicate"
-            excludedWorkingSet="//@setupTasks.11/@workingSets.0"/>
+            excludedWorkingSet="//@setupTasks.12/@workingSets.0"/>
       </predicate>
     </workingSet>
     <workingSet
@@ -416,7 +421,7 @@
             project="javamm.sdk"/>
         <operand
             xsi:type="workingsets:ExclusionPredicate"
-            excludedWorkingSet="//@setupTasks.11/@workingSets.0 //@setupTasks.11/@workingSets.1 //@setupTasks.11/@workingSets.2"/>
+            excludedWorkingSet="//@setupTasks.12/@workingSets.0 //@setupTasks.12/@workingSets.1 //@setupTasks.12/@workingSets.2"/>
         <operand
             xsi:type="predicates:NaturePredicate"
             nature="org.eclipse.pde.FeatureNature"/>
@@ -431,7 +436,7 @@
             project="javamm.sdk"/>
         <operand
             xsi:type="workingsets:ExclusionPredicate"
-            excludedWorkingSet="//@setupTasks.11/@workingSets.0 //@setupTasks.11/@workingSets.1"/>
+            excludedWorkingSet="//@setupTasks.12/@workingSets.0 //@setupTasks.12/@workingSets.1"/>
         <operand
             xsi:type="predicates:NaturePredicate"
             nature="org.eclipse.pde.PluginNature"/>
