@@ -8,6 +8,7 @@ import java.util.List;
 import org.eclipse.xtext.common.types.JvmPrimitiveType;
 import org.eclipse.xtext.common.types.util.Primitives;
 import org.eclipse.xtext.common.types.util.Primitives.Primitive;
+import org.eclipse.xtext.xbase.XBinaryOperation;
 import org.eclipse.xtext.xbase.XNumberLiteral;
 import org.eclipse.xtext.xbase.typesystem.computation.ITypeComputationState;
 import org.eclipse.xtext.xbase.typesystem.computation.ITypeExpectation;
@@ -23,13 +24,14 @@ import com.google.inject.Inject;
  *
  */
 public class PatchedTypeComputer extends XbaseTypeComputer {
-	
+
 	@Inject
 	private Primitives primitives;
-	
+
 	/**
-	 * The original implementation in Xbase does not consider possible type expectations,
-	 * failing to correctly type these cases, which are valid in Java:
+	 * The original implementation in Xbase does not consider possible type
+	 * expectations, failing to correctly type these cases, which are valid in
+	 * Java:
 	 * 
 	 * <pre>
 	 * byte b = 100;
@@ -39,27 +41,32 @@ public class PatchedTypeComputer extends XbaseTypeComputer {
 	 */
 	@Override
 	protected void _computeTypes(XNumberLiteral object, ITypeComputationState state) {
+		if (object.eContainer() instanceof XBinaryOperation) {
+			// temporary fix for https://github.com/LorenzoBettini/javamm/issues/34
+			super._computeTypes(object, state);
+			return;
+		}
+
 		List<? extends ITypeExpectation> expectations = state.getExpectations();
 		for (ITypeExpectation typeExpectation : expectations) {
 			LightweightTypeReference expectedType = typeExpectation.getExpectedType();
 			if (expectedType != null && expectedType.getType() instanceof JvmPrimitiveType) {
-				Primitive kind = primitives.primitiveKind((JvmPrimitiveType)expectedType.getType());
+				Primitive kind = primitives.primitiveKind((JvmPrimitiveType) expectedType.getType());
 				if (checkConversionToPrimitive(object, kind)) {
 					state.acceptActualType(expectedType);
 					return;
 				}
 			}
 		}
-		
+
 		super._computeTypes(object, state);
 	}
 
-	private boolean checkConversionToPrimitive(XNumberLiteral object,
-			Primitive kind) {
+	private boolean checkConversionToPrimitive(XNumberLiteral object, Primitive kind) {
 		boolean success = true;
 		String value = object.getValue();
 		try {
-			switch(kind) {
+			switch (kind) {
 			case Byte:
 				Byte.parseByte(value);
 				break;
@@ -74,7 +81,7 @@ public class PatchedTypeComputer extends XbaseTypeComputer {
 				success = false;
 				break;
 			}
-			
+
 		} catch (NumberFormatException e) {
 			success = false;
 		}
