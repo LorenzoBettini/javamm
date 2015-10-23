@@ -44,6 +44,7 @@ public class PatchedTypeComputer extends XbaseTypeComputer {
 		if (object.eContainer() instanceof XBinaryOperation) {
 			// temporary fix for https://github.com/LorenzoBettini/javamm/issues/34
 			super._computeTypes(object, state);
+			return;
 		}
 
 		List<? extends ITypeExpectation> expectations = state.getExpectations();
