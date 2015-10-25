@@ -836,6 +836,19 @@ class JavammValidatorTest extends JavammAbstractTest {
 		)
 	}
 
+	@Test def void testMissingReturnStatement() {
+		// https://github.com/LorenzoBettini/javamm/issues/32
+		val input = '''
+		int m(int i) {
+			if (i < 0) {
+				return 0;
+			}
+		}
+		'''
+		// this should fail since there's a missing return statement
+		input.parse.assertNoErrors
+	}
+
 	def private assertNumberLiteralTypeMismatch(EObject o, String expectedType, String actualType) {
 		o.assertTypeMismatch(XbasePackage.eINSTANCE.XNumberLiteral, expectedType, actualType)
 	}
