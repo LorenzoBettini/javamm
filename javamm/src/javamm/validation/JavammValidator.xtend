@@ -6,6 +6,7 @@ package javamm.validation
 import com.google.inject.Inject
 import java.util.ArrayList
 import java.util.List
+import javamm.controlflow.JavammSureReturnComputer
 import javamm.javamm.JavammAdditionalXVariableDeclaration
 import javamm.javamm.JavammArrayConstructorCall
 import javamm.javamm.JavammBranchingStatement
@@ -30,6 +31,7 @@ import org.eclipse.xtext.xbase.XAbstractFeatureCall
 import org.eclipse.xtext.xbase.XAbstractWhileExpression
 import org.eclipse.xtext.xbase.XAssignment
 import org.eclipse.xtext.xbase.XBasicForLoopExpression
+import org.eclipse.xtext.xbase.XBlockExpression
 import org.eclipse.xtext.xbase.XDoWhileExpression
 import org.eclipse.xtext.xbase.XExpression
 import org.eclipse.xtext.xbase.XFeatureCall
@@ -43,7 +45,6 @@ import org.eclipse.xtext.xbase.typesystem.util.Multimaps2
 import org.eclipse.xtext.xbase.validation.ImplicitReturnFinder
 import org.eclipse.xtext.xbase.validation.XbaseValidator
 import org.eclipse.xtext.xtype.XImportDeclaration
-import org.eclipse.xtext.xbase.XBlockExpression
 
 //import org.eclipse.xtext.validation.Check
 
@@ -92,8 +93,9 @@ class JavammValidator extends XbaseValidator {
 	@Inject extension JavammNodeModelUtil
 	@Inject extension JavammModelUtil
 	@Inject ImplicitReturnFinder implicitReturnFinder
-	@Inject IBatchTypeResolver batchTypeResolver;
-	
+	@Inject IBatchTypeResolver batchTypeResolver
+	@Inject JavammSureReturnComputer sureReturnComputer
+
 	override protected getEPackages() {
 		val result = new ArrayList<EPackage>(super.getEPackages());
 	    result.add(JavammPackage.eINSTANCE);
@@ -162,12 +164,20 @@ class JavammValidator extends XbaseValidator {
 		val body = method.body as XBlockExpression
 		val lastExpression = body.expressions.last
 		if (lastExpression == null) {
-			error("Missing return", body, null, MISSING_RETURN)
+			errorMissingReturnStatement(body)
+			return
 		}
 		implicitReturnFinder.findImplicitReturns(body) [
 			implicitReturn |
-			error("Missing return", lastExpression, null, MISSING_RETURN)
+			errorMissingReturnStatement(lastExpression)
 		]
+		if (!sureReturnComputer.isSureReturn(lastExpression)) {
+			errorMissingReturnStatement(lastExpression)
+		}
+	}
+
+	def private errorMissingReturnStatement(XExpression e) {
+		error("Missing return", e, null, MISSING_RETURN)
 	}
 
 	@Check

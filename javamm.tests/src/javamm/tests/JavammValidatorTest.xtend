@@ -351,7 +351,11 @@ class JavammValidatorTest extends JavammAbstractTest {
 				case 0: return 1;
 			}
 		}
-		'''.parse.assertErrorsAsStrings("Missing default branch in the presence of expected type int")
+		'''.parse.assertErrorsAsStrings(
+		'''
+		Missing default branch in the presence of expected type int
+		Missing return'''
+		)
 	}
 
 	@Test def void testValidSwitchReturnTypeWithFallback() {
@@ -843,7 +847,6 @@ class JavammValidatorTest extends JavammAbstractTest {
 			0;
 		}
 		'''
-		// this should fail since there's a missing return statement
 		input.parse.assertMissingReturn(XbasePackage.eINSTANCE.XNumberLiteral)
 	}
 
@@ -853,7 +856,6 @@ class JavammValidatorTest extends JavammAbstractTest {
 		int m(int i) {
 		}
 		'''
-		// this should fail since there's a missing return statement
 		input.parse.assertMissingReturn(XbasePackage.eINSTANCE.XBlockExpression)
 	}
 
@@ -866,7 +868,19 @@ class JavammValidatorTest extends JavammAbstractTest {
 			}
 		}
 		'''
-		// this should fail since there's a missing return statement
+		input.parse.assertMissingReturn(XbasePackage.eINSTANCE.XIfExpression)
+	}
+
+	@Test def void testReturnStatementInBothIfBranches() {
+		val input = '''
+		int m(int i) {
+			if (i < 0) {
+				return 0;
+			} else {
+				return 1;
+			}
+		}
+		'''
 		input.parse.assertNoErrors
 	}
 
