@@ -228,7 +228,7 @@ class JavammValidator extends XbaseValidator {
 			if (param != params.last) {
 				error("A vararg must be the last parameter.", 
 					param, javammPackage.javammJvmFormalParameter_VarArgs,
-					JavammValidator.INVALID_USE_OF_VAR_ARGS
+					INVALID_USE_OF_VAR_ARGS
 				);
 			}
 		}
