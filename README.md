@@ -11,7 +11,9 @@ You can either install Java-- SDK into an existing Eclipse or download a pre-con
 
 Copy the following URL and paste it into your Eclipse "Install New Software" dialog ("Help" => "Install New Software..."), wait for the list of available features to show and select the latest version of "Java-- SDK feature".
 
-http&#58;//sourceforge\.net/projects/javamm/files/updates/releases
+**http<span></span>//sourceforge\.net/projects/javamm/files/updates/releases**
+
+![Install New Software Screenshot](https://github.com/LorenzoBettini/javamm/raw/master/images/javamm-installation.png)
 
 IMPORTANT: Java-- requires Xtext, if this is not already installed, all dependencies will be automatically installed form this update site, which is self-contained.
 
