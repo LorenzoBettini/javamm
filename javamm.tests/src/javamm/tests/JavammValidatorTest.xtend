@@ -836,6 +836,27 @@ class JavammValidatorTest extends JavammAbstractTest {
 		)
 	}
 
+	@Test def void testMissingReturnStatementDueToImplicitReturn() {
+		// https://github.com/LorenzoBettini/javamm/issues/32
+		val input = '''
+		int m(int i) {
+			0;
+		}
+		'''
+		// this should fail since there's a missing return statement
+		input.parse.assertMissingReturn(XbasePackage.eINSTANCE.XNumberLiteral)
+	}
+
+	@Test def void testMissingReturnStatementInEmptyBlock() {
+		// https://github.com/LorenzoBettini/javamm/issues/32
+		val input = '''
+		int m(int i) {
+		}
+		'''
+		// this should fail since there's a missing return statement
+		input.parse.assertMissingReturn(XbasePackage.eINSTANCE.XBlockExpression)
+	}
+
 	@Test def void testMissingReturnStatement() {
 		// https://github.com/LorenzoBettini/javamm/issues/32
 		val input = '''
@@ -917,5 +938,13 @@ class JavammValidatorTest extends JavammAbstractTest {
 			JavammValidator.MISSING_PARENTHESES,
 			'Syntax error, insert "()" to complete method call'
 		)
-	}	
+	}
+
+	def private assertMissingReturn(EObject o, EClass c) {
+		o.assertError(
+			c,
+			JavammValidator.MISSING_RETURN,
+			'Missing return'
+		)
+	}
 }
