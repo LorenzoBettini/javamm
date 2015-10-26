@@ -5,11 +5,14 @@ package javamm.validation
 
 import com.google.inject.Inject
 import java.util.ArrayList
+import java.util.List
+import javamm.controlflow.JavammSureReturnComputer
 import javamm.javamm.JavammAdditionalXVariableDeclaration
 import javamm.javamm.JavammArrayConstructorCall
 import javamm.javamm.JavammBranchingStatement
 import javamm.javamm.JavammBreakStatement
 import javamm.javamm.JavammContinueStatement
+import javamm.javamm.JavammJvmFormalParameter
 import javamm.javamm.JavammMethod
 import javamm.javamm.JavammPackage
 import javamm.javamm.JavammProgram
@@ -28,6 +31,7 @@ import org.eclipse.xtext.xbase.XAbstractFeatureCall
 import org.eclipse.xtext.xbase.XAbstractWhileExpression
 import org.eclipse.xtext.xbase.XAssignment
 import org.eclipse.xtext.xbase.XBasicForLoopExpression
+import org.eclipse.xtext.xbase.XBlockExpression
 import org.eclipse.xtext.xbase.XDoWhileExpression
 import org.eclipse.xtext.xbase.XExpression
 import org.eclipse.xtext.xbase.XFeatureCall
@@ -36,11 +40,11 @@ import org.eclipse.xtext.xbase.XReturnExpression
 import org.eclipse.xtext.xbase.XSwitchExpression
 import org.eclipse.xtext.xbase.XVariableDeclaration
 import org.eclipse.xtext.xbase.XbasePackage
+import org.eclipse.xtext.xbase.typesystem.IBatchTypeResolver
 import org.eclipse.xtext.xbase.typesystem.util.Multimaps2
+import org.eclipse.xtext.xbase.validation.ImplicitReturnFinder
 import org.eclipse.xtext.xbase.validation.XbaseValidator
 import org.eclipse.xtext.xtype.XImportDeclaration
-import javamm.javamm.JavammJvmFormalParameter
-import java.util.List
 
 //import org.eclipse.xtext.validation.Check
 
@@ -63,6 +67,7 @@ class JavammValidator extends XbaseValidator {
 	public static val ARRAY_CONSTRUCTOR_BOTH_DIMENSION_EXPRESSION_AND_INITIALIZER = PREFIX + "ArrayConstructorBothDimensionExpressionAndInitializer"
 	public static val ARRAY_CONSTRUCTOR_DIMENSION_EXPRESSION_AFTER_EMPTY_DIMENSION = PREFIX + "ArrayConstructorDimensionExpressionAfterEmptyExpression"
 	public static val INVALID_USE_OF_VAR_ARGS = PREFIX + "InvalidUseOfVarArgs"
+	public static val MISSING_RETURN = PREFIX + "MissingReturn"
 	
 	static val xbasePackage = XbasePackage.eINSTANCE;
 	
@@ -87,7 +92,10 @@ class JavammValidator extends XbaseValidator {
 
 	@Inject extension JavammNodeModelUtil
 	@Inject extension JavammModelUtil
-	
+	@Inject ImplicitReturnFinder implicitReturnFinder
+	@Inject IBatchTypeResolver batchTypeResolver
+	@Inject JavammSureReturnComputer sureReturnComputer
+
 	override protected getEPackages() {
 		val result = new ArrayList<EPackage>(super.getEPackages());
 	    result.add(JavammPackage.eINSTANCE);
@@ -148,6 +156,31 @@ class JavammValidator extends XbaseValidator {
 	}
 
 	@Check
+	def void checkImplicitReturn(JavammMethod method) {
+		val jvmOperation = method.getInferredOperation
+		val types = batchTypeResolver.resolveTypes(method);
+		if (types.getActualType(jvmOperation).isPrimitiveVoid()) 
+			return;
+		val body = method.body as XBlockExpression
+		val lastExpression = body.expressions.last
+		if (lastExpression == null) {
+			errorMissingReturnStatement(body)
+			return
+		}
+		implicitReturnFinder.findImplicitReturns(body) [
+			implicitReturn |
+			errorMissingReturnStatement(lastExpression)
+		]
+		if (!sureReturnComputer.isSureReturn(lastExpression)) {
+			errorMissingReturnStatement(lastExpression)
+		}
+	}
+
+	def private errorMissingReturnStatement(XExpression e) {
+		error("Missing return", e, null, MISSING_RETURN)
+	}
+
+	@Check
 	def void checkContinue(JavammContinueStatement st) {
 		checkBranchingStatementInternal(st, "a loop",
 			XAbstractWhileExpression, XBasicForLoopExpression
@@ -195,7 +228,7 @@ class JavammValidator extends XbaseValidator {
 			if (param != params.last) {
 				error("A vararg must be the last parameter.", 
 					param, javammPackage.javammJvmFormalParameter_VarArgs,
-					javamm.validation.JavammValidator.INVALID_USE_OF_VAR_ARGS
+					INVALID_USE_OF_VAR_ARGS
 				);
 			}
 		}

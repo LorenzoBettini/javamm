@@ -351,7 +351,11 @@ class JavammValidatorTest extends JavammAbstractTest {
 				case 0: return 1;
 			}
 		}
-		'''.parse.assertErrorsAsStrings("Missing default branch in the presence of expected type int")
+		'''.parse.assertErrorsAsStrings(
+		'''
+		Missing default branch in the presence of expected type int
+		Missing return'''
+		)
 	}
 
 	@Test def void testValidSwitchReturnTypeWithFallback() {
@@ -836,6 +840,50 @@ class JavammValidatorTest extends JavammAbstractTest {
 		)
 	}
 
+	@Test def void testMissingReturnStatementDueToImplicitReturn() {
+		// https://github.com/LorenzoBettini/javamm/issues/32
+		val input = '''
+		int m(int i) {
+			0;
+		}
+		'''
+		input.parse.assertMissingReturn(XbasePackage.eINSTANCE.XNumberLiteral)
+	}
+
+	@Test def void testMissingReturnStatementInEmptyBlock() {
+		// https://github.com/LorenzoBettini/javamm/issues/32
+		val input = '''
+		int m(int i) {
+		}
+		'''
+		input.parse.assertMissingReturn(XbasePackage.eINSTANCE.XBlockExpression)
+	}
+
+	@Test def void testMissingReturnStatement() {
+		// https://github.com/LorenzoBettini/javamm/issues/32
+		val input = '''
+		int m(int i) {
+			if (i < 0) {
+				return 0;
+			}
+		}
+		'''
+		input.parse.assertMissingReturn(XbasePackage.eINSTANCE.XIfExpression)
+	}
+
+	@Test def void testReturnStatementInBothIfBranches() {
+		val input = '''
+		int m(int i) {
+			if (i < 0) {
+				return 0;
+			} else {
+				return 1;
+			}
+		}
+		'''
+		input.parse.assertNoErrors
+	}
+
 	def private assertNumberLiteralTypeMismatch(EObject o, String expectedType, String actualType) {
 		o.assertTypeMismatch(XbasePackage.eINSTANCE.XNumberLiteral, expectedType, actualType)
 	}
@@ -904,5 +952,13 @@ class JavammValidatorTest extends JavammAbstractTest {
 			JavammValidator.MISSING_PARENTHESES,
 			'Syntax error, insert "()" to complete method call'
 		)
-	}	
+	}
+
+	def private assertMissingReturn(EObject o, EClass c) {
+		o.assertError(
+			c,
+			JavammValidator.MISSING_RETURN,
+			'Missing return'
+		)
+	}
 }

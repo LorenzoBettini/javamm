@@ -11,6 +11,8 @@ import org.eclipse.xtext.xbase.jvmmodel.IJvmModelAssociations
 import static extension org.eclipse.xtext.EcoreUtil2.*
 import org.eclipse.xtext.common.types.JvmFormalParameter
 import javamm.javamm.JavammJvmFormalParameter
+import javamm.javamm.JavammMethod
+import org.eclipse.xtext.common.types.JvmOperation
 
 /**
  * Utility methods for accessing the Javamm model.
@@ -82,5 +84,9 @@ class JavammModelUtil {
 		} else {
 			return null
 		}
+	}
+
+	def getInferredOperation(JavammMethod m) {
+		m.jvmElements.filter(JvmOperation).head
 	}
 }

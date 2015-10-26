@@ -14,6 +14,7 @@ import org.eclipse.xtext.xbase.imports.RewritableImportSection;
 import org.eclipse.xtext.xbase.scoping.featurecalls.OperatorMapping;
 import org.eclipse.xtext.xbase.typesystem.computation.ITypeComputer;
 import org.eclipse.xtext.xbase.typesystem.internal.ExpressionArgumentFactory;
+import org.eclipse.xtext.xbase.validation.ImplicitReturnFinder;
 
 import com.google.inject.Binder;
 import com.google.inject.name.Names;
@@ -29,6 +30,7 @@ import javamm.scoping.JavammQualifiedNameProvider;
 import javamm.typesystem.JavammExpressionArgumentFactory;
 import javamm.typesystem.JavammTypeComputer;
 import javamm.validation.JavammDiagnosticConverter;
+import javamm.validation.JavammImplicitReturnFinder;
 
 
 /**
@@ -58,6 +60,10 @@ public class JavammRuntimeModule extends javamm.AbstractJavammRuntimeModule {
 	
 	public Class<? extends RewritableImportSection.Factory> bindRewritableImportSection$Factory() {
 		return JavammRewritableImportSectionFactory.class;
+	}
+
+	public Class<? extends ImplicitReturnFinder> bindImplicitReturnFinder() {
+		return JavammImplicitReturnFinder.class;
 	}
 
 	@Override
