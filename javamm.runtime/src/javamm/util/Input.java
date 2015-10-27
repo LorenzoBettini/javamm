@@ -19,15 +19,10 @@ public class Input {
 		InputFrame inf = new InputFrame(message);
 		String text = inf.text;
 		int number = 0;
-		boolean done = false;
-		while (!done) {
-			try {
-				number = Integer.parseInt(text);
-				done = true;
-			} catch (NumberFormatException nfe) {
-				System.out.println("HERE");
-				continue;
-			}
+		try {
+			number = Integer.parseInt(text);
+		} catch (NumberFormatException nfe) {
+			number = 0;
 		}
 		return number;
 	}
