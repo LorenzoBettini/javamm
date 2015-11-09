@@ -13,6 +13,9 @@ import org.eclipse.xtext.common.types.JvmFormalParameter
 import javamm.javamm.JavammJvmFormalParameter
 import javamm.javamm.JavammMethod
 import org.eclipse.xtext.common.types.JvmOperation
+import org.eclipse.xtext.xbase.XVariableDeclaration
+import org.eclipse.xtext.EcoreUtil2
+import org.eclipse.xtext.xbase.XFeatureCall
 
 /**
  * Utility methods for accessing the Javamm model.
@@ -88,5 +91,13 @@ class JavammModelUtil {
 
 	def getInferredOperation(JavammMethod m) {
 		m.jvmElements.filter(JvmOperation).head
+	}
+
+	def Iterable<XFeatureCall> getAllRighthandVariableReferences(XExpression e) {
+		if (e instanceof XVariableDeclaration) {
+			return getAllRighthandVariableReferences(e.right)
+		}
+		return EcoreUtil2.eAllOfType(e, XFeatureCall).
+			filter[ ref | ref.feature instanceof XVariableDeclaration ]
 	}
 }

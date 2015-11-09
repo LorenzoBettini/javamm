@@ -66,6 +66,34 @@ class JavammModelUtilTest extends JavammAbstractTest {
 		'''.assertArrayDimensionIndexAssociations("[0, null, 2]")
 	}
 
+	@Test def void testRightVariableReferences() {
+		'''
+		int i = 0;
+		int j = 1;
+		int k = i + j + foo;
+		'''.
+		assertRightVariableReferences("i, j")
+		// foo is unresolved
+	}
+
+	@Test def void testRightVariableReferences2() {
+		'''
+		int i = 0;
+		int k = i;
+		'''.
+		assertRightVariableReferences("i")
+	}
+
+	@Test def void testRightVariableReferences3() {
+		'''
+		int i = 0;
+		int j = 1;
+		System.out.println(i + j + foo);
+		'''.
+		assertRightVariableReferences("i, j")
+		// foo is unresolved
+	}
+
 	/**
 	 * Assumes that dimension expressions, if given, are number literals
 	 */
@@ -87,6 +115,10 @@ class JavammModelUtilTest extends JavammAbstractTest {
 	private def lastArrayConstructorCall(CharSequence input) {
 		input.parse.main.expressions.last as JavammArrayConstructorCall
 	}
-	
-	
+
+	private def assertRightVariableReferences(CharSequence input, CharSequence expected) {
+		assertEqualsStrings(expected,
+			input.parse.main.expressions.last.getAllRighthandVariableReferences.map[toString].join(", ")
+		)
+	}
 }
