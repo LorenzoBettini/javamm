@@ -104,6 +104,13 @@ class JavammModelUtilTest extends JavammAbstractTest {
 		// foo is unresolved, j appears twice
 	}
 
+	@Test def void testRightVariableReferencesNull() {
+		'''
+		int j;
+		'''.
+		assertRightVariableReferences("")
+	}
+
 	/**
 	 * Assumes that dimension expressions, if given, are number literals
 	 */

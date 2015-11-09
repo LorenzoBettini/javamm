@@ -95,6 +95,9 @@ class JavammModelUtil {
 	}
 
 	def Iterable<XFeatureCall> getAllRighthandVariableReferences(XExpression e) {
+		if (e == null) {
+			return emptyList
+		}
 		if (e instanceof JavammXVariableDeclaration) {
 			return getAllRighthandVariableReferences(e.right) +
 				e.additionalVariables.map[right.getAllRighthandVariableReferences].flatten
