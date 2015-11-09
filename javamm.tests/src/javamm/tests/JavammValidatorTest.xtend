@@ -884,6 +884,23 @@ class JavammValidatorTest extends JavammAbstractTest {
 		input.parse.assertNoErrors
 	}
 
+	@Test def void testIncompatibleOperandTypes_Issue_39() {
+		// note that the error is reported only in the workbench,
+		// after the generated Java code is compiled.
+		// so in this test no error is detected.
+		// In the workbench test the error is correctly detected:
+		// see javamm.ui.tests.JavammWorkbenchTest.testErrorInGeneratedJavaCode()
+		val input = '''
+		int a = 2;
+		int b = 2;
+		int c = 2;
+		if (a==b==c==2) {
+			System.out.println("TRUE");
+		}
+		'''
+		input.parse.assertNoErrors
+	}
+
 	def private assertNumberLiteralTypeMismatch(EObject o, String expectedType, String actualType) {
 		o.assertTypeMismatch(XbasePackage.eINSTANCE.XNumberLiteral, expectedType, actualType)
 	}

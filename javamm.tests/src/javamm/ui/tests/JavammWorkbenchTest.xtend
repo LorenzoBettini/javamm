@@ -64,4 +64,25 @@ System.out.println("Hello " + "world!");
 		assertTrue(TEST_FILE + ".java does not exist", genfile.exists())
 	}
 
+	@Test
+	def void testErrorInGeneratedJavaCode() {
+		createTestFile(
+'''
+int a = 2;
+int b = 2;
+int c = 2;
+if (a==b==c==2) {
+	System.out.println("TRUE");
+}
+'''
+		)
+		
+		waitForBuild
+		// one error in the generated Java file, and one in the original file
+		projectHelper.assertErrors(
+		'''
+		Java problem: Incompatible operand types Boolean and Integer
+		Incompatible operand types Boolean and Integer'''
+		)
+	}
 }

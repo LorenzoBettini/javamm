@@ -7,6 +7,7 @@ import org.eclipse.xtext.conversion.IValueConverterService;
 import org.eclipse.xtext.generator.IGenerator;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider;
+import org.eclipse.xtext.validation.ConfigurableIssueCodesProvider;
 import org.eclipse.xtext.validation.IDiagnosticConverter;
 import org.eclipse.xtext.xbase.compiler.XbaseCompiler;
 import org.eclipse.xtext.xbase.controlflow.IEarlyExitComputer;
@@ -29,6 +30,7 @@ import javamm.scoping.JavammOperatorMapping;
 import javamm.scoping.JavammQualifiedNameProvider;
 import javamm.typesystem.JavammExpressionArgumentFactory;
 import javamm.typesystem.JavammTypeComputer;
+import javamm.validation.JavammConfigurableIssueCodes;
 import javamm.validation.JavammDiagnosticConverter;
 import javamm.validation.JavammImplicitReturnFinder;
 
@@ -83,6 +85,11 @@ public class JavammRuntimeModule extends javamm.AbstractJavammRuntimeModule {
 
 	public Class<? extends IEarlyExitComputer> bindIEarlyExitComputer() {
 		return JavammEarlyExitComputer.class;
+	}
+
+	@Override
+	public Class<? extends ConfigurableIssueCodesProvider> bindConfigurableIssueCodesProvider() {
+		return JavammConfigurableIssueCodes.class;
 	}
 
 	@Override
