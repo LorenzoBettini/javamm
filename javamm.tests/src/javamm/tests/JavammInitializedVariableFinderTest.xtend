@@ -65,7 +65,41 @@ class JavammInitializedVariableFinderTest extends JavammAbstractTest {
 	@Test def void testInitializedVariablesInForLoop() {
 		'''
 			for (int i = 0; i < 0; i++);
-		'''.assertInitializedVariables("")
+		'''.assertInitializedVariables("i")
+	}
+
+	@Test def void testInitializedVariablesInForLoop2() {
+		'''
+			for (int i = 0, j = 1; i < 0; i++);
+		'''.assertInitializedVariables("i, j")
+	}
+
+	@Test def void testInitializedVariablesInForLoop3() {
+		'''
+			for (int i, j = 1; i < 0; i++);
+		'''.assertInitializedVariables("j")
+	}
+
+	@Test def void testInitializedVariablesInForLoop4() {
+		'''
+			int i;
+			for (i = 1; i < 0; i++);
+		'''.assertInitializedVariables("i")
+	}
+
+	@Test def void testInitializedVariablesInIf() {
+		'''
+			int i;
+			if ((i = 1) < 0);
+		'''.assertInitializedVariables("i")
+	}
+
+	@Test def void testInitializedVariablesInIf2() {
+		'''
+			int i
+			int j;
+			if ((i = 1) < (j = 2));
+		'''.assertInitializedVariables("i, j")
 	}
 
 	private def assertInitializedVariables(CharSequence input, CharSequence expected) {
