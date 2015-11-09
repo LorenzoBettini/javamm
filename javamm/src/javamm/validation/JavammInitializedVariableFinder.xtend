@@ -1,16 +1,18 @@
 package javamm.validation
 
+import com.google.inject.Inject
 import javamm.javamm.JavammXVariableDeclaration
+import javamm.util.JavammModelUtil
+import javamm.validation.JavammInitializedVariableFinder.NotInitializedAcceptor
+import org.eclipse.xtext.xbase.XAbstractFeatureCall
 import org.eclipse.xtext.xbase.XAssignment
 import org.eclipse.xtext.xbase.XBasicForLoopExpression
+import org.eclipse.xtext.xbase.XBinaryOperation
+import org.eclipse.xtext.xbase.XBlockExpression
 import org.eclipse.xtext.xbase.XExpression
+import org.eclipse.xtext.xbase.XFeatureCall
 import org.eclipse.xtext.xbase.XIfExpression
 import org.eclipse.xtext.xbase.XVariableDeclaration
-import org.eclipse.xtext.xbase.XBinaryOperation
-import org.eclipse.xtext.xbase.XFeatureCall
-import com.google.inject.Inject
-import javamm.util.JavammModelUtil
-import org.eclipse.xtext.xbase.XBlockExpression
 
 /**
  * @author Lorenzo Bettini
@@ -77,12 +79,16 @@ class JavammInitializedVariableFinder {
 
 	def dispatch Iterable<XVariableDeclaration> detectNotInitialized(XExpression e,
 		Iterable<XVariableDeclaration> current, NotInitializedAcceptor acceptor) {
+		inspectVariableReferences(e, current, acceptor)
+		return current
+	}
+	
+	protected def inspectVariableReferences(XExpression e, Iterable<XVariableDeclaration> current, NotInitializedAcceptor acceptor) {
 		for (ref : e.allRighthandVariableReferences) {
 			if (!current.exists[it == ref.feature]) {
 				acceptor.accept(ref)
 			}
 		}
-		return current
 	}
 
 	def dispatch Iterable<XVariableDeclaration> detectNotInitialized(XBlockExpression b,
@@ -91,6 +97,21 @@ class JavammInitializedVariableFinder {
 		for (e : b.expressions) {
 			detectNotInitialized(e, initialized, acceptor)
 			initialized += e.findInitializedVariables
+		}
+		return initialized
+	}
+
+	def dispatch Iterable<XVariableDeclaration> detectNotInitialized(XAbstractFeatureCall o,
+		Iterable<XVariableDeclaration> current, NotInitializedAcceptor acceptor) {
+		var initialized = current.toList
+		val actualArguments = o.actualArguments
+		if (actualArguments.empty) {
+			inspectVariableReferences(o, current, acceptor)
+		} else {
+			for (a : actualArguments) {
+				initialized += detectNotInitialized(a, initialized, acceptor)
+				initialized += a.findInitializedVariables
+			}
 		}
 		return initialized
 	}

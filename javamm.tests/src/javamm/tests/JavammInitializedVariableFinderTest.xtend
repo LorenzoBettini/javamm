@@ -2,6 +2,7 @@ package javamm.tests
 
 import com.google.inject.Inject
 import javamm.JavammInjectorProvider
+import javamm.util.JavammNodeModelUtil
 import javamm.validation.JavammInitializedVariableFinder
 import org.eclipse.xtext.junit4.InjectWith
 import org.eclipse.xtext.junit4.XtextRunner
@@ -13,6 +14,7 @@ import org.junit.runner.RunWith
 class JavammInitializedVariableFinderTest extends JavammAbstractTest {
 
 	@Inject extension JavammInitializedVariableFinder
+	@Inject extension JavammNodeModelUtil
 
 	@Test(expected=IllegalArgumentException) def void testNull() {
 		null.findInitializedVariables
@@ -112,14 +114,54 @@ class JavammInitializedVariableFinderTest extends JavammAbstractTest {
 		null.detectNotInitialized(emptyList)[]
 	}
 
-	@Test def void testNotInitialized() {
+	@Test def void testNotInitializedInCall() {
 		'''
 		int i;
 		int j = 0;
 		System.out.println(i);
 		System.out.println(j);
 		'''.
-		assertNotInitializedReferences("i")
+		assertNotInitializedReferences("i in System.out.println(i);")
+	}
+
+	@Test def void testNotInitializedInCall2() {
+		'''
+		int i;
+		int j = 0;
+		System.out.println( i );
+		i = 1; // now initialized
+		System.out.println(i);
+		System.out.println(j);
+		'''.
+		assertNotInitializedReferences("i in System.out.println( i );")
+	}
+
+	@Test def void testNotInitializedInCall3() {
+		'''
+		int i;
+		int j = 0;
+		System.out.println( j < i );
+		'''.
+		assertNotInitializedReferences("i in j < i")
+	}
+
+	@Test def void testInitializedInCall() {
+		'''
+		int i;
+		int j = 0;
+		System.out.println( (i = j) == (j = i) );
+		System.out.println(i); // now initialized
+		'''.
+		assertNotInitializedReferences("")
+	}
+
+	@Test def void testNotInitializedInCall4() {
+		'''
+		int i;
+		int j = 0;
+		System.out.println( (j = i) == (i = j) );
+		'''.
+		assertNotInitializedReferences("i in (j = i)")
 	}
 
 	private def assertInitializedVariables(CharSequence input, CharSequence expected) {
@@ -130,14 +172,16 @@ class JavammInitializedVariableFinderTest extends JavammAbstractTest {
 	}
 
 	private def assertNotInitializedReferences(CharSequence input, CharSequence expected) {
-		val collected = newArrayList()
+		val builder = new StringBuilder
+		// we record the container of not initialized reference
+		// so that it's easier to tell the occurrence in the test input
 		input.parse.main.detectNotInitialized[
 			ref |
-			collected += ref
+			builder.append(ref.toString + " in " + ref.eContainer.programText)
 		]
 		assertEqualsStrings(
 			expected,
-			collected.map[toString].join(", ")
+			builder.toString
 		)
 	}
 }
