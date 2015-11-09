@@ -15,7 +15,7 @@ import org.eclipse.xtext.xbase.XNumberLiteral
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammInjectorProvider))
 class JavammModelUtilTest extends JavammAbstractTest {
-	
+
 	@Inject extension JavammModelUtil
 
 	@Test def void testArrayContructorCallOneDimensionHasExpression() {
@@ -94,6 +94,16 @@ class JavammModelUtilTest extends JavammAbstractTest {
 		// foo is unresolved
 	}
 
+	@Test def void testRightVariableReferences4() {
+		'''
+		int i = 0;
+		int j = 1;
+		int k1 = i, k2 = j, k3 = foo, k4 = j;
+		'''.
+		assertRightVariableReferences("i, j, j")
+		// foo is unresolved, j appears twice
+	}
+
 	/**
 	 * Assumes that dimension expressions, if given, are number literals
 	 */
@@ -121,4 +131,5 @@ class JavammModelUtilTest extends JavammAbstractTest {
 			input.parse.main.expressions.last.getAllRighthandVariableReferences.map[toString].join(", ")
 		)
 	}
+
 }
