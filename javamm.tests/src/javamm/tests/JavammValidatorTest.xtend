@@ -901,6 +901,38 @@ class JavammValidatorTest extends JavammAbstractTest {
 		input.parse.assertNoErrors
 	}
 
+	@Test def void testInvalidCharacterConstant() {
+		val input = '''
+		System.out.println('12');
+		'''
+		input.parse.assertError(
+			javammPack.javammCharLiteral,
+			JavammValidator.INVALID_CHARACTER_CONSTANT,
+			input.indexOf("'12'"), 4,
+			"Invalid character constant"
+		)
+	}
+
+	@Test def void testInvalidCharacterConstantWithBackslash() {
+		val input = '''
+		System.out.println('\at');
+		'''
+		input.parse.assertError(
+			javammPack.javammCharLiteral,
+			JavammValidator.INVALID_CHARACTER_CONSTANT,
+			input.indexOf("'\\at'"), 5,
+			"Invalid character constant"
+		)
+	}
+
+	@Test def void testValidCharacterConstant() {
+		val input = '''
+		System.out.println('\t');
+		System.out.println('t');
+		'''
+		input.parse.assertNoErrors
+	}
+
 	def private assertNumberLiteralTypeMismatch(EObject o, String expectedType, String actualType) {
 		o.assertTypeMismatch(XbasePackage.eINSTANCE.XNumberLiteral, expectedType, actualType)
 	}

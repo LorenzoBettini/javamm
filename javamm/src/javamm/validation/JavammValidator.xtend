@@ -45,6 +45,7 @@ import org.eclipse.xtext.xbase.typesystem.util.Multimaps2
 import org.eclipse.xtext.xbase.validation.ImplicitReturnFinder
 import org.eclipse.xtext.xbase.validation.XbaseValidator
 import org.eclipse.xtext.xtype.XImportDeclaration
+import javamm.javamm.JavammCharLiteral
 
 //import org.eclipse.xtext.validation.Check
 
@@ -68,11 +69,12 @@ class JavammValidator extends XbaseValidator {
 	public static val ARRAY_CONSTRUCTOR_DIMENSION_EXPRESSION_AFTER_EMPTY_DIMENSION = PREFIX + "ArrayConstructorDimensionExpressionAfterEmptyExpression"
 	public static val INVALID_USE_OF_VAR_ARGS = PREFIX + "InvalidUseOfVarArgs"
 	public static val MISSING_RETURN = PREFIX + "MissingReturn"
-	
+	public static val INVALID_CHARACTER_CONSTANT = PREFIX + "InvalidCharacterConstant"
+
 	static val xbasePackage = XbasePackage.eINSTANCE;
-	
+
 	static val javammPackage = JavammPackage.eINSTANCE;
-	
+
 	val semicolonStatements = #{
 		JavammBranchingStatement,
 		XVariableDeclaration,
@@ -295,6 +297,18 @@ class JavammValidator extends XbaseValidator {
 					return
 				}
 			}
+		}
+	}
+
+	@Check
+	def void checkCharacterLiteral(JavammCharLiteral c) {
+		val lenght = c.value.length
+		if (lenght > 1) {
+			error(
+				"Invalid character constant",
+				c, null,
+				INVALID_CHARACTER_CONSTANT
+			)
 		}
 	}
 
