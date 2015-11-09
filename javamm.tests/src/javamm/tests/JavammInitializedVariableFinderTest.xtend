@@ -102,10 +102,42 @@ class JavammInitializedVariableFinderTest extends JavammAbstractTest {
 		'''.assertInitializedVariables("i, j")
 	}
 
+	@Test def void testNotInitializedNull() {
+		// test it does not throw
+		null.detectNotInitialized[]
+	}
+
+	@Test(expected=IllegalArgumentException)
+	def void testNotInitializedInternalNull() {
+		null.detectNotInitialized(emptyList)[]
+	}
+
+	@Test def void testNotInitialized() {
+		'''
+		int i;
+		int j = 0;
+		System.out.println(i);
+		System.out.println(j);
+		'''.
+		assertNotInitializedReferences("i")
+	}
+
 	private def assertInitializedVariables(CharSequence input, CharSequence expected) {
 		assertEqualsStrings(
 			expected,
 			input.parse.main.expressions.last.findInitializedVariables.map[name].join(", ")
+		)
+	}
+
+	private def assertNotInitializedReferences(CharSequence input, CharSequence expected) {
+		val collected = newArrayList()
+		input.parse.main.detectNotInitialized[
+			ref |
+			collected += ref
+		]
+		assertEqualsStrings(
+			expected,
+			collected.map[toString].join(", ")
 		)
 	}
 }
