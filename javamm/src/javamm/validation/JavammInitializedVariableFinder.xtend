@@ -77,6 +77,35 @@ class JavammInitializedVariableFinder {
 		return inspectNonBlockContents(e, current, acceptor)
 	}
 
+	def dispatch Iterable<XVariableDeclaration> detectNotInitialized(XAssignment e,
+		Iterable<XVariableDeclaration> current, NotInitializedAcceptor acceptor) {
+		val feature = e.feature
+		if (feature instanceof XVariableDeclaration) {
+			val initialized = detectNotInitializedDispatch(
+				e.value, current, acceptor
+			).toList
+			initialized += feature
+			return initialized
+		} else {
+			return inspectNonBlockContents(e, current, acceptor)
+		}
+	}
+
+	def dispatch Iterable<XVariableDeclaration> detectNotInitialized(JavammXVariableDeclaration e,
+		Iterable<XVariableDeclaration> current, NotInitializedAcceptor acceptor) {
+		if (e.right != null) {
+			var initialized = detectNotInitializedDispatch(
+				e.right, current, acceptor
+			).toList
+			initialized = loopOverExpressions(
+				e.additionalVariables, initialized, acceptor
+			).toList
+			initialized += e
+			return initialized
+		}
+		return current
+	}
+
 	protected def inspectNonBlockContents(XExpression e, Iterable<XVariableDeclaration> current, NotInitializedAcceptor acceptor) {
 		val contents = e.eContents.
 			filter[c | !(c instanceof XBlockExpression)].
@@ -110,11 +139,14 @@ class JavammInitializedVariableFinder {
 			Iterable<XVariableDeclaration> current, NotInitializedAcceptor acceptor) {
 
 		val initialized = inspectNonBlockContents(e, current, acceptor)
-		
+
+		val thenInfo = detectNotInitializedDispatch(e.then, current.createCopy, acceptor)
+		val elseInfo = detectNotInitializedDispatch(e.^else, current.createCopy, acceptor)
+
 		return initialized
 	}
 
-	def protected Iterable<XVariableDeclaration> loopOverExpressions(Iterable<XExpression> expressions, Iterable<XVariableDeclaration> current,
+	def protected Iterable<XVariableDeclaration> loopOverExpressions(Iterable<? extends XExpression> expressions, Iterable<XVariableDeclaration> current,
 		NotInitializedAcceptor acceptor) {
 		var initialized = current.toList
 		for (e : expressions) {
@@ -122,6 +154,10 @@ class JavammInitializedVariableFinder {
 			initialized += e.findInitializedVariables
 		}
 		return initialized
+	}
+
+	def private createCopy(Iterable<XVariableDeclaration> current) {
+		newArrayList(current.clone)
 	}
 
 }

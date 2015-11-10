@@ -179,6 +179,62 @@ class JavammInitializedVariableFinderTest extends JavammAbstractTest {
 		assertNotInitializedReferences("i in -i")
 	}
 
+	@Test def void testNotInitializedInAssignment() {
+		'''
+		int i;
+		int j;
+		j = i;
+		'''.
+		assertNotInitializedReferences("i in j = i;")
+	}
+
+	@Test def void testNotInitializedInAssignment2() {
+		'''
+		int i;
+		foo = i;
+		'''.
+		assertNotInitializedReferences("i in foo = i;")
+		// even if foo is unresolved we still inspect the contents
+	}
+
+	@Test def void testNotInitializedInVariableDeclaration() {
+		'''
+		int i;
+		int j = i;
+		i = j; // OK
+		'''.
+		assertNotInitializedReferences("i in int j = i;")
+	}
+
+	@Test def void testNotInitializedInSeveralVariableDeclarations() {
+		'''
+		int i;
+		int z = 0;
+		int j = i, k = i, w = z;
+		i = j; // OK
+		'''.
+		assertNotInitializedReferences(
+		'''
+		i in int j = i, k = i, w = z;
+		i in k = i'''
+		)
+	}
+
+	@Test def void testNotInitializedAfterBlock() {
+		'''
+		int i;
+		int j;
+		int k;
+		{
+			j = 0;
+		}
+		k = i; // ERROR
+		k = j; // OK
+		'''.
+		assertNotInitializedReferences("i in k = i;")
+		// even if foo is unresolved we still inspect the contents
+	}
+
 	@Test def void testNotInitializedInIf() {
 		'''
 		int i;
@@ -189,16 +245,16 @@ class JavammInitializedVariableFinderTest extends JavammAbstractTest {
 		assertNotInitializedReferences("i in if (i) { }")
 	}
 
-//	@Test def void testNotInitializedInIf2() {
-//		'''
-//		int j=0;
-//		int i;
-//		if (j) {
-//			j = i;
-//		}
-//		'''.
-//		assertNotInitializedReferences("i in if (i) { }")
-//	}
+	@Test def void testNotInitializedInIf2() {
+		'''
+		int j=0;
+		int i;
+		if (j) {
+			j = i;
+		}
+		'''.
+		assertNotInitializedReferences("i in j = i;")
+	}
 
 	private def assertInitializedVariables(CharSequence input, CharSequence expected) {
 		assertEqualsStrings(
@@ -213,6 +269,9 @@ class JavammInitializedVariableFinderTest extends JavammAbstractTest {
 		// so that it's easier to tell the occurrence in the test input
 		input.parse.main.detectNotInitialized[
 			ref |
+			if (builder.length > 0) {
+				builder.append("\n")
+			}
 			builder.append(ref.toString + " in " + ref.eContainer.programText)
 		]
 		assertEqualsStrings(
