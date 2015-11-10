@@ -256,6 +256,94 @@ class JavammInitializedVariableFinderTest extends JavammAbstractTest {
 		assertNotInitializedReferences("i in j = i;")
 	}
 
+	@Test def void testNotInitializedInIf3() {
+		'''
+		int j=0;
+		int i;
+		if (j) {
+			j = 0;
+		} else {
+			int k = i;
+		}
+		'''.
+		assertNotInitializedReferences("i in int k = i;")
+	}
+
+	@Test def void testNotInitializedInIf4() {
+		'''
+		int j=0;
+		int i;
+		if (j) {
+			i = 0;
+		}
+		System.out.println(i); // ERROR
+		'''.
+		assertNotInitializedReferences("i in System.out.println(i);")
+	}
+
+	@Test def void testInitializedInFor() {
+		'''
+		int j=0;
+		int i;
+		for (i = 0; i < 0; i++) {
+			j = i;
+		}
+		'''.
+		assertNotInitializedReferences("")
+	}
+
+	@Test def void testInitializedInFor2() {
+		'''
+		int j=0;
+		for (int i = 0; i < 0; i++) {
+			j = i;
+		}
+		'''.
+		assertNotInitializedReferences("")
+	}
+
+	@Test def void testInitializedInFor3() {
+		'''
+		int j=0;
+		int i;
+		for (i = 0; i < 0; i++) {
+			j = i;
+		}
+		System.out.println(i);  // OK
+		'''.
+		assertNotInitializedReferences("")
+	}
+
+	@Test def void testNotInitializedInFor() {
+		'''
+		int j=0;
+		int i;
+		for (; i < 0; i++) {
+			j = i;
+		}
+		'''.
+		assertNotInitializedReferences(
+		'''
+		i in i < 0
+		i in i++
+		i in j = i;'''
+		)
+	}
+
+	@Test def void testNotInitializedInFor2() {
+		'''
+		int j;
+		int i = 0;
+		int k;
+		for (k = 0; k < 0; j = i + 1) {
+			j = i;
+		}
+		System.out.println(j); // ERROR
+		System.out.println(k); // OK
+		'''.
+		assertNotInitializedReferences("j in System.out.println(j);")
+	}
+
 	private def assertInitializedVariables(CharSequence input, CharSequence expected) {
 		assertEqualsStrings(
 			expected,

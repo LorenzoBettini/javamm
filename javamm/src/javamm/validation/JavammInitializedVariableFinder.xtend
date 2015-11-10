@@ -106,6 +106,22 @@ class JavammInitializedVariableFinder {
 		return current
 	}
 
+	def dispatch Iterable<XVariableDeclaration> detectNotInitialized(XBasicForLoopExpression e,
+		Iterable<XVariableDeclaration> current, NotInitializedAcceptor acceptor) {
+		var initialized = loopOverExpressions(e.initExpressions, current, acceptor)
+
+		// discard information collected
+		loopOverExpressions(
+			newArrayList(e.expression) +
+				e.updateExpressions +
+				newArrayList(e.eachExpression),
+			initialized,
+			acceptor
+		)
+
+		return initialized
+	}
+
 	protected def inspectNonBlockContents(XExpression e, Iterable<XVariableDeclaration> current, NotInitializedAcceptor acceptor) {
 		val contents = e.eContents.
 			filter[c | !(c instanceof XBlockExpression)].
@@ -148,7 +164,7 @@ class JavammInitializedVariableFinder {
 
 	def protected Iterable<XVariableDeclaration> loopOverExpressions(Iterable<? extends XExpression> expressions, Iterable<XVariableDeclaration> current,
 		NotInitializedAcceptor acceptor) {
-		var initialized = current.toList
+		var initialized = current.createCopy
 		for (e : expressions) {
 			initialized += detectNotInitializedDispatch(e, initialized, acceptor)
 			initialized += e.findInitializedVariables
