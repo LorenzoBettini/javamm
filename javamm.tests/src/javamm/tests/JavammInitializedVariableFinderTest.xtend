@@ -281,6 +281,20 @@ class JavammInitializedVariableFinderTest extends JavammAbstractTest {
 		assertNotInitializedReferences("i in System.out.println(i);")
 	}
 
+	@Test def void testInitializedInIfBothBranches() {
+		'''
+		int j=0;
+		int i;
+		if (j) {
+			i = 0;
+		} else {
+			i = 1;
+		}
+		System.out.println(i); // OK
+		'''.
+		assertNotInitializedReferences("")
+	}
+
 	@Test def void testInitializedInFor() {
 		'''
 		int j=0;

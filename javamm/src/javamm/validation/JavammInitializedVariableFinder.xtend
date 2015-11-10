@@ -1,5 +1,6 @@
 package javamm.validation
 
+import com.google.common.collect.Sets
 import javamm.javamm.JavammXVariableDeclaration
 import javamm.validation.JavammInitializedVariableFinder.NotInitializedAcceptor
 import org.eclipse.xtext.xbase.XAbstractFeatureCall
@@ -153,13 +154,14 @@ class JavammInitializedVariableFinder {
 
 	def dispatch Iterable<XVariableDeclaration> detectNotInitialized(XIfExpression e,
 			Iterable<XVariableDeclaration> current, NotInitializedAcceptor acceptor) {
-
 		val initialized = inspectNonBlockContents(e, current, acceptor)
 
 		val thenInfo = detectNotInitializedDispatch(e.then, current.createCopy, acceptor)
 		val elseInfo = detectNotInitializedDispatch(e.^else, current.createCopy, acceptor)
 
-		return initialized
+		val intersection = thenInfo.toSet
+		intersection.retainAll(elseInfo.toSet)
+		return initialized + intersection
 	}
 
 	def protected Iterable<XVariableDeclaration> loopOverExpressions(Iterable<? extends XExpression> expressions, Iterable<XVariableDeclaration> current,
@@ -167,7 +169,7 @@ class JavammInitializedVariableFinder {
 		var initialized = current.createCopy
 		for (e : expressions) {
 			initialized += detectNotInitializedDispatch(e, initialized, acceptor)
-			initialized += e.findInitializedVariables
+//			initialized += e.findInitializedVariables
 		}
 		return initialized
 	}
