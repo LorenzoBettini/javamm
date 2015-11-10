@@ -114,6 +114,13 @@ class JavammInitializedVariableFinderTest extends JavammAbstractTest {
 		null.detectNotInitialized(emptyList)[]
 	}
 
+	@Test def void testNotInitializedWithNotVariableReference() {
+		'''
+		foo;
+		'''.
+		assertNotInitializedReferences("")
+	}
+
 	@Test def void testNotInitializedInCall() {
 		'''
 		int i;
@@ -163,6 +170,35 @@ class JavammInitializedVariableFinderTest extends JavammAbstractTest {
 		'''.
 		assertNotInitializedReferences("i in (j = i)")
 	}
+
+	@Test def void testNotInitializedInUnaryOperation() {
+		'''
+		int i;
+		int j = -i;
+		'''.
+		assertNotInitializedReferences("i in -i")
+	}
+
+	@Test def void testNotInitializedInIf() {
+		'''
+		int i;
+		if (i) {
+			
+		}
+		'''.
+		assertNotInitializedReferences("i in if (i) { }")
+	}
+
+//	@Test def void testNotInitializedInIf2() {
+//		'''
+//		int j=0;
+//		int i;
+//		if (j) {
+//			j = i;
+//		}
+//		'''.
+//		assertNotInitializedReferences("i in if (i) { }")
+//	}
 
 	private def assertInitializedVariables(CharSequence input, CharSequence expected) {
 		assertEqualsStrings(

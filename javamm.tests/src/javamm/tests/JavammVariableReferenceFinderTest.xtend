@@ -59,6 +59,18 @@ class JavammVariableReferenceFinderTest extends JavammAbstractTest {
 		assertRightVariableReferences("")
 	}
 
+	@Test def void testRightVariableReferencesInIf() {
+		'''
+		int i;
+		int j;
+		int k;
+		if (i < j) {
+			System.out.println(k);
+		}
+		'''.
+		assertRightVariableReferences("i, j, k")
+	}
+
 	private def assertRightVariableReferences(CharSequence input, CharSequence expected) {
 		assertEqualsStrings(expected,
 			input.parse.main.expressions.last.getAllRighthandVariableReferences.map[toString].join(", ")

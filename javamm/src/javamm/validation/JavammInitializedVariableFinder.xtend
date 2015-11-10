@@ -1,14 +1,13 @@
 package javamm.validation
 
-import com.google.inject.Inject
 import javamm.javamm.JavammXVariableDeclaration
+import javamm.validation.JavammInitializedVariableFinder.NotInitializedAcceptor
 import org.eclipse.xtext.xbase.XAbstractFeatureCall
 import org.eclipse.xtext.xbase.XAssignment
 import org.eclipse.xtext.xbase.XBasicForLoopExpression
 import org.eclipse.xtext.xbase.XBinaryOperation
 import org.eclipse.xtext.xbase.XBlockExpression
 import org.eclipse.xtext.xbase.XExpression
-import org.eclipse.xtext.xbase.XFeatureCall
 import org.eclipse.xtext.xbase.XIfExpression
 import org.eclipse.xtext.xbase.XVariableDeclaration
 
@@ -17,10 +16,8 @@ import org.eclipse.xtext.xbase.XVariableDeclaration
  */
 class JavammInitializedVariableFinder {
 
-	@Inject extension JavammVariableReferenceFinder
-
 	interface NotInitializedAcceptor {
-		def void accept(XFeatureCall call);
+		def void accept(XAbstractFeatureCall call);
 	}
 
 	def dispatch Iterable<XVariableDeclaration> findInitializedVariables(XExpression e) {
@@ -68,48 +65,61 @@ class JavammInitializedVariableFinder {
 	 */
 	def Iterable<XVariableDeclaration> detectNotInitializedDispatch(XExpression e,
 		Iterable<XVariableDeclaration> current, NotInitializedAcceptor acceptor) {
-			if (e == null) {
-				return current
-			} else {
-				return detectNotInitialized(e, current, acceptor)
-			}
+		if (e == null) {
+			return current
+		} else {
+			return detectNotInitialized(e, current, acceptor)
+		}
 	}
 
 	def dispatch Iterable<XVariableDeclaration> detectNotInitialized(XExpression e,
 		Iterable<XVariableDeclaration> current, NotInitializedAcceptor acceptor) {
-		inspectVariableReferences(e, current, acceptor)
-		return current
+		return inspectNonBlockContents(e, current, acceptor)
 	}
-	
-	protected def inspectVariableReferences(XExpression e, Iterable<XVariableDeclaration> current, NotInitializedAcceptor acceptor) {
-		for (ref : e.allRighthandVariableReferences) {
-			if (!current.exists[it == ref.feature]) {
-				acceptor.accept(ref)
-			}
-		}
+
+	protected def inspectNonBlockContents(XExpression e, Iterable<XVariableDeclaration> current, NotInitializedAcceptor acceptor) {
+		val contents = e.eContents.
+			filter[c | !(c instanceof XBlockExpression)].
+			filter(XExpression)
+		return loopOverExpressions(contents, current, acceptor)
 	}
 
 	def dispatch Iterable<XVariableDeclaration> detectNotInitialized(XBlockExpression b,
 		Iterable<XVariableDeclaration> current, NotInitializedAcceptor acceptor) {
-		var initialized = current.toList
-		for (e : b.expressions) {
-			detectNotInitialized(e, initialized, acceptor)
-			initialized += e.findInitializedVariables
-		}
-		return initialized
+		return loopOverExpressions(b.expressions, current, acceptor)
 	}
 
 	def dispatch Iterable<XVariableDeclaration> detectNotInitialized(XAbstractFeatureCall o,
-		Iterable<XVariableDeclaration> current, NotInitializedAcceptor acceptor) {
-		var initialized = current.toList
+			Iterable<XVariableDeclaration> current, NotInitializedAcceptor acceptor) {
+
 		val actualArguments = o.actualArguments
 		if (actualArguments.empty) {
-			inspectVariableReferences(o, current, acceptor)
-		} else {
-			for (a : actualArguments) {
-				initialized += detectNotInitialized(a, initialized, acceptor)
-				initialized += a.findInitializedVariables
+			val feature = o.feature
+			if (feature instanceof XVariableDeclaration) {
+				if (!current.exists[it == feature]) {
+					acceptor.accept(o)
+				}
 			}
+			return current
+		} else {
+			return loopOverExpressions(actualArguments, current, acceptor)
+		}
+	}
+
+	def dispatch Iterable<XVariableDeclaration> detectNotInitialized(XIfExpression e,
+			Iterable<XVariableDeclaration> current, NotInitializedAcceptor acceptor) {
+
+		val initialized = inspectNonBlockContents(e, current, acceptor)
+		
+		return initialized
+	}
+
+	def protected Iterable<XVariableDeclaration> loopOverExpressions(Iterable<XExpression> expressions, Iterable<XVariableDeclaration> current,
+		NotInitializedAcceptor acceptor) {
+		var initialized = current.toList
+		for (e : expressions) {
+			initialized += detectNotInitializedDispatch(e, initialized, acceptor)
+			initialized += e.findInitializedVariables
 		}
 		return initialized
 	}
