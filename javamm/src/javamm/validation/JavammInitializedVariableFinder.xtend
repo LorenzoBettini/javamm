@@ -2,8 +2,6 @@ package javamm.validation
 
 import com.google.inject.Inject
 import javamm.javamm.JavammXVariableDeclaration
-import javamm.util.JavammModelUtil
-import javamm.validation.JavammInitializedVariableFinder.NotInitializedAcceptor
 import org.eclipse.xtext.xbase.XAbstractFeatureCall
 import org.eclipse.xtext.xbase.XAssignment
 import org.eclipse.xtext.xbase.XBasicForLoopExpression
@@ -19,7 +17,7 @@ import org.eclipse.xtext.xbase.XVariableDeclaration
  */
 class JavammInitializedVariableFinder {
 
-	@Inject extension JavammModelUtil
+	@Inject extension JavammVariableReferenceFinder
 
 	interface NotInitializedAcceptor {
 		def void accept(XFeatureCall call);

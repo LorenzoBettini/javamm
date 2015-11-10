@@ -6,11 +6,11 @@ import javamm.javamm.JavammArrayConstructorCall
 import javamm.util.JavammModelUtil
 import org.eclipse.xtext.junit4.InjectWith
 import org.eclipse.xtext.junit4.XtextRunner
+import org.eclipse.xtext.xbase.XNumberLiteral
 import org.junit.Test
 import org.junit.runner.RunWith
 
 import static extension org.junit.Assert.*
-import org.eclipse.xtext.xbase.XNumberLiteral
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammInjectorProvider))
@@ -66,51 +66,6 @@ class JavammModelUtilTest extends JavammAbstractTest {
 		'''.assertArrayDimensionIndexAssociations("[0, null, 2]")
 	}
 
-	@Test def void testRightVariableReferences() {
-		'''
-		int i = 0;
-		int j = 1;
-		int k = i + j + foo;
-		'''.
-		assertRightVariableReferences("i, j")
-		// foo is unresolved
-	}
-
-	@Test def void testRightVariableReferences2() {
-		'''
-		int i = 0;
-		int k = i;
-		'''.
-		assertRightVariableReferences("i")
-	}
-
-	@Test def void testRightVariableReferences3() {
-		'''
-		int i = 0;
-		int j = 1;
-		System.out.println(i + j + foo);
-		'''.
-		assertRightVariableReferences("i, j")
-		// foo is unresolved
-	}
-
-	@Test def void testRightVariableReferences4() {
-		'''
-		int i = 0;
-		int j = 1;
-		int k1 = i, k2 = j, k3 = foo, k4 = j;
-		'''.
-		assertRightVariableReferences("i, j, j")
-		// foo is unresolved, j appears twice
-	}
-
-	@Test def void testRightVariableReferencesNull() {
-		'''
-		int j;
-		'''.
-		assertRightVariableReferences("")
-	}
-
 	/**
 	 * Assumes that dimension expressions, if given, are number literals
 	 */
@@ -131,12 +86,6 @@ class JavammModelUtilTest extends JavammAbstractTest {
 
 	private def lastArrayConstructorCall(CharSequence input) {
 		input.parse.main.expressions.last as JavammArrayConstructorCall
-	}
-
-	private def assertRightVariableReferences(CharSequence input, CharSequence expected) {
-		assertEqualsStrings(expected,
-			input.parse.main.expressions.last.getAllRighthandVariableReferences.map[toString].join(", ")
-		)
 	}
 
 }
