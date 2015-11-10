@@ -5,6 +5,7 @@ import org.eclipse.xtext.xbase.XAbstractFeatureCall
 import org.eclipse.xtext.xbase.XAssignment
 import org.eclipse.xtext.xbase.XBasicForLoopExpression
 import org.eclipse.xtext.xbase.XBlockExpression
+import org.eclipse.xtext.xbase.XDoWhileExpression
 import org.eclipse.xtext.xbase.XExpression
 import org.eclipse.xtext.xbase.XForLoopExpression
 import org.eclipse.xtext.xbase.XIfExpression
@@ -107,11 +108,12 @@ class JavammInitializedVariableFinder {
 		return initialized
 	}
 
-	protected def inspectNonBlockContents(XExpression e, Iterable<XVariableDeclaration> current, NotInitializedAcceptor acceptor) {
-		val contents = e.eContents.
-			filter[c | !(c instanceof XBlockExpression)].
-			filter(XExpression)
-		return loopOverExpressions(contents, current, acceptor)
+	def dispatch Iterable<XVariableDeclaration> detectNotInitialized(XDoWhileExpression e,
+		Iterable<XVariableDeclaration> current, NotInitializedAcceptor acceptor) {
+		// use information collected, since the body is surely executed
+		var initialized = detectNotInitializedDispatch(e.body, current, acceptor)
+		initialized = detectNotInitializedDispatch(e.predicate, initialized, acceptor)
+		return initialized
 	}
 
 	def dispatch Iterable<XVariableDeclaration> detectNotInitialized(XBlockExpression b,
@@ -146,6 +148,13 @@ class JavammInitializedVariableFinder {
 		val intersection = thenInfo.toSet
 		intersection.retainAll(elseInfo.toSet)
 		return initialized + intersection
+	}
+
+	protected def inspectNonBlockContents(XExpression e, Iterable<XVariableDeclaration> current, NotInitializedAcceptor acceptor) {
+		val contents = e.eContents.
+			filter[c | !(c instanceof XBlockExpression)].
+			filter(XExpression)
+		return loopOverExpressions(contents, current, acceptor)
 	}
 
 	def protected Iterable<XVariableDeclaration> loopOverExpressions(Iterable<? extends XExpression> expressions, Iterable<XVariableDeclaration> current,
