@@ -6,6 +6,7 @@ import org.eclipse.xtext.xbase.XAssignment
 import org.eclipse.xtext.xbase.XBasicForLoopExpression
 import org.eclipse.xtext.xbase.XBlockExpression
 import org.eclipse.xtext.xbase.XExpression
+import org.eclipse.xtext.xbase.XForLoopExpression
 import org.eclipse.xtext.xbase.XIfExpression
 import org.eclipse.xtext.xbase.XVariableDeclaration
 
@@ -85,6 +86,14 @@ class JavammInitializedVariableFinder {
 		)
 
 		return initialized
+	}
+
+	def dispatch Iterable<XVariableDeclaration> detectNotInitialized(XForLoopExpression e,
+		Iterable<XVariableDeclaration> current, NotInitializedAcceptor acceptor) {
+		// discard information collected
+		detectNotInitializedDispatch(e.eachExpression, current, acceptor)
+
+		return current
 	}
 
 	protected def inspectNonBlockContents(XExpression e, Iterable<XVariableDeclaration> current, NotInitializedAcceptor acceptor) {

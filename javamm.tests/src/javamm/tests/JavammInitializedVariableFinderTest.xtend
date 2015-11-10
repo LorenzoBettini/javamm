@@ -270,6 +270,29 @@ class JavammInitializedVariableFinderTest extends JavammAbstractTest {
 		assertNotInitializedReferences("j in System.out.println(j);")
 	}
 
+	@Test def void testNotInitializedInForEach() {
+		'''
+		int i;
+		int j;
+		for (int ii : integers) {
+			j = i;
+		}
+		'''.
+		assertNotInitializedReferences("i in j = i;")
+	}
+
+	@Test def void testNotInitializedInForEach2() {
+		'''
+		int i;
+		int j;
+		for (int ii : integers) {
+			i = 0;
+		}
+		j = i;
+		'''.
+		assertNotInitializedReferences("i in j = i;")
+	}
+
 	private def assertNotInitializedReferences(CharSequence input, CharSequence expected) {
 		val builder = new StringBuilder
 		// we record the container of not initialized reference
