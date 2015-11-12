@@ -137,13 +137,11 @@ class JavammInitializedVariableFinder {
 			effectiveOrNotEffectiveBranches.get(false), current.createCopy, acceptor
 		)
 
-		val intersection = inspectBranchesAndIntersect(
+		inspectBranchesAndIntersect(
 			effectiveOrNotEffectiveBranches.get(true),
 			current,
 			acceptor
 		)
-
-		current += intersection
 	}
 
 	def dispatch void detectNotInitialized(XBlockExpression b,
@@ -171,10 +169,9 @@ class JavammInitializedVariableFinder {
 			InitializedVariables current, NotInitializedAcceptor acceptor) {
 		detectNotInitializedDispatch(e.^if, current, acceptor)
 
-		val intersection = inspectBranchesAndIntersect(
+		inspectBranchesAndIntersect(
 			newArrayList(e.then, e.^else), current, acceptor
 		)
-		current += intersection
 	}
 
 	protected def inspectContents(XExpression e, InitializedVariables current, NotInitializedAcceptor acceptor) {
@@ -186,20 +183,21 @@ class JavammInitializedVariableFinder {
 	 * Inspects all the branches and computes the initialized variables
 	 * as the intersection of the results for all inspected branches.
 	 */
-	protected def inspectBranchesAndIntersect(Iterable<? extends XExpression> branches, InitializedVariables current,
-		NotInitializedAcceptor acceptor) {
-		var copy = current.createCopy
-		detectNotInitializedDispatch(
-			branches.head, copy, acceptor
-		)
-		val intersection = copy.toSet
+	protected def void inspectBranchesAndIntersect(Iterable<? extends XExpression> branches,
+		InitializedVariables current, NotInitializedAcceptor acceptor) {
+		val intersection = inspectBranch(branches.head, current, acceptor)
 		for (b : branches.tail) {
-			copy = current.createCopy
-			detectNotInitializedDispatch(b, copy, acceptor)
-			intersection.retainAll(copy.toSet)
+			val branchResult = inspectBranch(b, current, acceptor)
+			intersection.retainAll(branchResult)
 		}
 
-		return intersection
+		current += intersection
+	}
+
+	protected def inspectBranch(XExpression b, InitializedVariables current, NotInitializedAcceptor acceptor) {
+		var copy = current.createCopy
+		detectNotInitializedDispatch(b, copy, acceptor)
+		return copy.toSet
 	}
 
 	def protected void loopOverExpressions(Iterable<? extends XExpression> expressions, InitializedVariables current,
