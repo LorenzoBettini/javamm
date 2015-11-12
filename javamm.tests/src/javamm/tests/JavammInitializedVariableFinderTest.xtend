@@ -408,6 +408,8 @@ class JavammInitializedVariableFinderTest extends JavammAbstractTest {
 		i in k = i;
 		i in w = i;'''
 		)
+		// cases without break are inspected before the cases
+		// with break, that's why i in z = i; is detected before
 	}
 
 	@Test def void testInitializedInSwitch() {

@@ -125,28 +125,37 @@ class JavammInitializedVariableFinder {
 		return initialized
 	}
 
-	def dispatch InitializedVariables detectNotInitialized(XSwitchExpression e,
-		InitializedVariables current, NotInitializedAcceptor acceptor) {
+	def dispatch InitializedVariables detectNotInitialized(XSwitchExpression e, InitializedVariables current,
+		NotInitializedAcceptor acceptor) {
 		// use information collected, since the body is surely executed
 		val initialized = detectNotInitializedDispatch(e.^switch, current, acceptor)
 
 		// we consider effective branches the cases that end with a break
 		// cases without a break will not be considered as branches, as in Java
-		val effectiveBranches = <XExpression>newArrayList()
-		for (c : e.cases) {
-			if (c.then.isSureBranchStatement) {
-				effectiveBranches += c.then
-			} else {
-				// discard results
-				detectNotInitializedDispatch(c.then, current, acceptor)
-			}
+		val effectiveOrNotEffectiveBranches =
+			e.cases.map[then].groupBy[isSureBranchStatement]
+
+		if (effectiveOrNotEffectiveBranches.get(true) == null) {
+			effectiveOrNotEffectiveBranches.put(true, newArrayList)
 		}
-		effectiveBranches += e.^default
+		if (effectiveOrNotEffectiveBranches.get(false) == null) {
+			effectiveOrNotEffectiveBranches.put(false, newArrayList)
+		}
+
+		effectiveOrNotEffectiveBranches.get(true) += e.^default
+
+		// the cases not considered as effective branches are simply inspected
+		loopOverExpressions(
+			effectiveOrNotEffectiveBranches.get(false), current, acceptor
+		)
 
 		val intersection = inspectBranchesAndIntersect(
-			effectiveBranches, current, acceptor
+			effectiveOrNotEffectiveBranches.get(true),
+			current,
+			acceptor
 		)
-		return new InitializedVariables => [ addAll(initialized + intersection) ]
+
+		return new InitializedVariables => [addAll(initialized + intersection)]
 	}
 
 	def dispatch InitializedVariables detectNotInitialized(XBlockExpression b,
