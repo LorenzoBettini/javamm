@@ -8,6 +8,7 @@ import org.eclipse.xtext.junit4.InjectWith
 import org.eclipse.xtext.junit4.XtextRunner
 import org.junit.Test
 import org.junit.runner.RunWith
+import javamm.validation.JavammInitializedVariableFinder.InitializedVariables
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammInjectorProvider))
@@ -23,7 +24,7 @@ class JavammInitializedVariableFinderTest extends JavammAbstractTest {
 
 	@Test(expected=IllegalArgumentException)
 	def void testNotInitializedInternalNull() {
-		null.detectNotInitialized(emptyList)[]
+		null.detectNotInitialized(new InitializedVariables)[]
 	}
 
 	@Test def void testNotInitializedWithNotVariableReference() {
