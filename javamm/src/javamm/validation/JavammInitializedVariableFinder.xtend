@@ -16,6 +16,7 @@ import org.eclipse.xtext.xbase.XSwitchExpression
 import com.google.inject.Inject
 import javamm.controlflow.JavammBranchingStatementDetector
 import javamm.javamm.JavammAdditionalXVariableDeclaration
+import javamm.javamm.JavammArrayAccess
 
 /**
  * @author Lorenzo Bettini
@@ -58,6 +59,7 @@ class JavammInitializedVariableFinder {
 
 	def dispatch void detectNotInitialized(XAssignment e,
 		InitializedVariables initialized, NotInitializedAcceptor acceptor) {
+		checkArrayAccess(e, initialized, acceptor)
 		val feature = e.feature
 		if (feature instanceof XVariableDeclaration) {
 			detectNotInitializedDispatch(
@@ -191,6 +193,12 @@ class JavammInitializedVariableFinder {
 	protected def inspectContents(XExpression e, InitializedVariables initialized, NotInitializedAcceptor acceptor) {
 		val contents = e.eContents.filter(XExpression)
 		loopOverExpressions(contents, initialized, acceptor)
+	}
+
+	protected def checkArrayAccess(XExpression e, InitializedVariables initialized, NotInitializedAcceptor acceptor) {
+		if (e instanceof JavammArrayAccess) {
+			loopOverExpressions(e.indexes, initialized, acceptor)
+		}
 	}
 
 	/**

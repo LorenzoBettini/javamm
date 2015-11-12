@@ -143,6 +143,15 @@ class JavammInitializedVariableFinderTest extends JavammAbstractTest {
 		assertNotInitializedReferences("i in k = i")
 	}
 
+	@Test def void testNotInitializedInArrayAccess() {
+		'''
+		int i;
+		int[] a = null;
+		a[i] = 0;
+		'''.
+		assertNotInitializedReferences("i in a[i] = 0;")
+	}
+
 	@Test def void testNotInitializedAfterBlock() {
 		'''
 		int i;
