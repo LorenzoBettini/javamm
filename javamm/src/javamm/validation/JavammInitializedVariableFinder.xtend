@@ -40,95 +40,83 @@ class JavammInitializedVariableFinder {
 	/**
 	 * We handle null case gracefully
 	 */
-	def InitializedVariables detectNotInitializedDispatch(XExpression e,
+	def void detectNotInitializedDispatch(XExpression e,
 		InitializedVariables current, NotInitializedAcceptor acceptor) {
-		if (e == null) {
-			return current
-		} else {
-			return detectNotInitialized(e, current, acceptor)
+		if (e != null) {
+			detectNotInitialized(e, current, acceptor)
 		}
 	}
 
-	def dispatch InitializedVariables detectNotInitialized(XExpression e,
+	def dispatch void detectNotInitialized(XExpression e,
 		InitializedVariables current, NotInitializedAcceptor acceptor) {
-		return inspectContents(e, current, acceptor)
+		inspectContents(e, current, acceptor)
 	}
 
-	def dispatch InitializedVariables detectNotInitialized(XAssignment e,
+	def dispatch void detectNotInitialized(XAssignment e,
 		InitializedVariables current, NotInitializedAcceptor acceptor) {
 		val feature = e.feature
 		if (feature instanceof XVariableDeclaration) {
-			val initialized = detectNotInitializedDispatch(
+			detectNotInitializedDispatch(
 				e.value, current, acceptor
 			)
-			initialized += feature
-			return initialized
+			current += feature
 		} else {
-			return inspectContents(e, current, acceptor)
+			inspectContents(e, current, acceptor)
 		}
 	}
 
-	def dispatch InitializedVariables detectNotInitialized(JavammXVariableDeclaration e,
+	def dispatch void detectNotInitialized(JavammXVariableDeclaration e,
 		InitializedVariables current, NotInitializedAcceptor acceptor) {
 		if (e.right != null) {
-			var initialized = detectNotInitializedDispatch(
+			detectNotInitializedDispatch(
 				e.right, current, acceptor
 			)
-			initialized = loopOverExpressions(
-				e.additionalVariables, initialized, acceptor
+			loopOverExpressions(
+				e.additionalVariables, current, acceptor
 			)
-			initialized += e
-			return initialized
+			current += e
 		}
-		return current
 	}
 
-	def dispatch InitializedVariables detectNotInitialized(XBasicForLoopExpression e,
+	def dispatch void detectNotInitialized(XBasicForLoopExpression e,
 		InitializedVariables current, NotInitializedAcceptor acceptor) {
-		var initialized = loopOverExpressions(e.initExpressions, current, acceptor)
+		loopOverExpressions(e.initExpressions, current, acceptor)
 
 		// discard information collected
 		loopOverExpressions(
 			newArrayList(e.expression) +
 				e.updateExpressions +
 				newArrayList(e.eachExpression),
-			initialized,
+			current.createCopy,
 			acceptor
 		)
-
-		return initialized
 	}
 
-	def dispatch InitializedVariables detectNotInitialized(XForLoopExpression e,
+	def dispatch void detectNotInitialized(XForLoopExpression e,
 		InitializedVariables current, NotInitializedAcceptor acceptor) {
 		// discard information collected
-		detectNotInitializedDispatch(e.eachExpression, current, acceptor)
-
-		return current
+		detectNotInitializedDispatch(e.eachExpression, current.createCopy, acceptor)
 	}
 
-	def dispatch InitializedVariables detectNotInitialized(XWhileExpression e,
+	def dispatch void detectNotInitialized(XWhileExpression e,
 		InitializedVariables current, NotInitializedAcceptor acceptor) {
-		var initialized = detectNotInitializedDispatch(e.predicate, current, acceptor)
+		detectNotInitializedDispatch(e.predicate, current, acceptor)
 
 		// discard information collected
-		detectNotInitializedDispatch(e.body, initialized, acceptor)
-
-		return initialized
+		detectNotInitializedDispatch(e.body, current.createCopy, acceptor)
 	}
 
-	def dispatch InitializedVariables detectNotInitialized(XDoWhileExpression e,
+	def dispatch void detectNotInitialized(XDoWhileExpression e,
 		InitializedVariables current, NotInitializedAcceptor acceptor) {
 		// use information collected, since the body is surely executed
-		var initialized = detectNotInitializedDispatch(e.body, current, acceptor)
-		initialized = detectNotInitializedDispatch(e.predicate, initialized, acceptor)
-		return initialized
+		detectNotInitializedDispatch(e.body, current, acceptor)
+		detectNotInitializedDispatch(e.predicate, current, acceptor)
 	}
 
-	def dispatch InitializedVariables detectNotInitialized(XSwitchExpression e, InitializedVariables current,
+	def dispatch void detectNotInitialized(XSwitchExpression e, InitializedVariables current,
 		NotInitializedAcceptor acceptor) {
 		// use information collected, since the body is surely executed
-		val initialized = detectNotInitializedDispatch(e.^switch, current, acceptor)
+		detectNotInitializedDispatch(e.^switch, current, acceptor)
 
 		// we consider effective branches the cases that end with a break
 		// cases without a break will not be considered as branches, as in Java
@@ -146,7 +134,7 @@ class JavammInitializedVariableFinder {
 
 		// the cases not considered as effective branches are simply inspected
 		loopOverExpressions(
-			effectiveOrNotEffectiveBranches.get(false), current, acceptor
+			effectiveOrNotEffectiveBranches.get(false), current.createCopy, acceptor
 		)
 
 		val intersection = inspectBranchesAndIntersect(
@@ -155,15 +143,15 @@ class JavammInitializedVariableFinder {
 			acceptor
 		)
 
-		return new InitializedVariables => [addAll(initialized + intersection)]
+		current += intersection
 	}
 
-	def dispatch InitializedVariables detectNotInitialized(XBlockExpression b,
+	def dispatch void detectNotInitialized(XBlockExpression b,
 		InitializedVariables current, NotInitializedAcceptor acceptor) {
-		return loopOverExpressions(b.expressions, current, acceptor)
+		loopOverExpressions(b.expressions, current, acceptor)
 	}
 
-	def dispatch InitializedVariables detectNotInitialized(XAbstractFeatureCall o,
+	def dispatch void detectNotInitialized(XAbstractFeatureCall o,
 			InitializedVariables current, NotInitializedAcceptor acceptor) {
 
 		val actualArguments = o.actualArguments
@@ -174,49 +162,51 @@ class JavammInitializedVariableFinder {
 					acceptor.accept(o)
 				}
 			}
-			return current
 		} else {
-			return loopOverExpressions(actualArguments, current, acceptor)
+			loopOverExpressions(actualArguments, current, acceptor)
 		}
 	}
 
-	def dispatch InitializedVariables detectNotInitialized(XIfExpression e,
+	def dispatch void detectNotInitialized(XIfExpression e,
 			InitializedVariables current, NotInitializedAcceptor acceptor) {
-		val initialized = detectNotInitializedDispatch(e.^if, current, acceptor)
+		detectNotInitializedDispatch(e.^if, current, acceptor)
 
 		val intersection = inspectBranchesAndIntersect(
 			newArrayList(e.then, e.^else), current, acceptor
 		)
-		return new InitializedVariables => [ addAll(initialized + intersection) ]
+		current += intersection
 	}
 
 	protected def inspectContents(XExpression e, InitializedVariables current, NotInitializedAcceptor acceptor) {
 		val contents = e.eContents.filter(XExpression)
-		return loopOverExpressions(contents, current, acceptor)
+		loopOverExpressions(contents, current, acceptor)
 	}
 
+	/**
+	 * Inspects all the branches and computes the initialized variables
+	 * as the intersection of the results for all inspected branches.
+	 */
 	protected def inspectBranchesAndIntersect(Iterable<? extends XExpression> branches, InitializedVariables current,
 		NotInitializedAcceptor acceptor) {
-		val copy = current.createCopy
-		val intersection = 
-			detectNotInitializedDispatch(
-				branches.head, copy, acceptor
-			).toSet
+		var copy = current.createCopy
+		detectNotInitializedDispatch(
+			branches.head, copy, acceptor
+		)
+		val intersection = copy.toSet
 		for (b : branches.tail) {
-			val result = detectNotInitializedDispatch(b, copy, acceptor)
-			intersection.retainAll(result.toSet)
+			copy = current.createCopy
+			detectNotInitializedDispatch(b, copy, acceptor)
+			intersection.retainAll(copy.toSet)
 		}
 
 		return intersection
 	}
 
-	def protected InitializedVariables loopOverExpressions(Iterable<? extends XExpression> expressions, InitializedVariables current,
+	def protected void loopOverExpressions(Iterable<? extends XExpression> expressions, InitializedVariables current,
 		NotInitializedAcceptor acceptor) {
-		var initialized = current.createCopy
 		for (e : expressions) {
-			initialized = detectNotInitializedDispatch(e, initialized, acceptor)
+			detectNotInitializedDispatch(e, current, acceptor)
 		}
-		return initialized
 	}
 
 	def private createCopy(InitializedVariables current) {
