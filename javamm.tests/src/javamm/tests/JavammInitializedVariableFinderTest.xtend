@@ -382,6 +382,34 @@ class JavammInitializedVariableFinderTest extends JavammAbstractTest {
 		assertNotInitializedReferences("")
 	}
 
+	@Test def void testInitializedInSwitchCase() {
+		'''
+		nt i;
+		int k;
+		int z;
+		int w;
+		
+		switch (key) {
+		case -1:
+			k = i; // ERROR
+			break;
+		case 0:
+			z = i; // ERROR
+			i = 0;
+			z = i ;
+		default:
+			w = i; // ERROR
+			i = 0;
+			break;
+		}
+		'''.
+		assertNotInitializedReferences('''
+		i in z = i;
+		i in k = i;
+		i in w = i;'''
+		)
+	}
+
 	@Test def void testInitializedInSwitch() {
 		'''
 		int key = 0;
@@ -532,6 +560,30 @@ class JavammInitializedVariableFinderTest extends JavammAbstractTest {
 		case 0:
 			i = 0;
 			j = 0;
+		}
+
+		System.out.println(i); // ERROR
+		System.out.println(j); // ERROR
+		'''.
+		assertNotInitializedReferences('''
+		i in System.out.println(i);
+		j in System.out.println(j);'''
+		)
+	}
+
+	@Test def void testInitializedInSwitchWithoutDefault4() {
+		'''
+		int i;
+		int j;
+		
+		switch (key) {
+		case -1:
+			j = 0;
+			break;
+		case 0:
+			i = 0;
+			j = 0;
+			break;
 		}
 
 		System.out.println(i); // ERROR

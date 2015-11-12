@@ -131,11 +131,14 @@ class JavammInitializedVariableFinder {
 		val initialized = detectNotInitializedDispatch(e.^switch, current, acceptor)
 
 		// we consider effective branches the cases that end with a break
-		// two cases without a break in the middle are considered as a single branch
+		// cases without a break will not be considered as branches, as in Java
 		val effectiveBranches = <XExpression>newArrayList()
 		for (c : e.cases) {
 			if (c.then.isSureBranchStatement) {
 				effectiveBranches += c.then
+			} else {
+				// discard results
+				detectNotInitializedDispatch(c.then, current, acceptor)
 			}
 		}
 		effectiveBranches += e.^default
