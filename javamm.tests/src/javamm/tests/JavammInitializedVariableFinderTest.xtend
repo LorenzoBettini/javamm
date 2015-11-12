@@ -382,6 +382,167 @@ class JavammInitializedVariableFinderTest extends JavammAbstractTest {
 		assertNotInitializedReferences("")
 	}
 
+	@Test def void testInitializedInSwitch() {
+		'''
+		int key = 0;
+		int i;
+		int j;
+		
+		switch (key) {
+		case 0:
+			i = 0;
+			break;
+		default:
+			i = 0;
+			j = 0;
+			break;
+		}
+
+		System.out.println(i); // OK
+		System.out.println(j); // ERROR
+		'''.
+		assertNotInitializedReferences("j in System.out.println(j);")
+	}
+
+	@Test def void testInitializedInSwitch2() {
+		'''
+		int i;
+		int j;
+		
+		switch (key) {
+		case -1:
+			j = 0;
+			break;
+		case 0:
+			i = 0;
+			break;
+		default:
+			i = 0;
+			j = 0;
+			break;
+		}
+
+		System.out.println(i); // ERROR
+		System.out.println(j); // ERROR
+		'''.
+		assertNotInitializedReferences(
+		'''
+		i in System.out.println(i);
+		j in System.out.println(j);'''
+		)
+	}
+
+	@Test def void testInitializedInSwitch3() {
+		'''
+		int i;
+		int j;
+		
+		switch (key) {
+		case -1:
+			j = 0;
+		case 0:
+			i = 0;
+			break;
+		default:
+			i = 0;
+			j = 0;
+			break;
+		}
+
+		System.out.println(i); // OK
+		System.out.println(j); // ERROR
+		'''.
+		assertNotInitializedReferences("j in System.out.println(j);")
+	}
+
+	@Test def void testInitializedInSwitch4() {
+		'''
+		int i;
+		int j;
+		
+		switch (key) {
+		case -1:
+			j = 0;
+			break;
+		case 0:
+			i = 0;
+		default:
+			i = 0;
+			j = 0;
+			break;
+		}
+
+		System.out.println(i); // ERROR
+		System.out.println(j); // OK
+		'''.
+		assertNotInitializedReferences("i in System.out.println(i);")
+	}
+
+	@Test def void testInitializedInSwitchWithoutDefault() {
+		'''
+		int i;
+		int j;
+		
+		switch (key) {
+		case -1:
+			j = 0;
+			break;
+		case 0:
+			i = 0;
+		}
+
+		System.out.println(i); // ERROR
+		System.out.println(j); // ERROR
+		'''.
+		assertNotInitializedReferences('''
+		i in System.out.println(i);
+		j in System.out.println(j);'''
+		)
+	}
+
+	@Test def void testInitializedInSwitchWithoutDefault2() {
+		'''
+		int i;
+		int j;
+		
+		switch (key) {
+		case -1:
+			j = 0;
+		case 0:
+			i = 0;
+		}
+
+		System.out.println(i); // ERROR
+		System.out.println(j); // ERROR
+		'''.
+		assertNotInitializedReferences('''
+		i in System.out.println(i);
+		j in System.out.println(j);'''
+		)
+	}
+
+	@Test def void testInitializedInSwitchWithoutDefault3() {
+		'''
+		int i;
+		int j;
+		
+		switch (key) {
+		case -1:
+			j = 0;
+		case 0:
+			i = 0;
+			j = 0;
+		}
+
+		System.out.println(i); // ERROR
+		System.out.println(j); // ERROR
+		'''.
+		assertNotInitializedReferences('''
+		i in System.out.println(i);
+		j in System.out.println(j);'''
+		)
+	}
+
 	private def assertNotInitializedReferences(CharSequence input, CharSequence expected) {
 		val builder = new StringBuilder
 		// we record the container of not initialized reference

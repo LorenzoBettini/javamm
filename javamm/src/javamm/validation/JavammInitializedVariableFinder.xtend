@@ -12,11 +12,16 @@ import org.eclipse.xtext.xbase.XIfExpression
 import org.eclipse.xtext.xbase.XVariableDeclaration
 import org.eclipse.xtext.xbase.XWhileExpression
 import java.util.ArrayList
+import org.eclipse.xtext.xbase.XSwitchExpression
+import com.google.inject.Inject
+import javamm.controlflow.JavammBranchingStatementDetector
 
 /**
  * @author Lorenzo Bettini
  */
 class JavammInitializedVariableFinder {
+
+	@Inject extension JavammBranchingStatementDetector
 
 	interface NotInitializedAcceptor {
 		def void accept(XAbstractFeatureCall call);
@@ -120,6 +125,27 @@ class JavammInitializedVariableFinder {
 		return initialized
 	}
 
+	def dispatch InitializedVariables detectNotInitialized(XSwitchExpression e,
+		InitializedVariables current, NotInitializedAcceptor acceptor) {
+		// use information collected, since the body is surely executed
+		val initialized = detectNotInitializedDispatch(e.^switch, current, acceptor)
+
+		// we consider effective branches the cases that end with a break
+		// two cases without a break in the middle are considered as a single branch
+		val effectiveBranches = <XExpression>newArrayList()
+		for (c : e.cases) {
+			if (c.then.isSureBranchStatement) {
+				effectiveBranches += c.then
+			}
+		}
+		effectiveBranches += e.^default
+
+		val intersection = inspectBranchesAndIntersect(
+			effectiveBranches, current, acceptor
+		)
+		return new InitializedVariables => [ addAll(initialized + intersection) ]
+	}
+
 	def dispatch InitializedVariables detectNotInitialized(XBlockExpression b,
 		InitializedVariables current, NotInitializedAcceptor acceptor) {
 		return loopOverExpressions(b.expressions, current, acceptor)
@@ -146,18 +172,30 @@ class JavammInitializedVariableFinder {
 			InitializedVariables current, NotInitializedAcceptor acceptor) {
 		val initialized = detectNotInitializedDispatch(e.^if, current, acceptor)
 
-		val thenInfo = detectNotInitializedDispatch(e.then, current.createCopy, acceptor)
-		val elseInfo = detectNotInitializedDispatch(e.^else, current.createCopy, acceptor)
-
-		val intersection = thenInfo.toSet
-		intersection.retainAll(elseInfo.toSet)
+		val intersection = inspectBranchesAndIntersect(
+			newArrayList(e.then, e.^else), current, acceptor
+		)
 		return new InitializedVariables => [ addAll(initialized + intersection) ]
 	}
 
 	protected def inspectContents(XExpression e, InitializedVariables current, NotInitializedAcceptor acceptor) {
-		val contents = e.eContents.
-			filter(XExpression)
+		val contents = e.eContents.filter(XExpression)
 		return loopOverExpressions(contents, current, acceptor)
+	}
+
+	protected def inspectBranchesAndIntersect(Iterable<? extends XExpression> branches, InitializedVariables current,
+		NotInitializedAcceptor acceptor) {
+		val copy = current.createCopy
+		val intersection = 
+			detectNotInitializedDispatch(
+				branches.head, copy, acceptor
+			).toSet
+		for (b : branches.tail) {
+			val result = detectNotInitializedDispatch(b, copy, acceptor)
+			intersection.retainAll(result.toSet)
+		}
+
+		return intersection
 	}
 
 	def protected InitializedVariables loopOverExpressions(Iterable<? extends XExpression> expressions, InitializedVariables current,
