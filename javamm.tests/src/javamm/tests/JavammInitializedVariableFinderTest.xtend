@@ -597,6 +597,45 @@ class JavammInitializedVariableFinderTest extends JavammAbstractTest {
 		)
 	}
 
+	@Test def void testInitializedInSwitchWithoutDefault5() {
+		'''
+		int i;
+		int j;
+		
+		switch (key) {
+		case 0:
+			i = 0;
+			j = 0;
+			break;
+		}
+
+		System.out.println(i); // ERROR
+		System.out.println(j); // ERROR
+		'''.
+		assertNotInitializedReferences('''
+		i in System.out.println(i);
+		j in System.out.println(j);'''
+		)
+	}
+
+	@Test def void testInitializedInSwitchWithOnlyDefault() {
+		'''
+		int i;
+		int j;
+		
+		switch (key) {
+		default:
+			i = 0;
+			j = 0;
+			break;
+		}
+
+		System.out.println(i); // OK
+		System.out.println(j); // OK
+		'''.
+		assertNotInitializedReferences("")
+	}
+
 	private def assertNotInitializedReferences(CharSequence input, CharSequence expected) {
 		val builder = new StringBuilder
 		// we record the container of not initialized reference

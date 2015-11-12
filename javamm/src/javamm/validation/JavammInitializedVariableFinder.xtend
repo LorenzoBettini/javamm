@@ -182,14 +182,21 @@ class JavammInitializedVariableFinder {
 	/**
 	 * Inspects all the branches and computes the initialized variables
 	 * as the intersection of the results for all inspected branches.
+	 * 
+	 * IMPORTANT: the intersection assumes that branches contains at least two branches;
+	 * callers must ensure this.  If there's only one branch, then the intersection
+	 * will simply be the result for the single branch.  This works when
+	 * the single branch is the 'default' branch of a switch.
 	 */
 	protected def void inspectBranchesAndIntersect(Iterable<? extends XExpression> branches,
 		InitializedVariables current, NotInitializedAcceptor acceptor) {
-		val intersection = inspectBranch(branches.head, current, acceptor)
-		for (b : branches.tail) {
-			val branchResult = inspectBranch(b, current, acceptor)
-			intersection.retainAll(branchResult)
-		}
+		val intersection = 
+			branches.
+				map[inspectBranch(current, acceptor)].
+				reduce[
+					$0.retainAll($1) 
+					$0
+				]
 
 		current += intersection
 	}
