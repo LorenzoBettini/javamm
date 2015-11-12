@@ -70,6 +70,7 @@ class JavammValidator extends XbaseValidator {
 	public static val INVALID_USE_OF_VAR_ARGS = PREFIX + "InvalidUseOfVarArgs"
 	public static val MISSING_RETURN = PREFIX + "MissingReturn"
 	public static val INVALID_CHARACTER_CONSTANT = PREFIX + "InvalidCharacterConstant"
+	public static val NOT_INITIALIZED_VARIABLE = PREFIX + "NotInitializedVariable"
 
 	static val xbasePackage = XbasePackage.eINSTANCE;
 
@@ -97,6 +98,7 @@ class JavammValidator extends XbaseValidator {
 	@Inject ImplicitReturnFinder implicitReturnFinder
 	@Inject IBatchTypeResolver batchTypeResolver
 	@Inject JavammSureReturnComputer sureReturnComputer
+	@Inject JavammInitializedVariableFinder initializedVariableFinder
 
 	override protected getEPackages() {
 		val result = new ArrayList<EPackage>(super.getEPackages());
@@ -158,12 +160,19 @@ class JavammValidator extends XbaseValidator {
 	}
 
 	@Check
+	def void checkMain(Main m) {
+		checkVariableInitialization(m)
+	}
+
+	@Check
 	def void checkImplicitReturn(JavammMethod method) {
+		val body = method.body as XBlockExpression
+		checkVariableInitialization(body)
+
 		val jvmOperation = method.getInferredOperation
 		val types = batchTypeResolver.resolveTypes(method);
 		if (types.getActualType(jvmOperation).isPrimitiveVoid()) 
 			return;
-		val body = method.body as XBlockExpression
 		val lastExpression = body.expressions.last
 		if (lastExpression == null) {
 			errorMissingReturnStatement(body)
@@ -180,6 +189,19 @@ class JavammValidator extends XbaseValidator {
 
 	def private errorMissingReturnStatement(XExpression e) {
 		error("Missing return", e, null, MISSING_RETURN)
+	}
+
+	def private checkVariableInitialization(XBlockExpression e) {
+		initializedVariableFinder.detectNotInitialized(e) [
+			ref |
+			error(
+				"The local variable " +
+					ref.toString + " may not have been initialized",
+				ref,
+				xbasePackage.XAbstractFeatureCall_Feature,
+				NOT_INITIALIZED_VARIABLE
+			)
+		]
 	}
 
 	@Check

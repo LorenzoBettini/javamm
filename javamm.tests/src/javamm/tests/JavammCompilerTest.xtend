@@ -1661,7 +1661,7 @@ public class MyFile {
 
 	@Test def void testSeveralUpdatesInForLoop() {
 		'''
-		for (int i, j = 1; i < 0; i++, j++) {
+		for (int i = 0, j = 1; i < 0; i++, j++) {
 			System.out.println(i);
 			System.out.println(j);
 		}
@@ -1686,7 +1686,7 @@ public class MyFile {
 
 	@Test def void testSeveralVariableDeclarations() {
 		'''
-		int i, j = 1, k;
+		int i = 0, j = 1, k = 0;
 		System.out.println(i);
 		System.out.println(j);
 		System.out.println(k);
@@ -1736,7 +1736,7 @@ public class MyFile {
 
 	@Test def void testSeveralVariableDeclarationsInForLoop() {
 		'''
-		for (int i, j = 1, k; i < 0; i++) {
+		for (int i = 0, j = 1, k = 0; i < 0; i++) {
 			System.out.println(i);
 			System.out.println(j);
 			System.out.println(k);
@@ -1763,7 +1763,7 @@ public class MyFile {
 
 	@Test def void testSeveralVariableDeclarationsInForLoopTranslatedToJavaWhile() {
 		'''
-		for (int i, j = 1, k; i < 0; i += 1) {
+		for (int i = 0, j = 1, k = 0; i < 0; i += 1) {
 			System.out.println(i);
 			System.out.println(j);
 			System.out.println(k);
