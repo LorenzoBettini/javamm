@@ -133,6 +133,16 @@ class JavammInitializedVariableFinderTest extends JavammAbstractTest {
 		)
 	}
 
+	@Test def void testNotInitializedInSeveralVariableDeclarations2() {
+		'''
+		int i;
+		int z = 0;
+		int j, k = i, w = z;
+		i = k; // OK
+		'''.
+		assertNotInitializedReferences("i in k = i")
+	}
+
 	@Test def void testNotInitializedAfterBlock() {
 		'''
 		int i;

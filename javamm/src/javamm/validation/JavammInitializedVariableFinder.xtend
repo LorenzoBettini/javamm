@@ -15,6 +15,7 @@ import java.util.ArrayList
 import org.eclipse.xtext.xbase.XSwitchExpression
 import com.google.inject.Inject
 import javamm.controlflow.JavammBranchingStatementDetector
+import javamm.javamm.JavammAdditionalXVariableDeclaration
 
 /**
  * @author Lorenzo Bettini
@@ -70,12 +71,22 @@ class JavammInitializedVariableFinder {
 
 	def dispatch void detectNotInitialized(JavammXVariableDeclaration e,
 		InitializedVariables initialized, NotInitializedAcceptor acceptor) {
+		inspectVariableDeclaration(e, initialized, acceptor)
+		loopOverExpressions(
+			e.additionalVariables, initialized, acceptor
+		)
+	}
+
+	def dispatch void detectNotInitialized(JavammAdditionalXVariableDeclaration e,
+		InitializedVariables initialized, NotInitializedAcceptor acceptor) {
+		inspectVariableDeclaration(e, initialized, acceptor)
+	}
+
+	def protected void inspectVariableDeclaration(XVariableDeclaration e,
+		InitializedVariables initialized, NotInitializedAcceptor acceptor) {
 		if (e.right != null) {
 			detectNotInitializedDispatch(
 				e.right, initialized, acceptor
-			)
-			loopOverExpressions(
-				e.additionalVariables, initialized, acceptor
 			)
 			initialized += e
 		}
