@@ -46,7 +46,7 @@ class JavammInitializedVariableFinder {
 
 	def dispatch InitializedVariables detectNotInitialized(XExpression e,
 		InitializedVariables current, NotInitializedAcceptor acceptor) {
-		return inspectNonBlockContents(e, current, acceptor)
+		return inspectContents(e, current, acceptor)
 	}
 
 	def dispatch InitializedVariables detectNotInitialized(XAssignment e,
@@ -59,7 +59,7 @@ class JavammInitializedVariableFinder {
 			initialized += feature
 			return initialized
 		} else {
-			return inspectNonBlockContents(e, current, acceptor)
+			return inspectContents(e, current, acceptor)
 		}
 	}
 
@@ -144,7 +144,7 @@ class JavammInitializedVariableFinder {
 
 	def dispatch InitializedVariables detectNotInitialized(XIfExpression e,
 			InitializedVariables current, NotInitializedAcceptor acceptor) {
-		val initialized = inspectNonBlockContents(e, current, acceptor)
+		val initialized = detectNotInitializedDispatch(e.^if, current, acceptor)
 
 		val thenInfo = detectNotInitializedDispatch(e.then, current.createCopy, acceptor)
 		val elseInfo = detectNotInitializedDispatch(e.^else, current.createCopy, acceptor)
@@ -154,9 +154,8 @@ class JavammInitializedVariableFinder {
 		return new InitializedVariables => [ addAll(initialized + intersection) ]
 	}
 
-	protected def inspectNonBlockContents(XExpression e, InitializedVariables current, NotInitializedAcceptor acceptor) {
+	protected def inspectContents(XExpression e, InitializedVariables current, NotInitializedAcceptor acceptor) {
 		val contents = e.eContents.
-			filter[c | !(c instanceof XBlockExpression)].
 			filter(XExpression)
 		return loopOverExpressions(contents, current, acceptor)
 	}
@@ -165,7 +164,7 @@ class JavammInitializedVariableFinder {
 		NotInitializedAcceptor acceptor) {
 		var initialized = current.createCopy
 		for (e : expressions) {
-			initialized += detectNotInitializedDispatch(e, initialized, acceptor)
+			initialized = detectNotInitializedDispatch(e, initialized, acceptor)
 		}
 		return initialized
 	}
