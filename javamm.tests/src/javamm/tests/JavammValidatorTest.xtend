@@ -525,7 +525,7 @@ class JavammValidatorTest extends JavammAbstractTest {
 
 	@Test def void testVariableDeclarationsNoUnusedWarningsWhenUsed() {
 		'''
-		int i, j, k;
+		int i = 0, j = 0, k = 0;
 
 		System.out.println(i);
 		System.out.println(j);
@@ -535,7 +535,7 @@ class JavammValidatorTest extends JavammAbstractTest {
 
 	@Test def void testUnusedSeveralVariableDeclarations() {
 		'''
-		int i, j, k;
+		int i = 0, j = 0, k = 0;
 		System.out.println(j);
 		'''.parse.assertIssuesAsStrings(
 		'''
@@ -604,7 +604,7 @@ class JavammValidatorTest extends JavammAbstractTest {
 	@Test def void testArrayAccessOnMemberFeatureCallAndClone() {
 		'''
 		// clone has a generic type, so the result is inferred
-		int[] a;
+		int[] a = null;
 		int[] cl1 = a.clone(); // OK
 		'''.parseAndAssertNoErrors
 	}
@@ -638,7 +638,7 @@ class JavammValidatorTest extends JavammAbstractTest {
 	@Test def void testArrayAccessOnMemberFeatureCallAndClone4() {
 		'''
 		// clone has a generic type, so the result is inferred
-		String[][] a;
+		String[][] a = null;
 		String[] cl1 = a[0].clone();
 		'''.parseAndAssertNoErrors
 	}
@@ -759,14 +759,16 @@ class JavammValidatorTest extends JavammAbstractTest {
 	@Test def void testFinalVariableNotInitialized() {
 		'''
 		final int i;
-		System.out.println(i);
-		'''.parse.assertIssuesAsStrings("Value must be initialized")
+		'''.parse.assertError(
+			javammPack.javammXVariableDeclaration,
+			IssueCodes.MISSING_INITIALIZATION,
+			"Value must be initialized"
+		)
 	}
 
 	@Test def void testFinalVariableNotInitialized2() {
 		'''
 		final int i = 0, j;
-		System.out.println(j);
 		'''.parse.assertErrorsAsStrings("Value must be initialized")
 	}
 
@@ -933,6 +935,24 @@ class JavammValidatorTest extends JavammAbstractTest {
 		input.parse.assertNoErrors
 	}
 
+	@Test def void testVariableNotInitializedInMain() {
+		val input = '''
+		int i;
+		System.out.println(i);
+		'''
+		input.parse.assertVariableNotInitialized("i")
+	}
+
+	@Test def void testVariableNotInitializedInMethod() {
+		val input = '''
+		void m() {
+			int i;
+			System.out.println(i);
+		}
+		'''
+		input.parse.assertVariableNotInitialized("i")
+	}
+
 	def private assertNumberLiteralTypeMismatch(EObject o, String expectedType, String actualType) {
 		o.assertTypeMismatch(XbasePackage.eINSTANCE.XNumberLiteral, expectedType, actualType)
 	}
@@ -1008,6 +1028,14 @@ class JavammValidatorTest extends JavammAbstractTest {
 			c,
 			JavammValidator.MISSING_RETURN,
 			'Missing return'
+		)
+	}
+
+	def private assertVariableNotInitialized(EObject o, String name) {
+		o.assertError(
+			XbasePackage.eINSTANCE.XFeatureCall,
+			JavammValidator.NOT_INITIALIZED_VARIABLE,
+			"The local variable " + name + " may not have been initialized"
 		)
 	}
 }

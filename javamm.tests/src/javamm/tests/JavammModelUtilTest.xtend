@@ -6,16 +6,16 @@ import javamm.javamm.JavammArrayConstructorCall
 import javamm.util.JavammModelUtil
 import org.eclipse.xtext.junit4.InjectWith
 import org.eclipse.xtext.junit4.XtextRunner
+import org.eclipse.xtext.xbase.XNumberLiteral
 import org.junit.Test
 import org.junit.runner.RunWith
 
 import static extension org.junit.Assert.*
-import org.eclipse.xtext.xbase.XNumberLiteral
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammInjectorProvider))
 class JavammModelUtilTest extends JavammAbstractTest {
-	
+
 	@Inject extension JavammModelUtil
 
 	@Test def void testArrayContructorCallOneDimensionHasExpression() {
@@ -87,6 +87,5 @@ class JavammModelUtilTest extends JavammAbstractTest {
 	private def lastArrayConstructorCall(CharSequence input) {
 		input.parse.main.expressions.last as JavammArrayConstructorCall
 	}
-	
-	
+
 }

@@ -4,30 +4,30 @@ import com.google.inject.Inject
 import com.google.inject.Singleton
 import javamm.javamm.JavammArrayConstructorCall
 import javamm.javamm.JavammArrayDimension
+import javamm.javamm.JavammJvmFormalParameter
+import javamm.javamm.JavammMethod
+import org.eclipse.xtext.common.types.JvmFormalParameter
+import org.eclipse.xtext.common.types.JvmOperation
 import org.eclipse.xtext.xbase.XBasicForLoopExpression
 import org.eclipse.xtext.xbase.XExpression
 import org.eclipse.xtext.xbase.jvmmodel.IJvmModelAssociations
 
 import static extension org.eclipse.xtext.EcoreUtil2.*
-import org.eclipse.xtext.common.types.JvmFormalParameter
-import javamm.javamm.JavammJvmFormalParameter
-import javamm.javamm.JavammMethod
-import org.eclipse.xtext.common.types.JvmOperation
 
 /**
  * Utility methods for accessing the Javamm model.
  * 
  * @author Lorenzo Bettini
- *
+ * 
  */
 @Singleton
 class JavammModelUtil {
-	
+
 	@Inject extension JavammNodeModelUtil
 	@Inject extension IJvmModelAssociations
-	
+
 	def getContainingForLoop(XExpression e) {
-		e.getContainerOfType(XBasicForLoopExpression)		
+		e.getContainerOfType(XBasicForLoopExpression)
 	}
 
 	/**
@@ -43,12 +43,11 @@ class JavammModelUtil {
 	 */
 	def arrayDimensionIndexAssociations(JavammArrayConstructorCall c) {
 		val sortedByOffset = (c.dimensions + c.indexes).sortBy[elementOffsetInProgram]
-		
+
 		// there's at least one dimension [ if we parsed a JavammArrayConstructorCall
-		
 		val associations = <XExpression>newArrayList()
-		
-		val last = sortedByOffset.reduce[p1, p2|
+
+		val last = sortedByOffset.reduce [ p1, p2 |
 			if (p1 instanceof JavammArrayDimension) {
 				if (p2 instanceof XExpression) {
 					// case "[ exp"
@@ -64,7 +63,7 @@ class JavammModelUtil {
 		if (last instanceof JavammArrayDimension) {
 			associations.add(null)
 		}
-		
+
 		return associations
 	}
 
@@ -77,7 +76,7 @@ class JavammModelUtil {
 		if (p instanceof JavammJvmFormalParameter) {
 			return p
 		}
-		
+
 		val orig = p.sourceElements.head
 		if (orig instanceof JavammJvmFormalParameter) {
 			return orig
@@ -89,4 +88,5 @@ class JavammModelUtil {
 	def getInferredOperation(JavammMethod m) {
 		m.jvmElements.filter(JvmOperation).head
 	}
+
 }
