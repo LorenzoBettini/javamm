@@ -180,6 +180,23 @@ class JavammInitializedVariableFinderTest extends JavammAbstractTest {
 		assertNotInitializedReferences("")
 	}
 
+	@Test def void testNotInitializedInArrayConstructor() {
+		'''
+		int i;
+		int[] a = new int[i];
+		'''.
+		assertNotInitializedReferences("i in new int[i]")
+	}
+
+	@Test def void testInitializedInArrayConstructor() {
+		'''
+		int i;
+		int[] a = new int[i=1];
+		System.out.println(i);
+		'''.
+		assertNotInitializedReferences("")
+	}
+
 	@Test def void testNotInitializedAfterBlock() {
 		'''
 		int i;
