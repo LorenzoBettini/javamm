@@ -759,10 +759,10 @@ class JavammValidatorTest extends JavammAbstractTest {
 	@Test def void testFinalVariableNotInitialized() {
 		'''
 		final int i;
-		'''.parse.assertIssuesAsStrings(
-			'''
-			The value of the local variable i is not used
-			Value must be initialized'''
+		'''.parse.assertError(
+			javammPack.javammXVariableDeclaration,
+			IssueCodes.MISSING_INITIALIZATION,
+			"Value must be initialized"
 		)
 	}
 
