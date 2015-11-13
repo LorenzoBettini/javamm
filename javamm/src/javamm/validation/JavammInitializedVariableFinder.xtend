@@ -1,5 +1,10 @@
 package javamm.validation
 
+import com.google.inject.Inject
+import java.util.HashSet
+import javamm.controlflow.JavammBranchingStatementDetector
+import javamm.javamm.JavammAdditionalXVariableDeclaration
+import javamm.javamm.JavammArrayAccess
 import javamm.javamm.JavammXVariableDeclaration
 import org.eclipse.xtext.xbase.XAbstractFeatureCall
 import org.eclipse.xtext.xbase.XAssignment
@@ -9,14 +14,9 @@ import org.eclipse.xtext.xbase.XDoWhileExpression
 import org.eclipse.xtext.xbase.XExpression
 import org.eclipse.xtext.xbase.XForLoopExpression
 import org.eclipse.xtext.xbase.XIfExpression
+import org.eclipse.xtext.xbase.XSwitchExpression
 import org.eclipse.xtext.xbase.XVariableDeclaration
 import org.eclipse.xtext.xbase.XWhileExpression
-import java.util.ArrayList
-import org.eclipse.xtext.xbase.XSwitchExpression
-import com.google.inject.Inject
-import javamm.controlflow.JavammBranchingStatementDetector
-import javamm.javamm.JavammAdditionalXVariableDeclaration
-import javamm.javamm.JavammArrayAccess
 
 /**
  * @author Lorenzo Bettini
@@ -29,7 +29,7 @@ class JavammInitializedVariableFinder {
 		def void accept(XAbstractFeatureCall call);
 	}
 
-	static class InitializedVariables extends ArrayList<XVariableDeclaration> {
+	static class InitializedVariables extends HashSet<XVariableDeclaration> {
 	}
 
 	/**
@@ -131,7 +131,6 @@ class JavammInitializedVariableFinder {
 
 	def dispatch void detectNotInitialized(XSwitchExpression e, InitializedVariables initialized,
 		NotInitializedAcceptor acceptor) {
-		// use information collected, since the body is surely executed
 		detectNotInitializedDispatch(e.^switch, initialized, acceptor)
 
 		// we consider effective branches the cases that end with a break
@@ -146,6 +145,9 @@ class JavammInitializedVariableFinder {
 			effectiveOrNotEffectiveBranches.put(false, newArrayList)
 		}
 
+		// adding the default case even if not specified, i.e., null
+		// ensures that the intersection will be empty in case there is
+		// a single branch (as expected).
 		effectiveOrNotEffectiveBranches.get(true) += e.^default
 
 		// the cases not considered as effective branches are simply inspected
@@ -172,7 +174,7 @@ class JavammInitializedVariableFinder {
 		if (actualArguments.empty) {
 			val feature = o.feature
 			if (feature instanceof XVariableDeclaration) {
-				if (!initialized.exists[it == feature]) {
+				if (!initialized.contains(feature)) {
 					acceptor.accept(o)
 				}
 			}
@@ -226,7 +228,7 @@ class JavammInitializedVariableFinder {
 	protected def inspectBranch(XExpression b, InitializedVariables initialized, NotInitializedAcceptor acceptor) {
 		var copy = initialized.createCopy
 		detectNotInitializedDispatch(b, copy, acceptor)
-		return copy.toSet
+		return copy
 	}
 
 	def protected void loopOverExpressions(Iterable<? extends XExpression> expressions, InitializedVariables initialized,
