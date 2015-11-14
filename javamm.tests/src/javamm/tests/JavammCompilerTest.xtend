@@ -820,8 +820,17 @@ package javamm;
 @SuppressWarnings("all")
 public class MyFile {
   public static void main(String[] args) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nUnreachable expression.");
+    int argsNum = args.length;
+    {
+      int i = 0;
+      boolean _while = (i < argsNum);
+      while (_while) {
+        return;
+        int _i = i;
+        i = (_i + 1);
+        _while = (i < argsNum);
+      }
+    }
   }
 }
 ''', false 
@@ -829,6 +838,8 @@ public class MyFile {
 		/** 
 		 * this is not valid input since i += 1 is considered not reachable
 		 * we use it only to test the compiler.
+		 * 
+		 * In Xtext 2.9 the body is generated anyway (not valid Java code).
 		 * 
 		 * In Xtext 2.8 the body is not generated, while in Xtext 2.7.3 the body
 		 * was generated anyway:
@@ -1974,7 +1985,7 @@ public class MyFile {
     } else {
       _javammconditionalexpression_1 = "a";
     }
-    Object o = ((Comparable<?>)_javammconditionalexpression_1);
+    Object o = _javammconditionalexpression_1;
   }
 }
 '''
@@ -2477,7 +2488,10 @@ public class MyFile {
 			if (expectedGeneratedJava != null) {
 				assertGeneratedJavaCode(expectedGeneratedJava)
 			}
-			assertGeneratedJavaCodeCompiles
+			
+			if (checkValidationErrors) {
+				assertGeneratedJavaCodeCompiles
+			}
 		]
 	}
 	
