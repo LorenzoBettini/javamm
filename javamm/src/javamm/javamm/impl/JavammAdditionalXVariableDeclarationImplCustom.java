@@ -3,11 +3,10 @@
  */
 package javamm.javamm.impl;
 
+import org.eclipse.xtext.common.types.JvmTypeReference;
+
 import javamm.javamm.JavammAdditionalXVariableDeclaration;
 import javamm.javamm.JavammXVariableDeclaration;
-
-import org.eclipse.xtext.common.types.JvmTypeReference;
-import org.eclipse.xtext.xbase.impl.XVariableDeclarationImplCustom;
 
 /**
  * Custom implementation so that isWritable is always true, so that
@@ -16,7 +15,7 @@ import org.eclipse.xtext.xbase.impl.XVariableDeclarationImplCustom;
  * @author Lorenzo Bettini
  *
  */
-public class JavammAdditionalXVariableDeclarationImplCustom extends XVariableDeclarationImplCustom implements JavammAdditionalXVariableDeclaration  {
+public class JavammAdditionalXVariableDeclarationImplCustom extends JavammAdditionalXVariableDeclarationImpl implements JavammAdditionalXVariableDeclaration  {
 
 	@Override
 	public boolean isWriteable() {
