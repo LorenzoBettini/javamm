@@ -8,6 +8,8 @@ import org.eclipse.xtext.serializer.impl.Serializer
 import org.junit.Test
 import org.junit.runner.RunWith
 
+import static extension org.junit.Assert.*
+
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammInjectorProvider))
 class JavammSerializerTest extends JavammAbstractTest {
@@ -26,8 +28,14 @@ class JavammSerializerTest extends JavammAbstractTest {
 		'''.assertSerialize
 	}
 
+	@Test def void testMemberFeatureCallArrayAccesses() {
+		'''
+		args  [ 0 ]   . length;
+		'''.assertSerialize
+	}
+
 	def private assertSerialize(CharSequence input) {
 		val o = input.parse
-		serializer.serialize(o)
+		input.toString.assertEquals(serializer.serialize(o))
 	}
 }
