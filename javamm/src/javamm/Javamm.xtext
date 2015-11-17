@@ -209,35 +209,6 @@ XMemberFeatureCall returns XExpression:
 			feature=[types::JvmIdentifiableElement|FeatureCallID] OpSingleAssign)
 				value=XAssignment
 	|
-		// Note that the custom implementation JavammXMemberFeatureCallImplCustom
-		// will rearrange the containment when the assignment
-		// memberCallTarget=current
-		// is performed
-		// 1. a JavammArrayAccessExpression will be created
-		// 2. perform the assignment JavammArrayAccessExpression.array = current
-		// 3. indexes are delegated to JavammArrayAccessExpression.indexes
-		// thus instead of 
-		// JavammXMemberFeatureCall {
-		// 		memberCallTarget=current,
-		// 		indexes=expressions
-		// }
-		// the actual model object will be
-		// JavammXMemberFeatureCall {
-		//		memberCallTarget=JavammArrayAccessExpression {
-		// 			array=current,
-		// 			indexes=expressions
-		//		}
-		// }
-//		=>({JavammXMemberFeatureCall.memberCallTarget=current}
-//			'[' indexes+=XExpression ']'('[' indexes+=XExpression ']')*
-//			".") 
-//			feature=[types::JvmIdentifiableElement|IdOrSuper] (
-//				=>explicitOperationCall?='(' 
-//					(
-//					    memberCallArguments+=XExpression (',' memberCallArguments+=XExpression)*
-//					)? 
-//				')')?
-//	|
 		=>({XMemberFeatureCall.memberCallTarget=current} ".") 
 			feature=[types::JvmIdentifiableElement|IdOrSuper] (
 				=>explicitOperationCall?='(' 
