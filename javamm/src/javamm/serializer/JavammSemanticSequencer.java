@@ -16,6 +16,12 @@ import javamm.javamm.JavammXMemberFeatureCall;
 import javamm.services.JavammGrammarAccess;
 import javamm.services.JavammGrammarAccess.XMemberFeatureCallElements;
 
+/**
+ * Customized to deal with custom AST structure for member feature call with array access.
+ * 
+ * @author Lorenzo Bettini
+ *
+ */
 public class JavammSemanticSequencer extends AbstractJavammSemanticSequencer {
 
 	@Inject
@@ -27,27 +33,29 @@ public class JavammSemanticSequencer extends AbstractJavammSemanticSequencer {
 		SequenceFeeder acceptor = createSequencerFeeder(featureCall, nodes);
 		XMemberFeatureCallElements memberFeatureCallElements= grammarAccess.getXMemberFeatureCallAccess();
 
-		acceptor.accept(memberFeatureCallElements.getJavammXMemberFeatureCallMemberCallTargetAction_1_1_0_0_0(), featureCall.getArrayAccessExpression().getArray());
+		// we manually modify the structure of this element, so we must serialize that accordingly
+		acceptor.accept(memberFeatureCallElements.getJavammXMemberFeatureCallMemberCallTargetAction_1_1_0_0_0(),
+				featureCall.getArrayAccessExpression().getArray());
 
-		acceptor.accept(memberFeatureCallElements.getIndexesXExpressionParserRuleCall_1_1_0_0_2_0(), featureCall.getIndexes().get(0), 0);
+		final List<XExpression> indexes = featureCall.getIndexes();
+		acceptor.accept(memberFeatureCallElements.getIndexesXExpressionParserRuleCall_1_1_0_0_2_0(),
+				indexes.get(0), 0);
+		for (int i = 1; i < indexes.size(); i++) {
+			acceptor.accept(memberFeatureCallElements.getIndexesXExpressionParserRuleCall_1_1_0_0_4_1_0(),
+					indexes.get(i), i);
+		}
 
-		// feature=[JvmIdentifiableElement|ID]
 		acceptor.accept(memberFeatureCallElements.getFeatureJvmIdentifiableElementIdOrSuperParserRuleCall_1_1_1_0_1(), featureCall.getFeature());
 
-		// (explicitOperationCall?='(' (memberCallArguments+=XShortClosure | (memberCallArguments+=XExpression memberCallArguments+=XExpression*))?)? memberCallArguments+=XClosure? 
-		if (featureCall.isExplicitOperationCallOrBuilderSyntax()) {
-			if (featureCall.isExplicitOperationCall())
-				acceptor.accept(memberFeatureCallElements.getExplicitOperationCallLeftParenthesisKeyword_1_2_2_0_0());
-			List<XExpression> arguments = featureCall.getMemberCallArguments();
-			if (!arguments.isEmpty()) {
-				int diff = 0;
-				if (featureCall.isExplicitOperationCall()) {
-					if (arguments.size() - diff > 0)
-						acceptor.accept(memberFeatureCallElements.getMemberCallArgumentsXExpressionParserRuleCall_1_1_2_1_0_0(), arguments.get(0), 0);
-					for (int i = 1; i < arguments.size() - diff; i++)
-						acceptor.accept(memberFeatureCallElements.getMemberCallArgumentsXExpressionParserRuleCall_1_1_2_1_1_1_0(), arguments.get(i), i);
+		if (featureCall.isExplicitOperationCall()) {
+			acceptor.accept(memberFeatureCallElements.getExplicitOperationCallLeftParenthesisKeyword_1_1_2_0_0());
+		}
+		List<XExpression> arguments = featureCall.getMemberCallArguments();
+		if (!arguments.isEmpty()) {
+				acceptor.accept(memberFeatureCallElements.getMemberCallArgumentsXExpressionParserRuleCall_1_1_2_1_0_0(), arguments.get(0), 0);
+				for (int i = 1; i < arguments.size(); i++) {
+					acceptor.accept(memberFeatureCallElements.getMemberCallArgumentsXExpressionParserRuleCall_1_1_2_1_1_1_0(), arguments.get(i), i);
 				}
-			}
 		}
 		acceptor.finish();
 	}

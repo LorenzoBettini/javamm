@@ -28,9 +28,39 @@ class JavammSerializerTest extends JavammAbstractTest {
 		'''.assertSerialize
 	}
 
+	@Test def void testMemberFeatureCall() {
+		'''
+		System.out.println("a");
+		'''.assertSerialize
+	}
+
 	@Test def void testMemberFeatureCallArrayAccesses() {
 		'''
 		args  [ 0 ]   . length;
+		'''.assertSerialize
+	}
+
+	@Test def void testMemberFeatureCallArrayAccesses2() {
+		'''
+		args  [ 0 ] [ 1 ]   . length;
+		'''.assertSerialize
+	}
+
+	@Test def void testMemberFeatureCallArrayAccessesWithParenthesis() {
+		'''
+		args  [ 0 ]   . length();
+		'''.assertSerialize
+	}
+
+	@Test def void testMemberFeatureCallArrayAccessesWithArguments() {
+		'''
+		args  [ 0 ]   . length(0);
+		'''.assertSerialize
+	}
+
+	@Test def void testMemberFeatureCallArrayAccessesWithArguments2() {
+		'''
+		args  [ 0 ]   . length(0,1);
 		'''.assertSerialize
 	}
 
