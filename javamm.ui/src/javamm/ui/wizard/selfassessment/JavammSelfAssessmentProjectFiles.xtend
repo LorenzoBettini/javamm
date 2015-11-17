@@ -56,7 +56,7 @@ import javamm.MaxSolution;
 @RunWith(Parameterized.class)
 public class MaxParameterizedRandomTest {
 
-	@Parameters(name = "i = {0}; j = {1})")
+	@Parameters(name = "(i = {0}; j = {1})")
     public static Collection<Object[]> data() {
     	Object[][] m = new Object[1000][2];
     	for (int i = 0; i < 1000; ++i) {
@@ -77,7 +77,7 @@ public class MaxParameterizedRandomTest {
     }
 
 	@Test
-	public void testExcercise() {
+	public void testExercise() {
 		assertEquals(MaxSolution.max(x,  y), Max.max(x,  y));
 	}
 
