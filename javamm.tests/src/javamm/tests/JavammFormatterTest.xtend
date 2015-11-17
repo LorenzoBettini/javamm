@@ -148,10 +148,10 @@ class JavammFormatterTest extends JavammAbstractTest {
 		assertFormatted[
 			expectation = '''
 				if (s)
-					a[0].println();
+					a[0].println() ;
 				
 				for (String s : strings)
-					a[0].println();
+					a[0].println() ;
 			'''
 			toBeFormatted = '''
 				if (s)
@@ -169,7 +169,7 @@ class JavammFormatterTest extends JavammAbstractTest {
 			expectation = '''
 			{
 				System.out.println("1");
-				System.out.println("2");
+				System.out.println("2") ;
 			}
 			'''
 			toBeFormatted = '''
@@ -182,7 +182,7 @@ class JavammFormatterTest extends JavammAbstractTest {
 		assertFormatted[
 			expectation = '''
 				System.out.println("1");
-				System.out.println("2");
+				System.out.println("2") ;
 			'''
 			toBeFormatted = '''
 				System.out.println("1");  System.out.println("2") ;  
@@ -195,7 +195,7 @@ class JavammFormatterTest extends JavammAbstractTest {
 			expectation = '''
 			{
 				System.out.println("1");
-				System.out.println("2");
+				System.out.println("2") ;
 			}
 			'''
 			toBeFormatted = '''
@@ -215,7 +215,7 @@ class JavammFormatterTest extends JavammAbstractTest {
 	@Test def void testFormatSystemOut2() {
 		assertFormatted[
 			expectation = '''
-				System.out.println("Hello");
+				System.out.println("Hello") ;
 			'''
 			toBeFormatted = '''
 				System.out.println( "Hello" ) ;
@@ -226,7 +226,7 @@ class JavammFormatterTest extends JavammAbstractTest {
 	@Test def void testVariableDeclaration() {
 		assertFormatted[
 			expectation = '''
-				int i;
+				int i ;
 			'''
 			toBeFormatted = '''
 				int  i ;
@@ -248,7 +248,7 @@ class JavammFormatterTest extends JavammAbstractTest {
 	@Test def void testVariableDeclarations() {
 		assertFormatted[
 			expectation = '''
-				int i, j, k;
+				int i, j, k ;
 			'''
 			toBeFormatted = '''
 				int  i , j , k ;
@@ -259,7 +259,7 @@ class JavammFormatterTest extends JavammAbstractTest {
 	@Test def void testVariableDeclarationsWithInitialization() {
 		assertFormatted[
 			expectation = '''
-				int i = 0, j = 1, k = 2;
+				int i = 0, j = 1, k = 2 ;
 			'''
 			toBeFormatted = '''
 				int  i  =  0  , j  =  1 , k  =  2 ;
@@ -270,7 +270,7 @@ class JavammFormatterTest extends JavammAbstractTest {
 	@Test def void testAssignment() {
 		assertFormatted[
 			expectation = '''
-				i = 0;
+				i = 0   ;
 			'''
 			toBeFormatted = '''
 				i  =  0   ;
@@ -281,7 +281,7 @@ class JavammFormatterTest extends JavammAbstractTest {
 	@Test def void testAssignmentWithArrayAccess() {
 		assertFormatted[
 			expectation = '''
-				i[0] = 0;
+				i[0] = 0   ;
 			'''
 			toBeFormatted = '''
 				i [ 0 ]  =  0   ;
@@ -292,7 +292,7 @@ class JavammFormatterTest extends JavammAbstractTest {
 	@Test def void testAssignmentWithArrayAccesses() {
 		assertFormatted[
 			expectation = '''
-				i[0][1] = 0;
+				i[0][1] = 0   ;
 			'''
 			toBeFormatted = '''
 				i [ 0 ] [ 1 ] =  0   ;
@@ -314,7 +314,7 @@ class JavammFormatterTest extends JavammAbstractTest {
 	@Test def void testMemberFeatureCallArrayAccess() {
 		assertFormatted[
 			expectation = '''
-				args[0].length;
+				args[0].length   ;
 			'''
 			toBeFormatted = '''
 				args  [ 0 ]   . length   ;
@@ -325,8 +325,8 @@ class JavammFormatterTest extends JavammAbstractTest {
 	@Test def void testMemberFeatureCallArrayAccesses() {
 		assertFormatted[
 			expectation = '''
-				args[0].length;
-				args[0][1].length;
+				args[0].length   ;
+				args[0][1].length   ;
 			'''
 			toBeFormatted = '''
 				args  [ 0 ]   . length   ;
@@ -370,7 +370,7 @@ class JavammFormatterTest extends JavammAbstractTest {
 	@Test def void testBinaryOperator() {
 		assertFormatted[
 			expectation = '''
-				int j = 2 + 0 * 1;
+				int j = 2 + 0 * 1 ;
 			'''
 			toBeFormatted = '''
 				int j  =   2  +0  *  1 ;
@@ -381,7 +381,7 @@ class JavammFormatterTest extends JavammAbstractTest {
 	@Test def void testFeatureCall() {
 		assertFormatted[
 			expectation = '''
-				m(1 + 3, 2);
+				m(1 + 3, 2)  ;
 			'''
 			toBeFormatted = '''
 				m (  1+3  ,   2  )  ;
@@ -392,7 +392,7 @@ class JavammFormatterTest extends JavammAbstractTest {
 	@Test def void testPrefixOperator() {
 		assertFormatted[
 			expectation = '''
-				++i;
+				++i  ;
 			'''
 			toBeFormatted = '''
 				++  i  ;
@@ -403,7 +403,7 @@ class JavammFormatterTest extends JavammAbstractTest {
 	@Test def void testPostfixOperator() {
 		assertFormatted[
 			expectation = '''
-				i++;
+				i++  ;
 			'''
 			toBeFormatted = '''
 				i  ++  ;
@@ -414,7 +414,7 @@ class JavammFormatterTest extends JavammAbstractTest {
 	@Test def void testCasted() {
 		assertFormatted[
 			expectation = '''
-				(String) s;
+				(String) s ;
 			'''
 			toBeFormatted = '''
 				(  String  )   s ;
@@ -425,7 +425,7 @@ class JavammFormatterTest extends JavammAbstractTest {
 	@Test def void testConstructorCall() {
 		assertFormatted[
 			expectation = '''
-				new List<Integer, String>(1 + 3, 2);
+				new List<Integer, String>(1 + 3, 2)  ;
 			'''
 			toBeFormatted = '''
 				new  List  < Integer  ,  String  >  (  1+3  ,   2  )  ;
@@ -436,7 +436,7 @@ class JavammFormatterTest extends JavammAbstractTest {
 	@Test def void testArrayConstructorCall() {
 		assertFormatted[
 			expectation = '''
-				new List<Integer, String>[0][1];
+				new List<Integer, String>[0][1]  ;
 			'''
 			toBeFormatted = '''
 				new  List  < Integer  ,  String  >  [ 0 ] [  1  ]  ;
@@ -466,7 +466,7 @@ class JavammFormatterTest extends JavammAbstractTest {
 	@Test def void testArrayLiteral() {
 		assertFormatted[
 			expectation = '''
-				int[] a = {0, 1, 1 + 2};
+				int[] a = {0, 1, 1 + 2} ;
 				int[][] b = {{0, 1}, 1 + 2};
 			'''
 			toBeFormatted = '''
@@ -536,11 +536,11 @@ class JavammFormatterTest extends JavammAbstractTest {
 		assertFormatted[
 			expectation = '''
 				if (args.length() == 0)
-					System.out.println("No args");
+					System.out.println("No args") ;
 				else
 					System.out.println("Args");
 				if (args.length() == 0)
-					System.out.println("No args");
+					System.out.println("No args") ;
 				else
 					System.out.println("Args");
 				if (args.length() == 0) {
@@ -579,7 +579,7 @@ class JavammFormatterTest extends JavammAbstractTest {
 		assertFormatted[
 			expectation = '''
 				while (args.length() == 0)
-					System.out.println("No args");
+					System.out.println("No args") ;
 				while (args.length() == 0) {
 					System.out.println("No args");
 				}
@@ -596,11 +596,11 @@ class JavammFormatterTest extends JavammAbstractTest {
 	@Test def void testDoWhileStatements() {
 		assertFormatted[
 			expectation = '''
-				do  
-					System.out.println("No args");
+				do
+					System.out.println("No args") ;
 				while (args.length() == 0) ;
 				do {
-					System.out.println("No args");
+					System.out.println("No args") ;
 				} while (args.length() == 0) ;
 			'''
 			toBeFormatted = '''
@@ -618,8 +618,8 @@ class JavammFormatterTest extends JavammAbstractTest {
 		assertFormatted[
 			expectation = '''
 				int k = 0;
-				int i = k > 0 ? 1 : '2';
-				int j = ( i > 0 ? 1 : '2' );
+				int i = k > 0 ? 1 : '2' ;
+				int j = ( i > 0 ? 1 : '2' ) ;
 			'''
 			toBeFormatted = '''
 				int k = 0;
@@ -671,7 +671,7 @@ class JavammFormatterTest extends JavammAbstractTest {
 	@Test def void testWildcard() {
 		assertFormatted[
 			expectation = '''
-				List<? extends List> l;
+				List<? extends List> l ;
 			'''
 			toBeFormatted = '''
 				List< ?  extends  List >  l ;
@@ -682,7 +682,7 @@ class JavammFormatterTest extends JavammAbstractTest {
 	@Test def void testInstanceOf() {
 		assertFormatted[
 			expectation = '''
-				boolean b = d instanceof String;
+				boolean b = d instanceof String ;
 			'''
 			toBeFormatted = '''
 				boolean b = d  instanceof  String ;
