@@ -16,7 +16,6 @@ import javamm.javamm.JavammPrefixOperation
 import javamm.javamm.JavammProgram
 import javamm.javamm.JavammSwitchStatements
 import javamm.javamm.JavammXAssignment
-import javamm.javamm.JavammXMemberFeatureCall
 import javamm.javamm.JavammXVariableDeclaration
 import javamm.javamm.Main
 import javamm.util.JavammModelUtil
@@ -163,11 +162,6 @@ class JavammFormatter extends XbaseFormatter {
 	def dispatch void format(JavammArrayAccessExpression expr, extension IFormattableDocument document) {
 		format(expr.getArray(), document);
 		formatArrayIndexes(expr.indexes, document)
-		formatMandatorySemicolon(expr, document)
-	}
-
-	def dispatch void format(JavammXMemberFeatureCall expr, extension IFormattableDocument document) {
-		super._format(expr, document)
 		formatMandatorySemicolon(expr, document)
 	}
 
