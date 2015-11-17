@@ -64,11 +64,17 @@ class JavammSerializerTest extends JavammAbstractTest {
 		'''.assertSerialize
 	}
 
-	@Test def void testForLoop() {
+	@Test def void testBinaryOperator() {
 		'''
 		for  (int  i  =  0  ; i  <  argsNum ;  i  +=  1 )  {
 			
 		}
+		'''.assertSerialize
+	}
+
+	@Test def void testBinaryOperator2() {
+		'''
+		int j = 1 + 0;
 		'''.assertSerialize
 	}
 
