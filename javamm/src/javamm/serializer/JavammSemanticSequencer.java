@@ -5,7 +5,7 @@ package javamm.serializer;
 
 import java.util.List;
 
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.xtext.serializer.ISerializationContext;
 import org.eclipse.xtext.serializer.acceptor.SequenceFeeder;
 import org.eclipse.xtext.serializer.sequencer.ISemanticNodeProvider.INodesForEObjectProvider;
 import org.eclipse.xtext.xbase.XExpression;
@@ -28,9 +28,9 @@ public class JavammSemanticSequencer extends AbstractJavammSemanticSequencer {
 	private JavammGrammarAccess grammarAccess;
 
 	@Override
-	protected void sequence_XMemberFeatureCall(EObject context, JavammXMemberFeatureCall featureCall) {
+	protected void sequence_XMemberFeatureCall(ISerializationContext context, JavammXMemberFeatureCall featureCall) {
 		INodesForEObjectProvider nodes = createNodeProvider(featureCall);
-		SequenceFeeder acceptor = createSequencerFeeder(featureCall, nodes);
+		SequenceFeeder acceptor = createSequencerFeeder(context, featureCall, nodes);
 		XMemberFeatureCallElements memberFeatureCallElements= grammarAccess.getXMemberFeatureCallAccess();
 
 		// we manually modify the structure of this element, so we must serialize that accordingly
