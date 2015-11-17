@@ -115,13 +115,13 @@ class JavammFormatterTest extends JavammAbstractTest {
 				if (s)
 					continue;
 				if (s)
-					System.out.println(s);
+					System.out.println(s) ;
 				if (s)
-					a[0].println();
+					a[0].println() ;
 				if (s)
-					a[0];
+					a[0] ;
 				if (s)
-					int j = 0;
+					int j = 0  ;
 				if (s)
 					do {
 						int j = 0;
@@ -497,12 +497,12 @@ class JavammFormatterTest extends JavammAbstractTest {
 				for (String s : strings)
 					continue;
 				for (String s : strings)
-					System.out.println(s);
+					System.out.println(s) ;
 				for (String s : strings) {
-					System.out.println(s);
+					System.out.println(s) ;
 				}
 				for (final String s : strings) {
-					System.out.println(s);
+					System.out.println(s) ;
 				}
 			'''
 			toBeFormatted = '''
@@ -652,7 +652,7 @@ class JavammFormatterTest extends JavammAbstractTest {
 				switch (argsNum) {
 					case 0:
 					case 1:
-					case 2: System.out.println("0");
+					case 2: System.out.println("0") ;
 					break;
 					default: System.out.println("default");
 				}
