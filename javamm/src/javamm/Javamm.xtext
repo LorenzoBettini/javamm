@@ -131,7 +131,7 @@ XAssignment returns XExpression :
 
 JavammFeatureCallWithArrayAccess returns XExpression:
 	XFeatureCall (
-		=>({JavammFeatureCallWithArrayAccess.featureCall=current}
+		=>({JavammArrayAccessExpression.array=current}
 			'[' indexes+=XExpression ']' (=>'[' indexes+=XExpression ']')*)
 	)?
 ;
