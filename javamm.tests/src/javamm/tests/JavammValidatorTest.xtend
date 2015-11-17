@@ -953,6 +953,23 @@ class JavammValidatorTest extends JavammAbstractTest {
 		input.parse.assertVariableNotInitialized("i")
 	}
 
+	@Test def void testInvalidExponentiation_Issue_43() {
+		// https://github.com/LorenzoBettini/javamm/issues/43
+		'''
+		double x = 2 ** 3;
+		'''.parse.assertError(
+			XbasePackage.eINSTANCE.XBinaryOperation,
+			Diagnostic.SYNTAX_DIAGNOSTIC,
+			"no viable alternative at input '*'"
+		)
+	}
+
+	@Test def void testValidMultiplication() {
+		'''
+		double x = 2 * 3;
+		'''.parse.assertNoErrors
+	}
+
 	def private assertNumberLiteralTypeMismatch(EObject o, String expectedType, String actualType) {
 		o.assertTypeMismatch(XbasePackage.eINSTANCE.XNumberLiteral, expectedType, actualType)
 	}
