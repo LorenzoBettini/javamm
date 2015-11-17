@@ -451,7 +451,7 @@ class JavammFormatterTest extends JavammAbstractTest {
 				new List[1][2] {0, 1, 1 + 2};
 				new List[][2] {0, 1, 1 + 2};
 				new List[][] {0, 1, 1 + 2};
-				new List[][];
+				new List[][]  ;
 			'''
 			toBeFormatted = '''
 				new  List    [  1  ] [    ]  {0 ,  1  ,  1+2 };
