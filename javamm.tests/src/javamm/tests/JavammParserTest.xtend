@@ -5,9 +5,9 @@ import javamm.javamm.JavammArrayAccessExpression
 import javamm.javamm.JavammArrayConstructorCall
 import javamm.javamm.JavammArrayLiteral
 import javamm.javamm.JavammCharLiteral
+import javamm.javamm.JavammConditionalExpression
 import javamm.javamm.JavammPrefixOperation
 import javamm.javamm.JavammXAssignment
-import javamm.javamm.JavammXMemberFeatureCall
 import javamm.javamm.JavammXVariableDeclaration
 import org.eclipse.xtext.junit4.InjectWith
 import org.eclipse.xtext.junit4.XtextRunner
@@ -20,6 +20,7 @@ import org.eclipse.xtext.xbase.XCastedExpression
 import org.eclipse.xtext.xbase.XConstructorCall
 import org.eclipse.xtext.xbase.XExpression
 import org.eclipse.xtext.xbase.XFeatureCall
+import org.eclipse.xtext.xbase.XInstanceOfExpression
 import org.eclipse.xtext.xbase.XListLiteral
 import org.eclipse.xtext.xbase.XMemberFeatureCall
 import org.eclipse.xtext.xbase.XNumberLiteral
@@ -31,8 +32,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import static extension org.junit.Assert.*
-import javamm.javamm.JavammConditionalExpression
-import org.eclipse.xtext.xbase.XInstanceOfExpression
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammInjectorProvider))
@@ -435,7 +434,7 @@ class JavammParserTest extends JavammAbstractTest {
 		int[][] arr;
 		arr[0].length;
 		'''.assertMainLastExpression [
-			assertFalse(memberFeatureCall.indexes.empty)
+			assertFalse(memberCallTargetArrayAccess.indexes.empty)
 		]
 	}
 
@@ -444,7 +443,7 @@ class JavammParserTest extends JavammAbstractTest {
 		int[][] arr;
 		arr[0].;
 		'''.assertMainLastExpression [
-			assertFalse(memberFeatureCall.indexes.empty)
+			assertFalse(memberCallTargetArrayAccess.indexes.empty)
 		]
 	}
 
@@ -453,12 +452,7 @@ class JavammParserTest extends JavammAbstractTest {
 		int[][] arr;
 		arr[0].length;
 		'''.assertMainLastExpression [
-			memberFeatureCall => [
-				assertTrue(memberCallTarget instanceof JavammArrayAccessExpression)
-				val arrayAccessExpression = memberCallTarget as JavammArrayAccessExpression
-				// getIndexes is redirected to the contained array access expression
-				assertSame(indexes, arrayAccessExpression.indexes)
-			]
+			memberCallTargetArrayAccess
 		]
 	}
 
@@ -644,7 +638,15 @@ class JavammParserTest extends JavammAbstractTest {
 	}
 
 	private def getMemberFeatureCall(XExpression it) {
-		it as JavammXMemberFeatureCall
+		it as XMemberFeatureCall
+	}
+
+	private def getMemberCallTargetArrayAccess(XExpression it) {
+		memberFeatureCall.memberCallTarget.arrayAccess
+	}
+
+	private def getArrayAccess(XExpression it) {
+		it as JavammArrayAccessExpression
 	}
 
 	private def getFeatureCall(XExpression it) {

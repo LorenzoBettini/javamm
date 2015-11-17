@@ -1,13 +1,13 @@
 package javamm.typesystem
 
 import com.google.inject.Inject
+import javamm.controlflow.JavammBranchingStatementDetector
 import javamm.javamm.JavammArrayAccess
 import javamm.javamm.JavammArrayAccessExpression
 import javamm.javamm.JavammArrayConstructorCall
 import javamm.javamm.JavammBranchingStatement
 import javamm.javamm.JavammCharLiteral
 import javamm.javamm.JavammXAssignment
-import javamm.javamm.JavammXMemberFeatureCall
 import javamm.javamm.JavammXVariableDeclaration
 import javamm.validation.JavammValidator
 import org.eclipse.emf.ecore.EStructuralFeature
@@ -28,7 +28,6 @@ import org.eclipse.xtext.xbase.typesystem.internal.ExpressionTypeComputationStat
 import org.eclipse.xtext.xbase.typesystem.references.ArrayTypeReference
 import org.eclipse.xtext.xbase.typesystem.references.LightweightTypeReference
 import org.eclipse.xtext.xbase.typesystem.util.CommonTypeComputationServices
-import javamm.controlflow.JavammBranchingStatementDetector
 
 /**
  * @author Lorenzo Bettini
@@ -52,8 +51,6 @@ class JavammTypeComputer extends PatchedTypeComputer {
 		} else if (expression instanceof JavammCharLiteral) {
 			_computeTypes(expression, state)
 		} else if (expression instanceof JavammXVariableDeclaration) {
-			_computeTypes(expression, state)
-		} else if (expression instanceof JavammXMemberFeatureCall) {
 			_computeTypes(expression, state)
 		} else {
 			super.computeTypes(expression, state)
@@ -223,11 +220,6 @@ class JavammTypeComputer extends PatchedTypeComputer {
 		computeTypesOfArrayAccess(assignment, best, state, XbasePackage.Literals.XASSIGNMENT__ASSIGNABLE)
 	}
 
-	def protected _computeTypes(JavammXMemberFeatureCall call, ITypeComputationState state) {
-		super._computeTypes(call, state)
-		checkArrayIndexHasTypeInt(call, state)
-	}
-	
 	def protected _computeTypes(JavammArrayAccessExpression arrayAccess, ITypeComputationState state) {
 		val actualType = state.withNonVoidExpectation.computeTypes(arrayAccess.array).actualExpressionType
 		val type = componentTypeOfArrayAccess(arrayAccess, actualType, state, XbasePackage.Literals.XABSTRACT_FEATURE_CALL__FEATURE)

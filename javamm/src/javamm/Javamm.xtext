@@ -129,6 +129,13 @@ XAssignment returns XExpression :
 		=>({XBinaryOperation.leftOperand=current} feature=[types::JvmIdentifiableElement|OpMultiAssign]) rightOperand=XAssignment
 	)?;
 
+JavammFeatureCallWithArrayAccess returns XExpression:
+	XFeatureCall (
+		=>({JavammArrayAccessExpression.array=current}
+			'[' indexes+=XExpression ']' (=>'[' indexes+=XExpression ']')*)
+	)?
+;
+
 XFeatureCall returns XExpression:
 	{XFeatureCall}
 	feature=[types::JvmIdentifiableElement|IdOrSuper] 
@@ -221,16 +228,16 @@ XMemberFeatureCall returns XExpression:
 		// 			indexes=expressions
 		//		}
 		// }
-		=>({JavammXMemberFeatureCall.memberCallTarget=current}
-			'[' indexes+=XExpression ']'('[' indexes+=XExpression ']')*
-			".") 
-			feature=[types::JvmIdentifiableElement|IdOrSuper] (
-				=>explicitOperationCall?='(' 
-					(
-					    memberCallArguments+=XExpression (',' memberCallArguments+=XExpression)*
-					)? 
-				')')?
-	|
+//		=>({JavammXMemberFeatureCall.memberCallTarget=current}
+//			'[' indexes+=XExpression ']'('[' indexes+=XExpression ']')*
+//			".") 
+//			feature=[types::JvmIdentifiableElement|IdOrSuper] (
+//				=>explicitOperationCall?='(' 
+//					(
+//					    memberCallArguments+=XExpression (',' memberCallArguments+=XExpression)*
+//					)? 
+//				')')?
+//	|
 		=>({XMemberFeatureCall.memberCallTarget=current} ".") 
 			feature=[types::JvmIdentifiableElement|IdOrSuper] (
 				=>explicitOperationCall?='(' 
@@ -296,7 +303,8 @@ XPrimaryExpression returns XExpression:
 //	XBlockExpression |
 //	XSwitchExpression |
 //	XSynchronizedExpression |
-	XFeatureCall |
+	JavammFeatureCallWithArrayAccess |
+//	XFeatureCall |
 	XLiteral |
 //	XIfExpression |
 //	XForLoopExpression |
