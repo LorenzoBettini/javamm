@@ -44,9 +44,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="arrayLiteral" eType="#//JavammArrayLiteral"
         containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="JavammArrayDimension">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="openBracket" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JavammArrayDimension"/>
   <eClassifiers xsi:type="ecore:EClass" name="JavammArrayLiteral" eSuperTypes="../../../org.eclipse.xtext.xbase/model/Xbase.ecore#//XListLiteral"/>
   <eClassifiers xsi:type="ecore:EClass" name="JavammArrayAccessExpression" eSuperTypes="../../../org.eclipse.xtext.xbase/model/Xbase.ecore#//XExpression #//JavammArrayAccess">
     <eStructuralFeatures xsi:type="ecore:EReference" name="array" eType="ecore:EClass ../../../org.eclipse.xtext.xbase/model/Xbase.ecore#//XExpression"

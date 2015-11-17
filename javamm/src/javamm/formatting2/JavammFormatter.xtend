@@ -136,7 +136,7 @@ class JavammFormatter extends XbaseFormatter {
 			}
 		}
 		for (d : javammarrayconstructorcall.dimensions) {
-			d.regionForFeature(JavammPackage.eINSTANCE.javammArrayDimension_OpenBracket).
+			d.regionForKeyword("[").
 				prepend[noSpace].append[noSpace]
 			d.immediatelyFollowingKeyword("]").prepend[noSpace]
 		}

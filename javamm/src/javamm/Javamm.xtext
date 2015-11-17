@@ -175,7 +175,7 @@ JavammArrayConstructorCall returns XExpression:
 // need to find the corresponding node (and offset) with NodeModelUtils
 // in order to associate dimensions with indexes
 JavammArrayDimension:
-	{JavammArrayDimension} openBracket='['
+	{JavammArrayDimension} '['
 ;
 
 XCastedExpression returns XExpression:
