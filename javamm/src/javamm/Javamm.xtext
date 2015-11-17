@@ -81,8 +81,8 @@ JavammSemicolonStatement returns XExpression:
 ;
 
 JavammBranchingStatement returns XExpression:
-	{JavammContinueStatement} instruction="continue" |
-	{JavammBreakStatement} instruction="break"
+	{JavammContinueStatement} "continue" |
+	{JavammBreakStatement} "break"
 ;
 
 /* 

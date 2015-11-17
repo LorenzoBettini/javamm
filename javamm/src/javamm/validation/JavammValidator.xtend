@@ -206,20 +206,20 @@ class JavammValidator extends XbaseValidator {
 
 	@Check
 	def void checkContinue(JavammContinueStatement st) {
-		checkBranchingStatementInternal(st, "a loop",
+		checkBranchingStatementInternal(st, "a loop", "continue",
 			XAbstractWhileExpression, XBasicForLoopExpression
 		)
 	}
 
 	@Check
 	def void checkBreak(JavammBreakStatement st) {
-		checkBranchingStatementInternal(st, "a loop or a switch",
+		checkBranchingStatementInternal(st, "a loop or a switch", "break",
 			XAbstractWhileExpression, XBasicForLoopExpression,
 			XSwitchExpression
 		)
 	}
 
-	def private checkBranchingStatementInternal(JavammBranchingStatement st, String errorDetails, Class<? extends EObject>... validContainers) {
+	def private checkBranchingStatementInternal(JavammBranchingStatement st, String errorDetails, String instruction, Class<? extends EObject>... validContainers) {
 		val container = Wrapper.wrap(st.eContainer)
 		while (!((container.get instanceof JavammMethod) || (container.get instanceof Main))) {
 			if (validContainers.exists[c | c.isInstance(container.get)]) {
@@ -228,7 +228,7 @@ class JavammValidator extends XbaseValidator {
 			container.set(container.get.eContainer)
 		}
 		error(
-			st.instruction + " cannot be used outside of " + errorDetails,
+			instruction + " cannot be used outside of " + errorDetails,
 			st, null, INVALID_BRANCHING_STATEMENT
 		)
 	}

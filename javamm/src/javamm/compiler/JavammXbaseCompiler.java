@@ -109,17 +109,17 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 				b.newLine().append(varName).append(ASSIGNED_TRUE);
 			}
 		}
-		compileBranchingStatement(st, b);
+		compileBranchingStatement(st, b, "continue");
 	}
 
 	public void _toJavaStatement(JavammBreakStatement st, ITreeAppendable b,
 			boolean isReferenced) {
-		compileBranchingStatement(st, b);
+		compileBranchingStatement(st, b, "break");
 	}
 
 	private void compileBranchingStatement(JavammBranchingStatement st,
-			ITreeAppendable b) {
-		b.newLine().append(st.getInstruction()).append(";");
+			ITreeAppendable b, String instruction) {
+		b.newLine().append(instruction).append(";");
 	}
 
 	@Override
