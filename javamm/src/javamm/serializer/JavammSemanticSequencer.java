@@ -12,6 +12,7 @@ import org.eclipse.xtext.xbase.XExpression;
 
 import com.google.inject.Inject;
 
+import javamm.internal.serializer.XbaseSemanticSequencerAccess;
 import javamm.javamm.JavammXMemberFeatureCall;
 import javamm.services.JavammGrammarAccess;
 import javamm.services.JavammGrammarAccess.XMemberFeatureCallElements;
@@ -22,16 +23,16 @@ import javamm.services.JavammGrammarAccess.XMemberFeatureCallElements;
  * @author Lorenzo Bettini
  *
  */
-public class JavammSemanticSequencer extends AbstractJavammSemanticSequencer {
+public class JavammSemanticSequencer extends XbaseSemanticSequencerAccess {
 
 	@Inject
-	private JavammGrammarAccess grammarAccess;
+	private JavammGrammarAccess access;
 
 	@Override
 	protected void sequence_XMemberFeatureCall(ISerializationContext context, JavammXMemberFeatureCall featureCall) {
 		INodesForEObjectProvider nodes = createNodeProvider(featureCall);
 		SequenceFeeder acceptor = createSequencerFeeder(context, featureCall, nodes);
-		XMemberFeatureCallElements memberFeatureCallElements= grammarAccess.getXMemberFeatureCallAccess();
+		XMemberFeatureCallElements memberFeatureCallElements= access.getXMemberFeatureCallAccess();
 
 		// we manually modify the structure of this element, so we must serialize that accordingly
 		acceptor.accept(memberFeatureCallElements.getJavammXMemberFeatureCallMemberCallTargetAction_1_1_0_0_0(),
