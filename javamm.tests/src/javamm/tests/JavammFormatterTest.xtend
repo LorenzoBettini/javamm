@@ -311,6 +311,17 @@ class JavammFormatterTest extends JavammAbstractTest {
 		]
 	}
 
+	@Test def void testMemberFeatureCallArrayAccess() {
+		assertFormatted[
+			expectation = '''
+				args[0].length;
+			'''
+			toBeFormatted = '''
+				args  [ 0 ]   . length   ;
+			'''
+		]
+	}
+
 	@Test def void testMemberFeatureCallArrayAccesses() {
 		assertFormatted[
 			expectation = '''
@@ -359,10 +370,10 @@ class JavammFormatterTest extends JavammAbstractTest {
 	@Test def void testBinaryOperator() {
 		assertFormatted[
 			expectation = '''
-				int j = i + 0 * 1;
+				int j = 2 + 0 * 1;
 			'''
 			toBeFormatted = '''
-				int j  =   i  +0  *  1 ;
+				int j  =   2  +0  *  1 ;
 			'''
 		]
 	}
@@ -606,12 +617,14 @@ class JavammFormatterTest extends JavammAbstractTest {
 	@Test def void testConditionalExpression() {
 		assertFormatted[
 			expectation = '''
-				int i = j > 0 ? 1 : '2';
-				int j = ( j > 0 ? 1 : '2' );
+				int k = 0;
+				int i = k > 0 ? 1 : '2';
+				int j = ( i > 0 ? 1 : '2' );
 			'''
 			toBeFormatted = '''
-				int i =  j  >  0  ?  1  :  '2' ;
-				int j =  ( j  >  0  ?  1  :  '2' ) ;
+				int k = 0;
+				int i =  k  >  0  ?  1  :  '2' ;
+				int j =  ( i  >  0  ?  1  :  '2' ) ;
 			'''
 		]
 	}
