@@ -7,8 +7,9 @@ import com.google.inject.Inject
 import java.util.List
 import javamm.javamm.JavammArrayAccessExpression
 import javamm.javamm.JavammArrayConstructorCall
-import javamm.javamm.JavammBranchingStatement
+import javamm.javamm.JavammBreakStatement
 import javamm.javamm.JavammConditionalExpression
+import javamm.javamm.JavammContinueStatement
 import javamm.javamm.JavammJvmFormalParameter
 import javamm.javamm.JavammMethod
 import javamm.javamm.JavammPackage
@@ -165,8 +166,13 @@ class JavammFormatter extends XbaseFormatter {
 		formatMandatorySemicolon(expr, document)
 	}
 
-	def dispatch void format(JavammBranchingStatement expr, extension IFormattableDocument document) {
-		expr.regionForFeature(JavammPackage.eINSTANCE.javammBranchingStatement_Instruction).surround[noSpace]
+	def dispatch void format(JavammBreakStatement expr, extension IFormattableDocument document) {
+		expr.regionForKeyword("break").surround[noSpace]
+		formatMandatorySemicolon(expr, document)
+	}
+
+	def dispatch void format(JavammContinueStatement expr, extension IFormattableDocument document) {
+		expr.regionForKeyword("continue").surround[noSpace]
 		formatMandatorySemicolon(expr, document)
 	}
 

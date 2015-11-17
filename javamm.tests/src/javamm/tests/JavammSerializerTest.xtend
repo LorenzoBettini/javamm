@@ -78,6 +78,33 @@ class JavammSerializerTest extends JavammAbstractTest {
 		'''.assertSerialize
 	}
 
+	@Test def void testBreak() {
+		'''
+		while (true) {
+			break ;
+		}
+		'''.assertSerialize
+	}
+
+	@Test def void testBreak2() {
+		'''
+		while (true)
+			break ;
+		'''.assertSerialize
+	}
+
+	@Test def void testCast() {
+		'''
+		(Object) o;
+		'''.assertSerialize
+	}
+
+	@Test def void testConditional() {
+		'''
+		1 > 0 ? true : false;
+		'''.assertSerialize
+	}
+
 	def private assertSerialize(CharSequence input) {
 		val o = input.parse
 		input.toString.assertEquals(serializer.serialize(o))

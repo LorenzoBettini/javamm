@@ -52,9 +52,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="array" eType="ecore:EClass ../../../org.eclipse.xtext.xbase/model/Xbase.ecore#//XExpression"
         containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="JavammBranchingStatement" eSuperTypes="../../../org.eclipse.xtext.xbase/model/Xbase.ecore#//XExpression">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="instruction" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JavammBranchingStatement" eSuperTypes="../../../org.eclipse.xtext.xbase/model/Xbase.ecore#//XExpression"/>
   <eClassifiers xsi:type="ecore:EClass" name="JavammContinueStatement" eSuperTypes="#//JavammBranchingStatement"/>
   <eClassifiers xsi:type="ecore:EClass" name="JavammBreakStatement" eSuperTypes="#//JavammBranchingStatement"/>
   <eClassifiers xsi:type="ecore:EClass" name="JavammCharLiteral" eSuperTypes="../../../org.eclipse.xtext.xbase/model/Xbase.ecore#//XStringLiteral"/>
