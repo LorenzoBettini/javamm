@@ -64,6 +64,14 @@ class JavammSerializerTest extends JavammAbstractTest {
 		'''.assertSerialize
 	}
 
+	@Test def void testForLoop() {
+		'''
+		for  (int  i  =  0  ; i  <  argsNum ;  i  +=  1 )  {
+			
+		}
+		'''.assertSerialize
+	}
+
 	def private assertSerialize(CharSequence input) {
 		val o = input.parse
 		input.toString.assertEquals(serializer.serialize(o))
