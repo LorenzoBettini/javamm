@@ -57,4 +57,9 @@
   <eClassifiers xsi:type="ecore:EClass" name="JavammPrefixOperation" eSuperTypes="../../../org.eclipse.xtext.xbase/model/Xbase.ecore#//XPostfixOperation"/>
   <eClassifiers xsi:type="ecore:EClass" name="JavammConditionalExpression" eSuperTypes="../../../org.eclipse.xtext.xbase/model/Xbase.ecore#//XIfExpression"/>
   <eClassifiers xsi:type="ecore:EClass" name="JavammSwitchStatements" eSuperTypes="../../../org.eclipse.xtext.xbase/model/Xbase.ecore#//XBlockExpression"/>
+  <eClassifiers xsi:type="ecore:EClass" name="JavammSemicolonStatement" eSuperTypes="../../../org.eclipse.xtext.xbase/model/Xbase.ecore#//XExpression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expression" eType="ecore:EClass ../../../org.eclipse.xtext.xbase/model/Xbase.ecore#//XExpression"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="semicolon" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
 </ecore:EPackage>

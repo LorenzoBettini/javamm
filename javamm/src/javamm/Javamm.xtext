@@ -72,12 +72,15 @@ JavammSingleStatement returns XExpression:
  */
 JavammSemicolonStatement returns XExpression:
 //	JavammArrayConstructorCall | not a valid statement
-	(
-	JavammBranchingStatement |
-	XExpressionOrVarDeclaration |
-	XDoWhileExpression |
-	XReturnExpression
-	) ->';'?
+	{JavammSemicolonStatement}
+	expression=
+		(
+			JavammBranchingStatement |
+			XExpressionOrVarDeclaration |
+			XDoWhileExpression |
+			XReturnExpression
+		)
+	->semicolon=';'?
 ;
 
 JavammBranchingStatement returns XExpression:

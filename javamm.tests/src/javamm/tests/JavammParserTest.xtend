@@ -7,6 +7,7 @@ import javamm.javamm.JavammArrayLiteral
 import javamm.javamm.JavammCharLiteral
 import javamm.javamm.JavammConditionalExpression
 import javamm.javamm.JavammPrefixOperation
+import javamm.javamm.JavammSemicolonStatement
 import javamm.javamm.JavammXAssignment
 import javamm.javamm.JavammXVariableDeclaration
 import org.eclipse.xtext.junit4.InjectWith
@@ -617,12 +618,21 @@ class JavammParserTest extends JavammAbstractTest {
 
 	def private assertMainLastExpression(CharSequence input, (XExpression)=>void tester) {
 		val main = input.parse.main
-		tester.apply(main.expressions.last)
+		val last = main.expressions.last
+		applyTester(last, tester)
+	}
+	
+	private def applyTester(XExpression last, (XExpression)=>void tester) {
+		if (last instanceof JavammSemicolonStatement) {
+			tester.apply(last.expression)
+		} else {
+			tester.apply(last)
+		}
 	}
 
 	def private assertLastMethodLastExpression(CharSequence input, (XExpression)=>void tester) {
 		val method = input.parse.javammMethods.last
-		tester.apply((method.body as XBlockExpression).expressions.last)
+		applyTester((method.body as XBlockExpression).expressions.last, tester)
 	}
 
 	private def getVariableDeclarationRightAsArrayConstructorCall(XExpression it) {
