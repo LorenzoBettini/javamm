@@ -28,6 +28,7 @@ import org.eclipse.xtext.xbase.typesystem.internal.ExpressionTypeComputationStat
 import org.eclipse.xtext.xbase.typesystem.references.ArrayTypeReference
 import org.eclipse.xtext.xbase.typesystem.references.LightweightTypeReference
 import org.eclipse.xtext.xbase.typesystem.util.CommonTypeComputationServices
+import javamm.javamm.JavammSemicolonStatement
 
 /**
  * @author Lorenzo Bettini
@@ -51,6 +52,8 @@ class JavammTypeComputer extends PatchedTypeComputer {
 		} else if (expression instanceof JavammCharLiteral) {
 			_computeTypes(expression, state)
 		} else if (expression instanceof JavammXVariableDeclaration) {
+			_computeTypes(expression, state)
+		} else if (expression instanceof JavammSemicolonStatement) {
 			_computeTypes(expression, state)
 		} else {
 			super.computeTypes(expression, state)
@@ -249,7 +252,16 @@ class JavammTypeComputer extends PatchedTypeComputer {
 	def protected _computeTypes(JavammBranchingStatement st, ITypeComputationState state) {
 		state.acceptActualType(state.primitiveVoid)
 	}
-	
+
+	def protected _computeTypes(JavammSemicolonStatement st, ITypeComputationState state) {
+		if (st.expression != null) {
+			computeTypes(st.expression, state)
+		} else {
+			// empty statement
+			state.acceptActualType(state.primitiveVoid)
+		}
+	}
+
 	private def computeTypesOfArrayAccess(JavammArrayAccess arrayAccess, 
 		ILinkingCandidate best, ITypeComputationState state, EStructuralFeature featureForError
 	) {

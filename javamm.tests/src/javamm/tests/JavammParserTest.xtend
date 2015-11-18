@@ -624,6 +624,12 @@ class JavammParserTest extends JavammAbstractTest {
 		]
 	}
 
+	@Test def void testEmptyStatementNoErrors() {
+		'''
+		;
+		'''.parseAndAssertNoErrors
+	}
+
 	def private assertMainLastExpression(CharSequence input, (XExpression)=>void tester) {
 		val last = getMainLastExpression(input)
 		applyTester(last, tester)
