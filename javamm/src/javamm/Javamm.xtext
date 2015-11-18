@@ -22,7 +22,7 @@ XImportDeclaration returns xtype::XImportDeclaration:
 	(=>'import' (
 		(static?='static' importedType=[types::JvmDeclaredType|QualifiedNameInStaticImport] (wildcard?='*' | memberName=ValidID)) 
 		| importedType=[types::JvmDeclaredType|QualifiedName] 
-		| importedNamespace=QualifiedNameWithWildcard) ';'*)
+		| importedNamespace=QualifiedNameWithWildcard) ->';'+)
 ;
 
 JavammMethod:
@@ -40,7 +40,7 @@ FullJvmFormalParameter returns JavammJvmFormalParameter:
  */
 Main returns XBlockExpression:
 	{Main}
-	(expressions+=JavammStatementOrBlock ';'*)*;
+	(expressions+=JavammStatementOrBlock)*;
 
 /**
  * The syntactic predicate on XBlockExpression is required to avoid
@@ -61,7 +61,8 @@ JavammSingleStatement returns XExpression:
 	XIfExpression |
 	XForLoopExpression |
 	XBasicForLoopExpression |
-	XWhileExpression
+	XWhileExpression |
+	JavammEmptyStatement
 ;
 
 /*
@@ -83,6 +84,10 @@ JavammSemicolonStatement returns XExpression:
 	->semicolon=';'?
 ;
 
+JavammEmptyStatement returns XExpression:
+	{JavammSemicolonStatement} semicolon=';'
+;
+
 JavammBranchingStatement returns XExpression:
 	{JavammContinueStatement} "continue" |
 	{JavammBreakStatement} "break"
@@ -95,7 +100,7 @@ JavammBranchingStatement returns XExpression:
 XBlockExpression returns XExpression: 
 	{XBlockExpression}
 	'{'
-		(expressions+=JavammStatementOrBlock ';'*)*
+		(expressions+=JavammStatementOrBlock)*
 	'}';
 
 // Don't put the predicate in the rule for XExpressionOrVarDeclaration:
@@ -268,7 +273,7 @@ XCasePart:
  */
 JavammSwitchStatements returns XExpression:
 	{JavammSwitchStatements}
-	(expressions+=JavammStatementOrBlock ';'*)*
+	(expressions+=JavammStatementOrBlock)*
 ;
 
 XPrimaryExpression returns XExpression:

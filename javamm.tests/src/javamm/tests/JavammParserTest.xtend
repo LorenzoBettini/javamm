@@ -616,10 +616,23 @@ class JavammParserTest extends JavammAbstractTest {
 		'''.parseAndAssertNoErrors
 	}
 
+	@Test def void testEmptyStatement() {
+		'''
+		;
+		'''.mainLastExpression => [
+			(it as JavammSemicolonStatement).expression.assertNull
+		]
+	}
+
 	def private assertMainLastExpression(CharSequence input, (XExpression)=>void tester) {
+		val last = getMainLastExpression(input)
+		applyTester(last, tester)
+	}
+	
+	private def getMainLastExpression(CharSequence input) {
 		val main = input.parse.main
 		val last = main.expressions.last
-		applyTester(last, tester)
+		last
 	}
 	
 	private def applyTester(XExpression last, (XExpression)=>void tester) {
