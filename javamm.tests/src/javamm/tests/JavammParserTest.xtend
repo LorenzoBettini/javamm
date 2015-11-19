@@ -282,7 +282,7 @@ class JavammParserTest extends JavammAbstractTest {
 		'''
 		int i = a
 		'''.assertMainLastExpression[
-			(it as JavammXVariableDeclaration).right.assertNotNull
+			variableDeclarationRight.assertNotNull
 		]
 	}
 
@@ -290,7 +290,7 @@ class JavammParserTest extends JavammAbstractTest {
 		'''
 		int i =
 		'''.assertMainLastExpression[
-			(it as XVariableDeclaration).right.assertNull
+			variableDeclarationRight.assertNull
 		]
 	}
 
@@ -298,7 +298,7 @@ class JavammParserTest extends JavammAbstractTest {
 		'''
 		int i = ;
 		'''.assertMainLastExpression[
-			(it as XVariableDeclaration).right.assertNull
+			variableDeclarationRight.assertNull
 		]
 	}
 
