@@ -190,7 +190,7 @@ class JavammTypeComputer extends PatchedTypeComputer {
 
 	def protected _computeTypes(JavammXVariableDeclaration object, ITypeComputationState state) {
 		super._computeTypes(object, state)
-		// and also comput types for possible additional declarations
+		// and also compute types for possible additional declarations
 		for (additional : object.additionalVariables) {
 			state.computeTypes(additional)
 		}
