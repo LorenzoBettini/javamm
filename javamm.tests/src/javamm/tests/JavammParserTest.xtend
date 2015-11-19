@@ -279,6 +279,17 @@ class JavammParserTest extends JavammAbstractTest {
 		]
 	}
 
+	@Test def void testVariableDeclaration() {
+		'''
+		int i = a;
+		'''.assertMainLastExpression[
+			getVariableDeclaration => [
+				"i".assertEquals(identifier)
+				right.assertNotNull
+			]
+		]
+	}
+
 	@Test def void testIncompleteVariableDeclaration() {
 		'''
 		int i = a
@@ -630,17 +641,30 @@ class JavammParserTest extends JavammAbstractTest {
 		'''.parseAndAssertNoErrors
 	}
 
+	@Test def void testXBlockExpression() {
+		'''
+		int i;
+		int j;
+		'''.mainBlock => [
+			2.assertEquals(expressions.size)
+		]
+	}
+
 	def private assertMainLastExpression(CharSequence input, (XExpression)=>void tester) {
 		val last = getMainLastExpression(input)
 		applyTester(last, tester)
 	}
 	
 	private def getMainLastExpression(CharSequence input) {
-		val main = input.parse.main
+		val main = input.mainBlock
 		val last = main.expressions.last
 		last
 	}
-	
+
+	private def getMainBlock(CharSequence input) {
+		input.parse.main
+	}
+
 	private def applyTester(XExpression last, (XExpression)=>void tester) {
 		if (last instanceof JavammSemicolonStatement) {
 			tester.apply(last.expression)
@@ -655,11 +679,15 @@ class JavammParserTest extends JavammAbstractTest {
 	}
 
 	private def getVariableDeclarationRightAsArrayConstructorCall(XExpression it) {
-		(it as XVariableDeclaration).right as JavammArrayConstructorCall
+		getVariableDeclarationRight as JavammArrayConstructorCall
 	}
 
 	private def getVariableDeclarationRight(XExpression it) {
-		(it as XVariableDeclaration).right
+		getVariableDeclaration.right
+	}
+	
+	private def getVariableDeclaration(XExpression it) {
+		it as XVariableDeclaration
 	}
 
 	private def getArrayLiteral(XExpression it) {
