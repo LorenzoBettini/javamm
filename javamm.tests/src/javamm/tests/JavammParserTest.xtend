@@ -3,9 +3,7 @@ package javamm.tests
 import javamm.JavammInjectorProvider
 import javamm.javamm.JavammArrayAccessExpression
 import javamm.javamm.JavammArrayConstructorCall
-import javamm.javamm.JavammArrayLiteral
 import javamm.javamm.JavammCharLiteral
-import javamm.javamm.JavammConditionalExpression
 import javamm.javamm.JavammPrefixOperation
 import javamm.javamm.JavammSemicolonStatement
 import javamm.javamm.JavammXAssignment
@@ -15,13 +13,9 @@ import org.eclipse.xtext.junit4.XtextRunner
 import org.eclipse.xtext.xbase.XAssignment
 import org.eclipse.xtext.xbase.XBasicForLoopExpression
 import org.eclipse.xtext.xbase.XBinaryOperation
-import org.eclipse.xtext.xbase.XBlockExpression
 import org.eclipse.xtext.xbase.XBooleanLiteral
-import org.eclipse.xtext.xbase.XCastedExpression
 import org.eclipse.xtext.xbase.XConstructorCall
-import org.eclipse.xtext.xbase.XExpression
 import org.eclipse.xtext.xbase.XFeatureCall
-import org.eclipse.xtext.xbase.XInstanceOfExpression
 import org.eclipse.xtext.xbase.XListLiteral
 import org.eclipse.xtext.xbase.XMemberFeatureCall
 import org.eclipse.xtext.xbase.XNumberLiteral
@@ -650,75 +644,4 @@ class JavammParserTest extends JavammAbstractTest {
 		]
 	}
 
-	def private assertMainLastExpression(CharSequence input, (XExpression)=>void tester) {
-		val last = getMainLastExpression(input)
-		applyTester(last, tester)
-	}
-	
-	private def getMainLastExpression(CharSequence input) {
-		val main = input.mainBlock
-		val last = main.expressions.last
-		last
-	}
-
-	private def getMainBlock(CharSequence input) {
-		input.parse.main
-	}
-
-	private def applyTester(XExpression last, (XExpression)=>void tester) {
-		if (last instanceof JavammSemicolonStatement) {
-			tester.apply(last.expression)
-		} else {
-			tester.apply(last)
-		}
-	}
-
-	def private assertLastMethodLastExpression(CharSequence input, (XExpression)=>void tester) {
-		val method = input.parse.javammMethods.last
-		applyTester((method.body as XBlockExpression).expressions.last, tester)
-	}
-
-	private def getVariableDeclarationRightAsArrayConstructorCall(XExpression it) {
-		getVariableDeclarationRight as JavammArrayConstructorCall
-	}
-
-	private def getVariableDeclarationRight(XExpression it) {
-		getVariableDeclaration.right
-	}
-	
-	private def getVariableDeclaration(XExpression it) {
-		it as XVariableDeclaration
-	}
-
-	private def getArrayLiteral(XExpression it) {
-		it as JavammArrayLiteral
-	}
-
-	private def getMemberFeatureCall(XExpression it) {
-		it as XMemberFeatureCall
-	}
-
-	private def getMemberCallTargetArrayAccess(XExpression it) {
-		memberFeatureCall.memberCallTarget.arrayAccess
-	}
-
-	private def getArrayAccess(XExpression it) {
-		it as JavammArrayAccessExpression
-	}
-
-	private def getFeatureCall(XExpression it) {
-		it as XFeatureCall
-	}
-
-	private def getCasted(XExpression it) {
-		it as XCastedExpression
-	}
-
-	private def getConditional(XExpression it) {
-		it as JavammConditionalExpression
-	}
-
-	private def getInstanceOf(XExpression it) {
-		it as XInstanceOfExpression
-	}
 }
