@@ -6,6 +6,7 @@ import javamm.javamm.JavammArrayConstructorCall
 import javamm.javamm.JavammArrayLiteral
 import javamm.javamm.JavammConditionalExpression
 import javamm.javamm.JavammProgram
+import javamm.javamm.JavammXVariableDeclaration
 import javamm.tests.inputs.JavammInputs
 import org.eclipse.xtext.junit4.util.ParseHelper
 import org.eclipse.xtext.junit4.validation.ValidationTestHelper
@@ -13,9 +14,9 @@ import org.eclipse.xtext.xbase.XBlockExpression
 import org.eclipse.xtext.xbase.XCastedExpression
 import org.eclipse.xtext.xbase.XExpression
 import org.eclipse.xtext.xbase.XFeatureCall
+import org.eclipse.xtext.xbase.XIfExpression
 import org.eclipse.xtext.xbase.XInstanceOfExpression
 import org.eclipse.xtext.xbase.XMemberFeatureCall
-import org.eclipse.xtext.xbase.XVariableDeclaration
 
 import static org.junit.Assert.*
 
@@ -51,11 +52,15 @@ abstract class JavammAbstractTest {
 	}
 
 	protected def getVariableDeclarationRightAsArrayConstructorCall(XExpression it) {
-		(it as XVariableDeclaration).right as JavammArrayConstructorCall
+		getVariableDeclaration.right as JavammArrayConstructorCall
+	}
+	
+	protected def getVariableDeclarationRight(XExpression it) {
+		getVariableDeclaration.right
 	}
 
-	protected def getVariableDeclarationRight(XExpression it) {
-		(it as XVariableDeclaration).right
+	protected def getVariableDeclaration(XExpression it) {
+		it as JavammXVariableDeclaration
 	}
 
 	protected def getArrayLiteral(XExpression it) {
@@ -88,5 +93,9 @@ abstract class JavammAbstractTest {
 
 	protected def getInstanceOf(XExpression it) {
 		it as XInstanceOfExpression
+	}
+
+	protected def getIfStatement(XExpression it) {
+		it as XIfExpression
 	}
 }
