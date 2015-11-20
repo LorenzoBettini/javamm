@@ -523,6 +523,14 @@ class JavammValidatorTest extends JavammAbstractTest {
 		)
 	}
 
+	@Test def void testValidAccessToVariable() {
+		'''
+		int i = 0;
+
+		System.out.println(i);
+		'''.parse.assertNoIssues
+	}
+
 	@Test def void testVariableDeclarationsNoUnusedWarningsWhenUsed() {
 		'''
 		int i = 0, j = 0, k = 0;

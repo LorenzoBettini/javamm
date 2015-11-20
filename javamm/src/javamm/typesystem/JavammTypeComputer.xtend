@@ -7,6 +7,7 @@ import javamm.javamm.JavammArrayAccessExpression
 import javamm.javamm.JavammArrayConstructorCall
 import javamm.javamm.JavammBranchingStatement
 import javamm.javamm.JavammCharLiteral
+import javamm.javamm.JavammSemicolonStatement
 import javamm.javamm.JavammXAssignment
 import javamm.javamm.JavammXVariableDeclaration
 import javamm.validation.JavammValidator
@@ -28,7 +29,6 @@ import org.eclipse.xtext.xbase.typesystem.internal.ExpressionTypeComputationStat
 import org.eclipse.xtext.xbase.typesystem.references.ArrayTypeReference
 import org.eclipse.xtext.xbase.typesystem.references.LightweightTypeReference
 import org.eclipse.xtext.xbase.typesystem.util.CommonTypeComputationServices
-import javamm.javamm.JavammSemicolonStatement
 
 /**
  * @author Lorenzo Bettini
@@ -74,6 +74,14 @@ class JavammTypeComputer extends PatchedTypeComputer {
 			for (additional : localVariable.additionalVariables) {
 				addLocalToCurrentScope(additional, state)
 			}
+		}
+	}
+
+	override protected addLocalToCurrentScope(XExpression e, ITypeComputationState state) {
+		if (e instanceof JavammSemicolonStatement) {
+			addLocalToCurrentScope(e.expression, state)
+		} else {
+			super.addLocalToCurrentScope(e, state)
 		}
 	}
 
@@ -254,8 +262,9 @@ class JavammTypeComputer extends PatchedTypeComputer {
 	}
 
 	def protected _computeTypes(JavammSemicolonStatement st, ITypeComputationState state) {
-		if (st.expression != null) {
-			computeTypes(st.expression, state)
+		val expression = st.expression
+		if (expression != null) {
+			computeTypes(expression, state)
 		} else {
 			// empty statement
 			state.acceptActualType(state.primitiveVoid)

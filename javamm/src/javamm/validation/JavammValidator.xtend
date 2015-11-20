@@ -46,6 +46,7 @@ import org.eclipse.xtext.xbase.validation.ImplicitReturnFinder
 import org.eclipse.xtext.xbase.validation.XbaseValidator
 import org.eclipse.xtext.xtype.XImportDeclaration
 import javamm.javamm.JavammCharLiteral
+import javamm.javamm.JavammSemicolonStatement
 
 //import org.eclipse.xtext.validation.Check
 
@@ -127,11 +128,15 @@ class JavammValidator extends XbaseValidator {
 	/**
 	 * In case of an additional variable declaration we must use the container of
 	 * the containing variable declaration, otherwise additional variables will always be
-	 * detected as unused
+	 * detected as unused; similarly if the container is a semicolon statement which
+	 * contains a variable declaration
 	 */
 	override protected isLocallyUsed(EObject target, EObject containerToFindUsage) {
 		if (target instanceof JavammAdditionalXVariableDeclaration) {
-			return super.isLocallyUsed(target, containerToFindUsage.eContainer)
+			return isLocallyUsed(target, containerToFindUsage.eContainer)
+		}
+		if (containerToFindUsage instanceof JavammSemicolonStatement) {
+			return isLocallyUsed(target, containerToFindUsage.eContainer)
 		}
 		return super.isLocallyUsed(target, containerToFindUsage)
 	}

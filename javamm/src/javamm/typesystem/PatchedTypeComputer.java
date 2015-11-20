@@ -9,10 +9,14 @@ import org.eclipse.xtext.common.types.JvmPrimitiveType;
 import org.eclipse.xtext.common.types.util.Primitives;
 import org.eclipse.xtext.common.types.util.Primitives.Primitive;
 import org.eclipse.xtext.xbase.XBinaryOperation;
+import org.eclipse.xtext.xbase.XBlockExpression;
+import org.eclipse.xtext.xbase.XExpression;
 import org.eclipse.xtext.xbase.XNumberLiteral;
+import org.eclipse.xtext.xbase.XVariableDeclaration;
 import org.eclipse.xtext.xbase.typesystem.computation.ITypeComputationState;
 import org.eclipse.xtext.xbase.typesystem.computation.ITypeExpectation;
 import org.eclipse.xtext.xbase.typesystem.computation.XbaseTypeComputer;
+import org.eclipse.xtext.xbase.typesystem.conformance.ConformanceFlags;
 import org.eclipse.xtext.xbase.typesystem.references.LightweightTypeReference;
 
 import com.google.inject.Inject;
@@ -86,5 +90,47 @@ public class PatchedTypeComputer extends XbaseTypeComputer {
 			success = false;
 		}
 		return success;
+	}
+
+	@Override
+	protected void _computeTypes(XBlockExpression object, ITypeComputationState state) {
+		List<XExpression> children = object.getExpressions();
+		if (children.isEmpty()) {
+			for (ITypeExpectation expectation: state.getExpectations()) {
+				LightweightTypeReference expectedType = expectation.getExpectedType();
+				if (expectedType != null && expectedType.isPrimitiveVoid()) {
+					expectation.acceptActualType(expectedType, ConformanceFlags.CHECKED_SUCCESS);
+				} else {
+					expectation.acceptActualType(expectation.getReferenceOwner().newAnyTypeReference(), ConformanceFlags.UNCHECKED);
+				}
+			}
+		} else {
+			state.withinScope(object);
+			for(int i = 0; i < children.size() - 1; i++) {
+				XExpression expression = children.get(i);
+				ITypeComputationState expressionState = state.withoutExpectation(); // no expectation
+				expressionState.computeTypes(expression);
+				addLocalToCurrentScope(expression, state);
+			}
+			XExpression lastExpression = children.get(children.size() - 1);
+			for (ITypeExpectation expectation: state.getExpectations()) {
+				LightweightTypeReference expectedType = expectation.getExpectedType();
+				if (expectedType != null && expectedType.isPrimitiveVoid()) {
+					ITypeComputationState expressionState = state.withoutExpectation(); // no expectation
+					expressionState.computeTypes(lastExpression);
+					addLocalToCurrentScope(lastExpression, state);
+					expectation.acceptActualType(getPrimitiveVoid(state), ConformanceFlags.CHECKED_SUCCESS);
+				} else {
+					state.computeTypes(lastExpression);
+					addLocalToCurrentScope(lastExpression, state);
+				}
+			}
+		}
+	}
+
+	protected void addLocalToCurrentScope(XExpression expression, ITypeComputationState state) {
+		if (expression instanceof XVariableDeclaration) {
+			addLocalToCurrentScope((XVariableDeclaration)expression, state);
+		}
 	}
 }
