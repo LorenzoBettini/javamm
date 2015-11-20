@@ -194,7 +194,11 @@ class JavammValidator extends XbaseValidator {
 	}
 
 	def private errorMissingReturnStatement(XExpression e) {
-		error("Missing return", e, null, MISSING_RETURN)
+		var source = e
+		if (e instanceof JavammSemicolonStatement) {
+			source = e.expression
+		}
+		error("Missing return", source, null, MISSING_RETURN)
 	}
 
 	def private checkVariableInitialization(XBlockExpression e) {
