@@ -587,10 +587,10 @@ class JavammFormatterTest extends JavammAbstractTest {
 			expectation = '''
 				do  
 					System.out.println("No args");
-				while (args.length() == 0) ;
+				while (args.length() == 0);
 				do {
 					System.out.println("No args");
-				} while (args.length() == 0) ;
+				} while (args.length() == 0);
 			'''
 			toBeFormatted = '''
 				do  

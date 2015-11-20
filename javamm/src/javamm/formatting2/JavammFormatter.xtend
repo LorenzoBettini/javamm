@@ -41,6 +41,7 @@ import org.eclipse.xtext.xbase.formatting2.XbaseFormatter
 
 import static org.eclipse.xtext.xbase.XbasePackage.Literals.*
 import static org.eclipse.xtext.xbase.formatting2.XbaseFormatterPreferenceKeys.*
+import javamm.javamm.JavammSemicolonStatement
 
 class JavammFormatter extends XbaseFormatter {
 	
@@ -244,6 +245,12 @@ class JavammFormatter extends XbaseFormatter {
 		formatExpressions(expr.expressions, document, true)
 	}
 
+	def dispatch void format(JavammSemicolonStatement e, extension IFormattableDocument document) {
+		if (e.expression != null)
+			format(e.expression, document)
+		e.regionForKeyword(";").prepend[noSpace]
+	}
+
 	override createHiddenRegionFormattingMerger() {
 		new JavammHiddenRegionFormattingMerger(this)
 	}
@@ -278,15 +285,9 @@ class JavammFormatter extends XbaseFormatter {
 		val last = expressions.last
 		for (child : expressions) {
 			child.format(document)
-			val sem = child.immediatelyFollowingKeyword(";")
 
-			if (noLineAfterLastExpression && child == last) {
-				sem.prepend[noSpace]
-			} else {
-				if (sem != null)
-					sem.prepend[noSpace].append(blankLinesAroundExpression)
-				else
-					child.append(blankLinesAroundExpression)
+			if (!noLineAfterLastExpression || child != last) {
+				child.append(blankLinesAroundExpression)
 			}
 		}
 	}
