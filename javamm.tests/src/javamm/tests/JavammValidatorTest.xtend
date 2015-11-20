@@ -351,7 +351,7 @@ class JavammValidatorTest extends JavammAbstractTest {
 			}
 		}
 		'''.parse.assertTypeMismatch(
-			javammPack.javammSemicolonStatement,
+			javammPack.javammBreakStatement,
 			"int", "void"
 		)
 	}

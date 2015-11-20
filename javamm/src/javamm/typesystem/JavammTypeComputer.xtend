@@ -264,7 +264,12 @@ class JavammTypeComputer extends PatchedTypeComputer {
 	def protected _computeTypes(JavammSemicolonStatement st, ITypeComputationState state) {
 		val expression = st.expression
 		if (expression != null) {
-			computeTypes(expression, state)
+			// it is crucial to specify withinScope, otherwise, FeatureScopeTracker
+			// (used for the content assist) won't work
+			// replacePreviousExpressionScope would throw an IllegalStateException
+			// when the anchor is AFTER
+			state.withinScope(st)
+			state.computeTypes(expression)
 		} else {
 			// empty statement
 			state.acceptActualType(state.primitiveVoid)
