@@ -132,7 +132,8 @@ class JavammValidator extends XbaseValidator {
 	 * contains a variable declaration
 	 */
 	override protected isLocallyUsed(EObject target, EObject containerToFindUsage) {
-		if (target instanceof JavammAdditionalXVariableDeclaration) {
+		if (target instanceof JavammAdditionalXVariableDeclaration &&
+				containerToFindUsage instanceof XVariableDeclaration) {
 			return isLocallyUsed(target, containerToFindUsage.eContainer)
 		}
 		if (containerToFindUsage instanceof JavammSemicolonStatement) {
