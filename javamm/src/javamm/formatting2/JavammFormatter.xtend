@@ -15,6 +15,7 @@ import javamm.javamm.JavammMethod
 import javamm.javamm.JavammPackage
 import javamm.javamm.JavammPrefixOperation
 import javamm.javamm.JavammProgram
+import javamm.javamm.JavammSemicolonStatement
 import javamm.javamm.JavammSwitchStatements
 import javamm.javamm.JavammXAssignment
 import javamm.javamm.JavammXVariableDeclaration
@@ -26,11 +27,9 @@ import org.eclipse.xtext.xbase.XBlockExpression
 import org.eclipse.xtext.xbase.XCastedExpression
 import org.eclipse.xtext.xbase.XCatchClause
 import org.eclipse.xtext.xbase.XClosure
-import org.eclipse.xtext.xbase.XDoWhileExpression
 import org.eclipse.xtext.xbase.XExpression
 import org.eclipse.xtext.xbase.XForLoopExpression
 import org.eclipse.xtext.xbase.XIfExpression
-import org.eclipse.xtext.xbase.XMemberFeatureCall
 import org.eclipse.xtext.xbase.XSwitchExpression
 import org.eclipse.xtext.xbase.XSynchronizedExpression
 import org.eclipse.xtext.xbase.XThrowExpression
@@ -41,7 +40,6 @@ import org.eclipse.xtext.xbase.formatting2.XbaseFormatter
 
 import static org.eclipse.xtext.xbase.XbasePackage.Literals.*
 import static org.eclipse.xtext.xbase.formatting2.XbaseFormatterPreferenceKeys.*
-import javamm.javamm.JavammSemicolonStatement
 
 class JavammFormatter extends XbaseFormatter {
 	
@@ -170,10 +168,6 @@ class JavammFormatter extends XbaseFormatter {
 
 	def dispatch void format(JavammContinueStatement expr, extension IFormattableDocument document) {
 		expr.regionForKeyword("continue").surround[noSpace]
-	}
-
-	override dispatch void format(XMemberFeatureCall expr, extension IFormattableDocument document) {
-		super._format(expr, document)
 	}
 
 	override dispatch void format(XForLoopExpression expr, extension IFormattableDocument format) {
