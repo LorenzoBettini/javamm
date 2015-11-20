@@ -11,11 +11,13 @@ import javamm.javamm.JavammAdditionalXVariableDeclaration
 import javamm.javamm.JavammArrayConstructorCall
 import javamm.javamm.JavammBranchingStatement
 import javamm.javamm.JavammBreakStatement
+import javamm.javamm.JavammCharLiteral
 import javamm.javamm.JavammContinueStatement
 import javamm.javamm.JavammJvmFormalParameter
 import javamm.javamm.JavammMethod
 import javamm.javamm.JavammPackage
 import javamm.javamm.JavammProgram
+import javamm.javamm.JavammSemicolonStatement
 import javamm.javamm.Main
 import javamm.scoping.JavammOperatorMapping
 import javamm.util.JavammModelUtil
@@ -45,8 +47,6 @@ import org.eclipse.xtext.xbase.typesystem.util.Multimaps2
 import org.eclipse.xtext.xbase.validation.ImplicitReturnFinder
 import org.eclipse.xtext.xbase.validation.XbaseValidator
 import org.eclipse.xtext.xtype.XImportDeclaration
-import javamm.javamm.JavammCharLiteral
-import javamm.javamm.JavammSemicolonStatement
 
 //import org.eclipse.xtext.validation.Check
 
@@ -239,9 +239,9 @@ class JavammValidator extends XbaseValidator {
 	}
 
 	@Check
-	def checkMissingSemicolon(XExpression e) {
-		if (e.hasToBeCheckedForMissingSemicolon) {
-			checkMissingSemicolonInternal(e)
+	def checkMissingSemicolon(JavammSemicolonStatement e) {
+		if (e.semicolon == null) {
+			errorMissingSemicolon(e.expression)
 		}
 	}
 
@@ -265,11 +265,15 @@ class JavammValidator extends XbaseValidator {
 
 	def private checkMissingSemicolonInternal(EObject e) {
 		if (!e.hasSemicolon) {
-			error(
-				'Syntax error, insert ";" to complete Statement',
-				e, null, MISSING_SEMICOLON
-			)
+			errorMissingSemicolon(e)
 		}
+	}
+	
+	private def errorMissingSemicolon(EObject e) {
+		error(
+			'Syntax error, insert ";" to complete Statement',
+			e, null, MISSING_SEMICOLON
+		)
 	}
 
 	def private hasToBeCheckedForMissingSemicolon(XExpression e) {
@@ -278,7 +282,7 @@ class JavammValidator extends XbaseValidator {
 		semicolonStatements.exists[c | 
 			c.isAssignableFrom(expClass) &&
 			featuresForRequiredSemicolon.exists[f | f == containingFeature]
-		]		
+		]
 	}
 
 	@Check
