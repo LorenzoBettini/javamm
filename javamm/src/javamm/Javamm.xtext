@@ -22,7 +22,7 @@ XImportDeclaration returns xtype::XImportDeclaration:
 	(=>'import' (
 		(static?='static' importedType=[types::JvmDeclaredType|QualifiedNameInStaticImport] (wildcard?='*' | memberName=ValidID)) 
 		| importedType=[types::JvmDeclaredType|QualifiedName] 
-		| importedNamespace=QualifiedNameWithWildcard) ->';'+)
+		| importedNamespace=QualifiedNameWithWildcard) ->';'*)
 ;
 
 JavammMethod:
