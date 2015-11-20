@@ -11,102 +11,103 @@ import org.junit.runner.RunWith
 
 import static extension org.junit.Assert.*
 import org.eclipse.xtext.xbase.XAssignment
+import javamm.javamm.JavammSemicolonStatement
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammInjectorProvider))
 class JavammNodeModelUtilTest extends JavammAbstractTest {
-	
+
 	@Inject extension JavammNodeModelUtil
 
 	@Test def void testTerminatingSemicolon() {
 		'''
-		i = 1;
+			i = 1;
 		'''.assertMainLastExpressionText(
-		"i = 1;"
+			"i = 1;"
 		)
 	}
 
 	@Test def void testTerminatingSemicolon2() {
 		'''
-		i = 1;
-		j = 0 ;
+			i = 1;
+			j = 0 ;
 		'''.assertMainLastExpressionText(
-		"j = 0 ;"
+			"j = 0 ;"
 		)
 	}
 
 	@Test def void testAdditionalSemicolon() {
 		'''
-		i = 1 ;;
+			i = 1 ;;
 		'''.assertMainLastExpressionText(
-		"i = 1 ;"
+			";"
 		)
 	}
 
 	@Test def void testMissingSemicolon() {
 		'''
-		i = 1
+			i = 1
 		'''.assertMainLastExpressionText(
-		"i = 1"
+			"i = 1"
 		)
 	}
 
 	@Test def void testSemicolonInMethod() {
 		'''
-		void m() {
-			i = 1;
+			void m() {
+				i = 1;
 		'''.assertMethodLastExpressionText(
-		"i = 1;"
+			"i = 1;"
 		)
 	}
 
 	@Test def void testMissingSemicolonInMethod() {
 		'''
-		void m() {
-			i = 1
+			void m() {
+				i = 1
 		'''.assertMethodLastExpressionText(
-		"i = 1"
+			"i = 1"
 		)
 	}
 
 	@Test def void testMissingSemicolonInMethodDetected() {
 		'''
-		void m() {
-			i = 1
+			void m() {
+				i = 1
 		'''.lastMethodBody.lastBlockExpression.hasSemicolon.assertFalse
 	}
 
 	@Test def void testSemicolonInMethodDetected() {
 		'''
-		void m() {
-			i = 1;
+			void m() {
+				i = 1;
 		'''.lastMethodBody.lastBlockExpression.hasSemicolon.assertTrue
 	}
 
 	@Test def void testMissingSemicolonDetected() {
 		'''
-		i = 1
+			i = 1
 		'''.parse.main.lastBlockExpression.hasSemicolon.assertFalse
 	}
 
 	@Test def void testSemicolonDetected() {
 		'''
-		i = 1;
+			i = 1;
 		'''.parse.main.lastBlockExpression.hasSemicolon.assertTrue
 	}
 
 	@Test def void testSemicolonDetectedOnNextLine() {
 		'''
-		i = 1
-		;
+			i = 1
+			;
 		'''.parse.main.lastBlockExpression.hasSemicolon.assertTrue
 	}
 
 	@Test def void testOffset() {
-		('''
-		i = 1
-		;
-		'''.parse.main.lastBlockExpression as XAssignment) => [
+		((('''
+			i = 1
+			;
+		'''.parse.main.lastBlockExpression) as JavammSemicolonStatement).expression as XAssignment) => [
 			4.assertEquals(value.elementOffsetInProgram)
 		]
 	}
@@ -120,17 +121,17 @@ class JavammNodeModelUtilTest extends JavammAbstractTest {
 		val block = lastMethodBody(input)
 		assertBlockLastExpressionText(block, expected)
 	}
-	
+
 	private def lastMethodBody(CharSequence input) {
 		input.parse.javammMethods.last.body as XBlockExpression
 	}
-	
+
 	private def assertBlockLastExpressionText(XBlockExpression block, CharSequence expected) {
 		expected.assertEquals(
 			lastBlockExpression(block).programText
 		)
 	}
-	
+
 	private def lastBlockExpression(XBlockExpression block) {
 		block.expressions.last
 	}
