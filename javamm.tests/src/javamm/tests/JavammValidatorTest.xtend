@@ -339,7 +339,7 @@ class JavammValidatorTest extends JavammAbstractTest {
 			}
 		}
 		'''.parse.assertTypeMismatch(
-			javammPack.javammBreakStatement,
+			javammPack.javammSemicolonStatement,
 			"int", "void"
 		)
 	}
