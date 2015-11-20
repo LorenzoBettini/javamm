@@ -14,6 +14,7 @@ import javamm.javamm.JavammCharLiteral;
 import javamm.javamm.JavammContinueStatement;
 import javamm.javamm.JavammJvmFormalParameter;
 import javamm.javamm.JavammPrefixOperation;
+import javamm.javamm.JavammSemicolonStatement;
 import javamm.javamm.JavammXVariableDeclaration;
 import javamm.util.JavammModelUtil;
 
@@ -68,6 +69,8 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 			_toJavaStatement((JavammContinueStatement) obj, appendable, isReferenced);
 		} else if (obj instanceof JavammBreakStatement) {
 			_toJavaStatement((JavammBreakStatement) obj, appendable, isReferenced);
+		} else if (obj instanceof JavammSemicolonStatement) {
+			_toJavaStatement((JavammSemicolonStatement) obj, appendable, isReferenced);
 		} else {
 			super.doInternalToJavaStatement(obj, appendable, isReferenced);
 		}
@@ -120,6 +123,16 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 	private void compileBranchingStatement(JavammBranchingStatement st,
 			ITreeAppendable b, String instruction) {
 		b.newLine().append(instruction).append(";");
+	}
+
+	public void _toJavaStatement(JavammSemicolonStatement st, ITreeAppendable b,
+			boolean isReferenced) {
+		XExpression expression = st.getExpression();
+		if (expression != null) {
+			doInternalToJavaStatement(expression, b, isReferenced);
+		} else {
+			b.append(";");
+		}
 	}
 
 	@Override

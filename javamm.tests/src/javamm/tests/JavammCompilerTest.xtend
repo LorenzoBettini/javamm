@@ -1497,7 +1497,7 @@ package javamm;
 @SuppressWarnings("all")
 public class MyFile {
   public static void main(String[] args) {
-    byte b = 0;
+    byte b = 0;;
     switch (b) {
       case 10:
         System.out.println("10");
