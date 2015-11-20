@@ -211,6 +211,14 @@ class JavammInputs {
 		'''
 	}
 
+	def whileWithSemicolon() {
+		'''
+		int i = 0;
+		while (i < 10)
+			;
+		'''
+	}
+
 	def whileWithoutBlock() {
 		'''
 		int i = 0;

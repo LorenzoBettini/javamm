@@ -38,6 +38,34 @@ public class MyFile {
 		)
 	}
 
+	@Test def void testEmptyStatement() {
+		";".checkCompilation(
+'''
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {;
+  }
+}
+'''
+		)
+	}
+
+	@Test def void testEmptyStatements() {
+		";;".checkCompilation(
+'''
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {;;
+  }
+}
+'''
+		)
+	}
+
 	@Test def void testHelloWorld() {
 		helloWorld.checkCompilation(
 '''
@@ -550,6 +578,23 @@ package javamm;
 public class MyFile {
   public static void main(String[] args) {
     int[] a = {};
+  }
+}
+'''
+			)
+	}
+
+	@Test def void testWhileWithSemicolon() {
+		whileWithSemicolon.checkCompilation(
+'''
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int i = 0;
+    while ((i < 10)) {;
+    }
   }
 }
 '''
