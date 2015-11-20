@@ -106,8 +106,6 @@ class JavammFormatter extends XbaseFormatter {
 			additionalVariable.immediatelyPrecedingKeyword(",").prepend[noSpace].append[oneSpace]
 			additionalVariable.regionForKeyword("=").surround[oneSpace]
 		}
-
-		formatMandatorySemicolon(expr, document)
 	}
 
 	def dispatch void format(JavammXAssignment javammxassignment, extension IFormattableDocument document) {
@@ -164,22 +162,18 @@ class JavammFormatter extends XbaseFormatter {
 	def dispatch void format(JavammArrayAccessExpression expr, extension IFormattableDocument document) {
 		format(expr.getArray(), document);
 		formatArrayIndexes(expr.indexes, document)
-		formatMandatorySemicolon(expr, document)
 	}
 
 	def dispatch void format(JavammBreakStatement expr, extension IFormattableDocument document) {
 		expr.regionForKeyword("break").surround[noSpace]
-		formatMandatorySemicolon(expr, document)
 	}
 
 	def dispatch void format(JavammContinueStatement expr, extension IFormattableDocument document) {
 		expr.regionForKeyword("continue").surround[noSpace]
-		formatMandatorySemicolon(expr, document)
 	}
 
 	override dispatch void format(XMemberFeatureCall expr, extension IFormattableDocument document) {
 		super._format(expr, document)
-		formatMandatorySemicolon(expr, document)
 	}
 
 	override dispatch void format(XForLoopExpression expr, extension IFormattableDocument format) {
@@ -231,8 +225,6 @@ class JavammFormatter extends XbaseFormatter {
 		}
 		expr.predicate.format(format)
 		expr.body.format(format)
-		// the following does not seem to work...
-		formatMandatorySemicolon(expr, format)
 	}
 
 	override dispatch void format(XSwitchExpression xswitchexpression, extension IFormattableDocument document) {
@@ -304,7 +296,4 @@ class JavammFormatter extends XbaseFormatter {
 		index.immediatelyFollowingKeyword("]").prepend[noSpace]
 	}
 
-	private def formatMandatorySemicolon(XExpression expr, extension IFormattableDocument document) {
-		expr.immediatelyFollowingKeyword(";").prepend[noSpace]
-	}
 }
