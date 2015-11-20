@@ -215,18 +215,6 @@ class JavammFormatter extends XbaseFormatter {
 		expr.regionForKeyword("if").append[oneSpace; highPriority]
 	}
 
-	override dispatch void format(XDoWhileExpression expr, extension IFormattableDocument format) {
-		expr.regionForKeyword("while").append(whitespaceBetweenKeywordAndParenthesisML)
-		expr.predicate.prepend[noSpace].append[noSpace]
-		if (expr.body instanceof XBlockExpression) {
-			expr.body.prepend(bracesInNewLine).append(bracesInNewLine)
-		} else {
-			expr.body.immediatelyFollowingKeyword(";").append[newLine; decreaseIndentation]
-		}
-		expr.predicate.format(format)
-		expr.body.format(format)
-	}
-
 	override dispatch void format(XSwitchExpression xswitchexpression, extension IFormattableDocument document) {
 		super._format(xswitchexpression, document)
 		xswitchexpression.regionForKeyword("(").append[noSpace]
