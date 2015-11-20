@@ -218,6 +218,18 @@ class JavammValidatorTest extends JavammAbstractTest {
 			parse.assertUnreachableExpression(XbasePackage.eINSTANCE.XBinaryOperation)
 	}
 
+	@Test def void testNoDeadCodeWithAdditionalSemicolons() {
+		additionalSemicolons.parseAndAssertNoErrors
+	}
+
+	@Test def void testDeadCodeAfterReturnWithAdditionalSemicolons() {
+		'''
+		void m() {
+			return;;
+		}
+		'''.parse.assertUnreachableExpression(javammPack.javammSemicolonStatement)
+	}
+
 	@Test def void testInvalidContinue() {
 		'''
 		void m() {
