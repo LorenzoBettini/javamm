@@ -97,6 +97,21 @@ class JavammTypeComputerTest extends JavammAbstractTest {
 	}
 
 	@Test
+	def void testVariableDeclaration() {
+		"int i;".assertLastExpression[
+			variableDeclaration.assertActualType("void")
+		]
+	}
+
+	@Test
+	def void testVariableDeclarationAddedToScope() {
+		'''
+		int i;
+		i;
+		'''.assertActualType("int")
+	}
+
+	@Test
 	def void testAdditionalVars() {
 		"int i, j, k;".assertLastExpression[
 			val varDecl = variableDeclaration
