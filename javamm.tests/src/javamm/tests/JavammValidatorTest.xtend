@@ -210,7 +210,7 @@ class JavammValidatorTest extends JavammAbstractTest {
 			return;
 			System.out.println("");
 		}
-		'''.parse.assertUnreachableExpression(XbasePackage.eINSTANCE.XMemberFeatureCall)
+		'''.parse.assertUnreachableExpression(javammPack.javammSemicolonStatement)
 	}
 
 	@Test def void testDeadCodeInForLoopTranslatedToJavaWhileEarlyExit() {
