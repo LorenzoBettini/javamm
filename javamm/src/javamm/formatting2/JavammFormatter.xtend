@@ -23,13 +23,11 @@ import javamm.javamm.Main
 import javamm.util.JavammModelUtil
 import org.eclipse.emf.common.util.EList
 import org.eclipse.xtext.formatting2.IFormattableDocument
-import org.eclipse.xtext.xbase.XBlockExpression
 import org.eclipse.xtext.xbase.XCastedExpression
 import org.eclipse.xtext.xbase.XCatchClause
 import org.eclipse.xtext.xbase.XClosure
 import org.eclipse.xtext.xbase.XExpression
 import org.eclipse.xtext.xbase.XForLoopExpression
-import org.eclipse.xtext.xbase.XIfExpression
 import org.eclipse.xtext.xbase.XSwitchExpression
 import org.eclipse.xtext.xbase.XSynchronizedExpression
 import org.eclipse.xtext.xbase.XThrowExpression
@@ -173,40 +171,6 @@ class JavammFormatter extends XbaseFormatter {
 	override dispatch void format(XForLoopExpression expr, extension IFormattableDocument format) {
 		super._format(expr, format)
 		format(expr.declaredParam, format)
-	}
-
-	override dispatch void format(XIfExpression expr, extension IFormattableDocument format) {
-		expr.^if.surround[noSpace]
-		expr.regionForKeyword("if").append[oneSpace]
-		if (expr.then instanceof XBlockExpression) {
-			expr.then.prepend(bracesInNewLine)
-			if (expr.^else != null)
-				expr.then.append(bracesInNewLine)
-		} else {
-			expr.then.prepend[newLine increaseIndentation]
-			if (expr.^else != null) {
-				expr.then.immediatelyFollowingKeyword(";").append[newLine; decreaseIndentation]
-			} else
-				expr.then.append[decreaseIndentation]
-		}
-		if (expr.^else instanceof XBlockExpression) {
-			expr.^else.prepend(bracesInNewLine)
-		} else if (expr.^else instanceof XIfExpression) {
-			expr.^else.prepend[oneSpace]
-		} else {
-			expr.^else.prepend[newLine increaseIndentation]
-			expr.^else.append[decreaseIndentation]
-		}
-		expr.^if.format(format)
-		expr.then.format(format)
-		if (expr.^else != null)
-			expr.^else.format(format)
-
-//		super._format(expr, format)
-		// this is required otherwise there's no space after the if
-		// again, probably due to the way we implement JavammXMemberFeatureCall
-		// (see also JavammHiddenRegionFormattingMerger)
-		expr.regionForKeyword("if").append[oneSpace; highPriority]
 	}
 
 	override dispatch void format(XSwitchExpression xswitchexpression, extension IFormattableDocument document) {
