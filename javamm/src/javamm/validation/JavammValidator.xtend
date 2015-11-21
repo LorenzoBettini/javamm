@@ -41,7 +41,6 @@ import org.eclipse.xtext.xbase.XVariableDeclaration
 import org.eclipse.xtext.xbase.XbasePackage
 import org.eclipse.xtext.xbase.typesystem.IBatchTypeResolver
 import org.eclipse.xtext.xbase.typesystem.util.Multimaps2
-import org.eclipse.xtext.xbase.validation.ImplicitReturnFinder
 import org.eclipse.xtext.xbase.validation.XbaseValidator
 import org.eclipse.xtext.xtype.XImportDeclaration
 
@@ -76,7 +75,6 @@ class JavammValidator extends XbaseValidator {
 
 	@Inject extension JavammNodeModelUtil
 	@Inject extension JavammModelUtil
-	@Inject ImplicitReturnFinder implicitReturnFinder
 	@Inject IBatchTypeResolver batchTypeResolver
 	@Inject JavammSureReturnComputer sureReturnComputer
 	@Inject JavammInitializedVariableFinder initializedVariableFinder
@@ -151,7 +149,7 @@ class JavammValidator extends XbaseValidator {
 	}
 
 	@Check
-	def void checkImplicitReturn(JavammMethod method) {
+	def void checkMethod(JavammMethod method) {
 		val body = method.body as XBlockExpression
 		checkVariableInitialization(body)
 
@@ -164,10 +162,6 @@ class JavammValidator extends XbaseValidator {
 			errorMissingReturnStatement(body)
 			return
 		}
-		implicitReturnFinder.findImplicitReturns(body) [
-			implicitReturn |
-			errorMissingReturnStatement(lastExpression)
-		]
 		if (!sureReturnComputer.isSureReturn(lastExpression)) {
 			errorMissingReturnStatement(lastExpression)
 		}
