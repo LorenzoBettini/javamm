@@ -31,14 +31,11 @@ import org.eclipse.xtext.util.Wrapper
 import org.eclipse.xtext.validation.Check
 import org.eclipse.xtext.xbase.XAbstractFeatureCall
 import org.eclipse.xtext.xbase.XAbstractWhileExpression
-import org.eclipse.xtext.xbase.XAssignment
 import org.eclipse.xtext.xbase.XBasicForLoopExpression
 import org.eclipse.xtext.xbase.XBlockExpression
-import org.eclipse.xtext.xbase.XDoWhileExpression
 import org.eclipse.xtext.xbase.XExpression
 import org.eclipse.xtext.xbase.XFeatureCall
 import org.eclipse.xtext.xbase.XMemberFeatureCall
-import org.eclipse.xtext.xbase.XReturnExpression
 import org.eclipse.xtext.xbase.XSwitchExpression
 import org.eclipse.xtext.xbase.XVariableDeclaration
 import org.eclipse.xtext.xbase.XbasePackage
@@ -76,23 +73,6 @@ class JavammValidator extends XbaseValidator {
 	static val xbasePackage = XbasePackage.eINSTANCE;
 
 	static val javammPackage = JavammPackage.eINSTANCE;
-
-	val semicolonStatements = #{
-		JavammBranchingStatement,
-		XVariableDeclaration,
-		XDoWhileExpression,
-		XReturnExpression,
-		XAssignment,
-		XAbstractFeatureCall
-	}
-
-	val featuresForRequiredSemicolon = #{
-		xbasePackage.XBlockExpression_Expressions,
-		xbasePackage.XIfExpression_Then,
-		xbasePackage.XIfExpression_Else,
-		xbasePackage.XCasePart_Then,
-		xbasePackage.XAbstractWhileExpression_Body
-	}
 
 	@Inject extension JavammNodeModelUtil
 	@Inject extension JavammModelUtil
@@ -279,15 +259,6 @@ class JavammValidator extends XbaseValidator {
 			'Syntax error, insert ";" to complete Statement',
 			e, null, MISSING_SEMICOLON
 		)
-	}
-
-	def private hasToBeCheckedForMissingSemicolon(XExpression e) {
-		val expClass = e.class
-		val containingFeature = e.eContainingFeature
-		semicolonStatements.exists[c | 
-			c.isAssignableFrom(expClass) &&
-			featuresForRequiredSemicolon.exists[f | f == containingFeature]
-		]
 	}
 
 	@Check
