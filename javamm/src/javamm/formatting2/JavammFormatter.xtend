@@ -189,10 +189,6 @@ class JavammFormatter extends XbaseFormatter {
 		e.regionForKeyword(";").prepend[noSpace]
 	}
 
-	override createHiddenRegionFormattingMerger() {
-		new JavammHiddenRegionFormattingMerger(this)
-	}
-
 	override dispatch void format(XClosure expr, extension IFormattableDocument format) {
 		
 	}
