@@ -244,10 +244,6 @@ class JavammFormatter extends XbaseFormatter {
 		formatExpressions(expr.expressions, document, true)
 	}
 
-	override createHiddenRegionFormattingMerger() {
-		new JavammHiddenRegionFormattingMerger(this)
-	}
-
 	override dispatch void format(XClosure expr, extension IFormattableDocument format) {
 		
 	}
