@@ -11,11 +11,13 @@ import javamm.javamm.JavammAdditionalXVariableDeclaration
 import javamm.javamm.JavammArrayConstructorCall
 import javamm.javamm.JavammBranchingStatement
 import javamm.javamm.JavammBreakStatement
+import javamm.javamm.JavammCharLiteral
 import javamm.javamm.JavammContinueStatement
 import javamm.javamm.JavammJvmFormalParameter
 import javamm.javamm.JavammMethod
 import javamm.javamm.JavammPackage
 import javamm.javamm.JavammProgram
+import javamm.javamm.JavammSemicolonStatement
 import javamm.javamm.Main
 import javamm.scoping.JavammOperatorMapping
 import javamm.util.JavammModelUtil
@@ -29,23 +31,18 @@ import org.eclipse.xtext.util.Wrapper
 import org.eclipse.xtext.validation.Check
 import org.eclipse.xtext.xbase.XAbstractFeatureCall
 import org.eclipse.xtext.xbase.XAbstractWhileExpression
-import org.eclipse.xtext.xbase.XAssignment
 import org.eclipse.xtext.xbase.XBasicForLoopExpression
 import org.eclipse.xtext.xbase.XBlockExpression
-import org.eclipse.xtext.xbase.XDoWhileExpression
 import org.eclipse.xtext.xbase.XExpression
 import org.eclipse.xtext.xbase.XFeatureCall
 import org.eclipse.xtext.xbase.XMemberFeatureCall
-import org.eclipse.xtext.xbase.XReturnExpression
 import org.eclipse.xtext.xbase.XSwitchExpression
 import org.eclipse.xtext.xbase.XVariableDeclaration
 import org.eclipse.xtext.xbase.XbasePackage
 import org.eclipse.xtext.xbase.typesystem.IBatchTypeResolver
 import org.eclipse.xtext.xbase.typesystem.util.Multimaps2
-import org.eclipse.xtext.xbase.validation.ImplicitReturnFinder
 import org.eclipse.xtext.xbase.validation.XbaseValidator
 import org.eclipse.xtext.xtype.XImportDeclaration
-import javamm.javamm.JavammCharLiteral
 
 //import org.eclipse.xtext.validation.Check
 
@@ -76,26 +73,8 @@ class JavammValidator extends XbaseValidator {
 
 	static val javammPackage = JavammPackage.eINSTANCE;
 
-	val semicolonStatements = #{
-		JavammBranchingStatement,
-		XVariableDeclaration,
-		XDoWhileExpression,
-		XReturnExpression,
-		XAssignment,
-		XAbstractFeatureCall
-	}
-
-	val featuresForRequiredSemicolon = #{
-		xbasePackage.XBlockExpression_Expressions,
-		xbasePackage.XIfExpression_Then,
-		xbasePackage.XIfExpression_Else,
-		xbasePackage.XCasePart_Then,
-		xbasePackage.XAbstractWhileExpression_Body
-	}
-
 	@Inject extension JavammNodeModelUtil
 	@Inject extension JavammModelUtil
-	@Inject ImplicitReturnFinder implicitReturnFinder
 	@Inject IBatchTypeResolver batchTypeResolver
 	@Inject JavammSureReturnComputer sureReturnComputer
 	@Inject JavammInitializedVariableFinder initializedVariableFinder
@@ -127,11 +106,16 @@ class JavammValidator extends XbaseValidator {
 	/**
 	 * In case of an additional variable declaration we must use the container of
 	 * the containing variable declaration, otherwise additional variables will always be
-	 * detected as unused
+	 * detected as unused; similarly if the container is a semicolon statement which
+	 * contains a variable declaration
 	 */
 	override protected isLocallyUsed(EObject target, EObject containerToFindUsage) {
-		if (target instanceof JavammAdditionalXVariableDeclaration) {
-			return super.isLocallyUsed(target, containerToFindUsage.eContainer)
+		if (target instanceof JavammAdditionalXVariableDeclaration &&
+				containerToFindUsage instanceof XVariableDeclaration) {
+			return isLocallyUsed(target, containerToFindUsage.eContainer)
+		}
+		if (containerToFindUsage instanceof JavammSemicolonStatement) {
+			return isLocallyUsed(target, containerToFindUsage.eContainer)
 		}
 		return super.isLocallyUsed(target, containerToFindUsage)
 	}
@@ -165,7 +149,7 @@ class JavammValidator extends XbaseValidator {
 	}
 
 	@Check
-	def void checkImplicitReturn(JavammMethod method) {
+	def void checkMethod(JavammMethod method) {
 		val body = method.body as XBlockExpression
 		checkVariableInitialization(body)
 
@@ -178,17 +162,17 @@ class JavammValidator extends XbaseValidator {
 			errorMissingReturnStatement(body)
 			return
 		}
-		implicitReturnFinder.findImplicitReturns(body) [
-			implicitReturn |
-			errorMissingReturnStatement(lastExpression)
-		]
 		if (!sureReturnComputer.isSureReturn(lastExpression)) {
 			errorMissingReturnStatement(lastExpression)
 		}
 	}
 
 	def private errorMissingReturnStatement(XExpression e) {
-		error("Missing return", e, null, MISSING_RETURN)
+		var source = e
+		if (e instanceof JavammSemicolonStatement) {
+			source = e.expression
+		}
+		error("Missing return", source, null, MISSING_RETURN)
 	}
 
 	def private checkVariableInitialization(XBlockExpression e) {
@@ -234,9 +218,9 @@ class JavammValidator extends XbaseValidator {
 	}
 
 	@Check
-	def checkMissingSemicolon(XExpression e) {
-		if (e.hasToBeCheckedForMissingSemicolon) {
-			checkMissingSemicolonInternal(e)
+	def checkMissingSemicolon(JavammSemicolonStatement e) {
+		if (e.semicolon == null) {
+			errorMissingSemicolon(e.expression)
 		}
 	}
 
@@ -260,20 +244,15 @@ class JavammValidator extends XbaseValidator {
 
 	def private checkMissingSemicolonInternal(EObject e) {
 		if (!e.hasSemicolon) {
-			error(
-				'Syntax error, insert ";" to complete Statement',
-				e, null, MISSING_SEMICOLON
-			)
+			errorMissingSemicolon(e)
 		}
 	}
-
-	def private hasToBeCheckedForMissingSemicolon(XExpression e) {
-		val expClass = e.class
-		val containingFeature = e.eContainingFeature
-		semicolonStatements.exists[c | 
-			c.isAssignableFrom(expClass) &&
-			featuresForRequiredSemicolon.exists[f | f == containingFeature]
-		]		
+	
+	private def errorMissingSemicolon(EObject e) {
+		error(
+			'Syntax error, insert ";" to complete Statement',
+			e, null, MISSING_SEMICOLON
+		)
 	}
 
 	@Check

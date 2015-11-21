@@ -15,6 +15,7 @@ import javamm.javamm.JavammMethod
 import javamm.javamm.JavammPackage
 import javamm.javamm.JavammPrefixOperation
 import javamm.javamm.JavammProgram
+import javamm.javamm.JavammSemicolonStatement
 import javamm.javamm.JavammSwitchStatements
 import javamm.javamm.JavammXAssignment
 import javamm.javamm.JavammXVariableDeclaration
@@ -26,7 +27,6 @@ import org.eclipse.xtext.xbase.XCastedExpression
 import org.eclipse.xtext.xbase.XClosure
 import org.eclipse.xtext.xbase.XExpression
 import org.eclipse.xtext.xbase.XForLoopExpression
-import org.eclipse.xtext.xbase.XMemberFeatureCall
 import org.eclipse.xtext.xbase.XSwitchExpression
 import org.eclipse.xtext.xbase.XSynchronizedExpression
 import org.eclipse.xtext.xbase.XThrowExpression
@@ -101,8 +101,6 @@ class JavammFormatter extends XbaseFormatter {
 			additionalVariable.immediatelyPreceding.keyword(",").prepend[noSpace].append[oneSpace]
 			additionalVariable.regionFor.keyword("=").surround[oneSpace]
 		}
-
-		formatMandatorySemicolon(expr, document)
 	}
 
 	def dispatch void format(JavammXAssignment javammxassignment, extension IFormattableDocument document) {
@@ -159,76 +157,20 @@ class JavammFormatter extends XbaseFormatter {
 	def dispatch void format(JavammArrayAccessExpression expr, extension IFormattableDocument document) {
 		format(expr.getArray(), document);
 		formatArrayIndexes(expr.indexes, document)
-		formatMandatorySemicolon(expr, document)
 	}
 
 	def dispatch void format(JavammBreakStatement expr, extension IFormattableDocument document) {
 		expr.regionFor.keyword("break").surround[noSpace]
-		formatMandatorySemicolon(expr, document)
 	}
 
 	def dispatch void format(JavammContinueStatement expr, extension IFormattableDocument document) {
 		expr.regionFor.keyword("continue").surround[noSpace]
-		formatMandatorySemicolon(expr, document)
-	}
-
-	override dispatch void format(XMemberFeatureCall expr, extension IFormattableDocument document) {
-		super._format(expr, document)
-		formatMandatorySemicolon(expr, document)
 	}
 
 	override dispatch void format(XForLoopExpression expr, extension IFormattableDocument format) {
 		super._format(expr, format)
 		format(expr.declaredParam, format)
 	}
-
-//	override dispatch void format(XIfExpression expr, extension IFormattableDocument format) {
-//		expr.^if.surround[noSpace]
-//		expr.regionFor.keyword("if").append[oneSpace]
-//		if (expr.then instanceof XBlockExpression) {
-//			expr.then.prepend(bracesInNewLine)
-//			if (expr.^else != null)
-//				expr.then.append(bracesInNewLine)
-//		} else {
-//			expr.then.prepend[newLine increaseIndentation]
-//			if (expr.^else != null) {
-//				expr.then.immediatelyFollowing.keyword(";").append[newLine; decreaseIndentation]
-//			} else
-//				expr.then.append[decreaseIndentation]
-//		}
-//		if (expr.^else instanceof XBlockExpression) {
-//			expr.^else.prepend(bracesInNewLine)
-//		} else if (expr.^else instanceof XIfExpression) {
-//			expr.^else.prepend[oneSpace]
-//		} else {
-//			expr.^else.prepend[newLine increaseIndentation]
-//			expr.^else.append[decreaseIndentation]
-//		}
-//		expr.^if.format(format)
-//		expr.then.format(format)
-//		if (expr.^else != null)
-//			expr.^else.format(format)
-//
-////		super._format(expr, format)
-//		// this is required otherwise there's no space after the if
-//		// again, probably due to the way we implement JavammXMemberFeatureCall
-//		// (see also JavammHiddenRegionFormattingMerger)
-//		expr.regionFor.keyword("if").append[oneSpace; highPriority]
-//	}
-//
-//	override dispatch void format(XDoWhileExpression expr, extension IFormattableDocument format) {
-//		expr.regionFor.keyword("while").append(whitespaceBetweenKeywordAndParenthesisML)
-//		expr.predicate.prepend[noSpace].append[noSpace]
-//		if (expr.body instanceof XBlockExpression) {
-//			expr.body.prepend(bracesInNewLine).append(bracesInNewLine)
-//		} else {
-//			expr.body.immediatelyFollowing.keyword(";").append[newLine; decreaseIndentation]
-//		}
-//		expr.predicate.format(format)
-//		expr.body.format(format)
-//		// the following does not seem to work...
-//		formatMandatorySemicolon(expr, format)
-//	}
 
 	override dispatch void format(XSwitchExpression xswitchexpression, extension IFormattableDocument document) {
 		super._format(xswitchexpression, document)
@@ -240,8 +182,10 @@ class JavammFormatter extends XbaseFormatter {
 		formatExpressions(expr.expressions, document, true)
 	}
 
-	override createHiddenRegionFormattingMerger() {
-		new JavammHiddenRegionFormattingMerger(this)
+	def dispatch void format(JavammSemicolonStatement e, extension IFormattableDocument document) {
+		if (e.expression != null)
+			format(e.expression, document)
+		e.regionFor.keyword(";").prepend[noSpace]
 	}
 
 	override dispatch void format(XClosure expr, extension IFormattableDocument format) {
@@ -270,15 +214,9 @@ class JavammFormatter extends XbaseFormatter {
 		val last = expressions.last
 		for (child : expressions) {
 			child.format(document)
-			val sem = child.immediatelyFollowing.keyword(";")
 
-			if (noLineAfterLastExpression && child == last) {
-				sem.prepend[noSpace]
-			} else {
-				if (sem != null)
-					sem.prepend[noSpace].append(blankLinesAroundExpression)
-				else
-					child.append(blankLinesAroundExpression)
+			if (!noLineAfterLastExpression || child != last) {
+				child.append(blankLinesAroundExpression)
 			}
 		}
 	}
@@ -295,7 +233,4 @@ class JavammFormatter extends XbaseFormatter {
 		index.immediatelyFollowing.keyword("]").prepend[noSpace]
 	}
 
-	private def formatMandatorySemicolon(XExpression expr, extension IFormattableDocument document) {
-		expr.immediatelyFollowing.keyword(";").prepend[noSpace]
-	}
 }

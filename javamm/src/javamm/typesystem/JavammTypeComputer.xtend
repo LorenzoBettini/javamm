@@ -7,6 +7,7 @@ import javamm.javamm.JavammArrayAccessExpression
 import javamm.javamm.JavammArrayConstructorCall
 import javamm.javamm.JavammBranchingStatement
 import javamm.javamm.JavammCharLiteral
+import javamm.javamm.JavammSemicolonStatement
 import javamm.javamm.JavammXAssignment
 import javamm.javamm.JavammXVariableDeclaration
 import javamm.validation.JavammValidator
@@ -52,6 +53,8 @@ class JavammTypeComputer extends PatchedTypeComputer {
 			_computeTypes(expression, state)
 		} else if (expression instanceof JavammXVariableDeclaration) {
 			_computeTypes(expression, state)
+		} else if (expression instanceof JavammSemicolonStatement) {
+			_computeTypes(expression, state)
 		} else {
 			super.computeTypes(expression, state)
 		}
@@ -71,6 +74,14 @@ class JavammTypeComputer extends PatchedTypeComputer {
 			for (additional : localVariable.additionalVariables) {
 				addLocalToCurrentScope(additional, state)
 			}
+		}
+	}
+
+	override protected addLocalToCurrentScope(XExpression e, ITypeComputationState state) {
+		if (e instanceof JavammSemicolonStatement) {
+			addLocalToCurrentScope(e.expression, state)
+		} else {
+			super.addLocalToCurrentScope(e, state)
 		}
 	}
 
@@ -187,7 +198,7 @@ class JavammTypeComputer extends PatchedTypeComputer {
 
 	def protected _computeTypes(JavammXVariableDeclaration object, ITypeComputationState state) {
 		super._computeTypes(object, state)
-		// and also comput types for possible additional declarations
+		// and also compute types for possible additional declarations
 		for (additional : object.additionalVariables) {
 			state.computeTypes(additional)
 		}
@@ -249,7 +260,22 @@ class JavammTypeComputer extends PatchedTypeComputer {
 	def protected _computeTypes(JavammBranchingStatement st, ITypeComputationState state) {
 		state.acceptActualType(state.primitiveVoid)
 	}
-	
+
+	def protected _computeTypes(JavammSemicolonStatement st, ITypeComputationState state) {
+		val expression = st.expression
+		if (expression != null) {
+			// it is crucial to specify withinScope, otherwise, FeatureScopeTracker
+			// (used for the content assist) won't work
+			// replacePreviousExpressionScope would throw an IllegalStateException
+			// when the anchor is AFTER
+			state.withinScope(st)
+			state.computeTypes(expression)
+		} else {
+			// empty statement
+			state.acceptActualType(state.primitiveVoid)
+		}
+	}
+
 	private def computeTypesOfArrayAccess(JavammArrayAccess arrayAccess, 
 		ILinkingCandidate best, ITypeComputationState state, EStructuralFeature featureForError
 	) {

@@ -3,10 +3,9 @@ package javamm.tests
 import javamm.JavammInjectorProvider
 import javamm.javamm.JavammArrayAccessExpression
 import javamm.javamm.JavammArrayConstructorCall
-import javamm.javamm.JavammArrayLiteral
 import javamm.javamm.JavammCharLiteral
-import javamm.javamm.JavammConditionalExpression
 import javamm.javamm.JavammPrefixOperation
+import javamm.javamm.JavammSemicolonStatement
 import javamm.javamm.JavammXAssignment
 import javamm.javamm.JavammXVariableDeclaration
 import org.eclipse.xtext.junit4.InjectWith
@@ -14,13 +13,9 @@ import org.eclipse.xtext.junit4.XtextRunner
 import org.eclipse.xtext.xbase.XAssignment
 import org.eclipse.xtext.xbase.XBasicForLoopExpression
 import org.eclipse.xtext.xbase.XBinaryOperation
-import org.eclipse.xtext.xbase.XBlockExpression
 import org.eclipse.xtext.xbase.XBooleanLiteral
-import org.eclipse.xtext.xbase.XCastedExpression
 import org.eclipse.xtext.xbase.XConstructorCall
-import org.eclipse.xtext.xbase.XExpression
 import org.eclipse.xtext.xbase.XFeatureCall
-import org.eclipse.xtext.xbase.XInstanceOfExpression
 import org.eclipse.xtext.xbase.XListLiteral
 import org.eclipse.xtext.xbase.XMemberFeatureCall
 import org.eclipse.xtext.xbase.XNumberLiteral
@@ -278,11 +273,22 @@ class JavammParserTest extends JavammAbstractTest {
 		]
 	}
 
+	@Test def void testVariableDeclaration() {
+		'''
+		int i = a;
+		'''.assertMainLastExpression[
+			getVariableDeclaration => [
+				"i".assertEquals(identifier)
+				right.assertNotNull
+			]
+		]
+	}
+
 	@Test def void testIncompleteVariableDeclaration() {
 		'''
 		int i = a
 		'''.assertMainLastExpression[
-			(it as JavammXVariableDeclaration).right.assertNotNull
+			variableDeclarationRight.assertNotNull
 		]
 	}
 
@@ -290,7 +296,7 @@ class JavammParserTest extends JavammAbstractTest {
 		'''
 		int i =
 		'''.assertMainLastExpression[
-			(it as XVariableDeclaration).right.assertNull
+			variableDeclarationRight.assertNull
 		]
 	}
 
@@ -298,7 +304,7 @@ class JavammParserTest extends JavammAbstractTest {
 		'''
 		int i = ;
 		'''.assertMainLastExpression[
-			(it as XVariableDeclaration).right.assertNull
+			variableDeclarationRight.assertNull
 		]
 	}
 
@@ -615,53 +621,27 @@ class JavammParserTest extends JavammAbstractTest {
 		'''.parseAndAssertNoErrors
 	}
 
-	def private assertMainLastExpression(CharSequence input, (XExpression)=>void tester) {
-		val main = input.parse.main
-		tester.apply(main.expressions.last)
+	@Test def void testEmptyStatement() {
+		'''
+		;
+		'''.mainLastExpression => [
+			(it as JavammSemicolonStatement).expression.assertNull
+		]
 	}
 
-	def private assertLastMethodLastExpression(CharSequence input, (XExpression)=>void tester) {
-		val method = input.parse.javammMethods.last
-		tester.apply((method.body as XBlockExpression).expressions.last)
+	@Test def void testEmptyStatementNoErrors() {
+		'''
+		;
+		'''.parseAndAssertNoErrors
 	}
 
-	private def getVariableDeclarationRightAsArrayConstructorCall(XExpression it) {
-		(it as XVariableDeclaration).right as JavammArrayConstructorCall
+	@Test def void testXBlockExpression() {
+		'''
+		int i;
+		int j;
+		'''.mainBlock => [
+			2.assertEquals(expressions.size)
+		]
 	}
 
-	private def getVariableDeclarationRight(XExpression it) {
-		(it as XVariableDeclaration).right
-	}
-
-	private def getArrayLiteral(XExpression it) {
-		it as JavammArrayLiteral
-	}
-
-	private def getMemberFeatureCall(XExpression it) {
-		it as XMemberFeatureCall
-	}
-
-	private def getMemberCallTargetArrayAccess(XExpression it) {
-		memberFeatureCall.memberCallTarget.arrayAccess
-	}
-
-	private def getArrayAccess(XExpression it) {
-		it as JavammArrayAccessExpression
-	}
-
-	private def getFeatureCall(XExpression it) {
-		it as XFeatureCall
-	}
-
-	private def getCasted(XExpression it) {
-		it as XCastedExpression
-	}
-
-	private def getConditional(XExpression it) {
-		it as JavammConditionalExpression
-	}
-
-	private def getInstanceOf(XExpression it) {
-		it as XInstanceOfExpression
-	}
 }

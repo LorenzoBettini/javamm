@@ -210,12 +210,24 @@ class JavammValidatorTest extends JavammAbstractTest {
 			return;
 			System.out.println("");
 		}
-		'''.parse.assertUnreachableExpression(XbasePackage.eINSTANCE.XMemberFeatureCall)
+		'''.parse.assertUnreachableExpression(javammPack.javammSemicolonStatement)
 	}
 
 	@Test def void testDeadCodeInForLoopTranslatedToJavaWhileEarlyExit() {
 		forLoopTranslatedToJavaWhileEarlyExit.
 			parse.assertUnreachableExpression(XbasePackage.eINSTANCE.XBinaryOperation)
+	}
+
+	@Test def void testNoDeadCodeWithAdditionalSemicolons() {
+		additionalSemicolons.parseAndAssertNoErrors
+	}
+
+	@Test def void testDeadCodeAfterReturnWithAdditionalSemicolons() {
+		'''
+		void m() {
+			return;;
+		}
+		'''.parse.assertUnreachableExpression(javammPack.javammSemicolonStatement)
 	}
 
 	@Test def void testInvalidContinue() {
@@ -521,6 +533,14 @@ class JavammValidatorTest extends JavammAbstractTest {
 		Type mismatch: cannot convert from String to int
 		Type mismatch: cannot convert from boolean to int'''
 		)
+	}
+
+	@Test def void testValidAccessToVariable() {
+		'''
+		int i = 0;
+
+		System.out.println(i);
+		'''.parse.assertNoIssues
 	}
 
 	@Test def void testVariableDeclarationsNoUnusedWarningsWhenUsed() {
