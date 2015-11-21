@@ -35,8 +35,7 @@ FullJvmFormalParameter returns JavammJvmFormalParameter:
 	{JavammJvmFormalParameter} final?='final'? parameterType=JvmTypeReference varArgs?='...'? name=ValidID;
 
 /* 
- * The ';' only "eats" possible additional semicolons which is legal in Java.
- * The required ';' is taken care of in the JavammSemicolonStatement rule
+ * The semicolons ';' are handled by the JavammSemicolonStatement rule
  */
 Main returns XBlockExpression:
 	{Main}
@@ -68,11 +67,11 @@ JavammSingleStatement returns XExpression:
 /*
  * These are the Java statements that require a semicolon at the end.
  * 
- * The final ; should be optional in order to be able to parse incomplete
- * expressions and give better content assist.
+ * The final ; is optional in order to be able to parse incomplete
+ * expressions, provide nicer error messages and give better content assist.
+ * The presence of ';' is checked by the validator
  */
 JavammSemicolonStatement returns XExpression:
-//	JavammArrayConstructorCall | not a valid statement
 	{JavammSemicolonStatement}
 	expression=
 		(
@@ -94,8 +93,7 @@ JavammBranchingStatement returns XExpression:
 ;
 
 /* 
- * The ';' only "eats" possible additional semicolons which is legal in Java.
- * The required ';' is taken care of in the JavammSemicolonStatement rule
+ * The semicolons ';' are handled by the JavammSemicolonStatement rule
  */
 XBlockExpression returns XExpression: 
 	{XBlockExpression}
@@ -191,7 +189,6 @@ XCastedExpression returns XExpression:
 	|
 	XPostfixOperation
 ;
-
 
 XPostfixOperation returns XExpression:
 	=>({JavammPrefixOperation} feature=[types::JvmIdentifiableElement|OpPostfix]) operand=XMemberFeatureCall
