@@ -12,6 +12,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import static org.junit.Assert.*
+import javamm.javamm.JavammSemicolonStatement
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammInjectorProvider))
@@ -93,6 +94,21 @@ class JavammTypeComputerTest extends JavammAbstractTest {
 	@Test
 	def testNumberLiteralWithString() {
 		"String b = 65536".assertVarExpressionActualType("int")
+	}
+
+	@Test
+	def void testVariableDeclaration() {
+		"int i;".assertLastExpression[
+			variableDeclaration.assertActualType("void")
+		]
+	}
+
+	@Test
+	def void testVariableDeclarationAddedToScope() {
+		'''
+		int i;
+		i;
+		'''.assertActualType("int")
 	}
 
 	@Test
@@ -349,7 +365,12 @@ class JavammTypeComputerTest extends JavammAbstractTest {
 		assertEquals("expression " + e.class.simpleName + ": " + e, expectedTypeName, toString(typeRef))
 	}
 
-	def private LightweightTypeReference getActualType(XExpression expression) {
+	def private LightweightTypeReference getActualType(XExpression e) {
+		var expression = e
+		if (expression.eContainer instanceof JavammSemicolonStatement) {
+			// the type is assigned to the container semicolon statement
+			expression = expression.eContainer as XExpression
+		}
 		return typeResolver.resolveTypes(expression).getActualType(expression);
 	}
 

@@ -1,13 +1,12 @@
 package javamm.controlflow
 
 import com.google.common.collect.Lists
+import com.google.inject.Inject
 import java.util.Collection
 import java.util.Collections
 import org.eclipse.xtext.xbase.XCasePart
 import org.eclipse.xtext.xbase.XExpression
 import org.eclipse.xtext.xbase.XSwitchExpression
-import org.eclipse.xtext.xbase.controlflow.DefaultEarlyExitComputer
-import com.google.inject.Inject
 
 /**
  * Customization to take into account that in Java, switch's cases automatically fall through
@@ -15,7 +14,7 @@ import com.google.inject.Inject
  * 
  * @author Lorenzo Bettini
  */
-class JavammEarlyExitComputer extends DefaultEarlyExitComputer {
+class JavammEarlyExitComputer extends JavammSemicolonStatementAwareEarlyExitComputer {
 
 	@Inject extension JavammBranchingStatementDetector
 

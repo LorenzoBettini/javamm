@@ -1,16 +1,15 @@
 package javamm.controlflow
 
 import java.util.Collection
-import org.eclipse.xtext.xbase.XSwitchExpression
-import org.eclipse.xtext.xbase.controlflow.DefaultEarlyExitComputer
 import org.eclipse.xtext.xbase.XExpression
+import org.eclipse.xtext.xbase.XSwitchExpression
 
 /**
  * Checks whether there is a sure return statement.
  * 
  * @author Lorenzo Bettini
  */
-class JavammSureReturnComputer extends DefaultEarlyExitComputer {
+class JavammSureReturnComputer extends JavammSemicolonStatementAwareEarlyExitComputer {
 
 	def boolean isSureReturn(XExpression expression) {
 		return isEarlyExit(expression)

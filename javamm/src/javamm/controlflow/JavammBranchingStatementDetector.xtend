@@ -4,6 +4,7 @@ import org.eclipse.xtext.xbase.XExpression
 import javamm.javamm.JavammBranchingStatement
 import org.eclipse.xtext.xbase.XIfExpression
 import org.eclipse.xtext.xbase.XBlockExpression
+import javamm.javamm.JavammSemicolonStatement
 
 /**
  * @author Lorenzo Bettini
@@ -31,5 +32,9 @@ class JavammBranchingStatementDetector {
 
 	def protected dispatch sureBranch(XBlockExpression e) {
 		e.expressions.exists[isSureBranchStatement]
+	}
+
+	def protected dispatch sureBranch(JavammSemicolonStatement e) {
+		e.expression.isSureBranchStatement
 	}
 }

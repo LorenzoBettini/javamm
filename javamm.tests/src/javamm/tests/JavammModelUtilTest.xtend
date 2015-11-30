@@ -11,6 +11,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import static extension org.junit.Assert.*
+import javamm.javamm.JavammSemicolonStatement
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammInjectorProvider))
@@ -85,7 +86,7 @@ class JavammModelUtilTest extends JavammAbstractTest {
 	}
 
 	private def lastArrayConstructorCall(CharSequence input) {
-		input.parse.main.expressions.last as JavammArrayConstructorCall
+		(input.parse.main.expressions.last as JavammSemicolonStatement).expression as JavammArrayConstructorCall
 	}
 
 }

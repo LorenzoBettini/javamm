@@ -22,7 +22,7 @@ XImportDeclaration returns xtype::XImportDeclaration:
 	(=>'import' (
 		(static?='static' importedType=[types::JvmDeclaredType|QualifiedNameInStaticImport] (wildcard?='*' | memberName=ValidID)) 
 		| importedType=[types::JvmDeclaredType|QualifiedName] 
-		| importedNamespace=QualifiedNameWithWildcard) ';'*)
+		| importedNamespace=QualifiedNameWithWildcard) ->';'*)
 ;
 
 JavammMethod:
@@ -35,12 +35,11 @@ FullJvmFormalParameter returns JavammJvmFormalParameter:
 	{JavammJvmFormalParameter} final?='final'? parameterType=JvmTypeReference varArgs?='...'? name=ValidID;
 
 /* 
- * The ';' only "eats" possible additional semicolons which is legal in Java.
- * The required ';' is taken care of in the JavammSemicolonStatement rule
+ * The semicolons ';' are handled by the JavammSemicolonStatement rule
  */
 Main returns XBlockExpression:
 	{Main}
-	(expressions+=JavammStatementOrBlock ';'*)*;
+	(expressions+=JavammStatementOrBlock)*;
 
 /**
  * The syntactic predicate on XBlockExpression is required to avoid
@@ -61,23 +60,31 @@ JavammSingleStatement returns XExpression:
 	XIfExpression |
 	XForLoopExpression |
 	XBasicForLoopExpression |
-	XWhileExpression
+	XWhileExpression |
+	JavammEmptyStatement
 ;
 
 /*
  * These are the Java statements that require a semicolon at the end.
  * 
- * The final ; should be optional in order to be able to parse incomplete
- * expressions and give better content assist.
+ * The final ; is optional in order to be able to parse incomplete
+ * expressions, provide nicer error messages and give better content assist.
+ * The presence of ';' is checked by the validator
  */
 JavammSemicolonStatement returns XExpression:
-//	JavammArrayConstructorCall | not a valid statement
-	(
-	JavammBranchingStatement |
-	XExpressionOrVarDeclaration |
-	XDoWhileExpression |
-	XReturnExpression
-	) ->';'?
+	{JavammSemicolonStatement}
+	expression=
+		(
+			JavammBranchingStatement |
+			XExpressionOrVarDeclaration |
+			XDoWhileExpression |
+			XReturnExpression
+		)
+	->semicolon=';'?
+;
+
+JavammEmptyStatement returns XExpression:
+	{JavammSemicolonStatement} semicolon=';'
 ;
 
 JavammBranchingStatement returns XExpression:
@@ -86,13 +93,12 @@ JavammBranchingStatement returns XExpression:
 ;
 
 /* 
- * The ';' only "eats" possible additional semicolons which is legal in Java.
- * The required ';' is taken care of in the JavammSemicolonStatement rule
+ * The semicolons ';' are handled by the JavammSemicolonStatement rule
  */
 XBlockExpression returns XExpression: 
 	{XBlockExpression}
 	'{'
-		(expressions+=JavammStatementOrBlock ';'*)*
+		(expressions+=JavammStatementOrBlock)*
 	'}';
 
 // Don't put the predicate in the rule for XExpressionOrVarDeclaration:
@@ -184,7 +190,6 @@ XCastedExpression returns XExpression:
 	XPostfixOperation
 ;
 
-
 XPostfixOperation returns XExpression:
 	=>({JavammPrefixOperation} feature=[types::JvmIdentifiableElement|OpPostfix]) operand=XMemberFeatureCall
 	|
@@ -265,7 +270,7 @@ XCasePart:
  */
 JavammSwitchStatements returns XExpression:
 	{JavammSwitchStatements}
-	(expressions+=JavammStatementOrBlock ';'*)*
+	(expressions+=JavammStatementOrBlock)*
 ;
 
 XPrimaryExpression returns XExpression:

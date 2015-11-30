@@ -5,6 +5,7 @@ import javamm.javamm.JavammArrayAccessExpression
 import javamm.javamm.JavammArrayConstructorCall
 import javamm.javamm.JavammCharLiteral
 import javamm.javamm.JavammPrefixOperation
+import javamm.javamm.JavammSemicolonStatement
 import javamm.javamm.JavammXAssignment
 import javamm.javamm.JavammXVariableDeclaration
 import org.eclipse.xtext.junit4.InjectWith
@@ -269,6 +270,17 @@ class JavammParserTest extends JavammAbstractTest {
 		'a';
 		'''.assertMainLastExpression[
 			assertEquals(1, (it as JavammCharLiteral).value.length)
+		]
+	}
+
+	@Test def void testVariableDeclaration() {
+		'''
+		int i = a;
+		'''.assertMainLastExpression[
+			getVariableDeclaration => [
+				"i".assertEquals(identifier)
+				right.assertNotNull
+			]
 		]
 	}
 
@@ -607,6 +619,29 @@ class JavammParserTest extends JavammAbstractTest {
 		
 		asList(null);
 		'''.parseAndAssertNoErrors
+	}
+
+	@Test def void testEmptyStatement() {
+		'''
+		;
+		'''.mainLastExpression => [
+			(it as JavammSemicolonStatement).expression.assertNull
+		]
+	}
+
+	@Test def void testEmptyStatementNoErrors() {
+		'''
+		;
+		'''.parseAndAssertNoErrors
+	}
+
+	@Test def void testMainXBlockExpression() {
+		'''
+		int i;
+		int j;
+		'''.mainBlock => [
+			2.assertEquals(expressions.size)
+		]
 	}
 
 }

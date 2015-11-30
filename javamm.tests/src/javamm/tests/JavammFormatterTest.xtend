@@ -585,12 +585,12 @@ class JavammFormatterTest extends JavammAbstractTest {
 	@Test def void testDoWhileStatements() {
 		assertFormatted[
 			expectation = '''
-				do  
+				do
 					System.out.println("No args");
-				while (args.length() == 0) ;
+				while (args.length() == 0);
 				do {
 					System.out.println("No args");
-				} while (args.length() == 0) ;
+				} while (args.length() == 0);
 			'''
 			toBeFormatted = '''
 				do  
