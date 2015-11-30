@@ -635,7 +635,7 @@ class JavammParserTest extends JavammAbstractTest {
 		'''.parseAndAssertNoErrors
 	}
 
-	@Test def void testXBlockExpression() {
+	@Test def void testMainXBlockExpression() {
 		'''
 		int i;
 		int j;
