@@ -154,7 +154,7 @@ class JavammValidator extends XbaseValidator {
 		checkVariableInitialization(body)
 
 		val jvmOperation = method.getInferredOperation
-		val types = batchTypeResolver.resolveTypes(method);
+		val types = batchTypeResolver.resolveTypes(body);
 		if (types.getActualType(jvmOperation).isPrimitiveVoid()) 
 			return;
 		val lastExpression = body.expressions.last
