@@ -12,7 +12,6 @@ import org.eclipse.xtext.xbase.XBinaryOperation;
 import org.eclipse.xtext.xbase.XBlockExpression;
 import org.eclipse.xtext.xbase.XExpression;
 import org.eclipse.xtext.xbase.XNumberLiteral;
-import org.eclipse.xtext.xbase.XVariableDeclaration;
 import org.eclipse.xtext.xbase.typesystem.computation.ITypeComputationState;
 import org.eclipse.xtext.xbase.typesystem.computation.ITypeExpectation;
 import org.eclipse.xtext.xbase.typesystem.computation.XbaseTypeComputer;
@@ -128,9 +127,4 @@ public class PatchedTypeComputer extends XbaseTypeComputer {
 		}
 	}
 
-	protected void addLocalToCurrentScope(XExpression expression, ITypeComputationState state) {
-		if (expression instanceof XVariableDeclaration) {
-			addLocalToCurrentScope((XVariableDeclaration)expression, state);
-		}
-	}
 }
