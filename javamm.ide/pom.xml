@@ -7,7 +7,7 @@
 		<relativePath>../javamm.releng/pom.xml</relativePath>
 		<groupId>javamm</groupId>
 		<artifactId>javamm.releng</artifactId>
-		<version>1.3.3-SNAPSHOT</version>
+		<version>1.4.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>javamm.ide</artifactId>
