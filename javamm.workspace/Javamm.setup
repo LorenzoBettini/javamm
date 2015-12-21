@@ -69,6 +69,34 @@
         value="always"/>
   </setupTask>
   <setupTask
+      xsi:type="setup:CompoundTask"
+      name="org.eclipse.core.resources">
+    <setupTask
+        xsi:type="setup:PreferenceTask"
+        key="/instance/org.eclipse.core.resources/description.disableLinking"
+        value="false"/>
+    <setupTask
+        xsi:type="setup:PreferenceTask"
+        key="/instance/org.eclipse.core.resources/encoding"
+        value="UTF-8"/>
+    <setupTask
+        xsi:type="setup:PreferenceTask"
+        key="/instance/org.eclipse.core.resources/refresh.lightweight.enabled"
+        value="false"/>
+  </setupTask>
+  <setupTask
+      xsi:type="setup:CompoundTask"
+      name="org.eclipse.ui.ide">
+    <setupTask
+        xsi:type="setup:PreferenceTask"
+        key="/instance/org.eclipse.ui.ide/IMPORT_FILES_AND_FOLDERS_MODE"
+        value="prompt"/>
+    <setupTask
+        xsi:type="setup:PreferenceTask"
+        key="/instance/org.eclipse.ui.ide/IMPORT_FILES_AND_FOLDERS_VIRTUAL_FOLDER_MODE"
+        value="prompt"/>
+  </setupTask>
+  <setupTask
       xsi:type="setup:VariableTask"
       name="eclipse.target.platform"
       defaultValue="Mars"
@@ -382,7 +410,7 @@
             pattern=".*\.tests(\..*)?"/>
         <operand
             xsi:type="workingsets:ExclusionPredicate"
-            excludedWorkingSet="//@setupTasks.12/@workingSets.0"/>
+            excludedWorkingSet="//@setupTasks.14/@workingSets.0"/>
       </predicate>
     </workingSet>
     <workingSet
@@ -421,7 +449,7 @@
             project="javamm.sdk"/>
         <operand
             xsi:type="workingsets:ExclusionPredicate"
-            excludedWorkingSet="//@setupTasks.12/@workingSets.0 //@setupTasks.12/@workingSets.1 //@setupTasks.12/@workingSets.2"/>
+            excludedWorkingSet="//@setupTasks.14/@workingSets.0 //@setupTasks.14/@workingSets.1 //@setupTasks.14/@workingSets.2"/>
         <operand
             xsi:type="predicates:NaturePredicate"
             nature="org.eclipse.pde.FeatureNature"/>
@@ -436,7 +464,7 @@
             project="javamm.sdk"/>
         <operand
             xsi:type="workingsets:ExclusionPredicate"
-            excludedWorkingSet="//@setupTasks.12/@workingSets.0 //@setupTasks.12/@workingSets.1"/>
+            excludedWorkingSet="//@setupTasks.14/@workingSets.0 //@setupTasks.14/@workingSets.1"/>
         <operand
             xsi:type="predicates:NaturePredicate"
             nature="org.eclipse.pde.PluginNature"/>
