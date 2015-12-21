@@ -30,4 +30,4 @@ before_script:
  
 script:
  - export
- - mvn -X -f javamm.releng/pom.xml clean verify -U -Dfindbugs.skip=true -Pide-tests
+ - mvn -f javamm.releng/pom.xml clean verify -U -Dfindbugs.skip=true -Pide-tests
