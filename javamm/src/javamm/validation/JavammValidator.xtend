@@ -136,14 +136,31 @@ class JavammValidator extends XbaseValidator {
 		for (entry : map.asMap.entrySet) {
 			val duplicates = entry.value
 			if (duplicates.size > 1) {
-				for (d : duplicates)
-					error(
-						"Duplicate definition '" +
-							d.simpleName + "'",
-						d.originalSource,
-						javammPackage.javammMethod_Name,
-						DUPLICATE_METHOD
-					)
+				val originalSources = duplicates.map[originalSource]
+				val sources = originalSources.iterator
+				if (originalSources.exists[it instanceof Main]) {
+					for (d : duplicates) {
+						val source = sources.next
+						if (!(source instanceof Main)) // no element to put error on
+							error(
+								entry.key + " is a reserved method",
+								d.originalSource,
+								javammPackage.javammMethod_Name,
+								DUPLICATE_METHOD
+							)
+					}
+				} else {
+					for (d : duplicates) {
+						val source = sources.next
+						error(
+							"Duplicate definition '" +
+								d.simpleName + "'",
+							source,
+							javammPackage.javammMethod_Name,
+							DUPLICATE_METHOD
+						)
+					}
+				}
 			}
 		}
 	}

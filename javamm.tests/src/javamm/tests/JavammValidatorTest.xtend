@@ -533,6 +533,51 @@ class JavammValidatorTest extends JavammAbstractTest {
 		]
 	}
 
+	@Test def void testDuplicateMethodsWithMain() {
+		val input =
+		'''
+		void main(String[] a) {}
+		'''
+		input.parse => [
+			assertError(
+				javammPack.javammMethod,
+				JavammValidator.DUPLICATE_METHOD,
+				input.indexOf("main"), 4,
+				"main(java.lang.String[]) is a reserved method"
+			)
+		]
+	}
+
+	@Test def void testDuplicateMethodsWithMainWithReturnType() {
+		val input =
+		'''
+		int main(String[] a) {}
+		'''
+		input.parse => [
+			assertError(
+				javammPack.javammMethod,
+				JavammValidator.DUPLICATE_METHOD,
+				input.indexOf("main"), 4,
+				"main(java.lang.String[]) is a reserved method"
+			)
+		]
+	}
+
+	@Test def void testDuplicateMethodsWithMainVarArgs() {
+		val input =
+		'''
+		void main(String... a) {}
+		'''
+		input.parse => [
+			assertError(
+				javammPack.javammMethod,
+				JavammValidator.DUPLICATE_METHOD,
+				input.indexOf("main"), 4,
+				"main(java.lang.String[]) is a reserved method"
+			)
+		]
+	}
+
 	@Test def void testDuplicateMethodsWithTheSameErasedSignature() {
 		val input =
 		'''
