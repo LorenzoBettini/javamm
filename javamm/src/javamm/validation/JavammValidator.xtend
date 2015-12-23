@@ -43,6 +43,7 @@ import org.eclipse.xtext.xbase.typesystem.IBatchTypeResolver
 import org.eclipse.xtext.xbase.typesystem.util.Multimaps2
 import org.eclipse.xtext.xbase.validation.XbaseValidator
 import org.eclipse.xtext.xtype.XImportDeclaration
+import org.eclipse.xtext.xbase.typesystem.^override.OverrideHelper
 
 //import org.eclipse.xtext.validation.Check
 
@@ -78,6 +79,7 @@ class JavammValidator extends XbaseValidator {
 	@Inject IBatchTypeResolver batchTypeResolver
 	@Inject JavammSureReturnComputer sureReturnComputer
 	@Inject JavammInitializedVariableFinder initializedVariableFinder
+	@Inject OverrideHelper overrideHelper
 
 	override protected getEPackages() {
 		val result = new ArrayList<EPackage>(super.getEPackages());
@@ -122,10 +124,13 @@ class JavammValidator extends XbaseValidator {
 
 	@Check
 	def void checkDuplicateMethods(JavammProgram p) {
+		val javaClass = p.inferredJavaClass
+		val methods = overrideHelper.getResolvedFeatures(javaClass).declaredOperations
+		
 		val map = duplicatesMultimap
 		
-		for (d : p.javammMethods) {
-			map.put(d.name, d)
+		for (d : methods) {
+			map.put(d.resolvedErasureSignature, d.getDeclaration)
 		}
 		
 		for (entry : map.asMap.entrySet) {
@@ -134,8 +139,8 @@ class JavammValidator extends XbaseValidator {
 				for (d : duplicates)
 					error(
 						"Duplicate definition '" +
-							d.name + "'",
-						d,
+							d.simpleName + "'",
+						d.originalSource,
 						javammPackage.javammMethod_Name,
 						DUPLICATE_METHOD
 					)

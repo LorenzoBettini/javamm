@@ -506,15 +506,31 @@ class JavammValidatorTest extends JavammAbstractTest {
 	}
 
 	@Test def void testDuplicateMethods() {
+		val input =
 		'''
 		void m() {}
 		void n() {}
 		int m() { return 0; }
-		'''.parse.assertErrorsAsStrings(
 		'''
-		Duplicate definition 'm'
-		Duplicate definition 'm' '''
-		)
+		input.parse => [
+			assertError(
+				javammPack.javammMethod,
+				JavammValidator.DUPLICATE_METHOD,
+				input.indexOf("m"), 1,
+				"Duplicate definition 'm'"
+			)
+			assertError(
+				javammPack.javammMethod,
+				JavammValidator.DUPLICATE_METHOD,
+				input.lastIndexOf("m"), 1,
+				"Duplicate definition 'm'"
+			)
+			assertErrorsAsStrings(
+			'''
+			Duplicate definition 'm'
+			Duplicate definition 'm' '''
+			)
+		]
 	}
 
 	@Test def void testParams() {
