@@ -533,6 +533,45 @@ class JavammValidatorTest extends JavammAbstractTest {
 		]
 	}
 
+	@Test def void testDuplicateMethodsWithTheSameErasedSignature() {
+		val input =
+		'''
+		void m(java.util.List<String> l) {}
+		void n() {}
+		int m(java.util.List<Integer> l2) { return 0; }
+		'''
+		input.parse => [
+			assertError(
+				javammPack.javammMethod,
+				JavammValidator.DUPLICATE_METHOD,
+				input.indexOf("m"), 1,
+				"Duplicate definition 'm'"
+			)
+			assertError(
+				javammPack.javammMethod,
+				JavammValidator.DUPLICATE_METHOD,
+				input.lastIndexOf("m"), 1,
+				"Duplicate definition 'm'"
+			)
+			assertErrorsAsStrings(
+			'''
+			Duplicate definition 'm'
+			Duplicate definition 'm' '''
+			)
+		]
+	}
+
+	@Test def void testValidOverloadedMethods() {
+		val input =
+		'''
+		void m() {}
+		void n() {}
+		int m(int i) { return 0; }
+		'''
+		input.parseAndAssertNoErrors
+	}
+
+
 	@Test def void testParams() {
 		'''
 		void m(int i, boolean b, String i) {}
