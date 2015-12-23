@@ -144,7 +144,7 @@ class JavammValidator extends XbaseValidator {
 						if (!(source instanceof Main)) // no element to put error on
 							error(
 								entry.key + " is a reserved method",
-								d.originalSource,
+								source,
 								javammPackage.javammMethod_Name,
 								DUPLICATE_METHOD
 							)
