@@ -13,6 +13,9 @@ import org.eclipse.xtext.xbase.XExpression
 import org.eclipse.xtext.xbase.jvmmodel.IJvmModelAssociations
 
 import static extension org.eclipse.xtext.EcoreUtil2.*
+import javamm.javamm.JavammProgram
+import org.eclipse.xtext.common.types.JvmGenericType
+import org.eclipse.emf.ecore.EObject
 
 /**
  * Utility methods for accessing the Javamm model.
@@ -89,4 +92,11 @@ class JavammModelUtil {
 		m.jvmElements.filter(JvmOperation).head
 	}
 
+	def getInferredJavaClass(JavammProgram p) {
+		p.jvmElements.filter(JvmGenericType).head
+	}
+
+	def getOriginalSource(EObject o) {
+		o.primarySourceElement
+	}
 }
