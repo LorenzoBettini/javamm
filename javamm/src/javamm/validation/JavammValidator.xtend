@@ -43,6 +43,7 @@ import org.eclipse.xtext.xbase.typesystem.IBatchTypeResolver
 import org.eclipse.xtext.xbase.typesystem.util.Multimaps2
 import org.eclipse.xtext.xbase.validation.XbaseValidator
 import org.eclipse.xtext.xtype.XImportDeclaration
+import org.eclipse.xtext.xbase.typesystem.^override.OverrideHelper
 
 //import org.eclipse.xtext.validation.Check
 
@@ -78,6 +79,7 @@ class JavammValidator extends XbaseValidator {
 	@Inject IBatchTypeResolver batchTypeResolver
 	@Inject JavammSureReturnComputer sureReturnComputer
 	@Inject JavammInitializedVariableFinder initializedVariableFinder
+	@Inject OverrideHelper overrideHelper
 
 	override protected getEPackages() {
 		val result = new ArrayList<EPackage>(super.getEPackages());
@@ -122,23 +124,43 @@ class JavammValidator extends XbaseValidator {
 
 	@Check
 	def void checkDuplicateMethods(JavammProgram p) {
+		val javaClass = p.inferredJavaClass
+		val methods = overrideHelper.getResolvedFeatures(javaClass).declaredOperations
+		
 		val map = duplicatesMultimap
 		
-		for (d : p.javammMethods) {
-			map.put(d.name, d)
+		for (d : methods) {
+			map.put(d.resolvedErasureSignature, d.getDeclaration)
 		}
 		
 		for (entry : map.asMap.entrySet) {
 			val duplicates = entry.value
 			if (duplicates.size > 1) {
-				for (d : duplicates)
-					error(
-						"Duplicate definition '" +
-							d.name + "'",
-						d,
-						javammPackage.javammMethod_Name,
-						DUPLICATE_METHOD
-					)
+				val originalSources = duplicates.map[originalSource]
+				val sources = originalSources.iterator
+				if (originalSources.exists[it instanceof Main]) {
+					for (d : duplicates) {
+						val source = sources.next
+						if (!(source instanceof Main)) // no element to put error on
+							error(
+								entry.key + " is a reserved method",
+								source,
+								javammPackage.javammMethod_Name,
+								DUPLICATE_METHOD
+							)
+					}
+				} else {
+					for (d : duplicates) {
+						val source = sources.next
+						error(
+							"Duplicate definition '" +
+								d.simpleName + "'",
+							source,
+							javammPackage.javammMethod_Name,
+							DUPLICATE_METHOD
+						)
+					}
+				}
 			}
 		}
 	}

@@ -2410,6 +2410,65 @@ public class MyFile {
 		)
 	}
 
+	@Test def void testMethodOverloading() {
+		'''
+		void m(String s) {
+			
+		}
+		void m(String[] a) {
+			
+		}
+		m({ "1", "2"});
+		'''.checkCompilation(
+'''
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void m(String s) {
+  }
+  
+  public static void m(String[] a) {
+  }
+  
+  public static void main(String[] args) {
+    MyFile.m(new String[] { "1", "2" });
+  }
+}
+'''
+		)
+	}
+
+	@Test def void testMethodOverloading2() {
+		'''
+		void m(String s) {
+			
+		}
+		int m(String[] a) {
+			return 0;
+		}
+		m({ "1", "2"});
+		'''.checkCompilation(
+'''
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void m(String s) {
+  }
+  
+  public static int m(String[] a) {
+    return 0;
+  }
+  
+  public static void main(String[] args) {
+    MyFile.m(new String[] { "1", "2" });
+  }
+}
+'''
+		)
+	}
+
 	@Test def void testBubbleSort() {
 		bubbleSort.checkCompilation(
 '''
