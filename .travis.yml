@@ -35,3 +35,7 @@ before_script:
 script:
  - export
  - mvn -f javamm.releng/pom.xml clean verify -U -Dfindbugs.skip=true -Pide-tests
+
+after_failure:
+ - ls -l javamm.swtbot.tests/target/work/plugins
+ - less javamm.swtbot.tests/target/work/data/.metadata/.log
