@@ -13,6 +13,20 @@
 	<artifactId>javamm.swtbot.tests</artifactId>
 	<packaging>eclipse-test-plugin</packaging>
 
+	<profiles>
+		<profile>
+			<id>macosx-jvm-flags</id>
+			<activation>
+				<os>
+					<family>mac</family>
+				</os>
+			</activation>
+			<properties>
+				<os-jvm-flags>-XstartOnFirstThread</os-jvm-flags>
+			</properties>
+		</profile>
+	</profiles>
+
 	<build>
 		<plugins>
 			<plugin>
@@ -25,7 +39,7 @@
 <!-- 					<product>javamm.ide.product</product> -->
 					<!-- tycho.testArgLine repeated to re-use the configuration for argLine 
 						for jacoco agent -->
-					<argLine>${tycho.testArgLine} ${memoryArgs} -Dorg.eclipse.swtbot.search.timeout=180000</argLine>
+					<argLine>${tycho.testArgLine} ${os-jvm-flags} ${memoryArgs} -Dorg.eclipse.swtbot.search.timeout=180000</argLine>
 					<testRuntime>p2Installed</testRuntime>
 				</configuration>
 			</plugin>
