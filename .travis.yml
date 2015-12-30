@@ -34,7 +34,7 @@ before_script:
  
 script:
  - export
- - mvn -f javamm.releng/pom.xml clean verify -U -Dfindbugs.skip=true -Pide-tests
+ - bash -e ./travis_build.sh
 
 after_failure:
  - ls -lR javamm.swtbot.tests/target/work/
