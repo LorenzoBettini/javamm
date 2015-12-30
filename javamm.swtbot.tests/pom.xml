@@ -13,6 +13,10 @@
 	<artifactId>javamm.swtbot.tests</artifactId>
 	<packaging>eclipse-test-plugin</packaging>
 
+	<properties>
+		<test-work-directory>${project.build.directory}/work</test-work-directory>
+	</properties>
+
 	<profiles>
 		<profile>
 			<id>macosx-jvm-flags</id>
@@ -23,6 +27,7 @@
 			</activation>
 			<properties>
 				<os-jvm-flags>-XstartOnFirstThread</os-jvm-flags>
+				<test-work-directory>${project.build.directory}/work/Eclipse.app/Contents/Eclipse/</test-work-directory>
 			</properties>
 		</profile>
 	</profiles>
@@ -41,6 +46,7 @@
 						for jacoco agent -->
 					<argLine>${tycho.testArgLine} ${os-jvm-flags} ${memoryArgs} -Dorg.eclipse.swtbot.search.timeout=180000</argLine>
 					<testRuntime>p2Installed</testRuntime>
+					<work>${test-work-directory}</work>
 				</configuration>
 			</plugin>
 			<!-- unpack provisioned product archive before running tests -->
