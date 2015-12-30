@@ -27,6 +27,8 @@
 			</activation>
 			<properties>
 				<os-jvm-flags>-XstartOnFirstThread</os-jvm-flags>
+				<!-- Tycho surefire should install additional bundles in the actual installation directory
+					of the unpacked Eclipse; for Mac it is different: -->
 				<test-work-directory>${project.build.directory}/work/Eclipse.app/Contents/Eclipse/</test-work-directory>
 			</properties>
 		</profile>
