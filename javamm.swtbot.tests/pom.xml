@@ -13,6 +13,27 @@
 	<artifactId>javamm.swtbot.tests</artifactId>
 	<packaging>eclipse-test-plugin</packaging>
 
+	<properties>
+		<test-work-directory>${project.build.directory}/work</test-work-directory>
+	</properties>
+
+	<profiles>
+		<profile>
+			<id>macosx-jvm-flags</id>
+			<activation>
+				<os>
+					<family>mac</family>
+				</os>
+			</activation>
+			<properties>
+				<os-jvm-flags>-XstartOnFirstThread</os-jvm-flags>
+				<!-- Tycho surefire should install additional bundles in the actual installation directory
+					of the unpacked Eclipse; for Mac it is different: -->
+				<test-work-directory>${project.build.directory}/work/Eclipse.app/Contents/Eclipse/</test-work-directory>
+			</properties>
+		</profile>
+	</profiles>
+
 	<build>
 		<plugins>
 			<plugin>
@@ -25,8 +46,9 @@
 <!-- 					<product>javamm.ide.product</product> -->
 					<!-- tycho.testArgLine repeated to re-use the configuration for argLine 
 						for jacoco agent -->
-					<argLine>${tycho.testArgLine} ${memoryArgs} -Dorg.eclipse.swtbot.search.timeout=180000</argLine>
+					<argLine>${tycho.testArgLine} ${os-jvm-flags} ${memoryArgs} -Dorg.eclipse.swtbot.search.timeout=180000</argLine>
 					<testRuntime>p2Installed</testRuntime>
+					<work>${test-work-directory}</work>
 				</configuration>
 			</plugin>
 			<!-- unpack provisioned product archive before running tests -->
