@@ -34,7 +34,9 @@ import org.eclipse.xtext.xbase.XBasicForLoopExpression;
 import org.eclipse.xtext.xbase.XCasePart;
 import org.eclipse.xtext.xbase.XExpression;
 import org.eclipse.xtext.xbase.XForLoopExpression;
+import org.eclipse.xtext.xbase.XNumberLiteral;
 import org.eclipse.xtext.xbase.XSwitchExpression;
+import org.eclipse.xtext.xbase.XUnaryOperation;
 import org.eclipse.xtext.xbase.XVariableDeclaration;
 import org.eclipse.xtext.xbase.XbasePackage;
 import org.eclipse.xtext.xbase.compiler.XbaseCompiler;
@@ -434,17 +436,17 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 	}
 
 	/**
-	 * Specialized for prefix operator
+	 * Specialized for prefix operator and unary expression
 	 * 
 	 * @see org.eclipse.xtext.xbase.compiler.FeatureCallCompiler#featureCalltoJavaExpression(org.eclipse.xtext.xbase.XAbstractFeatureCall, org.eclipse.xtext.xbase.compiler.output.ITreeAppendable, boolean)
 	 */
 	@Override
-	protected void featureCalltoJavaExpression(XAbstractFeatureCall call,
-			ITreeAppendable b, boolean isExpressionContext) {
+	protected void featureCalltoJavaExpression(XAbstractFeatureCall call, ITreeAppendable b,
+			boolean isExpressionContext) {
 		if (call instanceof JavammPrefixOperation) {
 			// we can't simply retrieve the inline annotations as it is done
-			// for postfix operations, since postfix operations are already mapped to
-			// postfix methods operator_plusPlus and operator_minusMinus
+			// for postfix operations, since postfix operations are already
+			// mapped to postfix methods operator_plusPlus and operator_minusMinus
 			JvmIdentifiableElement feature = call.getFeature();
 			if (feature.getSimpleName().endsWith("plusPlus")) {
 				b.append("++");
@@ -452,13 +454,46 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 				// the only other possibility is minus minus
 				b.append("--");
 			}
-			
+
 			appendArgument(((JavammPrefixOperation) call).getOperand(), b);
-			
+
 			return;
+		} else if (call instanceof XUnaryOperation) {
+			XUnaryOperation unaryOperation = (XUnaryOperation) call;
+			String unaryOp = unaryOperation.getConcreteSyntaxFeatureName();
+			if (handleCustomUnaryOperation(unaryOperation)) {
+				b.append(unaryOp);
+				_toJavaExpression((XNumberLiteral) unaryOperation.getOperand(), b);
+				return;
+			}
 		}
-		
+
 		super.featureCalltoJavaExpression(call, b, isExpressionContext);
+	}
+
+	protected boolean handleCustomUnaryOperation(XUnaryOperation unaryOperation) {
+		// don't get the feature since that would require linking resolution
+		// get the original program text instead
+		String unaryOp = unaryOperation.getConcreteSyntaxFeatureName();
+		if (!"!".equals(unaryOp) && (unaryOperation.getOperand() instanceof XNumberLiteral)) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Customized for our special treatment of some unary operations
+	 * 
+	 * @param expr
+	 * @param b
+	 * @return
+	 */
+	@Override
+	protected boolean isVariableDeclarationRequired(XExpression expr, ITreeAppendable b) {
+		if (expr instanceof XUnaryOperation) {
+			return !handleCustomUnaryOperation((XUnaryOperation) expr);
+		}
+		return super.isVariableDeclarationRequired(expr, b);
 	}
 
 	private void compileArrayAccess(XExpression expr, ITreeAppendable b) {
