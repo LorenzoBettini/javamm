@@ -60,37 +60,37 @@ public class PatchedTypeComputer extends XbaseTypeComputer {
 	 * </pre>
 	 */
 	protected void _computeTypes(XUnaryOperation unaryOperation, final ITypeComputationState state) {
-		boolean specialHanlding = expressionHelper.specialHandling(unaryOperation, 
-				new BaseCase() {
-					@Override
-					public Boolean apply(XUnaryOperation op, XNumberLiteral lit) {
-						List<? extends ITypeExpectation> expectations = state.getExpectations();
-						for (ITypeExpectation typeExpectation : expectations) {
-							LightweightTypeReference expectedType = typeExpectation.getExpectedType();
-							if (expectedType != null && expectedType.getType() instanceof JvmPrimitiveType) {
-								Primitive kind = primitives.primitiveKind((JvmPrimitiveType) expectedType.getType());
-								String unaryOp = op.getConcreteSyntaxFeatureName();
-								if (checkConversionToPrimitive(unaryOp + lit.getValue(), kind)) {
-									state.withExpectation(expectedType).computeTypes(op.getOperand());
-									state.acceptActualType(expectedType);
-									return true;
-								}
+		boolean specialHanlding = expressionHelper.specialHandling(
+			unaryOperation, 
+			new BaseCase() {
+				@Override
+				public Boolean apply(XUnaryOperation op, XNumberLiteral lit) {
+					List<? extends ITypeExpectation> expectations = state.getExpectations();
+					for (ITypeExpectation typeExpectation : expectations) {
+						LightweightTypeReference expectedType = typeExpectation.getExpectedType();
+						if (expectedType != null && expectedType.getType() instanceof JvmPrimitiveType) {
+							Primitive kind = primitives.primitiveKind((JvmPrimitiveType) expectedType.getType());
+							String unaryOp = op.getConcreteSyntaxFeatureName();
+							if (checkConversionToPrimitive(unaryOp + lit.getValue(), kind)) {
+								state.withExpectation(expectedType).computeTypes(op.getOperand());
+								state.acceptActualType(expectedType);
+								return true;
 							}
 						}
-						return false;
 					}
-				},
-				new StepCase() {
-					@Override
-					public void accept(XUnaryOperation t) {
-					}
-					
-				});
+					return false;
+				}
+			},
+			new StepCase() {
+				@Override
+				public void accept(XUnaryOperation t) {
+				}
+			}
+		);
 
 		if (!specialHanlding) {
 			super._computeTypes(unaryOperation, state);
 		}
-
 	}
 
 	/**
