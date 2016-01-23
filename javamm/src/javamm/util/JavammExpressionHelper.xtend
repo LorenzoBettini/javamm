@@ -6,7 +6,7 @@ import org.eclipse.xtext.xbase.XUnaryOperation
 import org.eclipse.xtext.xbase.lib.Functions.Function2
 
 /**
- * Utility methods for expressions.
+ * Utility methods for expressions used both for typing and for code generation.
  * 
  * @author Lorenzo Bettini
  * 
@@ -14,11 +14,9 @@ import org.eclipse.xtext.xbase.lib.Functions.Function2
 class JavammExpressionHelper {
 
 	public static abstract class BaseCase implements Function2<XUnaryOperation, XNumberLiteral, Boolean> {
-		
 	}
 
 	public static abstract class StepCase implements IAcceptor<XUnaryOperation> {
-		
 	}
 
 	/**
@@ -38,20 +36,20 @@ class JavammExpressionHelper {
 	 * The step case is executed after the base case executed and returned true, and
 	 * after a successful recursive invocation.
 	 * 
-	 * For example, given this unary operation <pre>-(-1)</pre>
+	 * For example, given this unary operation <pre>-(+1)</pre>
 	 * and this (Xtend) code
 	 * 
 	 * <pre>
 	 * val buffer = new StringBuilder
 	 * helper.specialHandling(it as XUnaryOperation,
 	 *   [ unaryOperation, numLiteral |
-	 *     buffer.append(numLiteral.value); return true
+	 *     buffer.append(unaryOperation.getConcreteSyntaxFeatureName + numLiteral.value); return true
 	 *   ],
 	 *   [ unaryOperation | buffer.insert(0, unaryOperation.getConcreteSyntaxFeatureName)]
 	 * )
 	 * </pre>
 	 * 
-	 * Then the buffer will contain <pre>--1</pre>
+	 * Then the buffer will contain <pre>-+1</pre>
 	 */
 	def boolean specialHandling(XUnaryOperation unaryOperation, BaseCase baseCase, StepCase stepCase) {
 		// don't get the feature since that would require linking resolution
@@ -63,14 +61,11 @@ class JavammExpressionHelper {
 			return false;
 		}
 		if (operand instanceof XNumberLiteral) {
-			if (baseCase.apply(unaryOperation, operand)) {
-				stepCase.accept(unaryOperation)
-				return true
-			}
+			return baseCase.apply(unaryOperation, operand);
 		} else if (operand instanceof XUnaryOperation) {
 			// recursion
 			if (specialHandling(operand, baseCase, stepCase)) {
-				stepCase.accept(operand)
+				stepCase.accept(unaryOperation)
 				return true
 			}
 		}

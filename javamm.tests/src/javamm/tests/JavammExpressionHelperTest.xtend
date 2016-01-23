@@ -59,6 +59,12 @@ class JavammExpressionHelperTest extends JavammAbstractTest {
 		'''.assertUnaryOperationSpecialHandling("--1")
 	}
 
+	@Test def void testStepCase2() {
+		'''
+			-(+1);
+		'''.assertUnaryOperationSpecialHandling("-+1")
+	}
+
 	def private assertUnaryOperationSpecialHandling(CharSequence input, boolean expected) {
 		input.assertMainLastExpression [
 			expected.assertEquals(helper.specialHandling(it as XUnaryOperation))
@@ -70,7 +76,7 @@ class JavammExpressionHelperTest extends JavammAbstractTest {
 			val buffer = new StringBuilder
 			helper.specialHandling(it as XUnaryOperation,
 				[ unaryOperation, numLiteral | 
-					buffer.append(numLiteral.value)
+					buffer.append(unaryOperation.getConcreteSyntaxFeatureName + numLiteral.value)
 					return true
 				],
 				[ unaryOperation | buffer.insert(0, unaryOperation.getConcreteSyntaxFeatureName)]
