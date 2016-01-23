@@ -17,6 +17,8 @@ import javamm.javamm.JavammPrefixOperation;
 import javamm.javamm.JavammSemicolonStatement;
 import javamm.javamm.JavammXVariableDeclaration;
 import javamm.util.JavammExpressionHelper;
+import javamm.util.JavammExpressionHelper.BaseCase;
+import javamm.util.JavammExpressionHelper.StepCase;
 import javamm.util.JavammModelUtil;
 
 import org.eclipse.emf.common.util.EList;
@@ -464,10 +466,24 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 			return;
 		} else if (call instanceof XUnaryOperation) {
 			XUnaryOperation unaryOperation = (XUnaryOperation) call;
-			String unaryOp = unaryOperation.getConcreteSyntaxFeatureName();
-			if (handleCustomUnaryOperation(unaryOperation)) {
-				b.append(unaryOp);
-				_toJavaExpression((XNumberLiteral) unaryOperation.getOperand(), b);
+			final StringBuilder builder = new StringBuilder();
+			boolean specialHandling = expressionHelper.specialHandling(unaryOperation,
+				new BaseCase() {
+					@Override
+					public Boolean apply(XUnaryOperation op, XNumberLiteral lit) {
+						builder.append(op.getConcreteSyntaxFeatureName() + lit.getValue());
+						return true;
+					}
+				},
+				new StepCase() {
+					@Override
+					public void accept(XUnaryOperation op) {
+						builder.insert(0, op.getConcreteSyntaxFeatureName() + "(").append(')');
+					}
+				}
+			);
+			if (specialHandling) {
+				b.append(builder);
 				return;
 			}
 		}
