@@ -33,8 +33,8 @@ class JavammExpressionHelper {
 	 * The base case is responsible for specifying whether in this particular execution the
 	 * base case has performed custom operations.
 	 * 
-	 * The step case is executed after the base case executed and returned true, and
-	 * after a successful recursive invocation.
+	 * The step case is executed after the base case executed and returned true, in
+	 * case of a successful recursive invocation.
 	 * 
 	 * For example, given this unary operation <pre>-(+1)</pre>
 	 * and this (Xtend) code
@@ -45,11 +45,17 @@ class JavammExpressionHelper {
 	 *   [ unaryOperation, numLiteral |
 	 *     buffer.append(unaryOperation.getConcreteSyntaxFeatureName + numLiteral.value); return true
 	 *   ],
-	 *   [ unaryOperation | buffer.insert(0, unaryOperation.getConcreteSyntaxFeatureName)]
+	 *   [ unaryOperation |
+	 *     buffer.insert(0, unaryOperation.getConcreteSyntaxFeatureName + "(").
+	 *            append(")")
+	 *   ]
 	 * )
 	 * </pre>
 	 * 
-	 * Then the buffer will contain <pre>-+1</pre>
+	 * Then the buffer will contain <pre>-(+1)</pre>.
+	 * 
+	 * Given <pre>-1</pre> the buffer will contain <pre>-1</pre> and the step case will not
+	 * be executed.
 	 */
 	def boolean specialHandling(XUnaryOperation unaryOperation, BaseCase baseCase, StepCase stepCase) {
 		// don't get the feature since that would require linking resolution
