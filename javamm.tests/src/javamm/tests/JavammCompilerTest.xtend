@@ -1939,6 +1939,23 @@ public class MyFile {
 		)
 	}
 
+	@Test def void testUnaryOperationInBinaryOperations() {
+		'''
+		System.out.println(1 + -128);
+		'''.checkCompilation(
+'''
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    System.out.println((1 + -128));
+  }
+}
+'''
+		)
+	}
+
 	@Test def void testNumberLiteralsInUnaryOperations() {
 		// https://github.com/LorenzoBettini/javamm/issues/53
 		'''
@@ -1947,6 +1964,7 @@ public class MyFile {
 		short s2 = -10000;
 		short s3 = -(+10000);
 		short s4 = +(-(+10000));
+		//short s5 = 1 + -128; // this does not work yet
 		char c2 = +1; // OK
 		System.out.println(-1);
 		System.out.println(+1);

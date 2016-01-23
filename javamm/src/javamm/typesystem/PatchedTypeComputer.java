@@ -65,6 +65,10 @@ public class PatchedTypeComputer extends XbaseTypeComputer {
 			new BaseCase() {
 				@Override
 				public Boolean apply(XUnaryOperation op, XNumberLiteral lit) {
+					if (op.eContainer() instanceof XBinaryOperation) {
+						// temporary fix for https://github.com/LorenzoBettini/javamm/issues/34
+						return false;
+					}
 					List<? extends ITypeExpectation> expectations = state.getExpectations();
 					for (ITypeExpectation typeExpectation : expectations) {
 						LightweightTypeReference expectedType = typeExpectation.getExpectedType();
