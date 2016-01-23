@@ -22,6 +22,10 @@ import org.eclipse.xtext.xbase.typesystem.references.LightweightTypeReference;
 
 import com.google.inject.Inject;
 
+import javamm.util.JavammExpressionHelper;
+import javamm.util.JavammExpressionHelper.BaseCase;
+import javamm.util.JavammExpressionHelper.StepCase;
+
 /**
  * Type computation for number literals takes expectations into account.
  * 
@@ -32,6 +36,9 @@ public class PatchedTypeComputer extends XbaseTypeComputer {
 
 	@Inject
 	private Primitives primitives;
+
+	@Inject
+	private JavammExpressionHelper expressionHelper;
 
 	@Override
 	public void computeTypes(XExpression expression, ITypeComputationState state) {
@@ -52,32 +59,38 @@ public class PatchedTypeComputer extends XbaseTypeComputer {
 	 * short s = -1000;
 	 * </pre>
 	 */
-	protected void _computeTypes(XUnaryOperation object, ITypeComputationState state) {
-		// don't get the feature since that would require linking resolution
-		// get the original program text instead
-		String unaryOp = object.getConcreteSyntaxFeatureName();
-		final XExpression operand = object.getOperand();
+	protected void _computeTypes(XUnaryOperation unaryOperation, final ITypeComputationState state) {
+		boolean specialHanlding = expressionHelper.specialHandling(unaryOperation, 
+				new BaseCase() {
+					@Override
+					public Boolean apply(XUnaryOperation op, XNumberLiteral lit) {
+						List<? extends ITypeExpectation> expectations = state.getExpectations();
+						for (ITypeExpectation typeExpectation : expectations) {
+							LightweightTypeReference expectedType = typeExpectation.getExpectedType();
+							if (expectedType != null && expectedType.getType() instanceof JvmPrimitiveType) {
+								Primitive kind = primitives.primitiveKind((JvmPrimitiveType) expectedType.getType());
+								String unaryOp = op.getConcreteSyntaxFeatureName();
+								if (checkConversionToPrimitive(unaryOp + lit.getValue(), kind)) {
+									state.withExpectation(expectedType).computeTypes(op.getOperand());
+									state.acceptActualType(expectedType);
+									return true;
+								}
+							}
+						}
+						return false;
+					}
+				},
+				new StepCase() {
+					@Override
+					public void accept(XUnaryOperation t) {
+					}
+					
+				});
 
-		if ("!".equals(unaryOp) || !(operand instanceof XNumberLiteral)) {
-			super._computeTypes(object, state);
-			return;
+		if (!specialHanlding) {
+			super._computeTypes(unaryOperation, state);
 		}
 
-		List<? extends ITypeExpectation> expectations = state.getExpectations();
-		for (ITypeExpectation typeExpectation : expectations) {
-			LightweightTypeReference expectedType = typeExpectation.getExpectedType();
-			if (expectedType != null && expectedType.getType() instanceof JvmPrimitiveType) {
-				state.withExpectation(expectedType).computeTypes(operand);
-				XNumberLiteral number = (XNumberLiteral) operand;
-				Primitive kind = primitives.primitiveKind((JvmPrimitiveType) expectedType.getType());
-				if (checkConversionToPrimitive(unaryOp + number.getValue(), kind)) {
-					state.acceptActualType(expectedType);
-					return;
-				}
-			}
-		}
-
-		super._computeTypes(object, state);
 	}
 
 	/**

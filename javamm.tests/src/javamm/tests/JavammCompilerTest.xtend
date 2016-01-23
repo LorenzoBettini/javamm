@@ -1945,6 +1945,7 @@ public class MyFile {
 		byte b = -1;
 		short s = -1;
 		short s2 = -10000;
+		//short s3 = -(+10000);
 		char c2 = +1; // OK
 		System.out.println(-1);
 		System.out.println(+1);

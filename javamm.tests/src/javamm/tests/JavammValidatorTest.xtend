@@ -788,6 +788,16 @@ class JavammValidatorTest extends JavammAbstractTest {
 		"short s = -10000;".parseAndAssertNoErrors
 	}
 
+	@Test def void testDoubleNegativeCanBeAssignedToShort() {
+		// https://github.com/LorenzoBettini/javamm/issues/53
+		"short s = -(-10000);".parseAndAssertNoErrors
+	}
+
+	@Test def void testNegativePositiveCanBeAssignedToShort() {
+		// https://github.com/LorenzoBettini/javamm/issues/53
+		"short s = -(+10000);".parseAndAssertNoErrors
+	}
+
 	@Test def void testPositiveCanBeAssignedToChar() {
 		// https://github.com/LorenzoBettini/javamm/issues/53
 		"char c = +10;".parseAndAssertNoErrors

@@ -16,6 +16,7 @@ import javamm.javamm.JavammJvmFormalParameter;
 import javamm.javamm.JavammPrefixOperation;
 import javamm.javamm.JavammSemicolonStatement;
 import javamm.javamm.JavammXVariableDeclaration;
+import javamm.util.JavammExpressionHelper;
 import javamm.util.JavammModelUtil;
 
 import org.eclipse.emf.common.util.EList;
@@ -59,6 +60,9 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 	
 	@Inject
 	private JavammBranchingStatementDetector branchingStatementDetector;
+
+	@Inject
+	private JavammExpressionHelper expressionHelper;
 
 	@Override
 	protected void doInternalToJavaStatement(XExpression obj,
@@ -491,7 +495,7 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 	@Override
 	protected boolean isVariableDeclarationRequired(XExpression expr, ITreeAppendable b) {
 		if (expr instanceof XUnaryOperation) {
-			return !handleCustomUnaryOperation((XUnaryOperation) expr);
+			return !expressionHelper.specialHandling((XUnaryOperation) expr);
 		}
 		return super.isVariableDeclarationRequired(expr, b);
 	}
