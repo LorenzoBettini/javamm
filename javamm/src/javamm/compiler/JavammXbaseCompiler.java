@@ -491,16 +491,6 @@ public class JavammXbaseCompiler extends XbaseCompiler {
 		super.featureCalltoJavaExpression(call, b, isExpressionContext);
 	}
 
-	protected boolean handleCustomUnaryOperation(XUnaryOperation unaryOperation) {
-		// don't get the feature since that would require linking resolution
-		// get the original program text instead
-		String unaryOp = unaryOperation.getConcreteSyntaxFeatureName();
-		if (!"!".equals(unaryOp) && (unaryOperation.getOperand() instanceof XNumberLiteral)) {
-			return true;
-		}
-		return false;
-	}
-
 	/**
 	 * Customized for our special treatment of some unary operations
 	 * 
