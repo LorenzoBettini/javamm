@@ -1433,7 +1433,7 @@ public class MyFile {
         System.out.println("0");
       default:
         {
-          i = (-1);
+          i = -1;
           System.out.println("default");
         }
     }
@@ -1460,7 +1460,7 @@ public class MyFile {
         break;
       default:
         {
-          i = (-1);
+          i = -1;
           System.out.println("default");
           break;
         }
@@ -1523,7 +1523,7 @@ public class MyFile {
         break;
       default:
         {
-          i = (-1);
+          i = -1;
           System.out.println("default");
           break;
         }
@@ -1581,7 +1581,7 @@ public class MyFile {
       case 4:
         return 1;
       default:
-        return (-1);
+        return -1;
     }
   }
   
@@ -1611,7 +1611,7 @@ public class MyFile {
       case 0:
         System.out.println("0");
       default:
-        return (-1);
+        return -1;
     }
   }
   
@@ -1939,6 +1939,57 @@ public class MyFile {
 		)
 	}
 
+	@Test def void testUnaryOperationInBinaryOperations() {
+		'''
+		System.out.println(1 + -128);
+		'''.checkCompilation(
+'''
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    System.out.println((1 + -128));
+  }
+}
+'''
+		)
+	}
+
+	@Test def void testNumberLiteralsInUnaryOperations() {
+		// https://github.com/LorenzoBettini/javamm/issues/53
+		'''
+		byte b = -1;
+		short s = -1;
+		short s2 = -10000;
+		short s3 = -(+10000);
+		short s4 = +(-(+10000));
+		//short s5 = 1 + -128; // this does not work yet
+		char c2 = +1; // OK
+		System.out.println(-1);
+		System.out.println(+1);
+		System.out.println(-(+1));
+		'''.checkCompilation(
+'''
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    byte b = -1;
+    short s = -1;
+    short s2 = -10000;
+    short s3 = -(+10000);
+    short s4 = +(-(+10000));
+    char c2 = +1;
+    System.out.println(-1);
+    System.out.println(+1);
+    System.out.println(-(+1));
+  }
+}
+'''
+		)
+	}
 
 	@Test def void testCharLiterals() {
 		charLiterals.checkCompilation(

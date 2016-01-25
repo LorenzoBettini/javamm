@@ -12,6 +12,7 @@ import org.eclipse.xtext.xbase.XBinaryOperation;
 import org.eclipse.xtext.xbase.XBlockExpression;
 import org.eclipse.xtext.xbase.XExpression;
 import org.eclipse.xtext.xbase.XNumberLiteral;
+import org.eclipse.xtext.xbase.XUnaryOperation;
 import org.eclipse.xtext.xbase.XVariableDeclaration;
 import org.eclipse.xtext.xbase.typesystem.computation.ITypeComputationState;
 import org.eclipse.xtext.xbase.typesystem.computation.ITypeExpectation;
@@ -20,6 +21,10 @@ import org.eclipse.xtext.xbase.typesystem.conformance.ConformanceFlags;
 import org.eclipse.xtext.xbase.typesystem.references.LightweightTypeReference;
 
 import com.google.inject.Inject;
+
+import javamm.util.JavammExpressionHelper;
+import javamm.util.JavammExpressionHelper.BaseCase;
+import javamm.util.JavammExpressionHelper.StepCase;
 
 /**
  * Type computation for number literals takes expectations into account.
@@ -31,6 +36,66 @@ public class PatchedTypeComputer extends XbaseTypeComputer {
 
 	@Inject
 	private Primitives primitives;
+
+	@Inject
+	private JavammExpressionHelper expressionHelper;
+
+	@Override
+	public void computeTypes(XExpression expression, ITypeComputationState state) {
+		if (expression instanceof XUnaryOperation) {
+			_computeTypes((XUnaryOperation) expression, state);
+		} else {
+			super.computeTypes(expression, state);
+		}
+	}
+
+	/**
+	 * The original implementation in Xbase does not consider possible type
+	 * expectations, failing to correctly type these cases, which are valid in
+	 * Java:
+	 * 
+	 * <pre>
+	 * byte b = -100;
+	 * short s = -1000;
+	 * </pre>
+	 */
+	protected void _computeTypes(XUnaryOperation unaryOperation, final ITypeComputationState state) {
+		boolean specialHanlding = expressionHelper.specialHandling(
+			unaryOperation, 
+			new BaseCase() {
+				@Override
+				public Boolean apply(XUnaryOperation op, XNumberLiteral lit) {
+					if (op.eContainer() instanceof XBinaryOperation) {
+						// temporary fix for https://github.com/LorenzoBettini/javamm/issues/34
+						return false;
+					}
+					List<? extends ITypeExpectation> expectations = state.getExpectations();
+					for (ITypeExpectation typeExpectation : expectations) {
+						LightweightTypeReference expectedType = typeExpectation.getExpectedType();
+						if (expectedType != null && expectedType.getType() instanceof JvmPrimitiveType) {
+							Primitive kind = primitives.primitiveKind((JvmPrimitiveType) expectedType.getType());
+							String unaryOp = op.getConcreteSyntaxFeatureName();
+							if (checkConversionToPrimitive(unaryOp + lit.getValue(), kind)) {
+								state.withExpectation(expectedType).computeTypes(op.getOperand());
+								state.acceptActualType(expectedType);
+								return true;
+							}
+						}
+					}
+					return false;
+				}
+			},
+			new StepCase() {
+				@Override
+				public void accept(XUnaryOperation t) {
+				}
+			}
+		);
+
+		if (!specialHanlding) {
+			super._computeTypes(unaryOperation, state);
+		}
+	}
 
 	/**
 	 * The original implementation in Xbase does not consider possible type
@@ -67,8 +132,11 @@ public class PatchedTypeComputer extends XbaseTypeComputer {
 	}
 
 	private boolean checkConversionToPrimitive(XNumberLiteral object, Primitive kind) {
+		return checkConversionToPrimitive(object.getValue(), kind);
+	}
+
+	private boolean checkConversionToPrimitive(String value, Primitive kind) {
 		boolean success = true;
-		String value = object.getValue();
 		try {
 			switch (kind) {
 			case Byte:
@@ -79,7 +147,7 @@ public class PatchedTypeComputer extends XbaseTypeComputer {
 				break;
 			case Char:
 				int parsed = Integer.parseInt(value);
-				success = parsed <= Character.MAX_VALUE;
+				success = parsed >= 0 && parsed <= Character.MAX_VALUE;
 				break;
 			default:
 				success = false;

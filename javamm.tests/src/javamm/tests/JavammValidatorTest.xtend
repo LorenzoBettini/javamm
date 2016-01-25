@@ -783,8 +783,24 @@ class JavammValidatorTest extends JavammAbstractTest {
 		"short s = 100000;".parse.assertNumberLiteralTypeMismatch("short", "int")
 	}
 
-	@Test def void testIntegerCannotBeAssignedToShort2() {
-		"short s = -10000;".parse.assertTypeMismatch(XbasePackage.eINSTANCE.XUnaryOperation, "short", "int")
+	@Test def void testNegativeCanBeAssignedToShort() {
+		// https://github.com/LorenzoBettini/javamm/issues/53
+		"short s = -10000;".parseAndAssertNoErrors
+	}
+
+	@Test def void testDoubleNegativeCanBeAssignedToShort() {
+		// https://github.com/LorenzoBettini/javamm/issues/53
+		"short s = -(-10000);".parseAndAssertNoErrors
+	}
+
+	@Test def void testNegativePositiveCanBeAssignedToShort() {
+		// https://github.com/LorenzoBettini/javamm/issues/53
+		"short s = -(+10000);".parseAndAssertNoErrors
+	}
+
+	@Test def void testPositiveCanBeAssignedToChar() {
+		// https://github.com/LorenzoBettini/javamm/issues/53
+		"char c = +10;".parseAndAssertNoErrors
 	}
 
 	@Test def void testTypeMismatchAfterCast() {

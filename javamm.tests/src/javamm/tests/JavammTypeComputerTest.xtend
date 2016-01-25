@@ -72,6 +72,16 @@ class JavammTypeComputerTest extends JavammAbstractTest {
 	}
 
 	@Test
+	def testUnaryOperationWithShortExpectation() {
+		"short b = -1".assertVarExpressionActualType("short")
+	}
+
+	@Test
+	def testDoubleUnaryOperationWithShortExpectation() {
+		"short b = -(+1)".assertVarExpressionActualType("short")
+	}
+
+	@Test
 	def testNumberLiteralWithShortExpectationGreaterThanMaxShort() {
 		"short b = 32768".assertVarExpressionActualType("int")
 	}
@@ -79,6 +89,16 @@ class JavammTypeComputerTest extends JavammAbstractTest {
 	@Test
 	def testNumberLiteralWithCharExpectation() {
 		"char b = 0".assertVarExpressionActualType("char")
+	}
+
+	@Test
+	def testUnaryOperationWithCharExpectation() {
+		"char b = +1".assertVarExpressionActualType("char")
+	}
+
+	@Test
+	def testNegativeUnaryOperationWithCharExpectation() {
+		"char b = -1".assertVarExpressionActualType("int")
 	}
 
 	@Test
@@ -94,6 +114,16 @@ class JavammTypeComputerTest extends JavammAbstractTest {
 	@Test
 	def testNumberLiteralWithString() {
 		"String b = 65536".assertVarExpressionActualType("int")
+	}
+
+	@Test
+	def testUnaryOperationWithString() {
+		"String b = -65536".assertVarExpressionActualType("int")
+	}
+
+	@Test
+	def testUnaryOperation() {
+		"-1".assertActualType("int")
 	}
 
 	@Test
