@@ -8,6 +8,7 @@ import java.util.ArrayList
 import java.util.List
 import javamm.controlflow.JavammSureReturnComputer
 import javamm.javamm.JavammAdditionalXVariableDeclaration
+import javamm.javamm.JavammArrayAccess
 import javamm.javamm.JavammArrayConstructorCall
 import javamm.javamm.JavammBranchingStatement
 import javamm.javamm.JavammBreakStatement
@@ -40,11 +41,10 @@ import org.eclipse.xtext.xbase.XSwitchExpression
 import org.eclipse.xtext.xbase.XVariableDeclaration
 import org.eclipse.xtext.xbase.XbasePackage
 import org.eclipse.xtext.xbase.typesystem.IBatchTypeResolver
+import org.eclipse.xtext.xbase.typesystem.^override.OverrideHelper
 import org.eclipse.xtext.xbase.typesystem.util.Multimaps2
 import org.eclipse.xtext.xbase.validation.XbaseValidator
 import org.eclipse.xtext.xtype.XImportDeclaration
-import org.eclipse.xtext.xbase.typesystem.^override.OverrideHelper
-import javamm.javamm.JavammXAssignment
 
 //import org.eclipse.xtext.validation.Check
 
@@ -92,9 +92,10 @@ class JavammValidator extends XbaseValidator {
 	}
 
 	override protected checkAssignment(XExpression expression, EStructuralFeature feature, boolean simpleAssignment) {
-		if (expression instanceof JavammXAssignment) {
+		if (expression instanceof JavammArrayAccess) {
 			// it means that we're accessing an array element, thus the
-			// referred variable should not be treated as a variable
+			// typical checks on an assignment (i.e., whether the variable is final,
+			// or whether it's an abstract feature call) should not be performed
 			return;
 		}
 		if (expression instanceof XAbstractFeatureCall) {
