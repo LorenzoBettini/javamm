@@ -44,6 +44,7 @@ import org.eclipse.xtext.xbase.typesystem.util.Multimaps2
 import org.eclipse.xtext.xbase.validation.XbaseValidator
 import org.eclipse.xtext.xtype.XImportDeclaration
 import org.eclipse.xtext.xbase.typesystem.^override.OverrideHelper
+import javamm.javamm.JavammXAssignment
 
 //import org.eclipse.xtext.validation.Check
 
@@ -53,9 +54,9 @@ import org.eclipse.xtext.xbase.typesystem.^override.OverrideHelper
  * see http://www.eclipse.org/Xtext/documentation.html#validation
  */
 class JavammValidator extends XbaseValidator {
-	
+
 	public static val PREFIX = "javamm."
-	
+
 	public static val NOT_ARRAY_TYPE = PREFIX + "NotArrayType"
 	public static val INVALID_BRANCHING_STATEMENT = PREFIX + "InvalidBranchingStatement"
 	public static val MISSING_SEMICOLON = PREFIX + "MissingSemicolon"
@@ -91,6 +92,11 @@ class JavammValidator extends XbaseValidator {
 	}
 
 	override protected checkAssignment(XExpression expression, EStructuralFeature feature, boolean simpleAssignment) {
+		if (expression instanceof JavammXAssignment) {
+			// it means that we're accessing an array element, thus the
+			// referred variable should not be treated as a variable
+			return;
+		}
 		if (expression instanceof XAbstractFeatureCall) {
 			val assignmentFeature = expression.feature
 			if (assignmentFeature instanceof JvmFormalParameter) {
@@ -101,7 +107,7 @@ class JavammValidator extends XbaseValidator {
 				}
 			}
 		}
-		
+
 		super.checkAssignment(expression, feature, simpleAssignment)
 	}
 

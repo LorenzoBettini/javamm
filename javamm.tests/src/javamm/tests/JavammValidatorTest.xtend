@@ -915,6 +915,20 @@ class JavammValidatorTest extends JavammAbstractTest {
 		'''.parse.assertIssuesAsStrings("Assignment to final variable")
 	}
 
+	@Test def void testAssignmentToFinalArrayVariable() {
+		'''
+		final int[] i = {0};
+		i = {0};
+		'''.parse.assertIssuesAsStrings("Assignment to final variable")
+	}
+
+	@Test def void testAssignmentToFinalArrayVariableElementOk() {
+		'''
+		final int[] i = {0};
+		i[0] = 0;
+		'''.parseAndAssertNoIssues
+	}
+
 	@Test def void testAssignmentToFinalVariableAdditional() {
 		'''
 		final int i = 0, j = 0;
