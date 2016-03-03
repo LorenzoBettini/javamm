@@ -687,6 +687,15 @@ class JavammValidatorTest extends JavammAbstractTest {
 		)
 	}
 
+	@Test def void testPostfixOnArrayAccess() {
+		'''
+		
+		int i = 0;
+		int[] a = {1,2,3,4};
+		a[i]++;
+		'''.parseAndAssertNoIssues
+	}
+
 	@Test def void testPrefixOnWrongExpression() {
 		'''
 		++"a";
@@ -913,6 +922,20 @@ class JavammValidatorTest extends JavammAbstractTest {
 		final int i = 0;
 		i = 1;
 		'''.parse.assertIssuesAsStrings("Assignment to final variable")
+	}
+
+	@Test def void testAssignmentToFinalArrayVariable() {
+		'''
+		final int[] i = {0};
+		i = {0};
+		'''.parse.assertIssuesAsStrings("Assignment to final variable")
+	}
+
+	@Test def void testAssignmentToFinalArrayVariableElementOk() {
+		'''
+		final int[] i = {0};
+		i[0] = 0;
+		'''.parseAndAssertNoIssues
 	}
 
 	@Test def void testAssignmentToFinalVariableAdditional() {
