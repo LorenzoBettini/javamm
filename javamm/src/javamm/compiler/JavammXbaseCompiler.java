@@ -3,24 +3,6 @@
  */
 package javamm.compiler;
 
-import javamm.controlflow.JavammBranchingStatementDetector;
-import javamm.javamm.JavammArrayAccess;
-import javamm.javamm.JavammArrayAccessExpression;
-import javamm.javamm.JavammArrayConstructorCall;
-import javamm.javamm.JavammArrayLiteral;
-import javamm.javamm.JavammBranchingStatement;
-import javamm.javamm.JavammBreakStatement;
-import javamm.javamm.JavammCharLiteral;
-import javamm.javamm.JavammContinueStatement;
-import javamm.javamm.JavammJvmFormalParameter;
-import javamm.javamm.JavammPrefixOperation;
-import javamm.javamm.JavammSemicolonStatement;
-import javamm.javamm.JavammXVariableDeclaration;
-import javamm.util.JavammExpressionHelper;
-import javamm.util.JavammExpressionHelper.BaseCase;
-import javamm.util.JavammExpressionHelper.StepCase;
-import javamm.util.JavammModelUtil;
-
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.xtext.common.types.JvmField;
@@ -42,18 +24,35 @@ import org.eclipse.xtext.xbase.XSwitchExpression;
 import org.eclipse.xtext.xbase.XUnaryOperation;
 import org.eclipse.xtext.xbase.XVariableDeclaration;
 import org.eclipse.xtext.xbase.XbasePackage;
-import org.eclipse.xtext.xbase.compiler.XbaseCompiler;
 import org.eclipse.xtext.xbase.compiler.output.ITreeAppendable;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xbase.typesystem.references.LightweightTypeReference;
 
 import com.google.inject.Inject;
 
+import javamm.controlflow.JavammBranchingStatementDetector;
+import javamm.javamm.JavammArrayAccess;
+import javamm.javamm.JavammArrayAccessExpression;
+import javamm.javamm.JavammArrayConstructorCall;
+import javamm.javamm.JavammArrayLiteral;
+import javamm.javamm.JavammBranchingStatement;
+import javamm.javamm.JavammBreakStatement;
+import javamm.javamm.JavammCharLiteral;
+import javamm.javamm.JavammContinueStatement;
+import javamm.javamm.JavammJvmFormalParameter;
+import javamm.javamm.JavammPrefixOperation;
+import javamm.javamm.JavammSemicolonStatement;
+import javamm.javamm.JavammXVariableDeclaration;
+import javamm.util.JavammExpressionHelper;
+import javamm.util.JavammExpressionHelper.BaseCase;
+import javamm.util.JavammExpressionHelper.StepCase;
+import javamm.util.JavammModelUtil;
+
 /**
  * @author Lorenzo Bettini
  *
  */
-public class JavammXbaseCompiler extends XbaseCompiler {
+public class JavammXbaseCompiler extends PatchedXbaseCompiler {
 	
 	private static final String ASSIGNED_TRUE = " = true;";
 
