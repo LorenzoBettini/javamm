@@ -2047,6 +2047,7 @@ public class MyFile {
 	@Test def void testConditionalExpression() {
 		'''
 		int i = 0;
+		i = i > 0 ? 1 : 2;
 		int j = i > 0 ? 1 : 2;
 		Object o = i < 0 ? 1 : "a";
 		'''.checkCompilation(
@@ -2063,14 +2064,52 @@ public class MyFile {
     } else {
       _javammconditionalexpression = 2;
     }
-    int j = _javammconditionalexpression;
-    Object _javammconditionalexpression_1 = null;
-    if ((i < 0)) {
-      _javammconditionalexpression_1 = Integer.valueOf(1);
+    i = _javammconditionalexpression;
+    int _javammconditionalexpression_1 = (int) 0;
+    if ((i > 0)) {
+      _javammconditionalexpression_1 = 1;
     } else {
-      _javammconditionalexpression_1 = "a";
+      _javammconditionalexpression_1 = 2;
     }
-    Object o = ((Comparable<?>)_javammconditionalexpression_1);
+    int j = _javammconditionalexpression_1;
+    Object _javammconditionalexpression_2 = null;
+    if ((i < 0)) {
+      _javammconditionalexpression_2 = Integer.valueOf(1);
+    } else {
+      _javammconditionalexpression_2 = "a";
+    }
+    Object o = ((Comparable<?>)_javammconditionalexpression_2);
+  }
+}
+'''
+		)
+	}
+
+	@Test def void testConditionalExpression2() {
+		'''
+		int i = 0;
+		int n = 0;
+		if((i=(i==0?5:7)) > 0) n = 4;
+		'''.checkCompilation(
+'''
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int i = 0;
+    int n = 0;
+    int _javammconditionalexpression = (int) 0;
+    if ((i == 0)) {
+      _javammconditionalexpression = 5;
+    } else {
+      _javammconditionalexpression = 7;
+    }
+    int _i = (i = _javammconditionalexpression);
+    boolean _greaterThan = (_i > 0);
+    if (_greaterThan) {
+      n = 4;
+    }
   }
 }
 '''
@@ -2420,6 +2459,36 @@ public class MyFile {
     int i = 0;
     int j = 0;
     i = (j = 0);
+  }
+}
+'''
+		)
+	}
+
+	@Test def void testAssignmentToAssignment2() {
+		'''
+		int i = 0;
+		int j = 0;
+		int n = 0;
+		n=i=(j==0 ? 1 : 2);
+		'''.checkCompilation(
+'''
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int i = 0;
+    int j = 0;
+    int n = 0;
+    int _javammconditionalexpression = (int) 0;
+    if ((j == 0)) {
+      _javammconditionalexpression = 1;
+    } else {
+      _javammconditionalexpression = 2;
+    }
+    int _i = (i = _javammconditionalexpression);
+    n = _i;
   }
 }
 '''
