@@ -5,6 +5,12 @@ import org.eclipse.xtext.xbase.XExpression;
 import org.eclipse.xtext.xbase.compiler.XbaseCompiler;
 import org.eclipse.xtext.xbase.compiler.output.ITreeAppendable;
 
+/**
+ * Temporary fix for https://bugs.eclipse.org/bugs/show_bug.cgi?id=489037
+ * 
+ * @author Lorenzo Bettini
+ *
+ */
 public class PatchedXbaseCompiler extends XbaseCompiler {
 
 	@Override
@@ -16,7 +22,6 @@ public class PatchedXbaseCompiler extends XbaseCompiler {
 					return true;
 				}
 			}
-			return false;
 		}
 		return super.isVariableDeclarationRequired(expr, b);
 	}
