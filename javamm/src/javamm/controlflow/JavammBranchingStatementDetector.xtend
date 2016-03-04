@@ -7,6 +7,9 @@ import org.eclipse.xtext.xbase.XBlockExpression
 import javamm.javamm.JavammSemicolonStatement
 
 /**
+ * Whether in the passed expression a branching statement like break
+ * and continue is surely executed.
+ * 
  * @author Lorenzo Bettini
  */
 class JavammBranchingStatementDetector {

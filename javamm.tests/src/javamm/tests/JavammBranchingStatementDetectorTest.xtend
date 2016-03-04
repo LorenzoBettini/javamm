@@ -13,16 +13,14 @@ import static extension org.junit.Assert.*
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammInjectorProvider))
 class JavammBranchingStatementDetectorTest extends JavammAbstractTest {
-	
+
 	static class JavammBranchingStatementDetectorCustom extends JavammBranchingStatementDetector {
-		
 		// make it public to test it
 		override sureBranch(XExpression e) {
 			super.sureBranch(e)
 		}
-		
 	}
-	
+
 	val detector = new JavammBranchingStatementDetectorCustom
 
 	@Test(expected=IllegalArgumentException) 
@@ -43,6 +41,11 @@ class JavammBranchingStatementDetectorTest extends JavammAbstractTest {
 	@Test
 	def void testContinue() {
 		'''continue;'''.assertIsSureBranchStatement(true)
+	}
+
+	@Test
+	def void testBreak() {
+		'''break;'''.assertIsSureBranchStatement(true)
 	}
 
 	@Test
