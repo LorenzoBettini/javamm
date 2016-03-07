@@ -276,6 +276,20 @@ class JavammValidatorTest extends JavammAbstractTest {
 		'''.parseAndAssertNoErrors
 	}
 
+	@Test def void testNoDeadCodeWithBreakInSingleIfBranchInADoWhileWithConditionAlwaysTrue() {
+		'''
+		int d = 1;
+		do {
+			d++;
+			if (d == 3)
+				break;
+			else
+				d = 1;
+		} while (1 == 1);
+		d = 0;
+		'''.parseAndAssertNoErrors
+	}
+
 	@Test def void testDeadCodeWithContinueInADoWhileWithConditionAlwaysTrue() {
 		'''
 		int d = 1;

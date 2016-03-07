@@ -22,7 +22,7 @@ class JavammEarlyExitComputer extends JavammSemicolonStatementAwareEarlyExitComp
 	@Override override Collection<ExitPoint> getExitPoints(XExpression expression) {
 		val exitPoints = super.getExitPoints(expression)
 		val head = exitPoints.head
-		if (head?.expression === expression && breakStatementDetector.containsSureBreakStatement(expression)) {
+		if (head?.expression === expression && breakStatementDetector.containsPossibleBreakStatement(expression)) {
 			return emptyList
 		}
 		return exitPoints

@@ -16,8 +16,12 @@ class JavammBreakStatementDetectorTest extends JavammAbstractTest {
 
 	static class JavammBreakStatementDetectorCustom extends JavammBreakStatementDetector {
 		// make it public to test it
-		override sureBranch(XExpression e) {
-			super.sureBranch(e)
+		override possibleBreak(XExpression e) {
+			super.possibleBreak(e)
+		}
+
+		override containsPossibleBreak(XExpression e) {
+			super.containsPossibleBreak(e)
 		}
 	}
 
@@ -25,27 +29,42 @@ class JavammBreakStatementDetectorTest extends JavammAbstractTest {
 
 	@Test(expected=IllegalArgumentException) 
 	def void testNullInDispatchMethod() {
-		detector.sureBranch(null)
+		detector.containsPossibleBreak(null)
+	}
+
+	@Test(expected=IllegalArgumentException) 
+	def void testNullInDispatchMethod2() {
+		detector.possibleBreak(null)
 	}
 
 	@Test
 	def void testNull() {
-		detector.isSureBranchStatement(null).assertFalse
+		detector.containsPossibleBreakStatement(null).assertFalse
+	}
+
+	@Test
+	def void testNull2() {
+		detector.isPossibleBreakStatement(null).assertFalse
 	}
 
 	@Test
 	def void testAnyStatement() {
-		'''int i = 0;'''.assertIsSureBreakStatement(false)
+		'''int i = 0;'''.assertIsPossibleBreakStatement(false)
+	}
+
+	@Test
+	def void testAnyStatement2() {
+		'''int i = 0;'''.assertContainsBreakStatement(false)
 	}
 
 	@Test
 	def void testContinue() {
-		'''continue;'''.assertIsSureBreakStatement(false)
+		'''continue;'''.assertIsPossibleBreakStatement(false)
 	}
 
 	@Test
 	def void testBreak() {
-		'''break;'''.assertIsSureBreakStatement(true)
+		'''break;'''.assertIsPossibleBreakStatement(true)
 	}
 
 	@Test
@@ -53,7 +72,7 @@ class JavammBreakStatementDetectorTest extends JavammAbstractTest {
 		'''
 		if (true)
 			break;
-		'''.assertIsSureBreakStatement(true)
+		'''.assertIsPossibleBreakStatement(true)
 	}
 
 	@Test
@@ -62,7 +81,7 @@ class JavammBreakStatementDetectorTest extends JavammAbstractTest {
 		if (true) ;
 		else
 			break;
-		'''.assertIsSureBreakStatement(false)
+		'''.assertIsPossibleBreakStatement(true)
 	}
 
 	@Test
@@ -73,7 +92,7 @@ class JavammBreakStatementDetectorTest extends JavammAbstractTest {
 		else {
 			
 		}
-		'''.assertIsSureBreakStatement(false)
+		'''.assertIsPossibleBreakStatement(true)
 	}
 
 	@Test
@@ -84,7 +103,7 @@ class JavammBreakStatementDetectorTest extends JavammAbstractTest {
 		} else {
 			break;
 		}
-		'''.assertIsSureBreakStatement(false)
+		'''.assertIsPossibleBreakStatement(true)
 	}
 
 	@Test
@@ -94,7 +113,7 @@ class JavammBreakStatementDetectorTest extends JavammAbstractTest {
 			break;
 		else
 			break;
-		'''.assertIsSureBreakStatement(true)
+		'''.assertIsPossibleBreakStatement(true)
 	}
 
 	@Test
@@ -105,7 +124,7 @@ class JavammBreakStatementDetectorTest extends JavammAbstractTest {
 		} else {
 			break;
 		}
-		'''.assertIsSureBreakStatement(true)
+		'''.assertIsPossibleBreakStatement(true)
 	}
 
 	@Test
@@ -116,7 +135,7 @@ class JavammBreakStatementDetectorTest extends JavammAbstractTest {
 		} else {
 			continue;
 		}
-		'''.assertIsSureBreakStatement(false)
+		'''.assertIsPossibleBreakStatement(true)
 	}
 
 	@Test
@@ -125,7 +144,7 @@ class JavammBreakStatementDetectorTest extends JavammAbstractTest {
 		while (true) {
 			break;
 		}
-		'''.assertContainsSureBreakStatement(true)
+		'''.assertContainsBreakStatement(true)
 	}
 
 	@Test
@@ -135,7 +154,37 @@ class JavammBreakStatementDetectorTest extends JavammAbstractTest {
 			while (true)
 				break;
 		}
-		'''.assertContainsSureBreakStatement(false)
+		'''.assertContainsBreakStatement(false)
+	}
+
+	@Test
+	def void testBreakInWhileInThenBranch() {
+		'''
+		while (true) {
+			if (true)
+				break;
+		}
+		'''.assertContainsBreakStatement(true)
+	}
+
+	@Test
+	def void testBreakInWhileInElseBranch() {
+		'''
+		while (true) {
+			if (true);
+			else
+				break;
+		}
+		'''.assertContainsBreakStatement(true)
+	}
+
+	@Test
+	def void testBreakInWhileNoBreakInIf() {
+		'''
+		while (true) {
+			if (true);
+		}
+		'''.assertContainsBreakStatement(false)
 	}
 
 	@Test
@@ -147,7 +196,7 @@ class JavammBreakStatementDetectorTest extends JavammAbstractTest {
 			else
 				break;
 		}
-		'''.assertContainsSureBreakStatement(true)
+		'''.assertContainsBreakStatement(true)
 	}
 
 	@Test
@@ -157,9 +206,21 @@ class JavammBreakStatementDetectorTest extends JavammAbstractTest {
 			if (true)
 				break;
 			else
+				System.out.println("");
+		}
+		'''.assertContainsBreakStatement(true)
+	}
+
+	@Test
+	def void testBreakInWhileNotBothBranchesOfIf2() {
+		'''
+		while (true) {
+			if (true)
+				break;
+			else
 				continue;
 		}
-		'''.assertContainsSureBreakStatement(false)
+		'''.assertContainsBreakStatement(true)
 	}
 
 	@Test
@@ -168,7 +229,7 @@ class JavammBreakStatementDetectorTest extends JavammAbstractTest {
 		do {
 			break;
 		} while (true);
-		'''.assertContainsSureBreakStatement(true)
+		'''.assertContainsBreakStatement(true)
 	}
 
 	@Test
@@ -177,18 +238,18 @@ class JavammBreakStatementDetectorTest extends JavammAbstractTest {
 		for (;;) {
 			break;
 		}
-		'''.assertContainsSureBreakStatement(true)
+		'''.assertContainsBreakStatement(true)
 	}
 
-	def private void assertIsSureBreakStatement(CharSequence input, boolean expected) {
+	def private void assertIsPossibleBreakStatement(CharSequence input, boolean expected) {
 		input.parse.main.expressions.last => [
-			assertEquals(it.toString, expected, detector.isSureBranchStatement(it))			
+			assertEquals(it.toString, expected, detector.isPossibleBreakStatement(it))			
 		]
 	}
 
-	def private void assertContainsSureBreakStatement(CharSequence input, boolean expected) {
+	def private void assertContainsBreakStatement(CharSequence input, boolean expected) {
 		input.parse.main.expressions.last => [
-			assertEquals(it.toString, expected, detector.containsSureBreakStatement(it))			
+			assertEquals(it.toString, expected, detector.containsPossibleBreakStatement(it))			
 		]
 	}
 }
