@@ -2,8 +2,8 @@ package javamm.controlflow
 
 import javamm.javamm.JavammContinueStatement
 import javamm.javamm.JavammSemicolonStatement
+import org.eclipse.xtext.xbase.XAbstractWhileExpression
 import org.eclipse.xtext.xbase.XExpression
-import org.eclipse.xtext.xbase.XWhileExpression
 
 /**
  * Whether in the passed expression a break is surely executed.
@@ -26,7 +26,7 @@ class JavammBreakStatementDetector extends JavammBranchingStatementDetector {
 		e.expression.containsSureBreakStatement
 	}
 
-	def protected dispatch sureBreak(XWhileExpression e) {
+	def protected dispatch sureBreak(XAbstractWhileExpression e) {
 		return e.body.isSureBranchStatement
 	}
 
