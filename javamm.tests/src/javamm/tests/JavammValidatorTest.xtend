@@ -230,6 +230,20 @@ class JavammValidatorTest extends JavammAbstractTest {
 		'''.parse.assertUnreachableExpression(javammPack.javammSemicolonStatement)
 	}
 
+	@Test def void testNoDeadCodeWithBreakInAWhileWithConditionAlwaysTrue() {
+		'''
+		int d = 1;
+		while (1 == 1) {
+			d++;
+			if (d == 3)
+				break;
+		}
+		while (2 == 2) {
+			break;
+		}
+		'''.parseAndAssertNoErrors
+	}
+
 	@Test def void testInvalidContinue() {
 		'''
 		void m() {
