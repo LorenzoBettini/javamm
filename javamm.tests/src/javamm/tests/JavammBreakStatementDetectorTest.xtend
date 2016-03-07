@@ -171,6 +171,15 @@ class JavammBreakStatementDetectorTest extends JavammAbstractTest {
 		'''.assertContainsSureBreakStatement(true)
 	}
 
+	@Test
+	def void testBreakInBasicForLoop() {
+		'''
+		for (;;) {
+			break;
+		}
+		'''.assertContainsSureBreakStatement(true)
+	}
+
 	def private void assertIsSureBreakStatement(CharSequence input, boolean expected) {
 		input.parse.main.expressions.last => [
 			assertEquals(it.toString, expected, detector.isSureBranchStatement(it))			

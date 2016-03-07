@@ -4,6 +4,7 @@ import javamm.javamm.JavammContinueStatement
 import javamm.javamm.JavammSemicolonStatement
 import org.eclipse.xtext.xbase.XAbstractWhileExpression
 import org.eclipse.xtext.xbase.XExpression
+import org.eclipse.xtext.xbase.XBasicForLoopExpression
 
 /**
  * Whether in the passed expression a break is surely executed.
@@ -28,6 +29,10 @@ class JavammBreakStatementDetector extends JavammBranchingStatementDetector {
 
 	def protected dispatch sureBreak(XAbstractWhileExpression e) {
 		return e.body.isSureBranchStatement
+	}
+
+	def protected dispatch sureBreak(XBasicForLoopExpression e) {
+		return e.eachExpression.isSureBranchStatement
 	}
 
 	def protected dispatch sureBranch(JavammContinueStatement e) {
