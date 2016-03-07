@@ -238,10 +238,30 @@ class JavammValidatorTest extends JavammAbstractTest {
 			if (d == 3)
 				break;
 		}
-		while (2 == 2) {
-			break;
-		}
+		d = 0;
 		'''.parseAndAssertNoErrors
+	}
+
+	@Test def void testDeadCodeWithContinueInAWhileWithConditionAlwaysTrue() {
+		'''
+		int d = 1;
+		while (1 == 1) {
+			d++;
+			if (d == 3)
+				continue;
+		}
+		d = 0;
+		'''.parse.assertUnreachableExpression(javammPack.javammSemicolonStatement)
+	}
+
+	@Test def void testDeadCodeWithoutInAWhileWithConditionAlwaysTrue() {
+		'''
+		int d = 1;
+		while (1 == 1) {
+			d++;
+		}
+		d = 0;
+		'''.parse.assertUnreachableExpression(javammPack.javammSemicolonStatement)
 	}
 
 	@Test def void testInvalidContinue() {
