@@ -154,7 +154,7 @@
 
 			<compositemapper>
 				<mergemapper to="-T" />
-				<globmapper from="*" to="${target}/*" />
+				<globmapper from="*" to="${target}/products/*" />
 				<mergemapper to="-u${bintray.user}:${bintray.apikey}" />
 				<globmapper from="*" to="https://api.bintray.com/content/${bintray.owner}/${bintray.repo}/${bintray.products.path}/*;bt_package=${bintray.package};bt_version=${bintray.package.version};publish=1" />
 			</compositemapper>
