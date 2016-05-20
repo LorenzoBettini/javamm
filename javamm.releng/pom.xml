@@ -129,7 +129,7 @@
 		<bintray.base.path></bintray.base.path>
 		<bintray.releases.path>${bintray.base.path}releases</bintray.releases.path>
 		<bintray.composite.path>${bintray.base.path}updates</bintray.composite.path>
-		<bintray.zip.path>${bintray.base.path}zipped</bintray.zip.path>
+		<bintray.zip.path>${bintray.base.path}zipped/${unqualifiedVersion}</bintray.zip.path>
 		<bintray.products.path>${bintray.base.path}products</bintray.products.path>
 		<!-- note that the following must be consistent with the path schema
 			used to publish child composite repositories and actual released p2 repositories -->
