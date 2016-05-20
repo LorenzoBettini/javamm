@@ -165,11 +165,9 @@
 			<build>
 				<plugins>
 					<plugin>
-						<!-- this is configured in pluginManagement section of the parent pom -->
 						<artifactId>maven-antrun-plugin</artifactId>
 						<version>${maven-antrun-plugin.version}</version>
-						
-						<!-- and we add the execution for copying zipped products -->
+						<!-- we add the execution for copying zipped products -->
 						<executions>
 							<execution>
 								<id>deploy-ides</id>
