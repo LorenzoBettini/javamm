@@ -176,10 +176,10 @@
 								<phase>verify</phase>
 								<configuration>
 									<target>
-										<ant antfile="${ant-files-path}/rsync.ant" 
-													target="rsync-copy-dir-contents">
-											<property name="rsync.remote.dir" value="${remote.dir}/products/${unqualifiedVersion}/"/>
-											<property name="rsync.local.dir" value="${project.build.directory}/products/"/>
+										<ant antfile="${ant-files-path}/bintray.ant"
+												target="push-products-zipped-to-bintray">
+											<property name="bintray.products.path"
+												value="${bintray.base.path}products/${unqualifiedVersion}"/>
 										</ant>
 									</target>
 								</configuration>
