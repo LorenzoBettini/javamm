@@ -136,7 +136,8 @@
 		<child.repository.path.prefix>../../releases/</child.repository.path.prefix>
 
 		<!-- set it to true to have a self contained p2 repository https://wiki.eclipse.org/Tycho/eclipse-repository#Creating_a_self-contained_p2_repository -->
-		<includeAllDependencies>true</includeAllDependencies>
+		<!-- We handle that at .site and .ide.site level -->
+		<!-- <includeAllDependencies>true</includeAllDependencies>  -->
 	</properties>
 
 	<profiles>

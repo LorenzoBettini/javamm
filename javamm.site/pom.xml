@@ -13,6 +13,20 @@
 	<artifactId>javamm.site</artifactId>
 	<packaging>eclipse-repository</packaging>
 
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-p2-repository-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<configuration>
+					<includeAllDependencies>false</includeAllDependencies>
+					<finalName>${project.artifactId}-${qualifiedVersion}</finalName>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
 	<profiles>
 		<profile>
 			<id>release-composite</id>
@@ -22,16 +36,6 @@
 
 			<build>
 				<plugins>
-					<plugin>
-						<groupId>org.eclipse.tycho</groupId>
-						<artifactId>tycho-p2-repository-plugin</artifactId>
-						<version>${tycho-version}</version>
-						<configuration>
-							<includeAllDependencies>${includeAllDependencies}</includeAllDependencies>
-							<finalName>${project.artifactId}-${qualifiedVersion}</finalName>
-						</configuration>
-					</plugin>
-
 					<plugin>
 						<artifactId>maven-antrun-plugin</artifactId>
 						<version>${maven-antrun-plugin.version}</version>
@@ -119,6 +123,41 @@
 								<phase>package</phase>
 								<goals>
 									<goal>eclipse-run</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<!-- in this case we still copy the zipped update site to the remote zips directory -->
+			<id>release-ide-composite</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<version>${maven-antrun-plugin.version}</version>
+						<executions>
+							<execution>
+								<id>deploy-zipped-repository</id>
+								<phase>verify</phase>
+								<configuration>
+									<target>
+										<ant antfile="${ant-files-path}/bintray.ant"
+												target="push-p2-repo-zipped-to-bintray">
+											<property name="bintray.zip.path"
+												value="${bintray.base.path}zipped/${unqualifiedVersion}"/>
+										</ant>
+									</target>
+								</configuration>
+								<goals>
+									<goal>run</goal>
 								</goals>
 							</execution>
 						</executions>

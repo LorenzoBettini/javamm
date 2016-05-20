@@ -59,7 +59,7 @@
 						<artifactId>tycho-p2-repository-plugin</artifactId>
 						<version>${tycho-version}</version>
 						<configuration>
-							<includeAllDependencies>${includeAllDependencies}</includeAllDependencies>
+							<includeAllDependencies>true</includeAllDependencies>
 							<finalName>${project.artifactId}-${qualifiedVersion}</finalName>
 						</configuration>
 					</plugin>
@@ -84,12 +84,12 @@
 							</execution>
 							
 							<execution>
-								<!-- Deploy p2 repository, p2 composite updated metadata and zipped p2 repository -->
+								<!-- Deploy p2 repository, p2 composite updated metadata but not zipped p2 repository -->
 								<id>deploy-repository</id>
 								<phase>verify</phase>
 								<configuration>
 									<target>
-										<ant antfile="${ant-files-path}/bintray.ant" target="push-to-bintray">
+										<ant antfile="${ant-files-path}/bintray.ant" target="push-ide-to-bintray">
 										</ant>
 									</target>
 								</configuration>
