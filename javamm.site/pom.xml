@@ -13,6 +13,20 @@
 	<artifactId>javamm.site</artifactId>
 	<packaging>eclipse-repository</packaging>
 
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-p2-repository-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<configuration>
+					<includeAllDependencies>false</includeAllDependencies>
+					<finalName>${project.artifactId}-${qualifiedVersion}</finalName>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
 	<profiles>
 		<profile>
 			<id>release-composite</id>
@@ -23,12 +37,42 @@
 			<build>
 				<plugins>
 					<plugin>
-						<groupId>org.eclipse.tycho</groupId>
-						<artifactId>tycho-p2-repository-plugin</artifactId>
-						<version>${tycho-version}</version>
-						<configuration>
-							<includeAllDependencies>${includeAllDependencies}</includeAllDependencies>
-						</configuration>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<version>${maven-antrun-plugin.version}</version>
+						<executions>
+							<execution>
+								<!-- Retrieve possibly existing remote composite metadata -->
+								<id>update-local-repository</id>
+								<phase>prepare-package</phase>
+								<configuration>
+									<target>
+										<ant antfile="${ant-files-path}/bintray.ant" target="get-composite-metadata">
+										</ant>
+									</target>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+							
+							<execution>
+								<!-- Deploy p2 repository, p2 composite updated metadata and zipped p2 repository -->
+								<id>deploy-repository</id>
+								<phase>verify</phase>
+								<configuration>
+									<target>
+										<ant antfile="${ant-files-path}/bintray.ant"
+												target="push-to-bintray">
+											<property name="bintray.zip.path"
+												value="${bintray.base.path}zipped/${unqualifiedVersion}"/>
+										</ant>
+									</target>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+						</executions>
 					</plugin>
 
 					<plugin>
@@ -36,8 +80,9 @@
 						<artifactId>tycho-eclipserun-plugin</artifactId>
 						<version>${tycho-version}</version>
 						<configuration>
+							<!-- Update p2 composite metadata or create it -->
 							<!-- IMPORTANT: DO NOT split the arg line -->
-							<appArgLine>-application org.eclipse.ant.core.antRunner -buildfile ${ant-files-path}/packaging-p2composite.ant p2.composite.add -Dupdates.dir=${updates.dir} -Dsite.label="${site.label}" -Dproject.build.directory=${project.build.directory} -DunqualifiedVersion=${unqualifiedVersion} -DbuildQualifier=${buildQualifier}</appArgLine>
+							<appArgLine>-application org.eclipse.ant.core.antRunner -buildfile ${ant-files-path}/packaging-p2composite.ant p2.composite.add -Dsite.label="${site.label}" -Dcomposite.base.dir=${project.build.directory} -DunqualifiedVersion=${unqualifiedVersion} -DbuildQualifier=${buildQualifier} -Dchild.repository.path.prefix="${child.repository.path.prefix}"</appArgLine>
 							<repositories>
 								<repository>
 									<id>mars</id>
@@ -82,61 +127,10 @@
 							</execution>
 						</executions>
 					</plugin>
-					
-					<plugin>
-						<artifactId>maven-antrun-plugin</artifactId>
-						<version>${maven-antrun-plugin.version}</version>
-						<executions>
-							<execution>
-								<id>update-local-repository</id>
-								<phase>prepare-package</phase>
-								<configuration>
-									<target>
-										<ant antfile="${ant-files-path}/rsync.ant" target="rsync-update">
-										</ant>
-									</target>
-								</configuration>
-								<goals>
-									<goal>run</goal>
-								</goals>
-							</execution>
-							
-							<execution>
-								<id>deploy-repository</id>
-								<phase>verify</phase>
-								<configuration>
-									<target>
-										<ant antfile="${ant-files-path}/rsync.ant" target="rsync-commit">
-										</ant>
-									</target>
-								</configuration>
-								<goals>
-									<goal>run</goal>
-								</goals>
-							</execution>
-							
-							<execution>
-								<id>deploy-zipped-repository</id>
-								<phase>verify</phase>
-								<configuration>
-									<target>
-										<ant antfile="${ant-files-path}/rsync.ant" 
-													target="rsync-copy-dir-contents">
-											<property name="rsync.remote.dir" value="${rsync.remote.zips.dir}/${unqualifiedVersion}/"/>
-											<property name="rsync.local.dir" value="${project.build.directory}/"/>
-										</ant>
-									</target>
-								</configuration>
-								<goals>
-									<goal>run</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
 				</plugins>
 			</build>
 		</profile>
-		
+
 		<profile>
 			<!-- in this case we still copy the zipped update site to the remote zips directory -->
 			<id>release-ide-composite</id>
@@ -155,10 +149,10 @@
 								<phase>verify</phase>
 								<configuration>
 									<target>
-										<ant antfile="${ant-files-path}/rsync.ant" 
-													target="rsync-copy-dir-contents">
-											<property name="rsync.remote.dir" value="${rsync.remote.zips.dir}/${unqualifiedVersion}/"/>
-											<property name="rsync.local.dir" value="${project.build.directory}/"/>
+										<ant antfile="${ant-files-path}/bintray.ant"
+												target="push-p2-repo-zipped-to-bintray">
+											<property name="bintray.zip.path"
+												value="${bintray.base.path}zipped/${unqualifiedVersion}"/>
 										</ant>
 									</target>
 								</configuration>

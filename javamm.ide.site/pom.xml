@@ -59,8 +59,45 @@
 						<artifactId>tycho-p2-repository-plugin</artifactId>
 						<version>${tycho-version}</version>
 						<configuration>
-							<includeAllDependencies>${includeAllDependencies}</includeAllDependencies>
+							<includeAllDependencies>true</includeAllDependencies>
+							<finalName>${project.artifactId}-${qualifiedVersion}</finalName>
 						</configuration>
+					</plugin>
+
+					<plugin>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<version>${maven-antrun-plugin.version}</version>
+						<executions>
+							<execution>
+								<!-- Retrieve possibly existing remote composite metadata -->
+								<id>update-local-repository</id>
+								<phase>prepare-package</phase>
+								<configuration>
+									<target>
+										<ant antfile="${ant-files-path}/bintray.ant" target="get-composite-metadata">
+										</ant>
+									</target>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+							
+							<execution>
+								<!-- Deploy p2 repository, p2 composite updated metadata but not zipped p2 repository -->
+								<id>deploy-repository</id>
+								<phase>verify</phase>
+								<configuration>
+									<target>
+										<ant antfile="${ant-files-path}/bintray.ant" target="push-ide-to-bintray">
+										</ant>
+									</target>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+						</executions>
 					</plugin>
 
 					<plugin>
@@ -68,8 +105,9 @@
 						<artifactId>tycho-eclipserun-plugin</artifactId>
 						<version>${tycho-version}</version>
 						<configuration>
+							<!-- Update p2 composite metadata or create it -->
 							<!-- IMPORTANT: DO NOT split the arg line -->
-							<appArgLine>-application org.eclipse.ant.core.antRunner -buildfile ${ant-files-path}/packaging-p2composite.ant p2.composite.add -Dupdates.dir=${updates.dir} -Dsite.label="${site.label}" -Dproject.build.directory=${project.build.directory} -DunqualifiedVersion=${unqualifiedVersion} -DbuildQualifier=${buildQualifier}</appArgLine>
+							<appArgLine>-application org.eclipse.ant.core.antRunner -buildfile ${ant-files-path}/packaging-p2composite.ant p2.composite.add -Dsite.label="${site.label}" -Dcomposite.base.dir=${project.build.directory} -DunqualifiedVersion=${unqualifiedVersion} -DbuildQualifier=${buildQualifier} -Dchild.repository.path.prefix="${child.repository.path.prefix}"</appArgLine>
 							<repositories>
 								<repository>
 									<id>mars</id>
@@ -114,40 +152,6 @@
 							</execution>
 						</executions>
 					</plugin>
-					
-					<plugin>
-						<artifactId>maven-antrun-plugin</artifactId>
-						<version>${maven-antrun-plugin.version}</version>
-						<executions>
-							<execution>
-								<id>update-local-repository</id>
-								<phase>prepare-package</phase>
-								<configuration>
-									<target>
-										<ant antfile="${ant-files-path}/rsync.ant" target="rsync-update">
-										</ant>
-									</target>
-								</configuration>
-								<goals>
-									<goal>run</goal>
-								</goals>
-							</execution>
-	
-							<execution>
-								<id>deploy-repository</id>
-								<phase>verify</phase>
-								<configuration>
-									<target>
-										<ant antfile="${ant-files-path}/rsync.ant" target="rsync-commit">
-										</ant>
-									</target>
-								</configuration>
-								<goals>
-									<goal>run</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
 				</plugins>
 			</build>
 		</profile>
@@ -161,21 +165,19 @@
 			<build>
 				<plugins>
 					<plugin>
-						<!-- this is configured in pluginManagement section of the parent pom -->
 						<artifactId>maven-antrun-plugin</artifactId>
 						<version>${maven-antrun-plugin.version}</version>
-						
-						<!-- and we add the execution for copying zipped products -->
+						<!-- we add the execution for copying zipped products -->
 						<executions>
 							<execution>
 								<id>deploy-ides</id>
 								<phase>verify</phase>
 								<configuration>
 									<target>
-										<ant antfile="${ant-files-path}/rsync.ant" 
-													target="rsync-copy-dir-contents">
-											<property name="rsync.remote.dir" value="${remote.dir}/products/${unqualifiedVersion}/"/>
-											<property name="rsync.local.dir" value="${project.build.directory}/products/"/>
+										<ant antfile="${ant-files-path}/bintray.ant"
+												target="push-products-zipped-to-bintray">
+											<property name="bintray.products.path"
+												value="${bintray.base.path}products/${unqualifiedVersion}"/>
 										</ant>
 									</target>
 								</configuration>
