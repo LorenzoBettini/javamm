@@ -1444,7 +1444,7 @@ public class MyFile {
         System.out.println("0");
       default:
         {
-          i = (-1);
+          i = -1;
           System.out.println("default");
         }
     }
@@ -1471,7 +1471,7 @@ public class MyFile {
         break;
       default:
         {
-          i = (-1);
+          i = -1;
           System.out.println("default");
           break;
         }
@@ -1534,7 +1534,7 @@ public class MyFile {
         break;
       default:
         {
-          i = (-1);
+          i = -1;
           System.out.println("default");
           break;
         }
@@ -1592,7 +1592,7 @@ public class MyFile {
       case 4:
         return 1;
       default:
-        return (-1);
+        return -1;
     }
   }
   
@@ -1622,7 +1622,7 @@ public class MyFile {
       case 0:
         System.out.println("0");
       default:
-        return (-1);
+        return -1;
     }
   }
   
@@ -2085,11 +2085,11 @@ public class MyFile {
     int j = _javammconditionalexpression_1;
     Object _javammconditionalexpression_2 = null;
     if ((i < 0)) {
-      _javammconditionalexpression_1 = Integer.valueOf(1);
+      _javammconditionalexpression_2 = Integer.valueOf(1);
     } else {
-      _javammconditionalexpression_1 = "a";
+      _javammconditionalexpression_2 = "a";
     }
-    Object o = _javammconditionalexpression_1;
+    Object o = _javammconditionalexpression_2;
   }
 }
 '''
@@ -2531,10 +2531,6 @@ public class MyFile {
 	}
 
 	@Test def void testAssignmentAsCallArgument2() {
-		// the current code generation is wrong,
-		// see https://bugs.eclipse.org/bugs/show_bug.cgi?id=466974
-		// it is fixed in Xtext 2.9.0, so when we update to Xtext 2.9.0
-		// the generation will be fixed.
 		'''
 		int i = 0;
 		Math.max( i = i + 1, i == 1 ? 1 : 2);
@@ -2546,13 +2542,14 @@ package javamm;
 public class MyFile {
   public static void main(String[] args) {
     int i = 0;
+    int _i = i = (i + 1);
     int _javammconditionalexpression = (int) 0;
     if ((i == 1)) {
       _javammconditionalexpression = 1;
     } else {
       _javammconditionalexpression = 2;
     }
-    Math.max(i = (i + 1), _javammconditionalexpression);
+    Math.max(_i, _javammconditionalexpression);
   }
 }
 '''
