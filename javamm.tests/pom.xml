@@ -19,6 +19,20 @@
 		<sonar.tests>src,xtend-gen</sonar.tests>
 	</properties>
 
+	<profiles>
+		<profile>
+			<id>macosx-jvm-flags</id>
+			<activation>
+				<os>
+					<family>mac</family>
+				</os>
+			</activation>
+			<properties>
+				<os-jvm-flags>-XstartOnFirstThread</os-jvm-flags>
+			</properties>
+		</profile>
+	</profiles>
+
 	<build>
 		<plugins>
 			<plugin>
@@ -58,7 +72,7 @@
 							<useUIHarness>true</useUIHarness>
 							<useUIThread>true</useUIThread>
 							<!-- tycho.testArgLine repeated to re-use the configuration for argLine for jacoco agent -->
-							<argLine>${tycho.testArgLine} ${memoryArgs} -DbuildingWithTycho=true</argLine>
+							<argLine>${tycho.testArgLine} ${os-jvm-flags} ${memoryArgs} -DbuildingWithTycho=true</argLine>
 							<includes>
 								<include>**/javamm/ui/tests/*Test.java</include>
 							</includes>
@@ -82,6 +96,16 @@
 							<requirement>
 								<type>eclipse-feature</type>
 								<id>org.eclipse.rcp</id>
+								<versionRange>0.0.0</versionRange>
+							</requirement>
+							<!--
+								See
+								https://github.com/LorenzoBettini/jbase/issues/3
+								https://www.eclipse.org/forums/index.php/t/1073366/
+							 -->
+							<requirement>
+								<type>eclipse-feature</type>
+								<id>org.eclipse.jdt</id>
 								<versionRange>0.0.0</versionRange>
 							</requirement>
 						</extraRequirements>

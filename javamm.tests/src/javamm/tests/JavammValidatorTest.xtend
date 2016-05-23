@@ -230,6 +230,102 @@ class JavammValidatorTest extends JavammAbstractTest {
 		'''.parse.assertUnreachableExpression(javammPack.javammSemicolonStatement)
 	}
 
+	@Test def void testNoDeadCodeWithBreakInAWhileWithConditionAlwaysTrue() {
+		'''
+		int d = 1;
+		while (1 == 1) {
+			d++;
+			if (d == 3)
+				break;
+		}
+		d = 0;
+		'''.parseAndAssertNoErrors
+	}
+
+	@Test def void testDeadCodeWithContinueInAWhileWithConditionAlwaysTrue() {
+		'''
+		int d = 1;
+		while (1 == 1) {
+			d++;
+			if (d == 3)
+				continue;
+		}
+		d = 0;
+		'''.parse.assertUnreachableExpression(javammPack.javammSemicolonStatement)
+	}
+
+	@Test def void testDeadCodeWithoutInAWhileWithConditionAlwaysTrue() {
+		'''
+		int d = 1;
+		while (1 == 1) {
+			d++;
+		}
+		d = 0;
+		'''.parse.assertUnreachableExpression(javammPack.javammSemicolonStatement)
+	}
+
+	@Test def void testNoDeadCodeWithBreakInADoWhileWithConditionAlwaysTrue() {
+		'''
+		int d = 1;
+		do {
+			d++;
+			if (d == 3)
+				break;
+		} while (1 == 1);
+		d = 0;
+		'''.parseAndAssertNoErrors
+	}
+
+	@Test def void testNoDeadCodeWithBreakInSingleIfBranchInADoWhileWithConditionAlwaysTrue() {
+		'''
+		int d = 1;
+		do {
+			d++;
+			if (d == 3)
+				break;
+			else
+				d = 1;
+		} while (1 == 1);
+		d = 0;
+		'''.parseAndAssertNoErrors
+	}
+
+	@Test def void testDeadCodeWithContinueInADoWhileWithConditionAlwaysTrue() {
+		'''
+		int d = 1;
+		do {
+			d++;
+			if (d == 3)
+				continue;
+		} while (1 == 1);
+		d = 0;
+		'''.parse.assertUnreachableExpression(javammPack.javammSemicolonStatement)
+	}
+
+	@Test def void testNoDeadCodeWithBreakInABasicForLoopWithConditionAlwaysTrue() {
+		'''
+		int d = 1;
+		for (;;) {
+			d++;
+			if (d == 3)
+				break;
+		}
+		d = 0;
+		'''.parseAndAssertNoErrors
+	}
+
+	@Test def void testDeadCodeWithContinueInABasicForLoopWithConditionAlwaysTrue() {
+		'''
+		int d = 1;
+		for (;;) {
+			d++;
+			if (d == 3)
+				continue;
+		}
+		d = 0;
+		'''.parse.assertUnreachableExpression(javammPack.javammSemicolonStatement)
+	}
+
 	@Test def void testInvalidContinue() {
 		'''
 		void m() {
@@ -687,6 +783,15 @@ class JavammValidatorTest extends JavammAbstractTest {
 		)
 	}
 
+	@Test def void testPostfixOnArrayAccess() {
+		'''
+		
+		int i = 0;
+		int[] a = {1,2,3,4};
+		a[i]++;
+		'''.parseAndAssertNoIssues
+	}
+
 	@Test def void testPrefixOnWrongExpression() {
 		'''
 		++"a";
@@ -783,8 +888,24 @@ class JavammValidatorTest extends JavammAbstractTest {
 		"short s = 100000;".parse.assertNumberLiteralTypeMismatch("short", "int")
 	}
 
-	@Test def void testIntegerCannotBeAssignedToShort2() {
-		"short s = -10000;".parse.assertTypeMismatch(XbasePackage.eINSTANCE.XUnaryOperation, "short", "int")
+	@Test def void testNegativeCanBeAssignedToShort() {
+		// https://github.com/LorenzoBettini/javamm/issues/53
+		"short s = -10000;".parseAndAssertNoErrors
+	}
+
+	@Test def void testDoubleNegativeCanBeAssignedToShort() {
+		// https://github.com/LorenzoBettini/javamm/issues/53
+		"short s = -(-10000);".parseAndAssertNoErrors
+	}
+
+	@Test def void testNegativePositiveCanBeAssignedToShort() {
+		// https://github.com/LorenzoBettini/javamm/issues/53
+		"short s = -(+10000);".parseAndAssertNoErrors
+	}
+
+	@Test def void testPositiveCanBeAssignedToChar() {
+		// https://github.com/LorenzoBettini/javamm/issues/53
+		"char c = +10;".parseAndAssertNoErrors
 	}
 
 	@Test def void testTypeMismatchAfterCast() {
@@ -897,6 +1018,20 @@ class JavammValidatorTest extends JavammAbstractTest {
 		final int i = 0;
 		i = 1;
 		'''.parse.assertIssuesAsStrings("Assignment to final variable")
+	}
+
+	@Test def void testAssignmentToFinalArrayVariable() {
+		'''
+		final int[] i = {0};
+		i = {0};
+		'''.parse.assertIssuesAsStrings("Assignment to final variable")
+	}
+
+	@Test def void testAssignmentToFinalArrayVariableElementOk() {
+		'''
+		final int[] i = {0};
+		i[0] = 0;
+		'''.parseAndAssertNoIssues
 	}
 
 	@Test def void testAssignmentToFinalVariableAdditional() {

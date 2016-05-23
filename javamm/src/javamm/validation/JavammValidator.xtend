@@ -8,6 +8,7 @@ import java.util.ArrayList
 import java.util.List
 import javamm.controlflow.JavammSureReturnComputer
 import javamm.javamm.JavammAdditionalXVariableDeclaration
+import javamm.javamm.JavammArrayAccess
 import javamm.javamm.JavammArrayConstructorCall
 import javamm.javamm.JavammBranchingStatement
 import javamm.javamm.JavammBreakStatement
@@ -40,10 +41,10 @@ import org.eclipse.xtext.xbase.XSwitchExpression
 import org.eclipse.xtext.xbase.XVariableDeclaration
 import org.eclipse.xtext.xbase.XbasePackage
 import org.eclipse.xtext.xbase.typesystem.IBatchTypeResolver
+import org.eclipse.xtext.xbase.typesystem.^override.OverrideHelper
 import org.eclipse.xtext.xbase.typesystem.util.Multimaps2
 import org.eclipse.xtext.xbase.validation.XbaseValidator
 import org.eclipse.xtext.xtype.XImportDeclaration
-import org.eclipse.xtext.xbase.typesystem.^override.OverrideHelper
 
 //import org.eclipse.xtext.validation.Check
 
@@ -53,9 +54,9 @@ import org.eclipse.xtext.xbase.typesystem.^override.OverrideHelper
  * see http://www.eclipse.org/Xtext/documentation.html#validation
  */
 class JavammValidator extends XbaseValidator {
-	
+
 	public static val PREFIX = "javamm."
-	
+
 	public static val NOT_ARRAY_TYPE = PREFIX + "NotArrayType"
 	public static val INVALID_BRANCHING_STATEMENT = PREFIX + "InvalidBranchingStatement"
 	public static val MISSING_SEMICOLON = PREFIX + "MissingSemicolon"
@@ -91,6 +92,12 @@ class JavammValidator extends XbaseValidator {
 	}
 
 	override protected checkAssignment(XExpression expression, EStructuralFeature feature, boolean simpleAssignment) {
+		if (expression instanceof JavammArrayAccess) {
+			// it means that we're accessing an array element, thus the
+			// typical checks on an assignment (i.e., whether the variable is final,
+			// or whether it's an abstract feature call) should not be performed
+			return;
+		}
 		if (expression instanceof XAbstractFeatureCall) {
 			val assignmentFeature = expression.feature
 			if (assignmentFeature instanceof JvmFormalParameter) {
@@ -101,7 +108,7 @@ class JavammValidator extends XbaseValidator {
 				}
 			}
 		}
-		
+
 		super.checkAssignment(expression, feature, simpleAssignment)
 	}
 

@@ -1950,6 +1950,57 @@ public class MyFile {
 		)
 	}
 
+	@Test def void testUnaryOperationInBinaryOperations() {
+		'''
+		System.out.println(1 + -128);
+		'''.checkCompilation(
+'''
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    System.out.println((1 + -128));
+  }
+}
+'''
+		)
+	}
+
+	@Test def void testNumberLiteralsInUnaryOperations() {
+		// https://github.com/LorenzoBettini/javamm/issues/53
+		'''
+		byte b = -1;
+		short s = -1;
+		short s2 = -10000;
+		short s3 = -(+10000);
+		short s4 = +(-(+10000));
+		//short s5 = 1 + -128; // this does not work yet
+		char c2 = +1; // OK
+		System.out.println(-1);
+		System.out.println(+1);
+		System.out.println(-(+1));
+		'''.checkCompilation(
+'''
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    byte b = -1;
+    short s = -1;
+    short s2 = -10000;
+    short s3 = -(+10000);
+    short s4 = +(-(+10000));
+    char c2 = +1;
+    System.out.println(-1);
+    System.out.println(+1);
+    System.out.println(-(+1));
+  }
+}
+'''
+		)
+	}
 
 	@Test def void testCharLiterals() {
 		charLiterals.checkCompilation(
@@ -2007,6 +2058,7 @@ public class MyFile {
 	@Test def void testConditionalExpression() {
 		'''
 		int i = 0;
+		i = i > 0 ? 1 : 2;
 		int j = i > 0 ? 1 : 2;
 		Object o = i < 0 ? 1 : "a";
 		'''.checkCompilation(
@@ -2023,14 +2075,52 @@ public class MyFile {
     } else {
       _javammconditionalexpression = 2;
     }
-    int j = _javammconditionalexpression;
-    Object _javammconditionalexpression_1 = null;
+    i = _javammconditionalexpression;
+    int _javammconditionalexpression_1 = (int) 0;
+    if ((i > 0)) {
+      _javammconditionalexpression_1 = 1;
+    } else {
+      _javammconditionalexpression_1 = 2;
+    }
+    int j = _javammconditionalexpression_1;
+    Object _javammconditionalexpression_2 = null;
     if ((i < 0)) {
       _javammconditionalexpression_1 = Integer.valueOf(1);
     } else {
       _javammconditionalexpression_1 = "a";
     }
     Object o = _javammconditionalexpression_1;
+  }
+}
+'''
+		)
+	}
+
+	@Test def void testConditionalExpression2() {
+		'''
+		int i = 0;
+		int n = 0;
+		if((i=(i==0?5:7)) > 0) n = 4;
+		'''.checkCompilation(
+'''
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int i = 0;
+    int n = 0;
+    int _javammconditionalexpression = (int) 0;
+    if ((i == 0)) {
+      _javammconditionalexpression = 5;
+    } else {
+      _javammconditionalexpression = 7;
+    }
+    int _i = (i = _javammconditionalexpression);
+    boolean _greaterThan = (_i > 0);
+    if (_greaterThan) {
+      n = 4;
+    }
   }
 }
 '''
@@ -2386,6 +2476,36 @@ public class MyFile {
 		)
 	}
 
+	@Test def void testAssignmentToAssignment2() {
+		'''
+		int i = 0;
+		int j = 0;
+		int n = 0;
+		n=i=(j==0 ? 1 : 2);
+		'''.checkCompilation(
+'''
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int i = 0;
+    int j = 0;
+    int n = 0;
+    int _javammconditionalexpression = (int) 0;
+    if ((j == 0)) {
+      _javammconditionalexpression = 1;
+    } else {
+      _javammconditionalexpression = 2;
+    }
+    int _i = (i = _javammconditionalexpression);
+    n = _i;
+  }
+}
+'''
+		)
+	}
+
 	@Test def void testAssignmentAsCallArgument() {
 		'''
 		void m(String s) {
@@ -2404,6 +2524,35 @@ public class MyFile {
   }
   
   public static void main(String[] args) {
+  }
+}
+'''
+		)
+	}
+
+	@Test def void testAssignmentAsCallArgument2() {
+		// the current code generation is wrong,
+		// see https://bugs.eclipse.org/bugs/show_bug.cgi?id=466974
+		// it is fixed in Xtext 2.9.0, so when we update to Xtext 2.9.0
+		// the generation will be fixed.
+		'''
+		int i = 0;
+		Math.max( i = i + 1, i == 1 ? 1 : 2);
+		'''.checkCompilation(
+'''
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int i = 0;
+    int _javammconditionalexpression = (int) 0;
+    if ((i == 1)) {
+      _javammconditionalexpression = 1;
+    } else {
+      _javammconditionalexpression = 2;
+    }
+    Math.max(i = (i + 1), _javammconditionalexpression);
   }
 }
 '''
@@ -2463,6 +2612,70 @@ public class MyFile {
   
   public static void main(String[] args) {
     MyFile.m(new String[] { "1", "2" });
+  }
+}
+'''
+		)
+	}
+
+	@Test def void testLoopsWithConditionAlwaysTrue() {
+		'''
+		int d = 1;
+		while (1 == 1) {
+			d++;
+			if (d == 3)
+				break;
+		}
+		d = 0;
+		
+		do {
+			d++;
+			if (d == 3)
+				break;
+		} while (1 == 1);
+		d = 0;
+		
+		for (;;) {
+			d++;
+			if (d == 3)
+				break;
+		}
+		d = 0;
+		'''.checkCompilation(
+'''
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int d = 1;
+    while ((1 == 1)) {
+      {
+        d++;
+        if ((d == 3)) {
+          break;
+        }
+      }
+    }
+    d = 0;
+    do {
+      {
+        d++;
+        if ((d == 3)) {
+          break;
+        }
+      }
+    } while((1 == 1));
+    d = 0;
+    for (;;) {
+      {
+        d++;
+        if ((d == 3)) {
+          break;
+        }
+      }
+    }
+    d = 0;
   }
 }
 '''
