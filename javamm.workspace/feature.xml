@@ -2,7 +2,7 @@
 <feature
       id="javamm.workspace"
       label="Java-- Workspace"
-      version="1.3.4.qualifier"
+      version="1.4.0.qualifier"
       provider-name="Lorenzo Bettini">
 
    <description url="http://javamm.sourceforge.net/">

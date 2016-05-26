@@ -2,8 +2,8 @@
 <project name="CreateLocalTargetDefinitionFile" basedir="." default="create-target-file" >
 
 	<property name="local.target" value="local.target"/>
-	<property name="orig.target" location="./mars.target"/>
-	<property name="local.mirror.path" location="${user.home}/mirror/mars-xtext-2.8-swtbot/final/"/>
+	<property name="orig.target" location="./mars-xtext-2.9.target"/>
+	<property name="local.mirror.path" location="${user.home}/mirror/mars-xtext-2.9-swtbot/final/"/>
 	<property name="local.mirror.url" value="file:${local.mirror.path}"/>
 
 	

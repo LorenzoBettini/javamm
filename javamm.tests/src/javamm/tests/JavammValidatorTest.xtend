@@ -766,7 +766,7 @@ class JavammValidatorTest extends JavammAbstractTest {
 		"a"++;
 		'''.parse.assertIssuesAsStrings(
 		'''
-		The method ++() is undefined
+		++ cannot be resolved.
 		'''
 		)
 	}
@@ -797,7 +797,7 @@ class JavammValidatorTest extends JavammAbstractTest {
 		++"a";
 		'''.parse.assertIssuesAsStrings(
 		'''
-		The method ++() is undefined
+		++ cannot be resolved.
 		'''
 		)
 	}
@@ -820,7 +820,7 @@ class JavammValidatorTest extends JavammAbstractTest {
 		int l = a[0].length;
 		'''.parse.assertErrorsAsStrings(
 		'''
-		Couldn't resolve reference to JvmIdentifiableElement 'length'.
+		The method or field length is undefined for the type int
 		The type of the expression must be an array type but it resolved to int
 		'''
 		)
@@ -1080,7 +1080,7 @@ class JavammValidatorTest extends JavammAbstractTest {
 		if (d instanceof Date) {
 			System.out.println(d.getTime());
 		}
-		'''.parse.assertErrorsAsStrings("The method getTime() is undefined")
+		'''.parse.assertErrorsAsStrings("The method getTime() is undefined for the type Object")
 	}
 
 	@Test def void testInvalidUseOfVarArgs() {

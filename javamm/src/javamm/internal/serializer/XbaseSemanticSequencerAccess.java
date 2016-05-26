@@ -2,12 +2,12 @@ package javamm.internal.serializer;
 
 import java.util.Set;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.nodemodel.ICompositeNode;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.scoping.IScopeProvider;
+import org.eclipse.xtext.serializer.ISerializationContext;
 import org.eclipse.xtext.serializer.acceptor.SequenceFeeder;
 import org.eclipse.xtext.serializer.diagnostic.SerializationDiagnostic;
 import org.eclipse.xtext.serializer.sequencer.ISemanticNodeProvider.INodesForEObjectProvider;
@@ -53,9 +53,9 @@ public class XbaseSemanticSequencerAccess extends AbstractJavammSemanticSequence
 	private JavammGrammarAccess access;
 
 	@Override
-	protected void sequence_XAdditiveExpression_XAndExpression_XAssignment_XEqualityExpression_XMultiplicativeExpression_XOrExpression_XOtherOperatorExpression_XRelationalExpression(EObject context, XBinaryOperation operation) {
+	protected void sequence_XAdditiveExpression_XAndExpression_XAssignment_XEqualityExpression_XMultiplicativeExpression_XOrExpression_XOtherOperatorExpression_XRelationalExpression(ISerializationContext context, XBinaryOperation operation) {
 		INodesForEObjectProvider nodes = createNodeProvider(operation);
-		SequenceFeeder acceptor = createSequencerFeeder(operation, nodes);
+		SequenceFeeder acceptor = createSequencerFeeder(context, operation, nodes);
 		XAdditiveExpressionElements opAdd = grammarAccess.getXAdditiveExpressionAccess();
 		XMultiplicativeExpressionElements opMulti = grammarAccess.getXMultiplicativeExpressionAccess();
 		XOtherOperatorExpressionElements opOther = grammarAccess.getXOtherOperatorExpressionAccess();
@@ -108,7 +108,7 @@ public class XbaseSemanticSequencerAccess extends AbstractJavammSemanticSequence
 			acceptor.accept(opMultiAssign.getFeatureJvmIdentifiableElementOpMultiAssignParserRuleCall_2_1_1_0_0_1_0_1(), operation.getFeature(), featureToken, featureNode);
 			acceptor.accept(opMultiAssign.getRightOperandXAssignmentParserRuleCall_2_1_1_1_0(), operation.getRightOperand());
 		} else if (errorAcceptor != null) {
-			errorAcceptor.accept(new SerializationDiagnostic(OPERATOR_NOT_SUPPORTED, operation, context, "Operator "+operatorNames+" is not supported."));
+			errorAcceptor.accept(new SerializationDiagnostic(OPERATOR_NOT_SUPPORTED, operation, context, grammarAccess.getGrammar(), "Operator "+operatorNames+" is not supported."));
 		} 
 		acceptor.finish();
 	}

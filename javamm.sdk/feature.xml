@@ -2,7 +2,7 @@
 <feature
       id="javamm.sdk"
       label="Javamm SDK Feature "
-      version="1.3.4.qualifier"
+      version="1.4.0.qualifier"
       provider-name="Lorenzo Bettini"
       plugin="javamm.ui">
 
@@ -105,8 +105,8 @@ This Agreement is governed by the laws of the State of New York and the intellec
    </license>
 
    <requires>
-      <import feature="org.eclipse.xtext.xbase" version="2.8.4" match="compatible"/>
-      <import feature="org.eclipse.xtext.ui" version="2.8.4" match="compatible"/>
+      <import feature="org.eclipse.xtext.xbase" version="2.10.0" match="compatible"/>
+      <import feature="org.eclipse.xtext.ui" version="2.10.0" match="compatible"/>
       <import plugin="org.eclipse.pde.ui"/>
    </requires>
 

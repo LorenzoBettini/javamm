@@ -7,7 +7,7 @@
 		<relativePath>../javamm.releng/pom.xml</relativePath>
 		<groupId>javamm</groupId>
 		<artifactId>javamm.releng</artifactId>
-		<version>1.3.4-SNAPSHOT</version>
+		<version>1.4.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>javamm</artifactId>
@@ -126,6 +126,13 @@
 						</goals>
 					</execution>
 				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>org.eclipse.xtext</groupId>
+						<artifactId>xtext-antlr-generator</artifactId>
+						<version>[2.1.1, 3.0)</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 
 			<plugin>

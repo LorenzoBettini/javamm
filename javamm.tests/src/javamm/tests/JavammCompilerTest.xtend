@@ -4,7 +4,7 @@ import com.google.common.base.Joiner
 import com.google.inject.Inject
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream
-import javamm.JavammInjectorProviderCustom
+import javamm.JavammInjectorProvider
 import org.eclipse.xtext.diagnostics.Severity
 import org.eclipse.xtext.junit4.InjectWith
 import org.eclipse.xtext.junit4.TemporaryFolder
@@ -18,7 +18,7 @@ import org.junit.runner.RunWith
 import static extension org.junit.Assert.*
 
 @RunWith(typeof(XtextRunner))
-@InjectWith(typeof(JavammInjectorProviderCustom))
+@InjectWith(typeof(JavammInjectorProvider))
 class JavammCompilerTest extends JavammAbstractTest {
 
 	@Rule @Inject public TemporaryFolder temporaryFolder
@@ -865,8 +865,17 @@ package javamm;
 @SuppressWarnings("all")
 public class MyFile {
   public static void main(String[] args) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nUnreachable expression.");
+    int argsNum = args.length;
+    {
+      int i = 0;
+      boolean _while = (i < argsNum);
+      while (_while) {
+        return;
+        int _i = i;
+        i = (_i + 1);
+        _while = (i < argsNum);
+      }
+    }
   }
 }
 ''', false 
@@ -874,6 +883,8 @@ public class MyFile {
 		/** 
 		 * this is not valid input since i += 1 is considered not reachable
 		 * we use it only to test the compiler.
+		 * 
+		 * In Xtext 2.9 the body is generated anyway (not valid Java code).
 		 * 
 		 * In Xtext 2.8 the body is not generated, while in Xtext 2.7.3 the body
 		 * was generated anyway:
@@ -2078,7 +2089,7 @@ public class MyFile {
     } else {
       _javammconditionalexpression_2 = "a";
     }
-    Object o = ((Comparable<?>)_javammconditionalexpression_2);
+    Object o = _javammconditionalexpression_2;
   }
 }
 '''
@@ -2520,10 +2531,6 @@ public class MyFile {
 	}
 
 	@Test def void testAssignmentAsCallArgument2() {
-		// the current code generation is wrong,
-		// see https://bugs.eclipse.org/bugs/show_bug.cgi?id=466974
-		// it is fixed in Xtext 2.9.0, so when we update to Xtext 2.9.0
-		// the generation will be fixed.
 		'''
 		int i = 0;
 		Math.max( i = i + 1, i == 1 ? 1 : 2);
@@ -2535,13 +2542,14 @@ package javamm;
 public class MyFile {
   public static void main(String[] args) {
     int i = 0;
+    int _i = i = (i + 1);
     int _javammconditionalexpression = (int) 0;
     if ((i == 1)) {
       _javammconditionalexpression = 1;
     } else {
       _javammconditionalexpression = 2;
     }
-    Math.max(i = (i + 1), _javammconditionalexpression);
+    Math.max(_i, _javammconditionalexpression);
   }
 }
 '''
@@ -2794,7 +2802,10 @@ public class MyFile {
 			if (expectedGeneratedJava != null) {
 				assertGeneratedJavaCode(expectedGeneratedJava)
 			}
-			assertGeneratedJavaCodeCompiles
+			
+			if (checkValidationErrors) {
+				assertGeneratedJavaCodeCompiles
+			}
 		]
 	}
 	
