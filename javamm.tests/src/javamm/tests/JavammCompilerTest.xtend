@@ -4,7 +4,7 @@ import com.google.common.base.Joiner
 import com.google.inject.Inject
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream
-import javamm.JavammInjectorProviderCustom
+import javamm.JavammInjectorProvider
 import org.eclipse.xtext.diagnostics.Severity
 import org.eclipse.xtext.junit4.InjectWith
 import org.eclipse.xtext.junit4.TemporaryFolder
@@ -18,7 +18,7 @@ import org.junit.runner.RunWith
 import static extension org.junit.Assert.*
 
 @RunWith(typeof(XtextRunner))
-@InjectWith(typeof(JavammInjectorProviderCustom))
+@InjectWith(typeof(JavammInjectorProvider))
 class JavammCompilerTest extends JavammAbstractTest {
 
 	@Rule @Inject public TemporaryFolder temporaryFolder
