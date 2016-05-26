@@ -5,7 +5,7 @@ Bundle-Vendor: Lorenzo Bettini
 Bundle-Version: 1.4.0.qualifier
 Bundle-SymbolicName: javamm; singleton:=true
 Bundle-ActivationPolicy: lazy
-Require-Bundle: org.eclipse.xtext;bundle-version="[2.9.1,2.10.0)";visibility:=reexport,
+Require-Bundle: org.eclipse.xtext;bundle-version="[2.10.0,2.11.0)";visibility:=reexport,
  org.eclipse.xtext.xbase;resolution:=optional;visibility:=reexport,
  org.eclipse.xtext.generator;resolution:=optional,
  org.apache.commons.logging;bundle-version="1.0.4";resolution:=optional,
