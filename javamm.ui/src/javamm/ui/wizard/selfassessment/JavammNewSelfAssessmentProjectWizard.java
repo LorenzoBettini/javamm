@@ -4,7 +4,7 @@
 package javamm.ui.wizard.selfassessment;
 
 import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
-import org.eclipse.xtext.ui.wizard.IProjectInfo;
+import org.eclipse.xtext.ui.wizard.IExtendedProjectInfo;
 
 import com.google.inject.Inject;
 
@@ -44,7 +44,7 @@ public class JavammNewSelfAssessmentProjectWizard extends JavammNewProjectWizard
 	 * Use this method to read the project settings from the wizard pages and feed them into the project info class.
 	 */
 	@Override
-	protected IProjectInfo getProjectInfo() {
+	protected IExtendedProjectInfo getProjectInfo() {
 		JavammProjectInfo projectInfo = new JavammProjectInfo();
 		projectInfo.setProjectName(getTeacherStudentProjectName());
 		return projectInfo;
