@@ -190,7 +190,7 @@
 			<modules>
 				<module>../javamm.ide</module>
 				<module>../javamm.product.ui.feature</module>
-				<module>../javamm.ide.site</module>
+				<module>../javamm.product.site</module>
 			</modules>
 			
 			<build>
@@ -262,7 +262,7 @@
 			<modules>
 				<module>../javamm.ide</module>
 				<module>../javamm.product.ui.feature</module>
-				<module>../javamm.ide.site</module>
+				<module>../javamm.product.site</module>
 				<module>../javamm.swtbot.tests</module>
 			</modules>
 			

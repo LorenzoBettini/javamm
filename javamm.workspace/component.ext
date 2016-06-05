@@ -8,7 +8,7 @@
   <requirement
       name="javamm.site.plain.project"/>
   <requirement
-      name="javamm.ide.site.plain.project"/>
+      name="javamm.product.site.plain.project"/>
   <requirement
       name="javamm.targetplatform.plain.project"/>
   <requirement
