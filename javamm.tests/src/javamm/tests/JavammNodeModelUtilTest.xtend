@@ -1,17 +1,16 @@
 package javamm.tests
 
 import com.google.inject.Inject
-import javamm.JavammInjectorProvider
+import javamm.javamm.JavammSemicolonStatement
 import javamm.util.JavammNodeModelUtil
 import org.eclipse.xtext.junit4.InjectWith
 import org.eclipse.xtext.junit4.XtextRunner
+import org.eclipse.xtext.xbase.XAssignment
 import org.eclipse.xtext.xbase.XBlockExpression
 import org.junit.Test
 import org.junit.runner.RunWith
 
 import static extension org.junit.Assert.*
-import org.eclipse.xtext.xbase.XAssignment
-import javamm.javamm.JavammSemicolonStatement
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammInjectorProvider))

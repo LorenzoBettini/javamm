@@ -1,19 +1,18 @@
 package javamm.tests
 
-import javamm.JavammInjectorProvider
 import javamm.javamm.JavammPackage
 import javamm.validation.JavammValidator
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EObject
+import org.eclipse.xtext.diagnostics.Diagnostic
+import org.eclipse.xtext.diagnostics.Severity
 import org.eclipse.xtext.junit4.InjectWith
 import org.eclipse.xtext.junit4.XtextRunner
 import org.eclipse.xtext.xbase.XbasePackage
 import org.eclipse.xtext.xbase.validation.IssueCodes
+import org.eclipse.xtext.xtype.XtypePackage
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.eclipse.xtext.diagnostics.Diagnostic
-import org.eclipse.xtext.diagnostics.Severity
-import org.eclipse.xtext.xtype.XtypePackage
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammInjectorProvider))

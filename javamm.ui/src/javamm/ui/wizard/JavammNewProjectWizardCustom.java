@@ -3,8 +3,6 @@
  */
 package javamm.ui.wizard;
 
-import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
-import org.eclipse.xtext.ui.wizard.IExtendedProjectInfo;
 import org.eclipse.xtext.ui.wizard.IProjectCreator;
 
 import com.google.inject.Inject;
@@ -17,34 +15,22 @@ import com.google.inject.Inject;
  */
 public class JavammNewProjectWizardCustom extends JavammNewProjectWizard {
 
-	private WizardNewProjectCreationPage mainPage;
-
 	@Inject
 	public JavammNewProjectWizardCustom(IProjectCreator projectCreator) {
 		super(projectCreator);
 		setWindowTitle("New Java-- Project");
 	}
-	
+
 	/**
-	 * Use this method to add pages to the wizard.
-	 * The one-time generated version of this class will add a default new project page to the wizard.
+	 * Use this method to add pages to the wizard. The one-time generated
+	 * version of this class will add a default new project page to the wizard.
 	 */
 	@Override
 	public void addPages() {
-		mainPage = new WizardNewProjectCreationPage("basicNewProjectPage");
+		super.addPages();
+		JavammWizardNewProjectCreationPage mainPage = getMainPage();
 		mainPage.setTitle("Java-- Project");
 		mainPage.setDescription("Create a new Java-- project.");
-		addPage(mainPage);
 	}
 
-	/**
-	 * Use this method to read the project settings from the wizard pages and feed them into the project info class.
-	 */
-	@Override
-	protected IExtendedProjectInfo getProjectInfo() {
-		JavammProjectInfo projectInfo = new JavammProjectInfo();
-		projectInfo.setProjectName(mainPage.getProjectName());
-		return projectInfo;
-	}
-	
 }

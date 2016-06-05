@@ -1,7 +1,6 @@
 package javamm.ui.tests
 
 import com.google.inject.Inject
-import javamm.JavammUiInjectorProvider
 import javamm.tests.utils.ui.PDETargetPlatformUtils
 import javamm.tests.utils.ui.PluginProjectHelper
 import org.eclipse.core.resources.IProject

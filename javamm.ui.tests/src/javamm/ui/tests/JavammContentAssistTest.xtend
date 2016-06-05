@@ -1,6 +1,5 @@
 package javamm.ui.tests
 
-import javamm.JavammUiInjectorProvider
 import org.eclipse.xtext.junit4.InjectWith
 import org.eclipse.xtext.junit4.XtextRunner
 import org.eclipse.xtext.xbase.junit.ui.AbstractContentAssistTest

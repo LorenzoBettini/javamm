@@ -1,7 +1,7 @@
 package javamm.ui.tests
 
 import com.google.inject.Inject
-import javamm.JavammUiInjectorProvider
+import javamm.selfassessment.builder.builder.JavammSelfAssessmentNature
 import javamm.tests.utils.ui.PDETargetPlatformUtils
 import javamm.tests.utils.ui.PluginProjectHelper
 import org.eclipse.core.resources.IFile
@@ -15,7 +15,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import static org.eclipse.xtext.junit4.ui.util.IResourcesSetupUtil.*
-import javamm.selfassessment.builder.builder.JavammSelfAssessmentNature
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammUiInjectorProvider))

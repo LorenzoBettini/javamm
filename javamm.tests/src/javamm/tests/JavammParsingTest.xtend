@@ -1,6 +1,5 @@
 package javamm.tests
 
-import javamm.JavammInjectorProvider
 import javamm.javamm.JavammArrayAccessExpression
 import javamm.javamm.JavammArrayConstructorCall
 import javamm.javamm.JavammCharLiteral
@@ -30,7 +29,7 @@ import static extension org.junit.Assert.*
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammInjectorProvider))
-class JavammParserTest extends JavammAbstractTest {
+class JavammParsingTest extends JavammAbstractTest {
 
 	@Test def void testAssignmentLeft() {
 		'''

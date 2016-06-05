@@ -1,16 +1,15 @@
 package javamm.ui.tests
 
-import javamm.JavammUiInjectorProvider
 import javamm.ui.internal.JavammActivator
 import org.eclipse.xtext.junit4.InjectWith
 import org.eclipse.xtext.junit4.XtextRunner
-import org.eclipse.xtext.ui.tests.editor.outline.AbstractOutlineWorkbenchTest
+import org.eclipse.xtext.junit4.ui.AbstractOutlineTest
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammUiInjectorProvider))
-class JavammOutlineTest extends AbstractOutlineWorkbenchTest {
+class JavammOutlineTest extends AbstractOutlineTest {
 	
 //	@Inject PluginProjectHelper projectHelper
 	

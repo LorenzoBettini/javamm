@@ -1,7 +1,6 @@
 package javamm.tests
 
 import com.google.inject.Inject
-import javamm.JavammInjectorProvider
 import org.eclipse.xtext.junit4.InjectWith
 import org.eclipse.xtext.junit4.XtextRunner
 import org.eclipse.xtext.serializer.impl.Serializer

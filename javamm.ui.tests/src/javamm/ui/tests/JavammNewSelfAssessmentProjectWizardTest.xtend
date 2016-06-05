@@ -2,8 +2,9 @@ package javamm.ui.tests
 
 import com.google.inject.Inject
 import com.google.inject.Provider
-import javamm.JavammUiInjectorProvider
+import javamm.selfassessment.builder.builder.JavammSelfAssessmentNature
 import javamm.tests.utils.ui.JavammTestableNewProjectWizard
+import javamm.tests.utils.ui.JavammTestableNewSelfAssessmentProjectWizard
 import org.eclipse.jface.viewers.StructuredSelection
 import org.eclipse.ui.PlatformUI
 import org.eclipse.xtext.junit4.InjectWith
@@ -12,8 +13,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import static org.eclipse.xtext.junit4.ui.util.IResourcesSetupUtil.*
-import javamm.tests.utils.ui.JavammTestableNewSelfAssessmentProjectWizard
-import javamm.selfassessment.builder.builder.JavammSelfAssessmentNature
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammUiInjectorProvider))

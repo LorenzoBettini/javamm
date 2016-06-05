@@ -17,19 +17,19 @@
 <booleanAttribute key="includeOptional" value="true"/>
 <stringAttribute key="location" value="${workspace_loc}/../junit-workspace"/>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
-<listEntry value="/javamm.tests/xtend-gen/javamm/ui/tests/JavammNewSelfAssessmentProjectWizardTest.java"/>
+<listEntry value="/javamm.ui.tests/xtend-gen/javamm/ui/tests"/>
 </listAttribute>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
-<listEntry value="1"/>
+<listEntry value="2"/>
 </listAttribute>
-<stringAttribute key="org.eclipse.jdt.junit.CONTAINER" value=""/>
+<stringAttribute key="org.eclipse.jdt.junit.CONTAINER" value="=javamm.ui.tests/xtend-gen&lt;javamm.ui.tests"/>
 <booleanAttribute key="org.eclipse.jdt.junit.KEEPRUNNING_ATTR" value="false"/>
 <stringAttribute key="org.eclipse.jdt.junit.TESTNAME" value=""/>
 <stringAttribute key="org.eclipse.jdt.junit.TEST_KIND" value="org.eclipse.jdt.junit.loader.junit4"/>
 <stringAttribute key="org.eclipse.jdt.launching.JRE_CONTAINER" value="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
-<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="javamm.ui.tests.JavammNewSelfAssessmentProjectWizardTest"/>
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value=""/>
 <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl} -consoleLog"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="javamm.tests"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="javamm.ui.tests"/>
 <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.pde.ui.workbenchClasspathProvider"/>
 <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xms40m -Xmx512m -XX:MaxPermSize=256m"/>
 <stringAttribute key="pde.version" value="3.3"/>

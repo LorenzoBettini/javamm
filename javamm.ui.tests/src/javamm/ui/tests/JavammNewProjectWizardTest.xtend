@@ -2,7 +2,6 @@ package javamm.ui.tests
 
 import com.google.inject.Inject
 import com.google.inject.Provider
-import javamm.JavammUiInjectorProvider
 import javamm.tests.utils.ui.JavammTestableNewProjectWizard
 import org.eclipse.jface.viewers.StructuredSelection
 import org.eclipse.ui.PlatformUI

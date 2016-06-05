@@ -9,14 +9,10 @@ Require-Bundle: javamm,
  javamm.ui,
  org.eclipse.core.runtime,
  org.eclipse.xtext.junit4,
- org.eclipse.ui.workbench;resolution:=optional,
  org.objectweb.asm;bundle-version="[5.0.1,6.0.0)";resolution:=optional,
  org.eclipse.xtext.xbase.junit,
  org.eclipse.jdt.core,
- org.eclipse.xtext.common.types.ui,
- org.eclipse.jdt.ui,
  org.eclipse.xtext.xbase.lib,
- org.eclipse.pde.core;bundle-version="3.10.2",
  javamm.selfassessment.builder,
  javamm.runtime
 Import-Package: org.apache.log4j,
@@ -28,4 +24,4 @@ Import-Package: org.apache.log4j,
  org.junit.runners.model;version="4.5.0",
  org.hamcrest.core
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Export-Package: javamm
+Export-Package: javamm.tests

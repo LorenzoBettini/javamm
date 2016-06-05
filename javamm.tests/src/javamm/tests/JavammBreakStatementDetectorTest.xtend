@@ -1,6 +1,5 @@
 package javamm.tests
 
-import javamm.JavammInjectorProvider
 import javamm.controlflow.JavammBreakStatementDetector
 import org.eclipse.xtext.junit4.InjectWith
 import org.eclipse.xtext.junit4.XtextRunner
