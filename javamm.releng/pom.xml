@@ -188,7 +188,7 @@
 			</properties>
 
 			<modules>
-				<module>../javamm.ide</module>
+				<module>../javamm.eclipse.sdk</module>
 				<module>../javamm.product.ui.feature</module>
 				<module>../javamm.product.site</module>
 			</modules>
@@ -260,7 +260,7 @@
 			</properties>
 
 			<modules>
-				<module>../javamm.ide</module>
+				<module>../javamm.eclipse.sdk</module>
 				<module>../javamm.product.ui.feature</module>
 				<module>../javamm.product.site</module>
 				<module>../javamm.swtbot.tests</module>
@@ -383,7 +383,7 @@
 									source version; NOT the ones that we do not want source versions -->
 								<plugin id="javamm.runtime" />
 								<plugin id="javamm.ui.examples" />
-								<plugin id="javamm.ide" />
+								<plugin id="javamm.eclipse.sdk" />
 
 								<feature id="javamm.swtbot.tests.feature" />
 

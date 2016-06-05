@@ -10,7 +10,7 @@
 		<version>1.4.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>javamm.ide</artifactId>
+	<artifactId>javamm.eclipse.sdk</artifactId>
 	<packaging>eclipse-plugin</packaging>
 
 </project>

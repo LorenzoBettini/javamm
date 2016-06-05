@@ -33,7 +33,7 @@
          unpack="false"/>
 
    <plugin
-         id="javamm.ide"
+         id="javamm.eclipse.sdk"
          download-size="0"
          install-size="0"
          version="0.0.0"/>
