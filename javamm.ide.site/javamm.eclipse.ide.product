@@ -46,7 +46,7 @@
    </plugins>
 
    <features>
-      <feature id="javamm.ide.feature"/>
+      <feature id="javamm.product.ui.feature"/>
       <feature id="javamm.sdk" installMode="root"/>
    </features>
 

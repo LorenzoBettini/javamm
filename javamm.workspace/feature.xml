@@ -22,7 +22,7 @@
          version="0.0.0"/>
 
    <includes
-         id="javamm.ide.feature"
+         id="javamm.product.ui.feature"
          version="0.0.0"/>
 
    <plugin

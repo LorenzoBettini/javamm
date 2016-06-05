@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="javamm.ide.feature"
+      id="javamm.product.ui.feature"
       label="Javamm IDE External Components"
       version="1.4.0.qualifier"
       provider-name="Lorenzo Bettini">
