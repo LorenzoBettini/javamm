@@ -456,6 +456,10 @@
       refresh="true"/>
   <setupTask
       xsi:type="launching:LaunchTask"
+      id="GenerateJavammModelClasses"
+      launcher="GenerateJavammModelClasses.mwe2"/>
+  <setupTask
+      xsi:type="launching:LaunchTask"
       id="GenerateJavamm"
       launcher="Generate Language Infrastructure (javamm)"/>
   <setupTask
