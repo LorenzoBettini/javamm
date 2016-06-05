@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: javamm.ui.tests
+Bundle-Vendor: My Company
+Bundle-Version: 1.0.0.qualifier
+Bundle-SymbolicName: javamm.ui.tests; singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: javamm.ui,
+ org.junit;bundle-version="4.7.0",
+ org.eclipse.xtext.junit4,
+ org.eclipse.xtext.xbase.junit
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
