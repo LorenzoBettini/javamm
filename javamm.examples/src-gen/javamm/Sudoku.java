@@ -20,7 +20,7 @@ public class Sudoku {
         }
       }
     }
-    return new int[] { (-1), (-1) };
+    return new int[] { -1, -1 };
   }
   
   public static boolean feasible(int d, int[] c, int n, int[][] s) {
@@ -66,16 +66,7 @@ public class Sudoku {
       if (a[(d - 1)]) {
         s[c[0]][c[1]] = d;
         int[] nc = Sudoku.nextCell(c, s);
-        boolean _and = false;
-        boolean _greaterEqualsThan = (nc[0] >= 0);
-        if (!_greaterEqualsThan) {
-          _and = false;
-        } else {
-          boolean _solvable = Sudoku.solvable(nc, n, s);
-          boolean _not = (!_solvable);
-          _and = _not;
-        }
-        if (_and) {
+        if (((nc[0] >= 0) && (!Sudoku.solvable(nc, n, s)))) {
           s[c[0]][c[1]] = 0;
         } else {
           return true;
@@ -89,7 +80,7 @@ public class Sudoku {
     int[][] s = { new int[] { 4, 0, 0, 0 }, new int[] { 0, 0, 0, 3 }, new int[] { 0, 1, 3, 0 }, new int[] { 0, 0, 0, 2 } };
     int n = 2;
     Sudoku.printBoard(s);
-    int[] p = Sudoku.nextCell(new int[] { 0, (-1) }, s);
+    int[] p = Sudoku.nextCell(new int[] { 0, -1 }, s);
     boolean _solvable = Sudoku.solvable(p, n, s);
     System.out.println(_solvable);
     Sudoku.printBoard(s);

@@ -18,7 +18,7 @@ public class RPSSwitch {
       case 4:
         return 1;
       default:
-        return (-1);
+        return -1;
     }
   }
   

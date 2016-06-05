@@ -15,11 +15,14 @@ public class LinearEquation {
       }
     }
     if ((a != 0)) {
-      System.out.println(("Solution: " + Double.valueOf(((-b) / a))));
+      double _minus = (-b);
+      double _divide = (_minus / a);
+      String _plus = ("Solution: " + Double.valueOf(_divide));
+      System.out.println(_plus);
     }
   }
   
   public static void main(String[] args) {
-    LinearEquation.solve(0.5, (-1));
+    LinearEquation.solve(0.5, -1);
   }
 }
