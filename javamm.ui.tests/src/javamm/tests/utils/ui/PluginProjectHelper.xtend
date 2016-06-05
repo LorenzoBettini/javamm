@@ -102,7 +102,15 @@ class PluginProjectHelper {
 			markers.map[getAttribute(IMarker.MESSAGE)].join("\n")
 		)
 	}
-	
+
+	def assertErrorsContains(CharSequence expected) {
+		val markers = getErrorMarkers().map[getAttribute(IMarker.MESSAGE)].join("\n")
+		assertTrue('''
+		expected: «expected» not found in
+		«markers»
+		''', markers.contains(expected))
+	}
+
 	def getErrorMarkers() {
 		root.findMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE).
 			filter[

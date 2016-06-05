@@ -182,7 +182,13 @@ class JavammSelfAssessmentBuilderTest extends AbstractWorkbenchTest {
 		
 		waitForBuild
 		// ExampleSolution is not yet defined
-		assertErrors("javamm.ExampleSolution cannot be resolved to a type")
+		// apparently when running with Maven/Tycho the complete missing type,
+		// javamm.ExampleSolution
+		// is not printed, but only
+		// javamm
+		// when running from Eclipse is the other way round
+		// by only checking the last part of the error we should be fine in both cases
+		assertErrorsContains("cannot be resolved to a type")
 		
 		// create the solution in the teacher's project
 		createSimpleJavammFile(TEST_TEACHER_PROJECT, "javamm", "ExampleSolution", "")
@@ -237,6 +243,10 @@ class JavammSelfAssessmentBuilderTest extends AbstractWorkbenchTest {
 
 	def private assertErrors(CharSequence expected) {
 		projectHelper.assertErrors(expected)
+	}
+
+	def private assertErrorsContains(CharSequence expected) {
+		projectHelper.assertErrorsContains(expected)
 	}
 
 	def private assertNoErrors() {
