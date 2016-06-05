@@ -10,5 +10,5 @@ if [ "$TRAVIS_OS_NAME" == "osx" ]; then
 	fi
 else
 	echo "Build on Linux"
-	mvn -f javamm.releng/pom.xml clean verify -U -Dfindbugs.skip=true -Pide-tests
+	mvn -f javamm.releng/pom.xml clean verify -U -Dfindbugs.skip=true -Pide-tests -Pjacoco-report coveralls:report
 fi 

@@ -165,5 +165,87 @@
 				</plugins>
 			</build>
 		</profile>
+
+		<profile>
+			<id>jacoco-report</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<version>${maven-antrun-plugin.version}</version>
+						<executions>
+							<execution>
+								<id>prepare-reports</id>
+								<phase>prepare-package</phase>
+								<goals>
+									<goal>run</goal>
+								</goals>
+								<configuration>
+									<target>
+										<taskdef name="report" classname="org.jacoco.ant.ReportTask"
+											classpathref="maven.plugin.classpath" />
+										<echo message="Coverage report" />
+										<report>
+											<executiondata>
+												<file file="${sonar.jacoco.reportPath}" />
+											</executiondata>
+											<structure name="Javamm">
+												<group name="javamm">
+													<classfiles>
+														<!-- Process class files only, ignore jacocoagent.jar -->
+														<fileset dir="../javamm/target/classes" 
+															includes="**/*.class"
+															excludes="**/*RuntimeModule*,**/*StandaloneSetup*,**/*Internal*,**/*Sequencer*,**/*Abstract*,**/*GrammarAccess*,**/antlr/*.*,**/internal/*.*,**/javamm/javamm/util/*.*,**/javamm/javamm/impl/*.*" 
+														/>
+													</classfiles>
+													<sourcefiles>
+														<fileset dir="../javamm/src" />
+														<fileset dir="../javamm/xtend-gen" />
+													</sourcefiles>
+												</group>
+												<group name="javamm.ui">
+													<classfiles>
+														<fileset dir="../javamm.ui/target/classes" 
+															includes="**/*.class"
+															excludes="**/*ExtensionFactory*,**/*UiModule*,**/*Internal*,**/*Sequencer*,**/*Abstract*,**/*GrammarAccess*,**/antlr/*.*,**/internal/*.*,**/javamm/javamm/util/*.*,**/javamm/javamm/impl/*.*,**/ui/launch/*.*,**/JavammProjectCreator.*,**/JavammNewProjectWizard.class"/>
+													</classfiles>
+													<sourcefiles>
+														<fileset dir="../javamm.ui/src" />
+														<fileset dir="../javamm/xtend-gen" />
+													</sourcefiles>
+												</group>
+											</structure>
+											<html destdir="${jacoco.reportPath}"
+												footer="Code Coverage Report for Javamm ${project.version}"
+												locale="en" />
+											<xml destfile="${jacoco.xml.reportPath}" />
+										</report>
+				
+									</target>
+								</configuration>
+							</execution>
+						</executions>
+						<dependencies>
+							<dependency>
+								<groupId>org.jacoco</groupId>
+								<artifactId>org.jacoco.ant</artifactId>
+								<version>${jacoco-version}</version>
+							</dependency>
+							<dependency>
+								<groupId>org.apache.ant</groupId>
+								<artifactId>ant-junit</artifactId>
+								<version>1.8.2</version>
+							</dependency>
+						</dependencies>
+					</plugin>
+				</plugins>
+			</build>
+
+		</profile>
 	</profiles>
 </project>
