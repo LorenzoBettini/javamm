@@ -19,20 +19,6 @@
 		<sonar.tests>src,xtend-gen</sonar.tests>
 	</properties>
 
-	<profiles>
-		<profile>
-			<id>macosx-jvm-flags</id>
-			<activation>
-				<os>
-					<family>mac</family>
-				</os>
-			</activation>
-			<properties>
-				<os-jvm-flags>-XstartOnFirstThread</os-jvm-flags>
-			</properties>
-		</profile>
-	</profiles>
-
 	<build>
 		<plugins>
 			<plugin>
@@ -64,53 +50,7 @@
 							<goal>test</goal>
 						</goals>
 					</execution>
-					<execution>
-						<id>TychoSurefirePluginUiTest</id>
-						<phase>integration-test</phase>
-						<configuration>
-							<skip>${swtbot.tests.only}</skip>
-							<useUIHarness>true</useUIHarness>
-							<useUIThread>true</useUIThread>
-							<!-- tycho.testArgLine repeated to re-use the configuration for argLine for jacoco agent -->
-							<argLine>${tycho.testArgLine} ${os-jvm-flags} ${memoryArgs} -DbuildingWithTycho=true</argLine>
-							<includes>
-								<include>**/javamm/ui/tests/*Test.java</include>
-							</includes>
-						</configuration>
-						<goals>
-							<goal>test</goal>
-						</goals>
-					</execution>
 				</executions>
-			</plugin>
-			
-			<plugin>
-				<groupId>org.eclipse.tycho</groupId>
-				<artifactId>target-platform-configuration</artifactId>
-				<configuration>
-					<dependency-resolution>
-						<extraRequirements>
-							<!-- to get the org.eclipse.osgi.compatibility.state plugin iff 
-							the targeted Eclipse version (e.g., Luna) has it
-							(backwards compatible with kepler and previous versions) -->
-							<requirement>
-								<type>eclipse-feature</type>
-								<id>org.eclipse.rcp</id>
-								<versionRange>0.0.0</versionRange>
-							</requirement>
-							<!--
-								See
-								https://github.com/LorenzoBettini/jbase/issues/3
-								https://www.eclipse.org/forums/index.php/t/1073366/
-							 -->
-							<requirement>
-								<type>eclipse-feature</type>
-								<id>org.eclipse.jdt</id>
-								<versionRange>0.0.0</versionRange>
-							</requirement>
-						</extraRequirements>
-					</dependency-resolution>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>
