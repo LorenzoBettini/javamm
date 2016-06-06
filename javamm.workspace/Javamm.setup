@@ -452,6 +452,12 @@
     <description>The dynamic working sets for ${scope.project.label}</description>
   </setupTask>
   <setupTask
+      xsi:type="pde:APIBaselineTask"
+      name="javamm-latest"
+      version="${api.baseline.version}"
+      location="${installation.location}/api/${api.baseline.version}/"
+      remoteURI="https://dl.bintray.com/lorenzobettini/javamm/zipped/${api.baseline.version}/${api.baseline.zip}"/>
+  <setupTask
       xsi:type="projects:ProjectsBuildTask"
       refresh="true"/>
   <setupTask
@@ -508,12 +514,6 @@
         xsi:type="setup:VariableTask"
         name="xtext.site"
         value="http://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.10.0/"/>
-    <setupTask
-        xsi:type="pde:APIBaselineTask"
-        name="javamm-latest"
-        version="${api.baseline.version}"
-        location="${installation.location}/api/${api.baseline.version}/"
-        remoteURI="https://dl.bintray.com/lorenzobettini/javamm/zipped/${api.baseline.version}/${api.baseline.zip}"/>
     <setupTask
         xsi:type="setup.p2:P2Task"
         id="p2.org.eclipse.xtext"
