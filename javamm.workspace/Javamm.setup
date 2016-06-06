@@ -469,6 +469,11 @@
     <description>Generate Zips of Examples</description>
   </setupTask>
   <setupTask
+      xsi:type="projects:ProjectsBuildTask"
+      id="Clean Build"
+      refresh="true"
+      clean="true"/>
+  <setupTask
       xsi:type="setup:CompoundTask"
       name="Mylyn Github Issues">
     <setupTask
@@ -504,6 +509,12 @@
         name="xtext.site"
         value="http://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.10.0/"/>
     <setupTask
+        xsi:type="pde:APIBaselineTask"
+        name="javamm-latest"
+        version="${api.baseline.version}"
+        location="${installation.location}/api/${api.baseline.version}/"
+        remoteURI="https://dl.bintray.com/lorenzobettini/javamm/zipped/${api.baseline.version}/${api.baseline.zip}"/>
+    <setupTask
         xsi:type="setup.p2:P2Task"
         id="p2.org.eclipse.xtext"
         label="Xtext Releases"
@@ -521,12 +532,6 @@
           url="http://download.itemis.com/updates/releases/2.1.1/"/>
       <description>Xtext &amp; Xtend</description>
     </setupTask>
-    <setupTask
-        xsi:type="pde:APIBaselineTask"
-        name="javamm-latest"
-        version="${api.baseline.version}"
-        location="${installation.location}/api/${api.baseline.version}/"
-        remoteURI="https://dl.bintray.com/lorenzobettini/javamm/zipped/${api.baseline.version}/${api.baseline.zip}"/>
   </stream>
   <logicalProjectContainer
       xsi:type="setup:ProjectCatalog"
