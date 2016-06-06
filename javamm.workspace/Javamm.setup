@@ -329,6 +329,8 @@
           name="de.itemis.xtext.antlr.feature.feature.group"/>
       <requirement
           name="org.eclipse.xtext.xdoc.feature.feature.group"/>
+      <requirement
+          name="jbase.sdk.feature.group"/>
       <sourceLocator
           rootFolder="${git.clone.location}"/>
       <repositoryList
@@ -360,6 +362,8 @@
             url="http://download.eclipse.org/technology/swtbot/releases/latest/"/>
         <repository
             url="http://sourceforge.net/projects/xtext-xdoc/files/updates-2.7"/>
+        <repository
+            url="${jbase.site}"/>
       </repositoryList>
     </targlet>
   </setupTask>
@@ -515,6 +519,10 @@
         name="xtext.site"
         value="http://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.10.0/"/>
     <setupTask
+        xsi:type="setup:VariableTask"
+        name="jbase.site"
+        value="https://dl.bintray.com/lorenzobettini/xtext-jbase/updates/0.2/"/>
+    <setupTask
         xsi:type="setup.p2:P2Task"
         id="p2.org.eclipse.xtext"
         label="Xtext Releases"
@@ -531,6 +539,19 @@
       <repository
           url="http://download.itemis.com/updates/releases/2.1.1/"/>
       <description>Xtext &amp; Xtend</description>
+    </setupTask>
+    <setupTask
+        xsi:type="setup.p2:P2Task"
+        id="p2.org.eclipse.jbase"
+        label="Jbase Releases"
+        licenseConfirmationDisabled="true">
+      <requirement
+          name="jbase.sdk.feature.group"/>
+      <requirement
+          name="jbase.sdk.source.feature.group"/>
+      <repository
+          url="${jbase.site}"/>
+      <description>Jbase</description>
     </setupTask>
   </stream>
   <logicalProjectContainer
