@@ -16,15 +16,15 @@
 	<build>
 		<!-- The following is required so that the mwe2 workflow finds the .xtext 
 			grammar file -->
-		<sourceDirectory>src</sourceDirectory>
-		<resources>
-			<resource>
-				<directory>src</directory>
-				<includes>
-					<include>**/*.xtext</include>
-				</includes>
-			</resource>
-		</resources>
+<!-- 		<sourceDirectory>src</sourceDirectory> -->
+<!-- 		<resources> -->
+<!-- 			<resource> -->
+<!-- 				<directory>src</directory> -->
+<!-- 				<includes> -->
+<!-- 					<include>**/*.xtext</include> -->
+<!-- 				</includes> -->
+<!-- 			</resource> -->
+<!-- 		</resources> -->
 
 		<plugins>
 			<plugin>
@@ -109,28 +109,89 @@
 <!-- 				</executions> -->
 <!-- 			</plugin> -->
 
+<!-- 			<plugin> -->
+<!-- 				<groupId>org.fornax.toolsupport</groupId> -->
+<!-- 				<artifactId>fornax-oaw-m2-plugin</artifactId> -->
+<!-- 				<version>${fornax-oaw-m2-plugin-version}</version> -->
+<!-- 				<configuration> -->
+<!-- 					<skip>${mwe2.skip}</skip> -->
+<!-- 					<workflowEngine>mwe2</workflowEngine> -->
+<!-- 					<workflowDescriptor>src/javamm/GenerateJavamm.mwe2</workflowDescriptor> -->
+<!-- 				</configuration> -->
+<!-- 				<executions> -->
+<!-- 					<execution> -->
+<!-- 						<phase>generate-sources</phase> -->
+<!-- 						<goals> -->
+<!-- 							<goal>run-workflow</goal> -->
+<!-- 						</goals> -->
+<!-- 					</execution> -->
+<!-- 				</executions> -->
+<!-- 				<dependencies> -->
+<!-- 					<dependency> -->
+<!-- 						<groupId>org.eclipse.xtext</groupId> -->
+<!-- 						<artifactId>xtext-antlr-generator</artifactId> -->
+<!-- 						<version>[2.1.1, 3.0)</version> -->
+<!-- 					</dependency> -->
+<!-- 				</dependencies> -->
+<!-- 			</plugin> -->
+
 			<plugin>
-				<groupId>org.fornax.toolsupport</groupId>
-				<artifactId>fornax-oaw-m2-plugin</artifactId>
-				<version>${fornax-oaw-m2-plugin-version}</version>
-				<configuration>
-					<skip>${mwe2.skip}</skip>
-					<workflowEngine>mwe2</workflowEngine>
-					<workflowDescriptor>src/javamm/GenerateJavamm.mwe2</workflowDescriptor>
-				</configuration>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.4.0</version>
 				<executions>
 					<execution>
+						<id>generateEMFModel</id>
 						<phase>generate-sources</phase>
 						<goals>
-							<goal>run-workflow</goal>
+							<goal>java</goal>
 						</goals>
+						<configuration>
+							<mainClass>org.eclipse.emf.mwe2.launch.runtime.Mwe2Launcher</mainClass>
+							<arguments>
+								<argument>/${project.basedir}/src/javamm/GenerateJavammModelClasses.mwe2</argument>
+								<argument>-p</argument>
+								<argument>rootPath=/${project.basedir}/..</argument>
+							</arguments>
+							<classpathScope>compile</classpathScope>
+							<includePluginDependencies>true</includePluginDependencies>
+							<cleanupDaemonThreads>false</cleanupDaemonThreads><!-- see https://bugs.eclipse.org/bugs/show_bug.cgi?id=475098#c3 -->
+						</configuration>
+					</execution>
+					<execution>
+						<id>mwe2Launcher</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>java</goal>
+						</goals>
+						<configuration>
+							<mainClass>org.eclipse.emf.mwe2.launch.runtime.Mwe2Launcher</mainClass>
+							<arguments>
+								<argument>/${project.basedir}/src/javamm/GenerateJavamm.mwe2</argument>
+								<argument>-p</argument>
+								<argument>rootPath=/${project.basedir}/..</argument>
+							</arguments>
+							<classpathScope>compile</classpathScope>
+							<includePluginDependencies>true</includePluginDependencies>
+							<cleanupDaemonThreads>false</cleanupDaemonThreads><!-- see https://bugs.eclipse.org/bugs/show_bug.cgi?id=475098#c3 -->
+						</configuration>
 					</execution>
 				</executions>
 				<dependencies>
 					<dependency>
+						<groupId>org.eclipse.emf</groupId>
+						<artifactId>org.eclipse.emf.mwe2.launch</artifactId>
+						<version>2.8.3</version>
+					</dependency>
+					<dependency>
 						<groupId>org.eclipse.xtext</groupId>
-						<artifactId>xtext-antlr-generator</artifactId>
-						<version>[2.1.1, 3.0)</version>
+						<artifactId>org.eclipse.xtext.xtext.generator</artifactId>
+						<version>${xtextVersion}</version>
+					</dependency>
+					<dependency>
+						<groupId>org.eclipse.xtext</groupId>
+						<artifactId>org.eclipse.xtext.xbase</artifactId>
+						<version>${xtextVersion}</version>
 					</dependency>
 				</dependencies>
 			</plugin>

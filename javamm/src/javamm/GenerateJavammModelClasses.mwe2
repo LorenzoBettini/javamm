@@ -1,0 +1,25 @@
+module javamm.GenerateJavammModelClasses
+
+import org.eclipse.xtext.xtext.generator.*
+import org.eclipse.xtext.xtext.generator.model.project.*
+
+var rootPath = ".."
+
+Workflow {
+	bean = org.eclipse.emf.mwe.utils.StandaloneSetup {
+	// initialize the EMF singleton with proper classpath to platform:/resource mappings
+		scanClassPath = true
+		// put the Xbase genmodel into the EMF plugins singleton
+		registerGenModelFile = "platform:/resource/org.eclipse.xtext.xbase/model/Xbase.genmodel"// register current projects and its siblings for platform URI map, as they are not on the classpath.
+		platformUri = "${rootPath}"
+	}
+	component = org.eclipse.emf.mwe.utils.DirectoryCleaner {
+		directory = "${rootPath}/javamm/emf-gen"
+	}
+	component = org.eclipse.emf.mwe2.ecore.EcoreGenerator {
+	// generate the Java code for the EPackage
+	// the Jbase genmodel needs to find the Xbase genmodel thus the latter was registered in the standalone setup
+		genModel = "platform:/resource/javamm/model/custom/Javamm.genmodel"
+		srcPath = "platform:/resource/javamm/src"
+	}
+}

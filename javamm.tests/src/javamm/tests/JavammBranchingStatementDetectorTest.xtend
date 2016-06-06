@@ -1,12 +1,11 @@
 package javamm.tests
 
-import javamm.JavammInjectorProvider
+import javamm.controlflow.JavammBranchingStatementDetector
 import org.eclipse.xtext.junit4.InjectWith
 import org.eclipse.xtext.junit4.XtextRunner
+import org.eclipse.xtext.xbase.XExpression
 import org.junit.Test
 import org.junit.runner.RunWith
-import javamm.controlflow.JavammBranchingStatementDetector
-import org.eclipse.xtext.xbase.XExpression
 
 import static extension org.junit.Assert.*
 

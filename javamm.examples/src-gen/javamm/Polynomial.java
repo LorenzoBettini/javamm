@@ -15,7 +15,7 @@ public class Polynomial {
   }
   
   public static void main(String[] args) {
-    double[] a = { 7.439, (-10.312), (-3.845), 5.174, 2 };
+    double[] a = { 7.439, -10.312, -3.845, 5.174, 2 };
     double _value = Polynomial.value(a, 1.426);
     System.out.println(_value);
   }

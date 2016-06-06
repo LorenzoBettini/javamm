@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="JavammIDE" uid="javamm.eclipse.ide.product" id="javamm.eclipse.sdk.product" application="org.eclipse.ui.ide.workbench" version="1.4.0.qualifier" useFeatures="true" includeLaunchers="true">
+
+   <aboutInfo>
+      <image path="eclipse_lg.gif"/>
+      <text>
+         %productBlurb
+      </text>
+   </aboutInfo>
+
+   <configIni use="default">
+   </configIni>
+
+   <launcherArgs>
+      <vmArgs>-XX:MaxPermSize=256m -Xms512m -Xmx1024m
+      </vmArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
+      </vmArgsMac>
+   </launcherArgs>
+
+   <windowImages i16="/javamm.eclipse.sdk/images/javamm-16.gif" i32="/javamm.eclipse.sdk/images/javamm-32.gif" i48="/javamm.eclipse.sdk/images/javamm-48.gif" i64="/javamm.eclipse.sdk/images/javamm-64.png" i128="/javamm.eclipse.sdk/images/javamm-128.png" i256="/javamm.eclipse.sdk/images/javamm-256.png"/>
+
+   <splash
+      location="javamm.eclipse.sdk"
+      startupProgressRect="2,290,448,10"
+      startupMessageRect="7,225,320,20"
+      startupForegroundColor="FFFFFF" />
+   <launcher name="eclipse">
+      <linux icon="../javamm.eclipse.sdk/images/javamm-64.xpm"/>
+      <macosx icon="../javamm.eclipse.sdk/images/javamm.icns"/>
+      <solaris/>
+      <win useIco="true">
+         <ico path="../javamm.eclipse.sdk/images/javamm.ico"/>
+         <bmp/>
+      </win>
+   </launcher>
+
+   <intro introId="org.eclipse.ui.intro.universal"/>
+
+   <vm>
+   </vm>
+
+   <plugins>
+   </plugins>
+
+   <features>
+      <feature id="javamm.product.ui.feature"/>
+      <feature id="javamm.sdk" installMode="root"/>
+   </features>
+
+   <configurations>
+      <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="4" />
+      <plugin id="org.eclipse.equinox.common" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.ds" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.event" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.p2.reconciler.dropins" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" />
+      <property name="org.eclipse.core.resources/encoding" value="UTF-8" />
+      <property name="org.eclipse.ui/org.eclipse.ui.edit.text.encoding" value="UTF-8" />
+      <property name="osgi.instance.area.default" value="@user.home/workspace-javamm" />
+   </configurations>
+
+</product>

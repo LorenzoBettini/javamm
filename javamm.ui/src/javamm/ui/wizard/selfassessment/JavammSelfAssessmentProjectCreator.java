@@ -32,6 +32,10 @@ import javamm.ui.wizard.JavammProjectCreatorCustom;
  */
 public class JavammSelfAssessmentProjectCreator extends JavammProjectCreatorCustom {
 
+	protected static final String SRC_GEN_ROOT = "src-gen";
+
+	protected static final String SRC_ROOT = "src";
+
 	protected static final String TESTS_ROOT = "tests";
 
 	private JavammSelfAssessmentProjectFiles projectFiles = new JavammSelfAssessmentProjectFiles();

@@ -1,14 +1,13 @@
 package javamm.tests
 
 import com.google.inject.Inject
-import javamm.JavammInjectorProvider
 import javamm.util.JavammNodeModelUtil
 import javamm.validation.JavammInitializedVariableFinder
+import javamm.validation.JavammInitializedVariableFinder.InitializedVariables
 import org.eclipse.xtext.junit4.InjectWith
 import org.eclipse.xtext.junit4.XtextRunner
 import org.junit.Test
 import org.junit.runner.RunWith
-import javamm.validation.JavammInitializedVariableFinder.InitializedVariables
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammInjectorProvider))

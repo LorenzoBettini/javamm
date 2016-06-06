@@ -1,7 +1,6 @@
 package javamm.tests
 
 import com.google.inject.Inject
-import javamm.JavammInjectorProvider
 import javamm.formatting2.JavammFormatter
 import org.eclipse.xtext.common.types.TypesFactory
 import org.eclipse.xtext.formatting2.internal.RootDocument

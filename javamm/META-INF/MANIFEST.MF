@@ -20,7 +20,8 @@ Require-Bundle: org.eclipse.xtext;bundle-version="[2.10.0,2.11.0)";visibility:=r
  org.eclipse.xtext.common.types,
  org.objectweb.asm;bundle-version="[5.0.1,6.0.0)";resolution:=optional,
  org.eclipse.xtext.ecore,
- org.eclipse.equinox.common
+ org.eclipse.equinox.common,
+ org.eclipse.xtend.lib
 Import-Package: org.apache.log4j
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: javamm,
@@ -38,4 +39,5 @@ Export-Package: javamm,
  javamm.services,
  javamm.typesystem,
  javamm.util,
- javamm.validation
+ javamm.validation,
+ javamm.scoping

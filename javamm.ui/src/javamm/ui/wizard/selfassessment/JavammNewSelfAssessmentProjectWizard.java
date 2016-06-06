@@ -3,14 +3,13 @@
  */
 package javamm.ui.wizard.selfassessment;
 
-import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
 import org.eclipse.xtext.ui.wizard.IExtendedProjectInfo;
 
 import com.google.inject.Inject;
 
 import javamm.selfassessment.builder.builder.JavammSelfAssessmentNature;
 import javamm.ui.wizard.JavammNewProjectWizard;
-import javamm.ui.wizard.JavammProjectInfo;
+import javamm.ui.wizard.JavammWizardNewProjectCreationPage;
 
 /**
  * We need to redefine it just to change titles, descriptions and project names.
@@ -20,24 +19,22 @@ import javamm.ui.wizard.JavammProjectInfo;
  */
 public class JavammNewSelfAssessmentProjectWizard extends JavammNewProjectWizard {
 
-	private WizardNewProjectCreationPage mainPage;
-
 	@Inject
 	public JavammNewSelfAssessmentProjectWizard(JavammSelfAssessmentProjectCreator projectCreator) {
 		super(projectCreator);
 		setWindowTitle("New Java-- Self-Assessment Projects");
 	}
-	
+
 	/**
 	 * Use this method to add pages to the wizard.
 	 * The one-time generated version of this class will add a default new project page to the wizard.
 	 */
 	@Override
 	public void addPages() {
-		mainPage = new WizardNewProjectCreationPage("basicNewProjectPage");
+		super.addPages();
+		JavammWizardNewProjectCreationPage mainPage = getMainPage();
 		mainPage.setTitle("Java-- Self-Assessment Projects");
 		mainPage.setDescription("Create a new Java-- self-assessment project set.");
-		addPage(mainPage);
 	}
 
 	/**
@@ -45,13 +42,13 @@ public class JavammNewSelfAssessmentProjectWizard extends JavammNewProjectWizard
 	 */
 	@Override
 	protected IExtendedProjectInfo getProjectInfo() {
-		JavammProjectInfo projectInfo = new JavammProjectInfo();
+		IExtendedProjectInfo projectInfo = super.getProjectInfo();
 		projectInfo.setProjectName(getTeacherStudentProjectName());
 		return projectInfo;
 	}
 
 	protected String getMainPageProjectName() {
-		return mainPage.getProjectName();
+		return getMainPage().getProjectName();
 	}
 
 	protected String getTeacherStudentProjectName() {

@@ -15,7 +15,7 @@ public class JavammProjectCreatorCustom extends JavammProjectCreator {
 
 	@Override
 	protected List<String> getRequiredBundles() {
-		return Lists.newArrayList(
-				"javamm.runtime");
+		return Lists.newArrayList("javamm.runtime");
 	}
+
 }

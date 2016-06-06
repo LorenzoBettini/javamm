@@ -11,10 +11,12 @@
 		<module>../javamm.runtime</module>
 		<module>../javamm</module>
 		<module>../javamm.selfassessment.builder</module>
+		<module>../javamm.ide</module>
 		<module>../javamm.ui</module>
 		<module>../javamm.examples</module>
 		<module>../javamm.ui.examples</module>
 		<module>../javamm.tests</module>
+		<module>../javamm.ui.tests</module>
 		<module>../javamm.sdk</module>
 		<module>../javamm.site</module>
 	</modules>
@@ -32,6 +34,7 @@
 		<memoryArgs>-Xms256M -Xmx1024M -XX:PermSize=256M -XX:MaxPermSize=256M -XX:+HeapDumpOnOutOfMemoryError</memoryArgs>
 		<xtext.version>2.10.0</xtext.version>
 		<xtext-version>${xtext.version}</xtext-version>
+		<xtextVersion>${xtext.version}</xtextVersion>
 		<platform-version>[3.9,4.0)</platform-version>
 		<fornax-oaw-m2-plugin-version>3.5.1</fornax-oaw-m2-plugin-version>
 
@@ -190,9 +193,9 @@
 			</properties>
 
 			<modules>
-				<module>../javamm.ide</module>
-				<module>../javamm.ide.feature</module>
-				<module>../javamm.ide.site</module>
+				<module>../javamm.eclipse.sdk</module>
+				<module>../javamm.product.ui.feature</module>
+				<module>../javamm.product.site</module>
 			</modules>
 			
 			<build>
@@ -262,9 +265,9 @@
 			</properties>
 
 			<modules>
-				<module>../javamm.ide</module>
-				<module>../javamm.ide.feature</module>
-				<module>../javamm.ide.site</module>
+				<module>../javamm.eclipse.sdk</module>
+				<module>../javamm.product.ui.feature</module>
+				<module>../javamm.product.site</module>
 				<module>../javamm.swtbot.tests</module>
 			</modules>
 			
@@ -386,7 +389,7 @@
 									source version; NOT the ones that we do not want source versions -->
 								<plugin id="javamm.runtime" />
 								<plugin id="javamm.ui.examples" />
-								<plugin id="javamm.ide" />
+								<plugin id="javamm.eclipse.sdk" />
 
 								<feature id="javamm.swtbot.tests.feature" />
 
