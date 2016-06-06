@@ -24,20 +24,27 @@ public class PluginProjectFactoryCustom extends PluginProjectFactory {
 
 	@Override
 	protected void createBuildProperties(IProject project, IProgressMonitor progressMonitor) {
+		createBuildProperties(project, getContentsForBuildProperties().toString(), progressMonitor);
+	}
+
+	public void createBuildProperties(IProject project, String contents, IProgressMonitor progressMonitor) {
+		createFile("build.properties", project, contents, progressMonitor);
+	}
+
+	public StringBuilder getContentsForBuildProperties() {
 		final StringBuilder content = new StringBuilder("source.. = ");
 		for (final Iterator<String> iterator = folders.iterator(); iterator.hasNext();) {
 			content.append(iterator.next()).append('/');
 			if (iterator.hasNext()) {
 				content.append(",\\\n");
-				//              source.. =
+				// source.. =
 				content.append("          ");
 			}
 		}
 		content.append("\n");
 		content.append("bin.includes = META-INF/,\\\n");
 		content.append("               .");
-
-		createFile("build.properties", project, content.toString(), progressMonitor);
+		return content;
 	}
 
 	public IFile createFileInContainer(String name, IContainer container, String content, IProgressMonitor progressMonitor) {
