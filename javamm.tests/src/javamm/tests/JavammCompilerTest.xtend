@@ -2068,27 +2068,27 @@ package javamm;
 public class MyFile {
   public static void main(String[] args) {
     int i = 0;
-    int _javammconditionalexpression = (int) 0;
+    int _xjconditionalexpression = (int) 0;
     if ((i > 0)) {
-      _javammconditionalexpression = 1;
+      _xjconditionalexpression = 1;
     } else {
-      _javammconditionalexpression = 2;
+      _xjconditionalexpression = 2;
     }
-    i = _javammconditionalexpression;
-    int _javammconditionalexpression_1 = (int) 0;
+    i = _xjconditionalexpression;
+    int _xjconditionalexpression_1 = (int) 0;
     if ((i > 0)) {
-      _javammconditionalexpression_1 = 1;
+      _xjconditionalexpression_1 = 1;
     } else {
-      _javammconditionalexpression_1 = 2;
+      _xjconditionalexpression_1 = 2;
     }
-    int j = _javammconditionalexpression_1;
-    Object _javammconditionalexpression_2 = null;
+    int j = _xjconditionalexpression_1;
+    Object _xjconditionalexpression_2 = null;
     if ((i < 0)) {
-      _javammconditionalexpression_2 = Integer.valueOf(1);
+      _xjconditionalexpression_2 = Integer.valueOf(1);
     } else {
-      _javammconditionalexpression_2 = "a";
+      _xjconditionalexpression_2 = "a";
     }
-    Object o = _javammconditionalexpression_2;
+    Object o = _xjconditionalexpression_2;
   }
 }
 '''
@@ -2109,13 +2109,13 @@ public class MyFile {
   public static void main(String[] args) {
     int i = 0;
     int n = 0;
-    int _javammconditionalexpression = (int) 0;
+    int _xjconditionalexpression = (int) 0;
     if ((i == 0)) {
-      _javammconditionalexpression = 5;
+      _xjconditionalexpression = 5;
     } else {
-      _javammconditionalexpression = 7;
+      _xjconditionalexpression = 7;
     }
-    int _i = (i = _javammconditionalexpression);
+    int _i = (i = _xjconditionalexpression);
     boolean _greaterThan = (_i > 0);
     if (_greaterThan) {
       n = 4;
@@ -2491,13 +2491,13 @@ public class MyFile {
     int i = 0;
     int j = 0;
     int n = 0;
-    int _javammconditionalexpression = (int) 0;
+    int _xjconditionalexpression = (int) 0;
     if ((j == 0)) {
-      _javammconditionalexpression = 1;
+      _xjconditionalexpression = 1;
     } else {
-      _javammconditionalexpression = 2;
+      _xjconditionalexpression = 2;
     }
-    int _i = (i = _javammconditionalexpression);
+    int _i = (i = _xjconditionalexpression);
     n = _i;
   }
 }
@@ -2542,13 +2542,13 @@ public class MyFile {
   public static void main(String[] args) {
     int i = 0;
     int _i = i = (i + 1);
-    int _javammconditionalexpression = (int) 0;
+    int _xjconditionalexpression = (int) 0;
     if ((i == 1)) {
-      _javammconditionalexpression = 1;
+      _xjconditionalexpression = 1;
     } else {
-      _javammconditionalexpression = 2;
+      _xjconditionalexpression = 2;
     }
-    Math.max(_i, _javammconditionalexpression);
+    Math.max(_i, _xjconditionalexpression);
   }
 }
 '''
