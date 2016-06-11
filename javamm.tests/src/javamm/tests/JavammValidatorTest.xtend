@@ -2,6 +2,8 @@ package javamm.tests
 
 import javamm.javamm.JavammPackage
 import javamm.validation.JavammValidator
+import jbase.jbase.JbasePackage
+import jbase.validation.JbaseIssueCodes
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.xtext.diagnostics.Diagnostic
@@ -17,7 +19,8 @@ import org.junit.runner.RunWith
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammInjectorProvider))
 class JavammValidatorTest extends JavammAbstractTest {
-	
+
+	val jbasePack = JbasePackage.eINSTANCE
 	val javammPack = JavammPackage.eINSTANCE
 
 	@Test def void testArrayIndexNotIntegerLeft() {
@@ -89,8 +92,8 @@ class JavammValidatorTest extends JavammAbstractTest {
 		'''
 		int[] a = new int[];
 		'''.parse.assertError(
-			javammPack.javammArrayConstructorCall,
-			JavammValidator.ARRAY_CONSTRUCTOR_EITHER_DIMENSION_EXPRESSION_OR_INITIALIZER,
+			jbasePack.XJArrayConstructorCall,
+			JbaseIssueCodes.ARRAY_CONSTRUCTOR_EITHER_DIMENSION_EXPRESSION_OR_INITIALIZER,
 			"Constructor must provide either dimension expressions or an array initializer"
 		)
 	}
@@ -99,8 +102,8 @@ class JavammValidatorTest extends JavammAbstractTest {
 		'''
 		int[] j = new int[1] {};
 		'''.parse.assertError(
-			javammPack.javammArrayConstructorCall,
-			JavammValidator.ARRAY_CONSTRUCTOR_BOTH_DIMENSION_EXPRESSION_AND_INITIALIZER,
+			jbasePack.XJArrayConstructorCall,
+			JbaseIssueCodes.ARRAY_CONSTRUCTOR_BOTH_DIMENSION_EXPRESSION_AND_INITIALIZER,
 			"Cannot define dimension expressions when an array initializer is provided"
 		)
 	}
@@ -110,7 +113,7 @@ class JavammValidatorTest extends JavammAbstractTest {
 		int[][] j = new int[][0];
 		'''.parse.assertError(
 			XbasePackage.eINSTANCE.XNumberLiteral,
-			JavammValidator.ARRAY_CONSTRUCTOR_DIMENSION_EXPRESSION_AFTER_EMPTY_DIMENSION,
+			JbaseIssueCodes.ARRAY_CONSTRUCTOR_DIMENSION_EXPRESSION_AFTER_EMPTY_DIMENSION,
 			"Cannot specify an array dimension after an empty dimension"
 		)
 	}
@@ -120,7 +123,7 @@ class JavammValidatorTest extends JavammAbstractTest {
 		int[][][] j = new int[0][][1];
 		'''.parse.assertError(
 			XbasePackage.eINSTANCE.XNumberLiteral,
-			JavammValidator.ARRAY_CONSTRUCTOR_DIMENSION_EXPRESSION_AFTER_EMPTY_DIMENSION,
+			JbaseIssueCodes.ARRAY_CONSTRUCTOR_DIMENSION_EXPRESSION_AFTER_EMPTY_DIMENSION,
 			"Cannot specify an array dimension after an empty dimension"
 		)
 	}
@@ -130,8 +133,8 @@ class JavammValidatorTest extends JavammAbstractTest {
 		int i;
 		i[0] = 0;
 		'''.parse.assertError(
-			javammPack.javammXAssignment,
-			JavammValidator.NOT_ARRAY_TYPE,
+			jbasePack.XJAssignment,
+			JbaseIssueCodes.NOT_ARRAY_TYPE,
 			"The type of the expression must be an array type but it resolved to int"
 		)
 	}
@@ -141,8 +144,8 @@ class JavammValidatorTest extends JavammAbstractTest {
 		int i;
 		i = i[0];
 		'''.parse.assertError(
-			javammPack.javammArrayAccessExpression,
-			JavammValidator.NOT_ARRAY_TYPE,
+			jbasePack.XJArrayAccessExpression,
+			JbaseIssueCodes.NOT_ARRAY_TYPE,
 			"The type of the expression must be an array type but it resolved to int"
 		)
 	}
@@ -152,8 +155,8 @@ class JavammValidatorTest extends JavammAbstractTest {
 		int[] i;
 		i = i[0][1];
 		'''.parse.assertError(
-			javammPack.javammArrayAccessExpression,
-			JavammValidator.NOT_ARRAY_TYPE,
+			jbasePack.XJArrayAccessExpression,
+			JbaseIssueCodes.NOT_ARRAY_TYPE,
 			"The type of the expression must be an array type but it resolved to int"
 		)
 	}
@@ -163,8 +166,8 @@ class JavammValidatorTest extends JavammAbstractTest {
 		int[] i;
 		i[0][1] = 1;
 		'''.parse.assertError(
-			javammPack.javammXAssignment,
-			JavammValidator.NOT_ARRAY_TYPE,
+			jbasePack.XJAssignment,
+			JbaseIssueCodes.NOT_ARRAY_TYPE,
 			"The type of the expression must be an array type but it resolved to int"
 		)
 	}
@@ -173,7 +176,7 @@ class JavammValidatorTest extends JavammAbstractTest {
 		'''
 		int[] i = new int[0][1];
 		'''.parse.assertTypeMismatch(
-			javammPack.javammArrayConstructorCall,
+			jbasePack.XJArrayConstructorCall,
 			"int[]", "int[][]"
 		)
 	}
@@ -209,7 +212,7 @@ class JavammValidatorTest extends JavammAbstractTest {
 			return;
 			System.out.println("");
 		}
-		'''.parse.assertUnreachableExpression(javammPack.javammSemicolonStatement)
+		'''.parse.assertUnreachableExpression(jbasePack.XJSemicolonStatement)
 	}
 
 	@Test def void testDeadCodeInForLoopTranslatedToJavaWhileEarlyExit() {
@@ -226,7 +229,7 @@ class JavammValidatorTest extends JavammAbstractTest {
 		void m() {
 			return;;
 		}
-		'''.parse.assertUnreachableExpression(javammPack.javammSemicolonStatement)
+		'''.parse.assertUnreachableExpression(jbasePack.XJSemicolonStatement)
 	}
 
 	@Test def void testNoDeadCodeWithBreakInAWhileWithConditionAlwaysTrue() {
@@ -250,7 +253,7 @@ class JavammValidatorTest extends JavammAbstractTest {
 				continue;
 		}
 		d = 0;
-		'''.parse.assertUnreachableExpression(javammPack.javammSemicolonStatement)
+		'''.parse.assertUnreachableExpression(jbasePack.XJSemicolonStatement)
 	}
 
 	@Test def void testDeadCodeWithoutInAWhileWithConditionAlwaysTrue() {
@@ -260,7 +263,7 @@ class JavammValidatorTest extends JavammAbstractTest {
 			d++;
 		}
 		d = 0;
-		'''.parse.assertUnreachableExpression(javammPack.javammSemicolonStatement)
+		'''.parse.assertUnreachableExpression(jbasePack.XJSemicolonStatement)
 	}
 
 	@Test def void testNoDeadCodeWithBreakInADoWhileWithConditionAlwaysTrue() {
@@ -298,7 +301,7 @@ class JavammValidatorTest extends JavammAbstractTest {
 				continue;
 		} while (1 == 1);
 		d = 0;
-		'''.parse.assertUnreachableExpression(javammPack.javammSemicolonStatement)
+		'''.parse.assertUnreachableExpression(jbasePack.XJSemicolonStatement)
 	}
 
 	@Test def void testNoDeadCodeWithBreakInABasicForLoopWithConditionAlwaysTrue() {
@@ -322,7 +325,7 @@ class JavammValidatorTest extends JavammAbstractTest {
 				continue;
 		}
 		d = 0;
-		'''.parse.assertUnreachableExpression(javammPack.javammSemicolonStatement)
+		'''.parse.assertUnreachableExpression(jbasePack.XJSemicolonStatement)
 	}
 
 	@Test def void testInvalidContinue() {
@@ -370,7 +373,7 @@ class JavammValidatorTest extends JavammAbstractTest {
 		'''
 		String s = 's';
 		'''.parse.assertTypeMismatch(
-			javammPack.javammCharLiteral,
+			jbasePack.XJCharLiteral,
 			"String", "char"
 		)
 	}
@@ -380,7 +383,7 @@ class JavammValidatorTest extends JavammAbstractTest {
 		'''
 		boolean b = 's';
 		'''.parse.assertTypeMismatch(
-			javammPack.javammCharLiteral,
+			jbasePack.XJCharLiteral,
 			"boolean", "char"
 		)
 	}
@@ -446,7 +449,7 @@ class JavammValidatorTest extends JavammAbstractTest {
 			}
 		}
 		'''.parse.assertTypeMismatch(
-			javammPack.javammBreakStatement,
+			jbasePack.XJBreakStatement,
 			"int", "void"
 		)
 	}
@@ -502,13 +505,13 @@ class JavammValidatorTest extends JavammAbstractTest {
 	@Test def void testMissingSemicolonInContinue() {
 		'''
 		continue
-		'''.parse.assertMissingSemicolon(javammPack.javammContinueStatement)
+		'''.parse.assertMissingSemicolon(jbasePack.XJContinueStatement)
 	}
 
 	@Test def void testMissingSemicolonInBreak() {
 		'''
 		break
-		'''.parse.assertMissingSemicolon(javammPack.javammBreakStatement)
+		'''.parse.assertMissingSemicolon(jbasePack.XJBreakStatement)
 	}
 
 	@Test def void testMissingSemicolonInReturn() {
@@ -1000,7 +1003,7 @@ class JavammValidatorTest extends JavammAbstractTest {
 		'''
 		final int i;
 		'''.parse.assertError(
-			javammPack.javammXVariableDeclaration,
+			jbasePack.XJVariableDeclaration,
 			IssueCodes.MISSING_INITIALIZATION,
 			"Value must be initialized"
 		)
@@ -1089,8 +1092,8 @@ class JavammValidatorTest extends JavammAbstractTest {
 		}
 		'''
 		input.parse.assertError(
-			javammPack.javammJvmFormalParameter,
-			JavammValidator.INVALID_USE_OF_VAR_ARGS,
+			jbasePack.XJJvmFormalParameter,
+			JbaseIssueCodes.INVALID_USE_OF_VAR_ARGS,
 			input.indexOf("..."), 3,
 			"A vararg must be the last parameter."
 		)
@@ -1162,8 +1165,8 @@ class JavammValidatorTest extends JavammAbstractTest {
 		System.out.println('12');
 		'''
 		input.parse.assertError(
-			javammPack.javammCharLiteral,
-			JavammValidator.INVALID_CHARACTER_CONSTANT,
+			jbasePack.XJCharLiteral,
+			JbaseIssueCodes.INVALID_CHARACTER_CONSTANT,
 			input.indexOf("'12'"), 4,
 			"Invalid character constant"
 		)
@@ -1174,8 +1177,8 @@ class JavammValidatorTest extends JavammAbstractTest {
 		System.out.println('\at');
 		'''
 		input.parse.assertError(
-			javammPack.javammCharLiteral,
-			JavammValidator.INVALID_CHARACTER_CONSTANT,
+			jbasePack.XJCharLiteral,
+			JbaseIssueCodes.INVALID_CHARACTER_CONSTANT,
 			input.indexOf("'\\at'"), 5,
 			"Invalid character constant"
 		)
@@ -1254,16 +1257,16 @@ class JavammValidatorTest extends JavammAbstractTest {
 
 	def private assertInvalidContinueStatement(EObject o) {
 		o.assertError(
-			javammPack.javammContinueStatement,
-			JavammValidator.INVALID_BRANCHING_STATEMENT,
+			jbasePack.XJContinueStatement,
+			JbaseIssueCodes.INVALID_BRANCHING_STATEMENT,
 			"continue cannot be used outside of a loop"
 		)
 	}
 
 	def private assertInvalidBreakStatement(EObject o) {
 		o.assertError(
-			javammPack.javammBreakStatement,
-			JavammValidator.INVALID_BRANCHING_STATEMENT,
+			jbasePack.XJBreakStatement,
+			JbaseIssueCodes.INVALID_BRANCHING_STATEMENT,
 			"break cannot be used outside of a loop or a switch"
 		)
 	}
@@ -1281,7 +1284,7 @@ class JavammValidatorTest extends JavammAbstractTest {
 	def private assertMissingSemicolon(EObject o, EClass c) {
 		o.assertError(
 			c,
-			JavammValidator.MISSING_SEMICOLON,
+			JbaseIssueCodes.MISSING_SEMICOLON,
 			'Syntax error, insert ";" to complete Statement'
 		)
 	}
@@ -1289,7 +1292,7 @@ class JavammValidatorTest extends JavammAbstractTest {
 	def private assertMissingParentheses(EObject o, EClass c) {
 		o.assertError(
 			c,
-			JavammValidator.MISSING_PARENTHESES,
+			JbaseIssueCodes.MISSING_PARENTHESES,
 			'Syntax error, insert "()" to complete method call'
 		)
 	}
@@ -1297,7 +1300,7 @@ class JavammValidatorTest extends JavammAbstractTest {
 	def private assertMissingReturn(EObject o, EClass c) {
 		o.assertError(
 			c,
-			JavammValidator.MISSING_RETURN,
+			JbaseIssueCodes.MISSING_RETURN,
 			'Missing return'
 		)
 	}
@@ -1305,7 +1308,7 @@ class JavammValidatorTest extends JavammAbstractTest {
 	def private assertVariableNotInitialized(EObject o, String name) {
 		o.assertError(
 			XbasePackage.eINSTANCE.XFeatureCall,
-			JavammValidator.NOT_INITIALIZED_VARIABLE,
+			JbaseIssueCodes.NOT_INITIALIZED_VARIABLE,
 			"The local variable " + name + " may not have been initialized"
 		)
 	}

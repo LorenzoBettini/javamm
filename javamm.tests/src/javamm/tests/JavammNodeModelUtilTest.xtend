@@ -1,11 +1,9 @@
 package javamm.tests
 
 import com.google.inject.Inject
-import javamm.javamm.JavammSemicolonStatement
 import javamm.util.JavammNodeModelUtil
 import org.eclipse.xtext.junit4.InjectWith
 import org.eclipse.xtext.junit4.XtextRunner
-import org.eclipse.xtext.xbase.XAssignment
 import org.eclipse.xtext.xbase.XBlockExpression
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -100,15 +98,6 @@ class JavammNodeModelUtilTest extends JavammAbstractTest {
 			i = 1
 			;
 		'''.parse.main.lastBlockExpression.hasSemicolon.assertTrue
-	}
-
-	@Test def void testOffset() {
-		((('''
-			i = 1
-			;
-		'''.parse.main.lastBlockExpression) as JavammSemicolonStatement).expression as XAssignment) => [
-			4.assertEquals(value.elementOffsetInProgram)
-		]
 	}
 
 	def private assertMainLastExpressionText(CharSequence input, CharSequence expected) {
