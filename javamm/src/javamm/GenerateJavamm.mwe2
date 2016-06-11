@@ -36,6 +36,9 @@ Workflow {
 			referencedResource = "platform:/resource/jbase/model/custom/Jbase.genmodel"
 			xbaseSupport = jbase.mwe2.generator.JbaseGeneratorFragment2 {}
 
+			serializer = {
+				generateXtendStub = false
+			}
 			validator = {
 				// composedCheck = "org.eclipse.xtext.validation.NamesAreUniqueValidator"
 			}
