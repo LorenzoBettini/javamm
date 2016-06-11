@@ -32,10 +32,13 @@ Workflow {
 			name = "javamm.Javamm"
 			fileExtensions = "javamm"
 
-			// new added lines to enable Jbase
-			referencedResource = "platform:/resource/jbase/model/custom/Jbase.genmodel"
-			xbaseSupport = jbase.mwe2.generator.JbaseGeneratorFragment2 {}
+			referencedResource = "platform:/resource/javamm/model/custom/Javamm.genmodel"
 
+			fragment = ecore2xtext.Ecore2XtextValueConverterServiceFragment2 auto-inject {}
+
+			serializer = {
+				generateXtendStub = false
+			}
 			validator = {
 				// composedCheck = "org.eclipse.xtext.validation.NamesAreUniqueValidator"
 			}
