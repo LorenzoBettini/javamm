@@ -27,7 +27,6 @@ Require-Bundle: org.eclipse.xtext;bundle-version="[2.10.0,2.11.0)";visibility:=r
 Import-Package: org.apache.log4j
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: javamm,
- javamm.conversion,
  javamm.formatting2,
  javamm.javamm,
  javamm.javamm.impl,
