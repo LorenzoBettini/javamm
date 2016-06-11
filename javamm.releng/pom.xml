@@ -17,6 +17,7 @@
 		<module>../javamm.ui.examples</module>
 		<module>../javamm.tests</module>
 		<module>../javamm.ui.tests</module>
+		<module>../javamm.requirements.feature</module>
 		<module>../javamm.sdk</module>
 		<module>../javamm.site</module>
 	</modules>
