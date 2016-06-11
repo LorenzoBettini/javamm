@@ -2,6 +2,8 @@ grammar javamm.Javamm with jbase.Jbase
 
 generate javamm "http://www.Javamm.javamm"
 
+import "http://www.eclipse.org/xtext/xbase/Xbase" as xbase
+
 JavammProgram:
 	// the semantic predicate is required to avoid ambiguity in parsing an
 	// import, due to the following two optional rules (methods and main)
@@ -16,7 +18,7 @@ JavammMethod:
 			body=XBlockExpression
 ;
 
-Main returns XBlockExpression:
+Main returns xbase::XBlockExpression:
 	{Main}
 	(expressions+=XJStatementOrBlock)*
 ;
