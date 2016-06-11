@@ -1,12 +1,11 @@
 package javamm.tests
 
-import javamm.javamm.JavammArrayAccessExpression
-import javamm.javamm.JavammArrayConstructorCall
-import javamm.javamm.JavammCharLiteral
-import javamm.javamm.JavammPrefixOperation
-import javamm.javamm.JavammSemicolonStatement
-import javamm.javamm.JavammXAssignment
-import javamm.javamm.JavammXVariableDeclaration
+import jbase.jbase.XJArrayAccessExpression
+import jbase.jbase.XJAssignment
+import jbase.jbase.XJCharLiteral
+import jbase.jbase.XJPrefixOperation
+import jbase.jbase.XJSemicolonStatement
+import jbase.jbase.XJVariableDeclaration
 import org.eclipse.xtext.junit4.InjectWith
 import org.eclipse.xtext.junit4.XtextRunner
 import org.eclipse.xtext.xbase.XAssignment
@@ -26,6 +25,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import static extension org.junit.Assert.*
+import jbase.jbase.XJArrayConstructorCall
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammInjectorProvider))
@@ -63,7 +63,7 @@ class JavammParsingTest extends JavammAbstractTest {
 		'''
 		i[0] = 1;
 		'''.assertMainLastExpression [
-			assertTrue((it as JavammXAssignment).indexes.head instanceof XNumberLiteral)
+			assertTrue((it as XJAssignment).indexes.head instanceof XNumberLiteral)
 		]
 	}
 
@@ -82,19 +82,19 @@ class JavammParsingTest extends JavammAbstractTest {
 		int i;
 		i = m()[0];
 		'''.assertMainLastExpression [
-			assertTrue(((it as XAssignment).value as JavammArrayAccessExpression).indexes.head instanceof XNumberLiteral)
+			assertTrue(((it as XAssignment).value as XJArrayAccessExpression).indexes.head instanceof XNumberLiteral)
 		]
 	}
 
 	@Test def void testArrayAccessInParenthesizedExpression() {
 		arrayAccessInParenthesizedExpression.assertMainLastExpression [
-			assertTrue(((it as XAssignment).value as JavammArrayAccessExpression).indexes.head instanceof XNumberLiteral)
+			assertTrue(((it as XAssignment).value as XJArrayAccessExpression).indexes.head instanceof XNumberLiteral)
 		]
 	}
 
 	@Test def void testMultiArrayAccessInRightHandsideExpression() {
 		multiArrayAccessInRightHandsideExpression.assertMainLastExpression [
-			val indexes = ((it as XAssignment).value as JavammArrayAccessExpression).indexes
+			val indexes = ((it as XAssignment).value as XJArrayAccessExpression).indexes
 			assertTrue(indexes.head instanceof XNumberLiteral)
 			assertTrue(indexes.last instanceof XBinaryOperation)
 		]
@@ -105,7 +105,7 @@ class JavammParsingTest extends JavammAbstractTest {
 		int[][] a;
 		a[0][1+2] = 1;
 		'''.assertMainLastExpression [
-			val indexes = (it as JavammXAssignment).indexes
+			val indexes = (it as XJAssignment).indexes
 			assertTrue(indexes.head instanceof XNumberLiteral)
 			assertTrue(indexes.last instanceof XBinaryOperation)
 		]
@@ -145,7 +145,7 @@ class JavammParsingTest extends JavammAbstractTest {
 		'''
 		int[] a = new int[0];
 		'''.assertMainLastExpression [
-			assertTrue(((it as XVariableDeclaration).right as JavammArrayConstructorCall).indexes.head instanceof XNumberLiteral)
+			assertTrue(((it as XVariableDeclaration).right as XJArrayConstructorCall).indexes.head instanceof XNumberLiteral)
 		]
 	}
 
@@ -239,7 +239,7 @@ class JavammParsingTest extends JavammAbstractTest {
 		arrayAccessAsArgument.assertMainLastExpression [
 			assertTrue(
 				((it as XFeatureCall).
-					actualArguments.head as JavammArrayAccessExpression
+					actualArguments.head as XJArrayAccessExpression
 				).indexes.head instanceof XNumberLiteral
 			)
 		]
@@ -249,7 +249,7 @@ class JavammParsingTest extends JavammAbstractTest {
 		arrayLiteral.assertMainLastExpression [
 			assertEquals(
 				3,
-				((it as JavammXVariableDeclaration).right
+				((it as XJVariableDeclaration).right
 					as XListLiteral
 				).elements.size
 			)
@@ -268,7 +268,7 @@ class JavammParsingTest extends JavammAbstractTest {
 		'''
 		'a';
 		'''.assertMainLastExpression[
-			assertEquals(1, (it as JavammCharLiteral).value.length)
+			assertEquals(1, (it as XJCharLiteral).value.length)
 		]
 	}
 
@@ -379,7 +379,7 @@ class JavammParsingTest extends JavammAbstractTest {
 		'''
 		int i, j = 0, k;
 		'''.assertMainLastExpression[
-			(it as JavammXVariableDeclaration) => [
+			(it as XJVariableDeclaration) => [
 				type.assertNotNull
 				additionalVariables => [
 					2.assertEquals(size)
@@ -394,7 +394,7 @@ class JavammParsingTest extends JavammAbstractTest {
 		'''
 		for (int i, j = 0, k; i < 0; i++) {}
 		'''.assertMainLastExpression[
-			((it as XBasicForLoopExpression).initExpressions.head as JavammXVariableDeclaration) => [
+			((it as XBasicForLoopExpression).initExpressions.head as XJVariableDeclaration) => [
 				type.assertNotNull
 				additionalVariables => [
 					2.assertEquals(size)
@@ -430,7 +430,7 @@ class JavammParsingTest extends JavammAbstractTest {
 		int i = 0;
 		++i;
 		'''.assertMainLastExpression[
-			assertTrue((it as JavammPrefixOperation).operand instanceof XFeatureCall)
+			assertTrue((it as XJPrefixOperation).operand instanceof XFeatureCall)
 		]
 	}
 
@@ -624,7 +624,7 @@ class JavammParsingTest extends JavammAbstractTest {
 		'''
 		;
 		'''.mainLastExpression => [
-			(it as JavammSemicolonStatement).expression.assertNull
+			(it as XJSemicolonStatement).expression.assertNull
 		]
 	}
 
