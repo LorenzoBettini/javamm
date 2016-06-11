@@ -141,24 +141,6 @@
 				<version>1.4.0</version>
 				<executions>
 					<execution>
-						<id>generateEMFModel</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>java</goal>
-						</goals>
-						<configuration>
-							<mainClass>org.eclipse.emf.mwe2.launch.runtime.Mwe2Launcher</mainClass>
-							<arguments>
-								<argument>/${project.basedir}/src/javamm/GenerateJavammModelClasses.mwe2</argument>
-								<argument>-p</argument>
-								<argument>rootPath=/${project.basedir}/..</argument>
-							</arguments>
-							<classpathScope>compile</classpathScope>
-							<includePluginDependencies>true</includePluginDependencies>
-							<cleanupDaemonThreads>false</cleanupDaemonThreads><!-- see https://bugs.eclipse.org/bugs/show_bug.cgi?id=475098#c3 -->
-						</configuration>
-					</execution>
-					<execution>
 						<id>mwe2Launcher</id>
 						<phase>generate-sources</phase>
 						<goals>
