@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="javamm.sdk"
-      label="Javamm SDK Feature "
+      id="javamm.requirements.feature"
+      label="Javamm Requirements Feature"
       version="1.4.0.qualifier"
-      provider-name="Lorenzo Bettini"
-      plugin="javamm.ui">
+      provider-name="Lorenzo Bettini">
 
    <description url="https://github.com/LorenzoBettini/javamm">
-      Java-- is a simpler version of Java aiming to teach programming
+      Java-- Requirements
    </description>
 
    <copyright url="http://www.lorenzobettini.it">
-      2015, 2016, Lorenzo Bettini, Pilu Crescenzi
+      2015, 2016 Lorenzo Bettini, Pilu Crescenzi
    </copyright>
 
    <license url="http://www.eclipse.org/org/documents/epl-v10.html">
@@ -104,53 +103,22 @@ Everyone is permitted to copy and distribute copies of this Agreement, but in or
 This Agreement is governed by the laws of the State of New York and the intellectual property laws of the United States of America. No party to this Agreement will bring a legal action under this Agreement more than one year after the cause of action arose. Each party waives its rights to a jury trial in any resulting litigation.
    </license>
 
-   <includes
-         id="javamm.requirements.feature"
-         version="0.0.0"/>
-
-   <requires>
-      <import feature="org.eclipse.xtext.xbase" version="2.10.0" match="compatible"/>
-      <import feature="org.eclipse.xtext.ui" version="2.10.0" match="compatible"/>
-      <import plugin="org.eclipse.pde.ui"/>
-   </requires>
-
    <plugin
-         id="javamm"
+         id="jbase"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="javamm.ui"
+         id="jbase.ide"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="javamm.runtime"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="javamm.ui.examples"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="javamm.selfassessment.builder"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="javamm.ide"
+         id="jbase.ui"
          download-size="0"
          install-size="0"
          version="0.0.0"

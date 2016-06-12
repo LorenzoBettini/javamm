@@ -27,6 +27,11 @@
 <repository location="http://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.10.0/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="jbase.sdk.feature.group" version="0.0.0"/>
+<unit id="jbase.sdk.source.feature.group" version="0.0.0"/>
+<repository location="https://dl.bintray.com/lorenzobettini/xtext-jbase/updates/0.2/"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.swtbot.forms.feature.group" version="0.0.0"/>
 <unit id="org.hamcrest.library" version="0.0.0"/>
 <unit id="org.eclipse.swtbot.ide.feature.group" version="0.0.0"/>

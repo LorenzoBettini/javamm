@@ -17,6 +17,7 @@
 		<module>../javamm.ui.examples</module>
 		<module>../javamm.tests</module>
 		<module>../javamm.ui.tests</module>
+		<module>../javamm.requirements.feature</module>
 		<module>../javamm.sdk</module>
 		<module>../javamm.site</module>
 	</modules>
@@ -35,6 +36,7 @@
 		<xtext.version>2.10.0</xtext.version>
 		<xtext-version>${xtext.version}</xtext-version>
 		<xtextVersion>${xtext.version}</xtextVersion>
+		<jbase-version>0.2.1</jbase-version>
 		<platform-version>[3.9,4.0)</platform-version>
 		<fornax-oaw-m2-plugin-version>3.5.1</fornax-oaw-m2-plugin-version>
 

@@ -1,8 +1,8 @@
 package javamm.tests
 
 import com.google.inject.Inject
-import javamm.javamm.JavammSemicolonStatement
-import javamm.javamm.JavammXVariableDeclaration
+import jbase.jbase.XJSemicolonStatement
+import jbase.jbase.XJVariableDeclaration
 import org.eclipse.xtext.junit4.InjectWith
 import org.eclipse.xtext.junit4.XtextRunner
 import org.eclipse.xtext.xbase.XExpression
@@ -375,7 +375,7 @@ class JavammTypeComputerTest extends JavammAbstractTest {
 
 	def private void assertVarExpressionActualType(CharSequence input, String expectedTypeName) throws Exception {
 		input.assertLastExpression[
-			assertActualType((it as JavammXVariableDeclaration).right, expectedTypeName)
+			assertActualType((it as XJVariableDeclaration).right, expectedTypeName)
 		]
 	}
 
@@ -396,7 +396,7 @@ class JavammTypeComputerTest extends JavammAbstractTest {
 
 	def private LightweightTypeReference getActualType(XExpression e) {
 		var expression = e
-		if (expression.eContainer instanceof JavammSemicolonStatement) {
+		if (expression.eContainer instanceof XJSemicolonStatement) {
 			// the type is assigned to the container semicolon statement
 			expression = expression.eContainer as XExpression
 		}

@@ -24,6 +24,8 @@ public class JavammTestableNewSelfAssessmentProjectWizard extends JavammNewSelfA
 
 	@Override
 	protected String getMainPageProjectName() {
+		// to have code coverage
+		super.getMainPageProjectName();
 		return TEST_PROJECT;
 	}
 }

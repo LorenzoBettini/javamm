@@ -9,17 +9,17 @@ import org.eclipse.xtext.xbase.jvmmodel.JvmTypesBuilder
 
 /**
  * <p>Infers a JVM model from the source model.</p> 
- *
+ * 
  * <p>The JVM model should contain all elements that would appear in the Java code 
  * which is generated from the source model. Other models link against the JVM model rather than the source model.</p>     
  */
 class JavammJvmModelInferrer extends AbstractModelInferrer {
 
-    /**
-     * convenience API to build and initialize JVM types and their members.
-     */
+	/**
+	 * convenience API to build and initialize JVM types and their members.
+	 */
 	@Inject extension JvmTypesBuilder
-	
+
 	@Inject extension IQualifiedNameProvider
 
 	/**
@@ -47,44 +47,40 @@ class JavammJvmModelInferrer extends AbstractModelInferrer {
 	 *            rely on linking using the index if isPreIndexingPhase is
 	 *            <code>true</code>.
 	 */
-   	def dispatch void infer(JavammProgram program, IJvmDeclaredTypeAcceptor acceptor, boolean isPreIndexingPhase) {
-   		val main = program.main
-   		val className = program.fullyQualifiedName
-   		
-   		acceptor.accept(program.toClass(className)) [
-   			for (m : program.javammMethods) {
-   				members += m.toMethod(m.name, m.type) [
-   					documentation = m.documentation
-   					
-   					static = true
-   					
-   					for (p : m.params) {
-   						var parameterType = p.parameterType
-   						if (p.varArgs) {
-	   						// varArgs is a property of JvmExecutable
-	   						varArgs = p.varArgs
-   							parameterType = parameterType.addArrayTypeDimension
-   						}
-						parameters += p.toParameter(p.name, parameterType)
-   					}
-   					
-   					body = m.body
-   				]
-   			}
-   			
-   			// to make org.eclipse.xtext.xbase.imports.TypeUsageCollector.collectAllReferences(EObject) find
-   			// all used type references and thus to make OrganizeImports work, we must associate the Java main
-   			// method to the Main model element (if defined in the source program)
-   			val source = main ?: program
-   			
-   			// the class gets one main method
-   			members += source.toMethod('main', typeRef(Void.TYPE)) [
-   				parameters += source.toParameter("args", typeRef(String).addArrayTypeDimension)
-   				static = true
-   				// Associate the script as the body of the main method
-   				body = main
-   			]	
-   		]
-   	}
-}
+	def dispatch void infer(JavammProgram program, IJvmDeclaredTypeAcceptor acceptor, boolean isPreIndexingPhase) {
+		val main = program.main
+		val className = program.fullyQualifiedName
 
+		acceptor.accept(program.toClass(className)) [
+			for (m : program.javammMethods) {
+				members += m.toMethod(m.name, m.type) [
+					documentation = m.documentation
+					static = true
+					for (p : m.params) {
+						var parameterType = p.parameterType
+						if (p.varArgs) {
+							// varArgs is a property of JvmExecutable
+							varArgs = p.varArgs
+							parameterType = parameterType.addArrayTypeDimension
+						}
+						parameters += p.toParameter(p.name, parameterType)
+					}
+					body = m.body
+				]
+			}
+
+			// to make org.eclipse.xtext.xbase.imports.TypeUsageCollector.collectAllReferences(EObject) find
+			// all used type references and thus to make OrganizeImports work, we must associate the Java main
+			// method to the Main model element (if defined in the source program)
+			val source = main ?: program
+
+			// the class gets one main method
+			members += source.toMethod('main', typeRef(Void.TYPE)) [
+				parameters += source.toParameter("args", typeRef(String).addArrayTypeDimension)
+				static = true
+				// Associate the script as the body of the main method
+				body = main
+			]
+		]
+	}
+}

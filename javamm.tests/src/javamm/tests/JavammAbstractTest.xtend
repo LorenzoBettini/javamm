@@ -1,14 +1,14 @@
 package javamm.tests
 
 import com.google.inject.Inject
-import javamm.javamm.JavammArrayAccessExpression
-import javamm.javamm.JavammArrayConstructorCall
-import javamm.javamm.JavammArrayLiteral
-import javamm.javamm.JavammConditionalExpression
 import javamm.javamm.JavammProgram
-import javamm.javamm.JavammSemicolonStatement
-import javamm.javamm.JavammXVariableDeclaration
 import javamm.tests.inputs.JavammInputs
+import jbase.jbase.XJArrayAccessExpression
+import jbase.jbase.XJArrayConstructorCall
+import jbase.jbase.XJArrayLiteral
+import jbase.jbase.XJConditionalExpression
+import jbase.jbase.XJSemicolonStatement
+import jbase.jbase.XJVariableDeclaration
 import org.eclipse.xtext.junit4.util.ParseHelper
 import org.eclipse.xtext.junit4.validation.ValidationTestHelper
 import org.eclipse.xtext.xbase.XBlockExpression
@@ -58,7 +58,7 @@ abstract class JavammAbstractTest {
 	}
 
 	protected def applyTester(XExpression last, (XExpression)=>void tester) {
-		if (last instanceof JavammSemicolonStatement) {
+		if (last instanceof XJSemicolonStatement) {
 			tester.apply(last.expression)
 		} else {
 			tester.apply(last)
@@ -71,7 +71,7 @@ abstract class JavammAbstractTest {
 	}
 
 	protected def getVariableDeclarationRightAsArrayConstructorCall(XExpression it) {
-		getVariableDeclaration.right as JavammArrayConstructorCall
+		getVariableDeclaration.right as XJArrayConstructorCall
 	}
 	
 	protected def getVariableDeclarationRight(XExpression it) {
@@ -79,11 +79,11 @@ abstract class JavammAbstractTest {
 	}
 
 	protected def getVariableDeclaration(XExpression it) {
-		it as JavammXVariableDeclaration
+		it as XJVariableDeclaration
 	}
 
 	protected def getArrayLiteral(XExpression it) {
-		it as JavammArrayLiteral
+		it as XJArrayLiteral
 	}
 
 	protected def getMemberFeatureCall(XExpression it) {
@@ -95,7 +95,7 @@ abstract class JavammAbstractTest {
 	}
 
 	protected def getArrayAccess(XExpression it) {
-		it as JavammArrayAccessExpression
+		it as XJArrayAccessExpression
 	}
 
 	protected def getFeatureCall(XExpression it) {
@@ -107,7 +107,7 @@ abstract class JavammAbstractTest {
 	}
 
 	protected def getConditional(XExpression it) {
-		it as JavammConditionalExpression
+		it as XJConditionalExpression
 	}
 
 	protected def getInstanceOf(XExpression it) {
