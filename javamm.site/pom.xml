@@ -212,7 +212,7 @@
 													<classfiles>
 														<fileset dir="../javamm.ui/target/classes" 
 															includes="**/*.class"
-															excludes="**/*ExtensionFactory*,**/*UiModule*,**/*Internal*,**/*Sequencer*,**/*Abstract*,**/*GrammarAccess*,**/antlr/*.*,**/internal/*.*,**/javamm/javamm/util/*.*,**/javamm/javamm/impl/*.*,**/ui/launch/*.*,**/JavammProjectCreator.*,**/JavammNewProjectWizard.class,**/NewJavammFileWizardPage.class,**/NewJavammFileWizard.class"/>
+															excludes="**/*ExtensionFactory*,**/*UiModule*,**/*Internal*,**/*Sequencer*,**/*Abstract*,**/*GrammarAccess*,**/antlr/*.*,**/internal/*.*,**/javamm/javamm/util/*.*,**/javamm/javamm/impl/*.*,**/ui/launch/*.*,**/JavammProjectCreator.*,**/JavammNewProjectWizard.class,**/NewJavammFileWizardPage.*,**/NewJavammFileWizard.*"/>
 													</classfiles>
 													<sourcefiles>
 														<fileset dir="../javamm.ui/src" />
