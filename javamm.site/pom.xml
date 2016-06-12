@@ -200,7 +200,7 @@
 														<!-- Process class files only, ignore jacocoagent.jar -->
 														<fileset dir="../javamm/target/classes" 
 															includes="**/*.class"
-															excludes="**/*RuntimeModule*,**/*StandaloneSetup*,**/*Internal*,**/*Sequencer*,**/*Abstract*,**/*GrammarAccess*,**/antlr/*.*,**/internal/*.*,**/javamm/javamm/util/*.*,**/javamm/javamm/impl/*.*" 
+															excludes="**/*RuntimeModule*,**/*StandaloneSetup*,**/*Internal*,**/*Sequencer*,**/*Abstract*,**/*GrammarAccess*,**/antlr/*.*,**/internal/*.*,**/javamm/javamm/util/*.*,**/javamm/javamm/impl/*.*"
 														/>
 													</classfiles>
 													<sourcefiles>
@@ -212,7 +212,8 @@
 													<classfiles>
 														<fileset dir="../javamm.ui/target/classes" 
 															includes="**/*.class"
-															excludes="**/*ExtensionFactory*,**/*UiModule*,**/*Internal*,**/*Sequencer*,**/*Abstract*,**/*GrammarAccess*,**/antlr/*.*,**/internal/*.*,**/javamm/javamm/util/*.*,**/javamm/javamm/impl/*.*,**/ui/launch/*.*,**/JavammProjectCreator.*,**/JavammNewProjectWizard.class,**/NewJavammFileWizardPage.*,**/NewJavammFileWizard.*"/>
+															excludes="**/*ExtensionFactory*,**/*UiModule*,**/*Internal*,**/*Sequencer*,**/*Abstract*,**/*GrammarAccess*,**/antlr/*.*,**/internal/*.*,**/javamm/javamm/util/*.*,**/javamm/javamm/impl/*.*,**/ui/launch/*.*,**/JavammProjectCreator.*,**/JavammNewProjectWizard.class,**/ui/wizard/file/*.*"
+														/>
 													</classfiles>
 													<sourcefiles>
 														<fileset dir="../javamm.ui/src" />
