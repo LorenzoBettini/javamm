@@ -689,20 +689,6 @@ class JavammFormatterTest extends JavammAbstractTest {
 		]
 	}
 
-	/**
-	 * TODO we should disable function type refs
-	 */
-	@Test def void testXFunctionTypeRef() {
-		assertFormatted[
-			expectation = '''
-				(String)=>Integer i;
-			'''
-			toBeFormatted = '''
-				( String )  =>  Integer  i;
-			'''
-		]
-	}
-
 	@Inject
 	private JavammFormatter formatter;
 	val xbaseFactory = XbaseFactory.eINSTANCE
