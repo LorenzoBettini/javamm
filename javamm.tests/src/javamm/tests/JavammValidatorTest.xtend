@@ -328,6 +328,44 @@ class JavammValidatorTest extends JavammAbstractTest {
 		'''.parse.assertUnreachableExpression(jbasePack.XJSemicolonStatement)
 	}
 
+	@Test def void testInvalidFunctionalType() {
+		'''
+		()=>int f = null;
+		'''.parse.assertError(
+			XbasePackage.eINSTANCE.XBinaryOperation,
+			Diagnostic.SYNTAX_DIAGNOSTIC,
+			"no viable alternative at input ')'"
+		)
+	}
+
+	@Test def void testNoPrintlnExtensionMethod() {
+		'''
+		println("Hello");
+		'''.parse.assertErrorsAsStrings(
+		'''
+		The method println(String) is undefined
+		'''
+		)
+	}
+
+	@Test def void testNoAddToCollectionExtensionMethod() {
+		'''
+		java.util.List<String> strings = new java.util.LinkedList<String>();
+		strings += "a";
+		'''.parse.assertTypeMismatch(
+			XbasePackage.eINSTANCE.XBinaryOperation,
+			"List<String>",
+			"String"
+		)
+	}
+
+	@Test def void testValidExplicitAddToCollection() {
+		'''
+		java.util.List<String> strings = new java.util.LinkedList<String>();
+		strings.add("a");
+		'''.parse.assertNoErrors
+	}
+
 	@Test def void testInvalidContinue() {
 		'''
 		void m() {
