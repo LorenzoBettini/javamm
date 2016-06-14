@@ -8,15 +8,25 @@ import javamm.javamm.JavammProgram
 import javamm.javamm.Main
 import jbase.formatting2.JbaseFormatter
 import org.eclipse.xtext.formatting2.IFormattableDocument
-import org.eclipse.xtext.xbase.XClosure
-import org.eclipse.xtext.xbase.XSynchronizedExpression
-import org.eclipse.xtext.xbase.XThrowExpression
-import org.eclipse.xtext.xbase.XTryCatchFinallyExpression
-import org.eclipse.xtext.xbase.XTypeLiteral
 
 class JavammFormatter extends JbaseFormatter {
 
-	def dispatch void format(JavammProgram javammprogram, extension IFormattableDocument document) {
+	override void format(Object expr, extension IFormattableDocument document) {
+		// you could use dispatch methods, but that will generate many other
+		// if cases for inherited dispatch methods that will never be executed during the
+		// tests and I prefer to have full control on code coverage.
+		if (expr instanceof JavammProgram) {
+			_format(expr, document)
+		} else if (expr instanceof JavammMethod) {
+			_format(expr, document)
+		} else if (expr instanceof Main) {
+			_format(expr, document)
+		} else {
+			super.format(expr, document)
+		}
+	}
+
+	def void _format(JavammProgram javammprogram, extension IFormattableDocument document) {
 		val importSection = javammprogram.getImportSection()
 		if (importSection != null) {
 			// to avoid a useless newline at the beginning of the program
@@ -36,7 +46,7 @@ class JavammFormatter extends JbaseFormatter {
 		format(javammprogram.getMain(), document);
 	}
 
-	def dispatch void format(JavammMethod javammmethod, extension IFormattableDocument document) {
+	def void _format(JavammMethod javammmethod, extension IFormattableDocument document) {
 		javammmethod.type.prepend[noSpace].append[oneSpace]
 		format(javammmethod.type, document);
 
@@ -53,28 +63,7 @@ class JavammFormatter extends JbaseFormatter {
 		format(javammmethod.body, document);
 	}
 
-	def dispatch void format(Main main, extension IFormattableDocument document) {
+	def void _format(Main main, extension IFormattableDocument document) {
 		formatExpressions(main.expressions, document, false)
 	}
-
-	override dispatch void format(XClosure expr, extension IFormattableDocument format) {
-		
-	}
-
-	override dispatch void format(XThrowExpression expr, extension IFormattableDocument format) {
-		
-	}
-
-	override dispatch void format(XSynchronizedExpression expr, extension IFormattableDocument format) {
-		
-	}
-
-	override dispatch void format(XTryCatchFinallyExpression expr, extension IFormattableDocument format) {
-		
-	}
-
-	override dispatch void format(XTypeLiteral expr, extension IFormattableDocument format) {
-		
-	}
-
 }

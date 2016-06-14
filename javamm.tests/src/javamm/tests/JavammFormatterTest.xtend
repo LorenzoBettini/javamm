@@ -1,13 +1,9 @@
 package javamm.tests
 
 import com.google.inject.Inject
-import javamm.formatting2.JavammFormatter
-import org.eclipse.xtext.common.types.TypesFactory
-import org.eclipse.xtext.formatting2.internal.RootDocument
 import org.eclipse.xtext.junit4.InjectWith
 import org.eclipse.xtext.junit4.XtextRunner
 import org.eclipse.xtext.junit4.formatter.FormatterTester
-import org.eclipse.xtext.xbase.XbaseFactory
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -689,39 +685,4 @@ class JavammFormatterTest extends JavammAbstractTest {
 		]
 	}
 
-	@Inject
-	private JavammFormatter formatter;
-	val xbaseFactory = XbaseFactory.eINSTANCE
-	val typeFactory = TypesFactory.eINSTANCE
-
-	/**
-	 * We don't use such expressions but the dispatch method in the formatter
-	 * has cases also for these expressions.
-	 */
-	@Test def void testXbaseExpressions() {
-		callFormat(typeFactory.createJvmTypeParameter)
-		callFormat(typeFactory.createJvmFormalParameter)
-		callFormat(xbaseFactory.createXClosure)
-		callFormat(xbaseFactory.createXThrowExpression)
-		callFormat(xbaseFactory.createXSynchronizedExpression)
-		callFormat(xbaseFactory.createXTryCatchFinallyExpression)
-		callFormat(xbaseFactory.createXTypeLiteral)
-		callFormat(xbaseFactory.createXCatchClause)
-	}
-
-	@Test def void testNullArg() {
-		callFormat(null)
-	}
-
-	@Test def void testObject() {
-		callFormat(new Object)
-	}
-
-	def private callFormat(Object o) {
-		formatter.format(o, createFormattableRootDocument)
-	}
-
-	def private createFormattableRootDocument() {
-		return new RootDocument(formatter);
-	}
 }
