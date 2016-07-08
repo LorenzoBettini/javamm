@@ -125,6 +125,21 @@ class JavammSerializerTest extends JavammAbstractTest {
 		'''.assertSerialize
 	}
 
+	@Test def void testBitwiseInclusiveOr() {
+		'''
+			0 | 1;
+		'''.assertSerialize
+	}
+
+	@Test def void testBitwiseOperators() {
+		'''
+			0 & 1;
+			0 | 1;
+			0 ^ 1;
+			~1;
+		'''.assertSerialize
+	}
+
 	def private assertSerialize(CharSequence input) {
 		val o = input.parse
 		input.toString.assertEquals(serializer.serialize(o))
