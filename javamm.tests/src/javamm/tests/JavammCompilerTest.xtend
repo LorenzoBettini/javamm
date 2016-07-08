@@ -2678,6 +2678,81 @@ public class MyFile {
 		)
 	}
 
+	@Test def void testBitwiseOperators() {
+		'''
+		int result;
+		int i = 1, j = 2;
+		result = i & j;
+		System.out.println(i & j);
+		result = i | j;
+		System.out.println(i | j);
+		result = i ^ j;
+		System.out.println(i ^ j);
+		result = ~j;
+		System.out.println(~j);
+		
+		System.out.println(i << j);
+		System.out.println(i >> j);
+		System.out.println(i >>> j);
+		'''.checkCompilation(
+'''
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int result = 0;
+    int i = 1;
+    int j = 2;
+    result = (i & j);
+    System.out.println((i & j));
+    result = (i | j);
+    System.out.println((i | j));
+    result = (i ^ j);
+    System.out.println((i ^ j));
+    int _bitwiseNot = (~j);
+    result = _bitwiseNot;
+    int _bitwiseNot_1 = (~j);
+    System.out.println(_bitwiseNot_1);
+    System.out.println((i << j));
+    System.out.println((i >> j));
+    System.out.println((i >>> j));
+  }
+}
+'''
+		)
+	}
+
+	@Test def void testBitwiseOperatorsOnChars() {
+		'''
+		System.out.println('a' & 'b');
+		System.out.println('a' | 'b');
+		System.out.println('a' ^ 'b');
+		System.out.println(~'b');
+		System.out.println('a' << 'b');
+		System.out.println('a' >> 'b');
+		System.out.println('a' >>> 'b');
+		'''.checkCompilation(
+'''
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    System.out.println(('a' & 'b'));
+    System.out.println(('a' | 'b'));
+    System.out.println(('a' ^ 'b'));
+    int _bitwiseNot = (~'b');
+    System.out.println(_bitwiseNot);
+    System.out.println(('a' << 'b'));
+    System.out.println(('a' >> 'b'));
+    System.out.println(('a' >>> 'b'));
+  }
+}
+'''
+		)
+	}
+
 	@Test def void testBubbleSort() {
 		bubbleSort.checkCompilation(
 '''
