@@ -1,13 +1,17 @@
 package javamm.tests
 
 import jbase.jbase.XJArrayAccessExpression
+import jbase.jbase.XJArrayConstructorCall
 import jbase.jbase.XJAssignment
 import jbase.jbase.XJCharLiteral
 import jbase.jbase.XJPrefixOperation
 import jbase.jbase.XJSemicolonStatement
 import jbase.jbase.XJVariableDeclaration
+import jbase.util.JbaseNodeModelUtil
+import org.eclipse.emf.ecore.EObject
 import org.eclipse.xtext.junit4.InjectWith
 import org.eclipse.xtext.junit4.XtextRunner
+import org.eclipse.xtext.nodemodel.util.NodeModelUtils
 import org.eclipse.xtext.xbase.XAssignment
 import org.eclipse.xtext.xbase.XBasicForLoopExpression
 import org.eclipse.xtext.xbase.XBinaryOperation
@@ -21,11 +25,11 @@ import org.eclipse.xtext.xbase.XPostfixOperation
 import org.eclipse.xtext.xbase.XStringLiteral
 import org.eclipse.xtext.xbase.XVariableDeclaration
 import org.eclipse.xtext.xbase.XWhileExpression
+import org.eclipse.xtext.xbase.XbasePackage
 import org.junit.Test
 import org.junit.runner.RunWith
 
 import static extension org.junit.Assert.*
-import jbase.jbase.XJArrayConstructorCall
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammInjectorProvider))
@@ -643,4 +647,180 @@ class JavammParsingTest extends JavammAbstractTest {
 		]
 	}
 
+	@Test
+	def void testBooleanAnd() {
+		'''
+		true && false;
+		'''.assertBinaryOperation(
+			"org.eclipse.xtext.xbase.lib.BooleanExtensions.operator_and(boolean,boolean)")
+	}
+
+	@Test
+	def void testBitwiseAnd() {
+		'''
+		0 & 1;
+		'''.assertBinaryOperation("org.eclipse.xtext.xbase.lib.IntegerExtensions.bitwiseAnd(int,int)")
+	}
+
+	@Test
+	def void testBooleanOr() {
+		'''
+		true || false;
+		'''.assertBinaryOperation("org.eclipse.xtext.xbase.lib.BooleanExtensions.operator_or(boolean,boolean)")
+	}
+
+	@Test
+	def void testBitwiseOr() {
+		'''
+		0 | 1;
+		'''.assertBinaryOperation("org.eclipse.xtext.xbase.lib.IntegerExtensions.bitwiseOr(int,int)")
+	}
+
+	@Test
+	def void testBitwiseXor() {
+		'''
+		0 ^ 1;
+		'''.assertBinaryOperation("org.eclipse.xtext.xbase.lib.IntegerExtensions.bitwiseXor(int,int)")
+	}
+
+	@Test
+	def void testBitwiseNot() {
+		'''
+		~1;
+		'''.assertUnaryOperation("org.eclipse.xtext.xbase.lib.IntegerExtensions.bitwiseNot(int)")
+	}
+
+	@Test
+	def void testLeftShift() {
+		'''
+		1 << 2;
+		'''.assertBinaryOperation("org.eclipse.xtext.xbase.lib.IntegerExtensions.operator_doubleLessThan(int,int)")
+	}
+
+	@Test
+	def void testRightShift() {
+		'''
+		1 >> 2;
+		'''.assertBinaryOperation("org.eclipse.xtext.xbase.lib.IntegerExtensions.operator_doubleGreaterThan(int,int)")
+	}
+
+	@Test
+	def void testUnsignedRightShift() {
+		'''
+		1 >>> 2;
+		'''.assertBinaryOperation("org.eclipse.xtext.xbase.lib.IntegerExtensions.operator_tripleGreaterThan(int,int)")
+	}
+
+	@Test
+	def void testBitwiseOnChar() {
+		'''
+		'a' >>> 'b';
+		'''.assertBinaryOperation("org.eclipse.xtext.xbase.lib.IntegerExtensions.operator_tripleGreaterThan(int,int)")
+	}
+
+	@Test
+	def void testAndOrPrecedence() {
+		'''
+		1 && 2 || 3 && 4
+		'''.assertPrecedence(
+		'''
+		((1 && 2) || (3 && 4))
+		'''
+		)
+	}
+
+	@Test
+	def void testBitwisePrecedenceAnd() {
+		'''
+		1 && 2 & 3
+		'''.assertPrecedence(
+		'''
+		(1 && (2 & 3))
+		'''
+		)
+	}
+
+	@Test
+	def void testBitwisePrecedenceAndOr() {
+		'''
+		1 | 2 && 3
+		'''.assertPrecedence(
+		'''
+		((1 | 2) && 3)
+		'''
+		)
+	}
+
+	@Test
+	def void testBitwisePrecedence() {
+		'''
+		1 && 2 & 3 ^ 4
+		'''.assertPrecedence(
+		'''
+		(1 && ((2 & 3) ^ 4))
+		'''
+		)
+	}
+
+	@Test
+	def void testBooleanBitwiseXor() {
+		'''
+		true ^ false;
+		'''.assertBinaryOperation("jbase.lib.JbaseBooleanExtensions.bitwiseXor(boolean,boolean)")
+	}
+
+	@Test
+	def void testBooleanBitwiseAnd() {
+		'''
+		true & false;
+		'''.assertBinaryOperation("jbase.lib.JbaseBooleanExtensions.bitwiseAnd(boolean,boolean)")
+	}
+
+	@Test
+	def void testBooleanBitwiseOr() {
+		'''
+		true | false;
+		'''.assertBinaryOperation("jbase.lib.JbaseBooleanExtensions.bitwiseOr(boolean,boolean)")
+	}
+
+	def private assertBinaryOperation(CharSequence input, String expectedResolvedFeature) {
+		input.assertMainLastExpression[
+			XBinaryOperation => [
+				expectedResolvedFeature.
+				assertEquals(feature.identifier)
+			]
+		]
+	}
+
+	def private assertUnaryOperation(CharSequence input, String expectedResolvedFeature) {
+		input.assertMainLastExpression[
+			XUnaryOperation => [
+				expectedResolvedFeature.
+				assertEquals(feature.identifier)
+			]
+		]
+	}
+
+	def private assertPrecedence(CharSequence input, CharSequence expected) {
+		input.assertMainLastExpression[
+			expected.toString.trim.assertEquals(stringRepr)
+		]
+	}
+
+	def private String stringRepr(EObject model) {
+		val util = new JbaseNodeModelUtil
+		switch (model) {
+			XBinaryOperation:
+				"(" + 
+				stringRepr(model.leftOperand) + " " +
+				NodeModelUtils.getTokenText(
+					NodeModelUtils.
+						findNodesForFeature(model, XbasePackage.eINSTANCE.XAbstractFeatureCall_Feature).
+						head
+				) + " " +
+				stringRepr(model.rightOperand)
+				+ ")"
+			default: util.getProgramText(model)
+		}
+	}
 }

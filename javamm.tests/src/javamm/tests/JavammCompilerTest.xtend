@@ -2678,6 +2678,205 @@ public class MyFile {
 		)
 	}
 
+	@Test def void testBitwiseOperators() {
+		'''
+		int result;
+		int i = 1, j = 2;
+		result = i & j;
+		System.out.println(i & j);
+		result = i | j;
+		System.out.println(i | j);
+		result = i ^ j;
+		System.out.println(i ^ j);
+		result = ~j;
+		System.out.println(~j);
+		
+		System.out.println(i << j);
+		System.out.println(i >> j);
+		System.out.println(i >>> j);
+		'''.checkCompilation(
+'''
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    int result = 0;
+    int i = 1;
+    int j = 2;
+    result = (i & j);
+    System.out.println((i & j));
+    result = (i | j);
+    System.out.println((i | j));
+    result = (i ^ j);
+    System.out.println((i ^ j));
+    int _bitwiseNot = (~j);
+    result = _bitwiseNot;
+    int _bitwiseNot_1 = (~j);
+    System.out.println(_bitwiseNot_1);
+    System.out.println((i << j));
+    System.out.println((i >> j));
+    System.out.println((i >>> j));
+  }
+}
+'''
+		)
+	}
+
+	@Test def void testBitwiseOperatorsOnChars() {
+		'''
+		System.out.println('a' & 'b');
+		System.out.println('a' | 'b');
+		System.out.println('a' ^ 'b');
+		System.out.println(~'b');
+		System.out.println('a' << 'b');
+		System.out.println('a' >> 'b');
+		System.out.println('a' >>> 'b');
+		'''.checkCompilation(
+'''
+package javamm;
+
+@SuppressWarnings("all")
+public class MyFile {
+  public static void main(String[] args) {
+    System.out.println(('a' & 'b'));
+    System.out.println(('a' | 'b'));
+    System.out.println(('a' ^ 'b'));
+    int _bitwiseNot = (~'b');
+    System.out.println(_bitwiseNot);
+    System.out.println(('a' << 'b'));
+    System.out.println(('a' >> 'b'));
+    System.out.println(('a' >>> 'b'));
+  }
+}
+'''
+		)
+	}
+
+	@Test def void testShortCircuit() {
+		'''
+		boolean mTrue() {
+			System.out.println("mTrue called");
+			return true;
+		}
+		
+		boolean mFalse() {
+			System.out.println("mFalse called");
+			return false;
+		}
+		
+		void testMe() {
+			System.out.println("mFalse() && mTrue() = " + (mFalse() && mTrue()));
+		}
+		''' => [
+			checkCompilation(
+			'''
+			package javamm;
+			
+			@SuppressWarnings("all")
+			public class MyFile {
+			  public static boolean mTrue() {
+			    System.out.println("mTrue called");
+			    return true;
+			  }
+			  
+			  public static boolean mFalse() {
+			    System.out.println("mFalse called");
+			    return false;
+			  }
+			  
+			  public static void testMe() {
+			    String _plus = ("mFalse() && mTrue() = " + Boolean.valueOf((MyFile.mFalse() && MyFile.mTrue())));
+			    System.out.println(_plus);
+			  }
+			  
+			  public static void main(String[] args) {
+			  }
+			}
+			'''
+			)
+			assertExecuteMain(
+			'''
+			mFalse called
+			mFalse() && mTrue() = false
+			'''
+			)
+		]
+	}
+
+	@Test def void testNotShortCircuitBoolean() {
+		'''
+		boolean mTrue() {
+			System.out.println("mTrue called");
+			return true;
+		}
+		
+		boolean mFalse() {
+			System.out.println("mFalse called");
+			return false;
+		}
+		
+		void testMe() {
+			System.out.println("mFalse() ^ mTrue() = " + (mFalse() ^ mTrue()));
+			System.out.println("mFalse() & mTrue() = " + (mFalse() & mTrue()));
+			System.out.println("mTrue() | mFalse() = " + (mTrue() | mFalse()));
+		}
+		''' => [
+			checkCompilation(
+			'''
+			package javamm;
+			
+			@SuppressWarnings("all")
+			public class MyFile {
+			  public static boolean mTrue() {
+			    System.out.println("mTrue called");
+			    return true;
+			  }
+			  
+			  public static boolean mFalse() {
+			    System.out.println("mFalse called");
+			    return false;
+			  }
+			  
+			  public static void testMe() {
+			    boolean _mFalse = MyFile.mFalse();
+			    boolean _mTrue = MyFile.mTrue();
+			    boolean _bitwiseXor = (_mFalse ^ _mTrue);
+			    String _plus = ("mFalse() ^ mTrue() = " + Boolean.valueOf(_bitwiseXor));
+			    System.out.println(_plus);
+			    boolean _mFalse_1 = MyFile.mFalse();
+			    boolean _mTrue_1 = MyFile.mTrue();
+			    boolean _bitwiseAnd = (_mFalse_1 & _mTrue_1);
+			    String _plus_1 = ("mFalse() & mTrue() = " + Boolean.valueOf(_bitwiseAnd));
+			    System.out.println(_plus_1);
+			    boolean _mTrue_2 = MyFile.mTrue();
+			    boolean _mFalse_2 = MyFile.mFalse();
+			    boolean _bitwiseOr = (_mTrue_2 | _mFalse_2);
+			    String _plus_2 = ("mTrue() | mFalse() = " + Boolean.valueOf(_bitwiseOr));
+			    System.out.println(_plus_2);
+			  }
+			  
+			  public static void main(String[] args) {
+			  }
+			}
+			'''
+			)
+			assertExecuteMain(
+			'''
+			mFalse called
+			mTrue called
+			mFalse() ^ mTrue() = true
+			mFalse called
+			mTrue called
+			mFalse() & mTrue() = false
+			mTrue called
+			mFalse called
+			mTrue() | mFalse() = true
+			'''
+			)
+		]
+	}
+
 	@Test def void testBubbleSort() {
 		bubbleSort.checkCompilation(
 '''

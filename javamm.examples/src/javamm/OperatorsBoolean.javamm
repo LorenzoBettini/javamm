@@ -1,0 +1,17 @@
+boolean mTrue() {
+	System.out.println("mTrue called");
+	return true;
+}
+
+boolean mFalse() {
+	System.out.println("mFalse called");
+	return false;
+}
+
+// lazy operators
+System.out.println("mFalse() && mTrue() = " + (mFalse() && mTrue()));
+System.out.println("mTrue() || mFalse() = " + (mTrue() || mFalse()));
+
+// non lazy operators
+System.out.println("mFalse() & mTrue() = " + (mFalse() & mTrue()));
+System.out.println("mTrue() | mFalse() = " + (mTrue() | mFalse()));

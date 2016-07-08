@@ -332,7 +332,7 @@ class JavammValidatorTest extends JavammAbstractTest {
 		'''
 		()=>int f = null;
 		'''.parse.assertError(
-			XbasePackage.eINSTANCE.XBinaryOperation,
+			jbasePack.XJSemicolonStatement,
 			Diagnostic.SYNTAX_DIAGNOSTIC,
 			"no viable alternative at input ')'"
 		)
