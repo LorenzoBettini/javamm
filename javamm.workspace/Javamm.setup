@@ -210,15 +210,6 @@
     </setupTask>
     <setupTask
         xsi:type="setup.p2:P2Task"
-        label="Findbugs">
-      <requirement
-          name="edu.umd.cs.findbugs.plugin.eclipse.feature.group"
-          optional="true"/>
-      <repository
-          url="http://findbugs.cs.umd.edu/eclipse/"/>
-    </setupTask>
-    <setupTask
-        xsi:type="setup.p2:P2Task"
         label="B3 Aggregator">
       <requirement
           name="org.eclipse.b3.aggregator.editor.feature.feature.group"/>
@@ -509,7 +500,7 @@
     <setupTask
         xsi:type="setup:VariableTask"
         name="mwe2.site"
-        value="http://download.eclipse.org/modeling/emft/mwe/updates/releases/2.8.3/"/>
+        value="http://download.eclipse.org/modeling/emft/mwe/updates/releases/2.9.0"/>
     <setupTask
         xsi:type="setup:VariableTask"
         name="xtext.site"
@@ -517,7 +508,7 @@
     <setupTask
         xsi:type="setup:VariableTask"
         name="jbase.site"
-        value="https://dl.bintray.com/lorenzobettini/xtext-jbase/updates/0.3/"/>
+        value="https://dl.bintray.com/lorenzobettini/xtext-jbase/updates/0.4/"/>
     <setupTask
         xsi:type="setup.p2:P2Task"
         id="p2.org.eclipse.xtext"
