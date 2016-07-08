@@ -11,6 +11,7 @@ import jbase.jbase.XJSemicolonStatement
 import jbase.jbase.XJVariableDeclaration
 import org.eclipse.xtext.junit4.util.ParseHelper
 import org.eclipse.xtext.junit4.validation.ValidationTestHelper
+import org.eclipse.xtext.xbase.XBinaryOperation
 import org.eclipse.xtext.xbase.XBlockExpression
 import org.eclipse.xtext.xbase.XCastedExpression
 import org.eclipse.xtext.xbase.XExpression
@@ -18,6 +19,7 @@ import org.eclipse.xtext.xbase.XFeatureCall
 import org.eclipse.xtext.xbase.XIfExpression
 import org.eclipse.xtext.xbase.XInstanceOfExpression
 import org.eclipse.xtext.xbase.XMemberFeatureCall
+import org.eclipse.xtext.xbase.XUnaryOperation
 
 import static org.junit.Assert.*
 
@@ -116,5 +118,13 @@ abstract class JavammAbstractTest {
 
 	protected def getIfStatement(XExpression it) {
 		it as XIfExpression
+	}
+
+	protected def getXBinaryOperation(XExpression it) {
+		it as XBinaryOperation
+	}
+
+	protected def getXUnaryOperation(XExpression it) {
+		it as XUnaryOperation
 	}
 }
