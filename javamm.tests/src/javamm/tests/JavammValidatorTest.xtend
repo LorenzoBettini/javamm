@@ -1265,6 +1265,19 @@ class JavammValidatorTest extends JavammAbstractTest {
 		'''.parse.assertNoErrors
 	}
 
+	@Test def void testJbaseExpressionArgumentFactory_Issue57() {
+		// https://github.com/LorenzoBettini/javamm/issues/57
+		'''
+		toString[0] = 0;
+		'''.parse.assertErrorsAsStrings(
+		'''
+		The type of the expression must be an array type but it resolved to String
+		Cannot make a static reference to the non-static method toString from the type __synthetic0
+		Invalid number of arguments. The method toString() is not applicable for the arguments (int)
+		'''
+		)
+	}
+
 	def private assertNumberLiteralTypeMismatch(EObject o, String expectedType, String actualType) {
 		o.assertTypeMismatch(XbasePackage.eINSTANCE.XNumberLiteral, expectedType, actualType)
 	}
