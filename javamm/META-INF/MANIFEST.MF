@@ -22,7 +22,7 @@ Require-Bundle: org.eclipse.xtext;bundle-version="[2.10.0,2.11.0)";visibility:=r
  org.eclipse.xtext.ecore,
  org.eclipse.equinox.common,
  org.eclipse.xtend.lib,
- jbase;bundle-version="[0.4.1,0.5.0)";visibility:=reexport,
+ jbase;bundle-version="[0.5.0,0.6.0)";visibility:=reexport,
  jbase.mwe2;resolution:=optional
 Import-Package: org.apache.log4j
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
