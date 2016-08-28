@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="JavammIDE" uid="javamm.eclipse.ide.product" id="javamm.eclipse.sdk.product" application="org.eclipse.ui.ide.workbench" version="1.5.2.qualifier" useFeatures="true" includeLaunchers="true">
+<product name="JavammIDE" uid="javamm.eclipse.ide.product" id="javamm.eclipse.sdk.product" application="org.eclipse.ui.ide.workbench" version="1.5.3.qualifier" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <image path="eclipse_lg.gif"/>

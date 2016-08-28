@@ -7,7 +7,7 @@
 		<relativePath>../javamm.releng/pom.xml</relativePath>
 		<groupId>javamm</groupId>
 		<artifactId>javamm.releng</artifactId>
-		<version>1.5.2-SNAPSHOT</version>
+		<version>1.5.3-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>javamm.swtbot.tests</artifactId>
