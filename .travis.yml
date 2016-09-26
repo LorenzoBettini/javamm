@@ -39,5 +39,8 @@ script:
  - export
  - bash -e ./travis_build.sh
 
+after_success:
+ - ls -lR javamm.site/target/repository/
+
 after_failure:
  - ls -lR javamm.swtbot.tests/target/work/
