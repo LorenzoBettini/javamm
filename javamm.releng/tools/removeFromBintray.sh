@@ -22,6 +22,12 @@ echo "${PCK_VERSION}"
 echo "${PATH_TO_REPOSITORY}"
 
 
+echo "Removing metadata content.xml.xz..."
+curl -X DELETE -u${BINTRAY_USER}:${BINTRAY_API_KEY} "https://api.bintray.com/content/${BINTRAY_USER}/${BINTRAY_REPO}/${PATH_TO_REPOSITORY}/content.xml.xz"
+echo ""
+echo "Removing metadata artifacts.xml.xz..."
+curl -X DELETE -u${BINTRAY_USER}:${BINTRAY_API_KEY} "https://api.bintray.com/content/${BINTRAY_USER}/${BINTRAY_REPO}/${PATH_TO_REPOSITORY}/artifacts.xml.xz"
+echo ""
 echo "Removing metadata content.jar..."
 curl -X DELETE -u${BINTRAY_USER}:${BINTRAY_API_KEY} "https://api.bintray.com/content/${BINTRAY_USER}/${BINTRAY_REPO}/${PATH_TO_REPOSITORY}/content.jar"
 echo ""
