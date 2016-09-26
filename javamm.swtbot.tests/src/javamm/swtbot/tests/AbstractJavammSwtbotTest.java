@@ -31,6 +31,7 @@ import org.junit.BeforeClass;
 
 public class AbstractJavammSwtbotTest {
 
+	public static final String PACKAGE_EXPLORER = "Package Explorer";
 	public static final String CATEGORY_NAME = "Java--";
 	protected static final String PROJECT_TYPE = "Java-- Project";
 	protected static final String SELF_ASSESSMENT_PROJECT_TYPE = "Java-- Self-Assessment Projects";
@@ -66,6 +67,9 @@ public class AbstractJavammSwtbotTest {
 		// In Luna Error Log is not visible by default in Plug-in Perspective
 		//bot.viewByPartName("Error Log").close();
 		bot.viewByPartName("Problems").show();
+
+		// In Neon the Package Explorer is not part of the Plug-in Development perspective
+		bot.menu("Window").menu("Show View").menu(PACKAGE_EXPLORER).click();
 	}
 
 	@AfterClass
@@ -137,7 +141,7 @@ public class AbstractJavammSwtbotTest {
 	}
 
 	protected static SWTBotView getPackageExplorer() {
-		SWTBotView view = bot.viewByTitle("Package Explorer");
+		SWTBotView view = bot.viewByTitle(PACKAGE_EXPLORER);
 		return view;
 	}
 
