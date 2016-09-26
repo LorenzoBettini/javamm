@@ -6,7 +6,8 @@ if [ "$TRAVIS_OS_NAME" == "osx" ]; then
 		echo "Build on MacOSX: Pull Request"
 		mvn -f javamm.releng/pom.xml clean verify -U -Dfindbugs.skip=true -Pide-tests
 	else
-		echo "Skipping build on MacOSX for standard commit"
+		echo "Build on MacOSX for standard commit"
+		mvn -f javamm.releng/pom.xml clean verify -U -Dfindbugs.skip=true -Pide-tests
 	fi
 else
 	echo "Build on Linux"
