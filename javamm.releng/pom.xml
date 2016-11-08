@@ -29,7 +29,7 @@
 		<maven-antrun-plugin.version>1.7</maven-antrun-plugin.version>
 		<junit-version>4.11</junit-version>
 		<jacoco-version>0.7.7.201606060606</jacoco-version>
-		<findbugs-version>2.5.5</findbugs-version>
+		<findbugs-version>3.0.4</findbugs-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<os-jvm-flags />
 		<memoryArgs>-Xms256M -Xmx1024M -XX:PermSize=256M -XX:MaxPermSize=256M -XX:+HeapDumpOnOutOfMemoryError</memoryArgs>
