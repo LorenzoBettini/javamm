@@ -20,7 +20,7 @@ public class JavammQualifiedNameProvider extends XbaseQualifiedNameProvider {
 		if (obj instanceof JavammProgram) {
 			JavammProgram program = (JavammProgram) obj;
 			return getConverter().toQualifiedName("javamm." + 
-					program.eResource().getURI().trimFileExtension().lastSegment().toString());
+					program.eResource().getURI().trimFileExtension().lastSegment());
 		}
 		return super.getFullyQualifiedName(obj);
 	}
