@@ -75,6 +75,15 @@ public class JavammSelfAssessmentBuilder extends IncrementalProjectBuilder {
 			}
 		}
 
+		private void clearStudentProjectDestination(IProgressMonitor monitor) throws CoreException {
+			IFolder folder = getStudentProjectDestinationFolder();
+			// don't delete the whole folder, but only its contents.
+			// deleting the folder would make PDE complain about missing library
+			// folder
+			for (IResource resource : folder.members()) {
+				resource.delete(true, monitor);
+			}
+		}
 	}
 
 	@Override
@@ -103,16 +112,6 @@ public class JavammSelfAssessmentBuilder extends IncrementalProjectBuilder {
 			}
 		} else if (isClassFile(resource)) {
 			copyToStudentProject(resource, monitor);
-		}
-	}
-
-	private void clearStudentProjectDestination(IProgressMonitor monitor) throws CoreException {
-		IFolder folder = getStudentProjectDestinationFolder();
-		// don't delete the whole folder, but only its contents.
-		// deleting the folder would make PDE complain about missing library
-		// folder
-		for (IResource resource : folder.members()) {
-			resource.delete(true, monitor);
 		}
 	}
 
