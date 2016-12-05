@@ -20,7 +20,7 @@ public class JavammImportedNamespaceScopeProvider extends XImportSectionNamespac
 
 	@Override
 	protected List<ImportNormalizer> getImplicitImports(boolean ignoreCase) {
-		List<ImportNormalizer> implicitImports = new ArrayList<ImportNormalizer>(super.getImplicitImports(ignoreCase));
+		List<ImportNormalizer> implicitImports = new ArrayList<>(super.getImplicitImports(ignoreCase));
 		implicitImports.add(new ImportNormalizer(QualifiedName.create("javamm","util"), true, ignoreCase));
 		return implicitImports;
 	}

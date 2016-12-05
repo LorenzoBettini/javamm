@@ -13,7 +13,7 @@ import org.junit.runner.RunWith
 class JavammJvmModelInferrerTest {
 
 	@Inject JavammJvmModelInferrer inferrer
-	
+
 	@Test def void testWithANonJavammProgram() {
 		inferrer.infer(JavammFactory.eINSTANCE.createJavammMethod, null, false)
 	}

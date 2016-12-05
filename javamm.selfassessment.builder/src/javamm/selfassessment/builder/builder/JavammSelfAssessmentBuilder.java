@@ -67,6 +67,23 @@ public class JavammSelfAssessmentBuilder extends IncrementalProjectBuilder {
 			// we already manage the full build for the whole project
 			return false;
 		}
+
+		private void fullCopy(IProgressMonitor monitor) throws CoreException {
+			clearStudentProjectDestination(monitor);
+			for (IResource member : getProject().getFolder(BIN).members()) {
+				copyClassFiles(member, monitor);
+			}
+		}
+
+		private void clearStudentProjectDestination(IProgressMonitor monitor) throws CoreException {
+			IFolder folder = getStudentProjectDestinationFolder();
+			// don't delete the whole folder, but only its contents.
+			// deleting the folder would make PDE complain about missing library
+			// folder
+			for (IResource resource : folder.members()) {
+				resource.delete(true, monitor);
+			}
+		}
 	}
 
 	@Override
@@ -87,13 +104,6 @@ public class JavammSelfAssessmentBuilder extends IncrementalProjectBuilder {
 		return resource instanceof IFile && resource.getName().endsWith(".class");
 	}
 
-	private void fullCopy(IProgressMonitor monitor) throws CoreException {
-		clearStudentProjectDestination(monitor);
-		for (IResource member : getProject().getFolder(BIN).members()) {
-			copyClassFiles(member, monitor);
-		}
-	}
-
 	private void copyClassFiles(IResource resource, IProgressMonitor monitor) throws CoreException {
 		if (resource instanceof IFolder) {
 			IFolder folder = (IFolder) resource;
@@ -102,16 +112,6 @@ public class JavammSelfAssessmentBuilder extends IncrementalProjectBuilder {
 			}
 		} else if (isClassFile(resource)) {
 			copyToStudentProject(resource, monitor);
-		}
-	}
-
-	private void clearStudentProjectDestination(IProgressMonitor monitor) throws CoreException {
-		IFolder folder = getStudentProjectDestinationFolder();
-		// don't delete the whole folder, but only its contents.
-		// deleting the folder would make PDE complain about missing library
-		// folder
-		for (IResource resource : folder.members()) {
-			resource.delete(true, monitor);
 		}
 	}
 
