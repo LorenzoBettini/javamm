@@ -52,7 +52,7 @@
 		<jacoco.reportPath>${project.basedir}/../target/coverage</jacoco.reportPath>
 		<jacoco.xml.reportPath>${jacoco.reportPath}/coverage.xml</jacoco.xml.reportPath>
 		<!--  <sonar.junit.reportsPath>../${project.artifactId}.tests/target/surefire-reports/</sonar.junit.reportsPath> -->
-		<sonar.exclusions>file:**/ui/launch/*.java,file:**/*SelfAssessmentNature.java,file:**/*JvmModelGenerator.java,file:**/New*FileWizard*.java,file:**/src-gen/**,file:**/emf-gen/**,file:**/impl/*ImplCustom.java,file:**/tests/**,**/*RuntimeModule.java,**/*UiModule.java,**/*XcoreReader.java,**/*UiExamples.java,**/*TypeSystemGen*.java,**/*StandaloneSetup*.java,**/*Activator.java</sonar.exclusions>
+		<sonar.exclusions>file:**/ui/launch/*.java,file:**/*SelfAssessmentNature.java,file:**/*JvmModelGenerator.java,file:**/New*FileWizard*.java,file:**/New*Initial*.java,file:**/src-gen/**,file:**/emf-gen/**,file:**/impl/*ImplCustom.java,file:**/tests/**,**/*RuntimeModule.java,**/*UiModule.java,**/*XcoreReader.java,**/*UiExamples.java,**/*TypeSystemGen*.java,**/*StandaloneSetup*.java,**/*Activator.java</sonar.exclusions>
 		<sonar.coverage.exclusions>**/Input.*</sonar.coverage.exclusions>
 		
 		<!-- see http://sonarqube.15.x6.nabble.com/sonar-issue-ignore-multicriteria-td5021722.html and
