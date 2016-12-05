@@ -58,7 +58,7 @@
 		<!-- see http://sonarqube.15.x6.nabble.com/sonar-issue-ignore-multicriteria-td5021722.html and
 		 http://stackoverflow.com/questions/21825469/configure-sonar-sonar-issue-ignore-multicriteria-through-maven
 		 for the multicriteria property -->
-		<sonar.issue.ignore.multicriteria>e11,e12,e13,e14,e2,e3,e4,e5,e6,e7</sonar.issue.ignore.multicriteria>
+		<sonar.issue.ignore.multicriteria>e11,e12,e13,e14,e2,e3,e4,e5,e6,e7,e8</sonar.issue.ignore.multicriteria>
 		
 		<!-- standard convention for method names: in the outline tree provider we
 		 must use methods that start with _ and they'd violate the rule squid:S00100 -->
@@ -98,6 +98,10 @@
 		<!-- since we use frameworks it's normal to have a deep inheritance -->
 		<sonar.issue.ignore.multicriteria.e7.ruleKey>squid:MaximumInheritanceDepth</sonar.issue.ignore.multicriteria.e7.ruleKey>
 		<sonar.issue.ignore.multicriteria.e7.resourceKey>**/*.java</sonar.issue.ignore.multicriteria.e7.resourceKey>
+
+		<!-- Disable rule for undocumented API (we have no API) -->
+		<sonar.issue.ignore.multicriteria.e8.ruleKey>squid:UndocumentedApi</sonar.issue.ignore.multicriteria.e8.ruleKey>
+		<sonar.issue.ignore.multicriteria.e8.resourceKey>**/*.java</sonar.issue.ignore.multicriteria.e8.resourceKey>
 
 		<!--  sonar.skippedModules is deprecated: https://jira.codehaus.org/browse/SONAR-5109 -->
 		<!-- instead we must use advanced reactor options: https://jira.codehaus.org/browse/MSONAR-61  -->
