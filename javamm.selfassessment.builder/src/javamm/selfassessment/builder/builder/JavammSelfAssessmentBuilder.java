@@ -67,6 +67,14 @@ public class JavammSelfAssessmentBuilder extends IncrementalProjectBuilder {
 			// we already manage the full build for the whole project
 			return false;
 		}
+
+		private void fullCopy(IProgressMonitor monitor) throws CoreException {
+			clearStudentProjectDestination(monitor);
+			for (IResource member : getProject().getFolder(BIN).members()) {
+				copyClassFiles(member, monitor);
+			}
+		}
+
 	}
 
 	@Override
@@ -85,13 +93,6 @@ public class JavammSelfAssessmentBuilder extends IncrementalProjectBuilder {
 
 	private boolean isClassFile(IResource resource) {
 		return resource instanceof IFile && resource.getName().endsWith(".class");
-	}
-
-	private void fullCopy(IProgressMonitor monitor) throws CoreException {
-		clearStudentProjectDestination(monitor);
-		for (IResource member : getProject().getFolder(BIN).members()) {
-			copyClassFiles(member, monitor);
-		}
 	}
 
 	private void copyClassFiles(IResource resource, IProgressMonitor monitor) throws CoreException {
