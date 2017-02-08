@@ -64,7 +64,6 @@
       name="org.eclipse.debug.ui">
     <setupTask
         xsi:type="setup:PreferenceTask"
-        id=""
         key="/instance/org.eclipse.debug.ui/org.eclipse.debug.ui.cancel_launch_with_compile_errors"
         value="always"/>
   </setupTask>
@@ -484,7 +483,7 @@
   </setupTask>
   <setupTask
       xsi:type="projects:ProjectsBuildTask"
-      id="Clean Build"
+      id="CleanBuild"
       refresh="true"
       clean="true"/>
   <setupTask
