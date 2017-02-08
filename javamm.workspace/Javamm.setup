@@ -264,18 +264,6 @@
       <repository
           url="http://update.eclemma.org"/>
     </setupTask>
-    <setupTask
-        xsi:type="setup.p2:P2Task"
-        label="Xdoc">
-      <requirement
-          name="org.eclipse.xtext.xdoc.feature.feature.group"/>
-      <repository
-          url="http://sourceforge.net/projects/xtext-xdoc/files/updates-2.7"/>
-      <repository
-          url="${xtext.site}"/>
-      <repository
-          url="${mwe2.site}"/>
-    </setupTask>
   </setupTask>
   <setupTask
       xsi:type="git:GitCloneTask"
@@ -318,8 +306,6 @@
       <requirement
           name="de.itemis.xtext.antlr.feature.feature.group"/>
       <requirement
-          name="org.eclipse.xtext.xdoc.feature.feature.group"/>
-      <requirement
           name="jbase.sdk.feature.group"/>
       <sourceLocator
           rootFolder="${git.clone.location}"/>
@@ -335,8 +321,6 @@
             url="${mwe2.site}"/>
         <repository
             url="http://download.eclipse.org/technology/swtbot/releases/latest/"/>
-        <repository
-            url="http://sourceforge.net/projects/xtext-xdoc/files/updates-2.7"/>
       </repositoryList>
       <repositoryList
           name="Mars">
@@ -350,8 +334,6 @@
             url="${mwe2.site}"/>
         <repository
             url="http://download.eclipse.org/technology/swtbot/releases/latest/"/>
-        <repository
-            url="http://sourceforge.net/projects/xtext-xdoc/files/updates-2.7"/>
         <repository
             url="${jbase.site}"/>
       </repositoryList>
@@ -367,8 +349,6 @@
             url="${mwe2.site}"/>
         <repository
             url="http://download.eclipse.org/technology/swtbot/releases/latest/"/>
-        <repository
-            url="http://sourceforge.net/projects/xtext-xdoc/files/updates-2.7"/>
         <repository
             url="${jbase.site}"/>
       </repositoryList>
