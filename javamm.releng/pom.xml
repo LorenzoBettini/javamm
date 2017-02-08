@@ -233,9 +233,14 @@
 			</activation>
 			<properties>
 				<includeAllDependencies>false</includeAllDependencies>
+				<!-- Old properties for Sourceforge -->
+				<!--
 				<updates.dir>javamm-snapshots</updates.dir>
 				<remote.updates.dir>snapshots/updates/releases</remote.updates.dir>
 				<remote.zips.dir>snapshots/zips</remote.zips.dir>
+				-->
+				<bintray.package>snapshots</bintray.package>
+				<bintray.base.path>snapshots/</bintray.base.path>
 				<site.label>Java-- Snapshot Site</site.label>
 			</properties>
 		</profile>
