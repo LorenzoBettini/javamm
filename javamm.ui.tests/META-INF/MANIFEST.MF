@@ -15,9 +15,11 @@ Require-Bundle: javamm.ui,
  org.eclipse.pde.core;bundle-version="3.10.2",
  org.eclipse.jdt.core,
  javamm.selfassessment.builder,
- org.eclipse.xtext.common.types.ui
+ org.eclipse.xtext.common.types.ui,
+ org.eclipse.xtext.testing,
+ org.eclipse.xtext.xbase.testing
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Export-Package: javamm.ui.tests
+Export-Package: javamm.ui.tests;x-internal=true
 Import-Package: org.junit.runners;version="4.5.0",
  org.junit.runners.model;version="4.5.0",
  org.hamcrest.core,

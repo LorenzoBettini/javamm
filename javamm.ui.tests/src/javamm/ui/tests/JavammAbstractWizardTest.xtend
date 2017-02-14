@@ -5,9 +5,9 @@ import javamm.tests.utils.ui.PDETargetPlatformUtils
 import javamm.tests.utils.ui.PluginProjectHelper
 import org.eclipse.jface.wizard.Wizard
 import org.eclipse.jface.wizard.WizardDialog
-import org.eclipse.xtext.junit4.InjectWith
-import org.eclipse.xtext.junit4.XtextRunner
 import org.eclipse.xtext.junit4.ui.AbstractWorkbenchTest
+import org.eclipse.xtext.testing.InjectWith
+import org.eclipse.xtext.testing.XtextRunner
 import org.junit.BeforeClass
 import org.junit.runner.RunWith
 

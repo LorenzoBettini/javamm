@@ -5,8 +5,8 @@ import com.google.inject.Provider
 import javamm.tests.utils.ui.JavammTestableNewProjectWizard
 import org.eclipse.jface.viewers.StructuredSelection
 import org.eclipse.ui.PlatformUI
-import org.eclipse.xtext.junit4.InjectWith
-import org.eclipse.xtext.junit4.XtextRunner
+import org.eclipse.xtext.testing.InjectWith
+import org.eclipse.xtext.testing.XtextRunner
 import org.junit.Test
 import org.junit.runner.RunWith
 
