@@ -6,5 +6,5 @@ Bundle-Version: 1.6.0.qualifier
 Bundle-Vendor: Lorenzo Bettini
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Require-Bundle: org.eclipse.xtext.xbase.lib;visibility:=reexport,
- jbase.lib;bundle-version="[0.5.0,0.6.0)";visibility:=reexport
+ jbase.lib;visibility:=reexport
 Export-Package: javamm.util
