@@ -8,13 +8,13 @@ Bundle-ActivationPolicy: lazy
 Require-Bundle: javamm,
  javamm.ui,
  org.eclipse.core.runtime,
- org.eclipse.xtext.junit4,
  org.objectweb.asm;bundle-version="[5.0.1,6.0.0)";resolution:=optional,
- org.eclipse.xtext.xbase.junit,
  org.eclipse.jdt.core,
  org.eclipse.xtext.xbase.lib,
  javamm.selfassessment.builder,
- javamm.runtime
+ javamm.runtime,
+ org.eclipse.xtext.testing,
+ org.eclipse.xtext.xbase.testing
 Import-Package: org.apache.log4j,
  org.junit;version="4.5.0",
  org.junit.runner;version="4.5.0",
@@ -24,4 +24,4 @@ Import-Package: org.apache.log4j,
  org.junit.runners.model;version="4.5.0",
  org.hamcrest.core
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Export-Package: javamm.tests
+Export-Package: javamm.tests;x-internal=true

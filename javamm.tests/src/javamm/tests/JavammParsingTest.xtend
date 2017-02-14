@@ -9,9 +9,9 @@ import jbase.jbase.XJSemicolonStatement
 import jbase.jbase.XJVariableDeclaration
 import jbase.util.JbaseNodeModelUtil
 import org.eclipse.emf.ecore.EObject
-import org.eclipse.xtext.junit4.InjectWith
-import org.eclipse.xtext.junit4.XtextRunner
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils
+import org.eclipse.xtext.testing.InjectWith
+import org.eclipse.xtext.testing.XtextRunner
 import org.eclipse.xtext.xbase.XAssignment
 import org.eclipse.xtext.xbase.XBasicForLoopExpression
 import org.eclipse.xtext.xbase.XBinaryOperation

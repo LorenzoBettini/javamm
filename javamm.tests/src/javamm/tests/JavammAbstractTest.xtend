@@ -9,8 +9,8 @@ import jbase.jbase.XJArrayLiteral
 import jbase.jbase.XJConditionalExpression
 import jbase.jbase.XJSemicolonStatement
 import jbase.jbase.XJVariableDeclaration
-import org.eclipse.xtext.junit4.util.ParseHelper
-import org.eclipse.xtext.junit4.validation.ValidationTestHelper
+import org.eclipse.xtext.testing.util.ParseHelper
+import org.eclipse.xtext.testing.validation.ValidationTestHelper
 import org.eclipse.xtext.xbase.XBinaryOperation
 import org.eclipse.xtext.xbase.XBlockExpression
 import org.eclipse.xtext.xbase.XCastedExpression

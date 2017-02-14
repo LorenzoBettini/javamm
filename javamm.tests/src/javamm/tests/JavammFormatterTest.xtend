@@ -1,17 +1,17 @@
 package javamm.tests
 
 import com.google.inject.Inject
-import org.eclipse.xtext.junit4.InjectWith
-import org.eclipse.xtext.junit4.XtextRunner
-import org.eclipse.xtext.junit4.formatter.FormatterTester
+import org.eclipse.xtext.testing.InjectWith
+import org.eclipse.xtext.testing.XtextRunner
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.eclipse.xtext.testing.formatter.FormatterTestHelper
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammInjectorProvider))
 class JavammFormatterTest extends JavammAbstractTest {
 	
-	@Inject extension FormatterTester
+	@Inject extension FormatterTestHelper
 
 	@Test def void testProgramSpaces() {
 		assertFormatted[
