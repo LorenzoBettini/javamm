@@ -3109,7 +3109,7 @@ public class MyFile {
 				assertNoValidationErrors
 			}
 			
-			if (expectedGeneratedJava != null) {
+			if (expectedGeneratedJava !== null) {
 				assertGeneratedJavaCode(expectedGeneratedJava)
 			}
 			
