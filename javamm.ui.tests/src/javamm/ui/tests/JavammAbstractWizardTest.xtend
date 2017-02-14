@@ -27,7 +27,7 @@ abstract class JavammAbstractWizardTest extends AbstractWorkbenchTest {
 					override run() {
 						// wait for the shell to become active
 						var attempt = 0
-						while (getShell() == null && (attempt++) < 5) {
+						while (getShell() === null && (attempt++) < 5) {
 							println("Waiting for shell to become active")
 							Thread.sleep(5000)
 						}
@@ -40,7 +40,7 @@ abstract class JavammAbstractWizardTest extends AbstractWorkbenchTest {
 							getShell().close;
 						]
 						attempt = 0
-						while (getShell() != null && (attempt++) < 5) {
+						while (getShell() !== null && (attempt++) < 5) {
 							println("Waiting for shell to be disposed")
 							Thread.sleep(5000)
 						}
