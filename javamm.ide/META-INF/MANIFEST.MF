@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: javamm.ide
 Bundle-Vendor: Lorenzo Bettini
-Bundle-Version: 1.6.0.qualifier
+Bundle-Version: 1.7.0.qualifier
 Bundle-SymbolicName: javamm.ide; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: javamm,
