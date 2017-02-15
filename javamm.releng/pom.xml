@@ -448,11 +448,12 @@
 						</goals>
 						<configuration>
 							<excludes>
+								<!-- These are bundles and feature that do not have a corresponding 
+									source version; NOT the ones that we do not want source versions -->
 								<plugin id="javamm.runtime" />
 								<plugin id="javamm.ui.examples" />
 								<plugin id="javamm.eclipse.sdk" />
 
-								<feature id="javamm.requirements.feature" />
 								<feature id="javamm.swtbot.tests.feature" />
 
 								<feature id="org.eclipse.swtbot.ide" />
