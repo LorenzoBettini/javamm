@@ -28,7 +28,7 @@ class JavammFormatter extends JbaseFormatter {
 
 	def void _format(JavammProgram javammprogram, extension IFormattableDocument document) {
 		val importSection = javammprogram.getImportSection()
-		if (importSection != null) {
+		if (importSection !== null) {
 			// to avoid a useless newline at the beginning of the program
 			javammprogram.prepend[setNewLines(0, 0, 0); noSpace]
 			format(importSection, document);

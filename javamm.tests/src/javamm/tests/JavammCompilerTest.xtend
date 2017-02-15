@@ -5,11 +5,11 @@ import com.google.inject.Inject
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream
 import org.eclipse.xtext.diagnostics.Severity
-import org.eclipse.xtext.junit4.InjectWith
-import org.eclipse.xtext.junit4.TemporaryFolder
-import org.eclipse.xtext.junit4.XtextRunner
-import org.eclipse.xtext.xbase.compiler.CompilationTestHelper
-import org.eclipse.xtext.xbase.compiler.CompilationTestHelper.Result
+import org.eclipse.xtext.testing.InjectWith
+import org.eclipse.xtext.testing.XtextRunner
+import org.eclipse.xtext.xbase.testing.CompilationTestHelper
+import org.eclipse.xtext.xbase.testing.CompilationTestHelper.Result
+import org.eclipse.xtext.xbase.testing.TemporaryFolder
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -291,12 +291,9 @@ public class MyFile {
   public static void main(String[] args) {
     int[][] arr = null;
     int l = 0;
-    int _length = arr[0].length;
-    l = _length;
-    boolean _equals = arr[0].equals(arr[1]);
-    System.out.println(_equals);
-    int _hashCode = arr[0].hashCode();
-    System.out.println(_hashCode);
+    l = arr[0].length;
+    System.out.println(arr[0].equals(arr[1]));
+    System.out.println(arr[0].hashCode());
   }
 }
 '''
@@ -1706,8 +1703,7 @@ public class MyFile {
     String a = new String("a");
     System.out.println(("a" == "a"));
     System.out.println((a == "a"));
-    boolean _equals = "a".equals("a");
-    System.out.println(_equals);
+    System.out.println("a".equals("a"));
   }
 }
 '''
@@ -2197,8 +2193,7 @@ import java.util.Vector;
 public class MyFile {
   public static void main(String[] args) {
     Vector<? extends String> v = new Vector<String>();
-    String _get = v.get(0);
-    System.out.println(_get);
+    System.out.println(v.get(0));
   }
 }
 '''
@@ -2396,8 +2391,7 @@ public class MyFile {
   public static void main(String[] args) {
     Collection<String> strings = new ArrayList<String>();
     if ((strings instanceof List)) {
-      Object _get = ((List) strings).get(0);
-      System.out.println(_get);
+      System.out.println(((List) strings).get(0));
     }
   }
 }
@@ -3115,7 +3109,7 @@ public class MyFile {
 				assertNoValidationErrors
 			}
 			
-			if (expectedGeneratedJava != null) {
+			if (expectedGeneratedJava !== null) {
 				assertGeneratedJavaCode(expectedGeneratedJava)
 			}
 			

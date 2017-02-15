@@ -488,11 +488,11 @@
     <setupTask
         xsi:type="setup:VariableTask"
         name="api.baseline.version"
-        value="1.3.4"/>
+        value="1.6.0"/>
     <setupTask
         xsi:type="setup:VariableTask"
         name="api.baseline.zip"
-        value="javamm.site-1.3.4.v20160521-0935.zip"/>
+        value="javamm.site-1.6.0.v20170208-2057.zip"/>
     <setupTask
         xsi:type="setup:VariableTask"
         name="mwe2.site"
@@ -500,11 +500,11 @@
     <setupTask
         xsi:type="setup:VariableTask"
         name="xtext.site"
-        value="http://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.10.0/"/>
+        value="http://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.11.0/"/>
     <setupTask
         xsi:type="setup:VariableTask"
         name="jbase.site"
-        value="https://dl.bintray.com/lorenzobettini/xtext-jbase/updates/0.5/"/>
+        value="https://dl.bintray.com/lorenzobettini/xtext-jbase/updates/0.6/"/>
     <setupTask
         xsi:type="setup.p2:P2Task"
         id="p2.org.eclipse.xtext"
@@ -512,7 +512,7 @@
         licenseConfirmationDisabled="true">
       <requirement
           name="org.eclipse.xtext.sdk.feature.group"
-          versionRange="[2.10.0,2.11.0)"/>
+          versionRange="[2.11.0,2.12.0)"/>
       <requirement
           name="de.itemis.xtext.antlr.feature.feature.group"/>
       <repository
