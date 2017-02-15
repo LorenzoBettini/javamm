@@ -5,6 +5,8 @@ It is implemented with **Xtext**, https://www.eclipse.org/Xtext, and **Jbase**, 
 
 ## Installation
 
+Starting from version 1.7.0, Java-- **requires Java 8**.
+
 You can either install Java-- SDK into an existing Eclipse or download a pre-configured Eclipse distribution with Java-- installed (choosing the one for your operating system).
 
 ### Eclipse update site
