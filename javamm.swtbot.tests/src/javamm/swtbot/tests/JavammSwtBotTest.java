@@ -3,7 +3,7 @@
  */
 package javamm.swtbot.tests;
 
-import static org.eclipse.xtext.junit4.ui.util.IResourcesSetupUtil.waitForBuild;
+import static org.eclipse.xtext.ui.testing.util.IResourcesSetupUtil.waitForBuild;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.core.runtime.CoreException;
