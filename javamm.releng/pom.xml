@@ -36,7 +36,7 @@
 		<xtext.version>2.11.0</xtext.version>
 		<xtext-version>${xtext.version}</xtext-version>
 		<xtextVersion>${xtext.version}</xtextVersion>
-		<mwe2Version>[2.9.0,3.0)</mwe2Version>
+		<mwe2Version>2.9.0.201605261059</mwe2Version>
 		<jbase-version>0.6.0</jbase-version>
 		<platform-version>[3.9,4.0)</platform-version>
 		<fornax-oaw-m2-plugin-version>3.5.1</fornax-oaw-m2-plugin-version>
