@@ -3,19 +3,19 @@ package javamm.tests.utils.ui
 import com.google.inject.Inject
 import com.google.inject.Provider
 import java.util.List
+import javamm.selfassessment.builder.builder.JavammSelfAssessmentBuilder
+import javamm.selfassessment.builder.builder.JavammSelfAssessmentNature
 import org.eclipse.core.resources.IMarker
 import org.eclipse.core.resources.IResource
 import org.eclipse.core.runtime.NullProgressMonitor
 import org.eclipse.jdt.core.IJavaProject
 import org.eclipse.jdt.core.JavaCore
-import org.eclipse.xtext.junit4.ui.util.JavaProjectSetupUtil
 import org.eclipse.xtext.ui.XtextProjectHelper
+import org.eclipse.xtext.ui.testing.util.JavaProjectSetupUtil
 import org.eclipse.xtext.ui.util.PluginProjectFactory
 
-import static org.eclipse.xtext.junit4.ui.util.IResourcesSetupUtil.*
+import static org.eclipse.xtext.ui.testing.util.IResourcesSetupUtil.*
 import static org.junit.Assert.*
-import javamm.selfassessment.builder.builder.JavammSelfAssessmentBuilder
-import javamm.selfassessment.builder.builder.JavammSelfAssessmentNature
 
 class PluginProjectHelper {
 
