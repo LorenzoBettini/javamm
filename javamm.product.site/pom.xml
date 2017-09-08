@@ -121,7 +121,7 @@
 								<repository>
 									<id>mars</id>
 									<layout>p2</layout>
-									<url>http://download.eclipse.org/releases/neon</url>
+									<url>http://download.eclipse.org/releases/oxygen</url>
 								</repository>
 							</repositories>
 							<dependencies>
