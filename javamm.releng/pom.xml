@@ -23,7 +23,7 @@
 	</modules>
 
 	<properties>
-		<tycho-version>0.25.0</tycho-version>
+		<tycho-version>1.0.0</tycho-version>
 		<tycho-extras-version>${tycho-version}</tycho-extras-version>
 		<maven-surefire-plugin.version>2.17</maven-surefire-plugin.version>
 		<maven-antrun-plugin.version>1.7</maven-antrun-plugin.version>
