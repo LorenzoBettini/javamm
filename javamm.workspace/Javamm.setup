@@ -262,7 +262,7 @@
         xsi:type="setup.p2:P2Task"
         label="Eclemma Jacoco">
       <requirement
-          name="com.mountainminds.eclemma.feature.feature.group"/>
+          name="org.eclipse.eclemma.feature.feature.group"/>
       <repository
           url="http://update.eclemma.org"/>
     </setupTask>
@@ -498,15 +498,15 @@
     <setupTask
         xsi:type="setup:VariableTask"
         name="mwe2.site"
-        value="http://download.eclipse.org/modeling/emft/mwe/updates/releases/2.9.0"/>
+        value="http://download.eclipse.org/modeling/emft/mwe/updates/releases/2.9.1"/>
     <setupTask
         xsi:type="setup:VariableTask"
         name="xtext.site"
-        value="http://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.11.0/"/>
+        value="http://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.12.0/"/>
     <setupTask
         xsi:type="setup:VariableTask"
         name="jbase.site"
-        value="https://dl.bintray.com/lorenzobettini/xtext-jbase/updates/0.6/"/>
+        value="https://dl.bintray.com/lorenzobettini/xtext-jbase/updates/0.7/"/>
     <setupTask
         xsi:type="setup.p2:P2Task"
         id="p2.org.eclipse.xtext"
@@ -514,7 +514,7 @@
         licenseConfirmationDisabled="true">
       <requirement
           name="org.eclipse.xtext.sdk.feature.group"
-          versionRange="[2.11.0,2.12.0)"/>
+          versionRange="[2.12.0,2.13.0)"/>
       <requirement
           name="de.itemis.xtext.antlr.feature.feature.group"/>
       <repository
