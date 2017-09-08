@@ -1,7 +1,7 @@
 package javamm.swtbot.tests;
 
 import static org.eclipse.swtbot.swt.finder.waits.Conditions.shellCloses;
-import static org.eclipse.xtext.junit4.ui.util.IResourcesSetupUtil.*;
+import static org.eclipse.xtext.ui.testing.util.IResourcesSetupUtil.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 

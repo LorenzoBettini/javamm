@@ -33,15 +33,15 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<os-jvm-flags />
 		<memoryArgs>-Xms256M -Xmx1024M -XX:PermSize=256M -XX:MaxPermSize=256M -XX:+HeapDumpOnOutOfMemoryError</memoryArgs>
-		<xtext.version>2.11.0</xtext.version>
+		<xtext.version>2.12.0</xtext.version>
 		<xtext-version>${xtext.version}</xtext-version>
 		<xtextVersion>${xtext.version}</xtextVersion>
 		<mwe2Version>2.9.0.201605261059</mwe2Version>
-		<jbase-version>0.6.0</jbase-version>
+		<jbase-version>0.7.0</jbase-version>
 		<platform-version>[3.9,4.0)</platform-version>
 		<fornax-oaw-m2-plugin-version>3.5.1</fornax-oaw-m2-plugin-version>
 
-		<target-file-name>neon-xtext-2.11</target-file-name>
+		<target-file-name>neon-xtext-2.12</target-file-name>
 
 		<!-- <jacoco.reportPath>../target/jacoco.exec</jacoco.reportPath> -->
 		<!-- <findbugs.reportPath>../target/findbugs</findbugs.reportPath> -->

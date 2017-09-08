@@ -1278,6 +1278,13 @@ class JavammValidatorTest extends JavammAbstractTest {
 		)
 	}
 
+	@Test def void testComparisonWithNull_Issue90() {
+		'''
+		String s = "";
+		System.out.println(s == null);
+		'''.parse.assertNoIssues
+	}
+
 	def private assertNumberLiteralTypeMismatch(EObject o, String expectedType, String actualType) {
 		o.assertTypeMismatch(XbasePackage.eINSTANCE.XNumberLiteral, expectedType, actualType)
 	}
