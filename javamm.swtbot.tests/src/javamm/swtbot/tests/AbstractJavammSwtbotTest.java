@@ -58,7 +58,7 @@ public class AbstractJavammSwtbotTest {
 
 		// select the dialog
 		bot.table().select("Plug-in Development");
-		bot.button("OK").click();
+		bot.button("Open").click();
 
 		// in SwtBot 2.2.0 we must use part name since the title
 		// of the problems view also contains the items count

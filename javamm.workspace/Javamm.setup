@@ -98,7 +98,7 @@
   <setupTask
       xsi:type="setup:VariableTask"
       name="eclipse.target.platform"
-      defaultValue="Neon"
+      defaultValue="Oxygen"
       storageURI="scope://Workspace"/>
   <setupTask
       xsi:type="setup:ResourceCreationTask"
@@ -123,10 +123,6 @@
           name="org.eclipse.releng.tools.feature.group"/>
       <requirement
           name="org.eclipse.wst.xml_ui.feature.feature.group"/>
-      <repository
-          url="http://download.eclipse.org/eclipse/updates/4.6"/>
-      <repository
-          url="http://download.eclipse.org/releases/neon"/>
     </setupTask>
     <setupTask
         xsi:type="setup.p2:P2Task"
@@ -151,13 +147,9 @@
         label="M2E"
         licenseConfirmationDisabled="true">
       <requirement
-          name="org.sonatype.tycho.m2e.feature.feature.group"/>
-      <requirement
           name="org.eclipse.m2e.feature.feature.group"/>
       <requirement
           name="org.sonatype.m2e.buildhelper.feature.feature.group"/>
-      <repository
-          url="http://repo1.maven.org/maven2/.m2e/connectors/m2eclipse-tycho/0.9.0/N/LATEST"/>
       <repository
           url="http://repo1.maven.org/maven2/.m2e/connectors/m2eclipse-buildhelper/0.15.0/N/0.15.0.201207090124/"/>
       <description>Maven connector</description>
@@ -311,6 +303,21 @@
           name="jbase.sdk.feature.group"/>
       <sourceLocator
           rootFolder="${git.clone.location}"/>
+      <repositoryList
+          name="Oxygen">
+        <repository
+            url="http://download.eclipse.org/releases/oxygen"/>
+        <repository
+            url="http://download.itemis.com/updates/releases/2.1.1/"/>
+        <repository
+            url="${xtext.site}"/>
+        <repository
+            url="${mwe2.site}"/>
+        <repository
+            url="http://download.eclipse.org/technology/swtbot/releases/latest/"/>
+        <repository
+            url="${jbase.site}"/>
+      </repositoryList>
       <repositoryList
           name="Luna">
         <repository
