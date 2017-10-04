@@ -86,7 +86,7 @@ class LaunchConfigurationInfo {
 
 	def configEquals(ILaunchConfiguration a) {
 		a.getAttribute(ATTR_MAIN_TYPE_NAME, "X") == clazz && 
-		a.getAttribute(ATTR_MAIN_TYPE_NAME, "X") == project &&
+		a.getAttribute(ATTR_PROJECT_NAME, "X") == project &&
 		a.type.identifier == LAUNCH_TYPE
 	}
 	
