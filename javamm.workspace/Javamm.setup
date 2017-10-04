@@ -201,14 +201,6 @@
     </setupTask>
     <setupTask
         xsi:type="setup.p2:P2Task"
-        label="B3 Aggregator">
-      <requirement
-          name="org.eclipse.b3.aggregator.editor.feature.feature.group"/>
-      <repository
-          url="http://download.eclipse.org/modeling/emft/b3/updates-4.4"/>
-    </setupTask>
-    <setupTask
-        xsi:type="setup.p2:P2Task"
         label="Oomph Extensions">
       <requirement
           name="org.eclipse.oomph.setup.git.feature.group"/>
@@ -257,6 +249,14 @@
           name="org.eclipse.eclemma.feature.feature.group"/>
       <repository
           url="http://update.eclemma.org"/>
+    </setupTask>
+    <setupTask
+        xsi:type="setup.p2:P2Task"
+        label="CBI Aggregator">
+      <requirement
+          name="org.eclipse.cbi.p2repo.aggregator.editor.feature.feature.group"/>
+      <repository
+          url="http://download.eclipse.org/cbi/updates/aggregator/ide/4.7/"/>
     </setupTask>
   </setupTask>
   <setupTask
