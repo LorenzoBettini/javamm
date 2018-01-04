@@ -20,6 +20,8 @@
     <!-- Workaround for https://bugs.eclipse.org/bugs/show_bug.cgi?id=397015 -->
     <sonar.sources></sonar.sources>
     <sonar.tests>src,xtend-gen</sonar.tests>
+    <!-- To enable JUnit test collection, sonarqube analysis must be enabled. -->
+    <sonar.skip>false</sonar.skip>
   </properties>
 
   <profiles>

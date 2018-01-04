@@ -13,6 +13,10 @@
 	<artifactId>javamm</artifactId>
 	<packaging>eclipse-plugin</packaging>
 
+  <properties>
+    <sonar.skip>false</sonar.skip>
+  </properties>
+
 	<build>
 		<!-- The following is required so that the mwe2 workflow finds the .xtext 
 			grammar file -->

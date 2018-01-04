@@ -13,4 +13,8 @@
 	<artifactId>javamm.selfassessment.builder</artifactId>
 	<packaging>eclipse-plugin</packaging>
 
+  <properties>
+    <sonar.skip>false</sonar.skip>
+  </properties>
+
 </project>

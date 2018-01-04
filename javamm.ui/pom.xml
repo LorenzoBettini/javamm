@@ -13,6 +13,10 @@
 	<artifactId>javamm.ui</artifactId>
 	<packaging>eclipse-plugin</packaging>
 
+  <properties>
+    <sonar.skip>false</sonar.skip>
+  </properties>
+
 	<build>
 		<plugins>
 			<plugin>
