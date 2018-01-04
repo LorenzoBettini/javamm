@@ -542,10 +542,11 @@
       <plugin>
         <groupId>org.eluder.coveralls</groupId>
         <artifactId>coveralls-maven-plugin</artifactId>
-        <version>4.1.0</version>
+        <version>4.3.0</version>
         <configuration>
           <jacocoReports>
-            <jacocoReport>${jacoco.xml.reportPath}</jacocoReport>
+            <!-- by default Jacoco generates its report here -->
+            <jacocoReport>${project.basedir}/../javamm.tests.report/target/site/jacoco-aggregate/jacoco.xml</jacocoReport>
           </jacocoReports>
         </configuration>
       </plugin>
