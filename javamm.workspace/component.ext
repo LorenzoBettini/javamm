@@ -15,4 +15,8 @@
       name="javamm.releng.plain.project"/>
   <requirement
       name="javamm.parent.plain.project"/>
+  <requirement
+      name="javamm.tests.parent.plain.project"/>
+  <requirement
+      name="javamm.tests.report.plain.project"/>
 </targlets:ComponentExtension>
