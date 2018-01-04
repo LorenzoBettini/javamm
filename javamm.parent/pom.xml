@@ -298,13 +298,6 @@
       <activation>
         <activeByDefault>false</activeByDefault>
       </activation>
-
-      <modules>
-        <module>../javamm.eclipse.sdk</module>
-        <module>../javamm.product.ui.feature</module>
-        <module>../javamm.product.site</module>
-      </modules>
-
       <build>
         <plugins>
           <!-- specify all environments when building the IDE -->
@@ -357,20 +350,6 @@
       </build>
     </profile>
 
-    <profile>
-      <id>ide-tests</id>
-      <activation>
-        <activeByDefault>false</activeByDefault>
-      </activation>
-
-      <modules>
-        <module>../javamm.eclipse.sdk</module>
-        <module>../javamm.product.ui.feature</module>
-        <module>../javamm.product.site</module>
-        <module>../javamm.swtbot.tests</module>
-      </modules>
-
-    </profile>
   </profiles>
 
   <build>
