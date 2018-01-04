@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <relativePath>../javamm.parent/pom.xml</relativePath>
+    <groupId>javamm</groupId>
+    <artifactId>javamm.parent</artifactId>
+    <version>1.8.1-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>javamm.tests.parent</artifactId>
+  <packaging>pom</packaging>
+
+  <properties>
+    <jacoco-version>0.7.9</jacoco-version>
+    <additionalTestArgLine></additionalTestArgLine>
+  </properties>
+
+  <profiles>
+    <profile>
+      <id>jacoco-report</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <properties>
+        <additionalTestArgLine>${tycho.testArgLine}</additionalTestArgLine>
+      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>${jacoco-version}</version>
+            <executions>
+              <execution>
+                <goals>
+                  <!-- binds by default to the phase "initialize" -->
+                  <goal>prepare-agent</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <excludes>
+                <exclude>**/org/eclipse/**/*.class</exclude>
+                <exclude>**/antlr/**/*.class</exclude>
+                <exclude>**Abstract*RuntimeModule.class</exclude>
+                <exclude>**/*SetupGenerated*.class</exclude>
+                <exclude>**/Abstract*Validator.class</exclude>
+                <exclude>**/*GrammarAccess*.class</exclude>
+                <exclude>**/*UiModule.class</exclude>
+                <exclude>**/Abstract*ProposalProvider.class</exclude>
+                <exclude>**/*Test.class</exclude>
+                <exclude>**/*Internal*</exclude>
+                <exclude>**/*Sequencer*</exclude>
+                <exclude>**/internal/*</exclude>
+                <exclude>**/jbase/jbase/util/*</exclude>
+                <exclude>**/jbase/jbase/impl/*</exclude>
+                <exclude>**/*ExtensionFactory*</exclude>
+                <exclude>**/*LabelProvider*</exclude>
+                <exclude>**/*TreeProvider*</exclude>
+                <exclude>**/*RuntimeModule*</exclude>
+                <exclude>**/*StandaloneSetup*</exclude>
+              </excludes>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+</project>
