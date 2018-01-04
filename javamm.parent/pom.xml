@@ -13,7 +13,6 @@
     <maven-surefire-plugin.version>2.17</maven-surefire-plugin.version>
     <maven-antrun-plugin.version>1.7</maven-antrun-plugin.version>
     <junit-version>4.12</junit-version>
-    <jacoco-version>0.7.7.201606060606</jacoco-version>
     <findbugs-version>3.0.4</findbugs-version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <os-jvm-flags />
@@ -29,16 +28,9 @@
 
     <target-file-name>oxygen-xtext-2.13</target-file-name>
 
-    <!-- <jacoco.reportPath>../target/jacoco.exec</jacoco.reportPath> -->
     <!-- <findbugs.reportPath>../target/findbugs</findbugs.reportPath> -->
 
     <!-- Sonar -->
-    <sonar.language>java</sonar.language>
-    <sonar.java.source>7</sonar.java.source>
-    <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
-    <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
-    <jacoco.reportPath>${project.basedir}/../target/coverage</jacoco.reportPath>
-    <jacoco.xml.reportPath>${jacoco.reportPath}/coverage.xml</jacoco.xml.reportPath>
     <!-- <sonar.junit.reportsPath>../${project.artifactId}.tests/target/surefire-reports/</sonar.junit.reportsPath> -->
     <sonar.exclusions>file:**/ui/launch/*.java,file:**/*SelfAssessmentNature.java,file:**/*JvmModelGenerator.java,file:**/New*FileWizard*.java,file:**/New*Initial*.java,file:**/*ProjectFiles.java,file:**/src-gen/**,file:**/emf-gen/**,file:**/impl/*ImplCustom.java,file:**/tests/**,**/*RuntimeModule.java,**/*UiModule.java,**/*XcoreReader.java,**/*UiExamples.java,**/*TypeSystemGen*.java,**/*StandaloneSetup*.java,**/*Activator.java</sonar.exclusions>
     <sonar.coverage.exclusions>**/Input.*</sonar.coverage.exclusions>
@@ -547,43 +539,6 @@
         </configuration>
       </plugin>
 
-      <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-        <version>${jacoco-version}</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>prepare-agent</goal>
-            </goals>
-            <configuration>
-              <!-- Where to put jacoco coverage report -->
-              <destFile>${sonar.jacoco.reportPath}</destFile>
-              <includes>
-                <include>javamm.*</include>
-              </includes>
-              <excludes>
-                <exclude>**/org/eclipse/**/*.class</exclude>
-                <exclude>**.antlr**</exclude>
-                <exclude>**.parseTree**</exclude>
-                <exclude>**Abstract*RuntimeModule.class</exclude>
-                <exclude>**/*SetupGenerated*.class</exclude>
-                <exclude>**/Abstract*Validator.class</exclude>
-                <exclude>**/*GrammarAccess*.class</exclude>
-                <exclude>**/Abstract*UiModule.class</exclude>
-                <exclude>**/Abstract*ProposalProvider.class</exclude>
-                <exclude>**/*Test.class</exclude>
-                <exclude>**/*Internal*</exclude>
-                <exclude>**/*Sequencer*</exclude>
-                <exclude>**/internal/*</exclude>
-                <exclude>**/javamm/javamm/util/*</exclude>
-                <exclude>**/javamm/javamm/impl/*</exclude>
-              </excludes>
-              <append>true</append>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
       <plugin>
         <groupId>org.eluder.coveralls</groupId>
         <artifactId>coveralls-maven-plugin</artifactId>
