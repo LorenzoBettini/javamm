@@ -4,20 +4,14 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <relativePath>../javamm.parent/pom.xml</relativePath>
+    <relativePath>../javamm.tests.parent/pom.xml</relativePath>
     <groupId>javamm</groupId>
-    <artifactId>javamm.parent</artifactId>
+    <artifactId>javamm.tests.parent</artifactId>
     <version>1.8.1-SNAPSHOT</version>
   </parent>
 
   <artifactId>javamm.tests</artifactId>
   <packaging>eclipse-test-plugin</packaging>
-
-  <properties>
-    <!-- Workaround for https://bugs.eclipse.org/bugs/show_bug.cgi?id=397015 -->
-    <sonar.sources></sonar.sources>
-    <sonar.tests>src,xtend-gen</sonar.tests>
-  </properties>
 
   <build>
     <plugins>
@@ -39,9 +33,7 @@
               <skip>${swtbot.tests.only}</skip>
               <useUIHarness>false</useUIHarness>
               <useUIThread>false</useUIThread>
-              <!-- tycho.testArgLine repeated to re-use the configuration 
-                for argLine for jacoco agent -->
-              <argLine>${tycho.testArgLine} ${memoryArgs}</argLine>
+              <argLine>${additionalTestArgLine} ${memoryArgs}</argLine>
               <includes>
                 <include>**/javamm/tests/*Test.java</include>
               </includes>
