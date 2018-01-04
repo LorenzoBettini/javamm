@@ -13,7 +13,6 @@
     <maven-surefire-plugin.version>2.17</maven-surefire-plugin.version>
     <maven-antrun-plugin.version>1.7</maven-antrun-plugin.version>
     <junit-version>4.12</junit-version>
-    <findbugs-version>3.0.4</findbugs-version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <os-jvm-flags />
     <memoryArgs>-Xms256M -Xmx1024M -XX:PermSize=256M
@@ -27,8 +26,6 @@
     <fornax-oaw-m2-plugin-version>3.5.1</fornax-oaw-m2-plugin-version>
 
     <target-file-name>oxygen-xtext-2.13</target-file-name>
-
-    <!-- <findbugs.reportPath>../target/findbugs</findbugs.reportPath> -->
 
     <!-- Sonar -->
     <!-- <sonar.junit.reportsPath>../${project.artifactId}.tests/target/surefire-reports/</sonar.junit.reportsPath> -->
@@ -92,7 +89,6 @@
       not in the git repository (since Sonarqube 5) -->
     <sonar.scm.disabled>true</sonar.scm.disabled>
 
-    <findbugs.skip>true</findbugs.skip>
     <swtbot.tests.only>false</swtbot.tests.only>
     <swtbot.tests.skip>false</swtbot.tests.skip>
 
@@ -274,10 +270,6 @@
         <activeByDefault>false</activeByDefault>
       </activation>
 
-      <properties>
-        <findbugs.skip>true</findbugs.skip>
-      </properties>
-
       <modules>
         <module>../javamm.eclipse.sdk</module>
         <module>../javamm.product.ui.feature</module>
@@ -342,11 +334,7 @@
         <activeByDefault>false</activeByDefault>
       </activation>
 
-      <properties>
-        <findbugs.skip>true</findbugs.skip>
-      </properties>
-
-      <modules>
+       <modules>
         <module>../javamm.eclipse.sdk</module>
         <module>../javamm.product.ui.feature</module>
         <module>../javamm.product.site</module>
@@ -394,34 +382,6 @@
               </fileset>
             </filesets>
           </configuration>
-        </plugin>
-
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>findbugs-maven-plugin</artifactId>
-          <version>${findbugs-version}</version>
-          <configuration>
-            <skip>${findbugs.skip}</skip>
-            <findbugsXmlOutput>true</findbugsXmlOutput>
-            <failOnError>false</failOnError>
-            <!-- <findbugsXmlOutputDirectory>${findbugs.reportPath}</findbugsXmlOutputDirectory> -->
-            <!-- Enables analysis which takes more memory but finds more 
-              bugs. If you run out of memory, changes the value of the effort element to 
-              'Low'. -->
-            <!-- <effort>Max</effort> -->
-            <!-- Low: Reports all bugs (other values are medium and max) -->
-            <!-- <threshold>Medium</threshold> -->
-            <maxRank>15</maxRank>
-            <jvmArgs>-Xmx1024m</jvmArgs>
-            <excludeFilterFile>${basedir}/../javamm.releng/findbugs/excludeFilter.xml</excludeFilterFile>
-          </configuration>
-          <executions>
-            <execution>
-              <goals>
-                <goal>check</goal>
-              </goals>
-            </execution>
-          </executions>
         </plugin>
 
         <plugin>

@@ -13,12 +13,4 @@
 	<artifactId>javamm.selfassessment.builder</artifactId>
 	<packaging>eclipse-plugin</packaging>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>findbugs-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
 </project>
