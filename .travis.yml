@@ -8,15 +8,27 @@ matrix:
     # always build this environment
     - os: linux
       jdk: oraclejdk8
-      env: DISPLAY=:99.0 ADDITIONAL="-Pjacoco-report coveralls:report"
+      env: DISPLAY=:99.0 ADDITIONAL="-Pjacoco-report coveralls:report sonar:sonar"
     # only on PR
     - os: osx
       # default: osx_image: xcode8
       if: type IN (pull_request)
 
+addons:
+  sonarcloud:
+    branches:
+      - sonarcloud
+      - master
+    organization: "lorenzobettini-github"
+    token:
+      secure: "EHhQwnskd8u5ZRRSAdHzanDdBbUE9NKrn9kgLJCHR0GbZfKbNIO15rRT1jg4rvWcNhXUG10r3H/vzulYWnxyZeYAaf/mKPLxwmGspwFQd7Pi0CVmW8m8viEbFZsIOlerZRoZjEiGTHsnhmZBTbbY35iURZw44c9OKRk9dk0CmHy1noEADSv0/sReHga3ZgjJfyp3Myc/tx/svJxXQjrLPZTaTqqBTJE0KCmzlOQJFF8r4vABe2oez6F31S3shZteoQbREIhWhA+Ba2VVLzLEjjuMLF/cRW1xuQy6c6WCpE36ghk/amAWfTQ2P3yFXJDr2LrRInmE4l125HUpkn8fSEMxqI3vHk9lndsJIGzF+QNhNtzaL+dY3FG0BiZDGwuxQyDo/z1eY+fw7NQyJuKPmiVEBX+njghwvFlgehKjKJYJIplA9D5MZGFCYdXbUrNw4rqIAQS7tdC+PTmqP0ZrAKxR2C3rBoy/jXOfnoO7gVdZjKgiLrJvrIb3Rc/cYN4Vud3AWSewFAR9FkVZSAuQIA9fIi/zhuU2fdfs/FFYnoscNyHuuF4/8ilXPmbmd/iTWyuWzKaQmFHTDYp2865oI6Emx13VRxbSy3BKbl1z8Naw3cp45vluPgGEcMTyANjR54ZFlcbVbbN7q/9T9sOxoaZZBn1GYxOWsQZgL+MjsCw="
+    github_token:
+      secure: "jlxld39ALarl2im7OOe6OiylKOShz0N5KUpft+22uckSf8tWcv2p8XwNyuJDfPzlSMB2/yc7S1owo3coo6XYN3Ph12x+aYa3UYczgOLRsV5AHVNTZiOBMrpoxZgl6fy9NsqEB3WHBH4+ArDMPVGHzMm2nWRdGafc0w4c1RHdx8Vl1cwvTiNpFnJpl3ttOKdCKHmvzXUrCUVIL1e0S3c8pmTvcWGRqrrmc6oJ3dPsIw1AZNNAgkCsDQedhOWJjmhMQdC3SSqK5w7kpYh0F9ObOwXQ7snrFkJez7LRHu864ifT1kIpGqjqYy7oCqlCTWsIJLdv/aQ1obbalNTczdTRKq4TTyrjr0Oqpc5DQs4tJlsuE9OJ/mPnDwkeTUTh7d/icmxKbR5pZQTqCWfhnJy/oYphQmMQBDX4qP/J7caS/xD40O9kkX9vpmq4IPTEWgxiXJuFwCMxaHvmZ6Skt8ldNkK+PipOyYOt5YHzN2kbS8NTWdVLRWRpQja9HbHYTqq+6iMB3lQz0yN5F2akMC0dUajjWVUpY+jgWdDm18VCKB9FLcKXhvgUbltxmmaovPyVCV9kXA7PvX5xu3omY+FfpZhcOah6GN9AIOi9U0ryw69FCYgHAQkZVfQa+y9epXMUmOpkntL+0VIkIqNgnJDZTA3s6r3RngUnJd0hviiD+T0="
+
 cache:
   directories:
-  - $HOME/.m2
+    - '$HOME/.m2'
+    - '$HOME/.sonar/cache'
 
 install: true
 
