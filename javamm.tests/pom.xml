@@ -1,57 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<relativePath>../javamm.parent/pom.xml</relativePath>
-		<groupId>javamm</groupId>
-		<artifactId>javamm.parent</artifactId>
-		<version>1.8.1-SNAPSHOT</version>
-	</parent>
+  <parent>
+    <relativePath>../javamm.parent/pom.xml</relativePath>
+    <groupId>javamm</groupId>
+    <artifactId>javamm.parent</artifactId>
+    <version>1.8.1-SNAPSHOT</version>
+  </parent>
 
-	<artifactId>javamm.tests</artifactId>
-	<packaging>eclipse-test-plugin</packaging>
-	
-	<properties>
-		<!-- Workaround for https://bugs.eclipse.org/bugs/show_bug.cgi?id=397015 -->
-		<sonar.sources></sonar.sources>
-		<sonar.tests>src,xtend-gen</sonar.tests>
-	</properties>
+  <artifactId>javamm.tests</artifactId>
+  <packaging>eclipse-test-plugin</packaging>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.eclipse.xtend</groupId>
-				<artifactId>xtend-maven-plugin</artifactId>
-			</plugin>
+  <properties>
+    <!-- Workaround for https://bugs.eclipse.org/bugs/show_bug.cgi?id=397015 -->
+    <sonar.sources></sonar.sources>
+    <sonar.tests>src,xtend-gen</sonar.tests>
+  </properties>
 
-			<plugin>
-				<groupId>org.eclipse.tycho</groupId>
-				<artifactId>tycho-surefire-plugin</artifactId>
-				<version>${tycho-version}</version>
-				<executions>
-					<execution>
-						<!-- compiler tests need an OSGI environment, but no UI -->
-						<id>default-test</id>
-						<phase>integration-test</phase>
-						<configuration>
-							<skip>${swtbot.tests.only}</skip>
-							<useUIHarness>false</useUIHarness>
-							<useUIThread>false</useUIThread>
-							<!-- tycho.testArgLine repeated to re-use the configuration for argLine 
-								for jacoco agent -->
-							<argLine>${tycho.testArgLine} ${memoryArgs}</argLine>
-							<includes>
-								<include>**/javamm/tests/*Test.java</include>
-							</includes>
-						</configuration>
-						<goals>
-							<goal>test</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.eclipse.xtend</groupId>
+        <artifactId>xtend-maven-plugin</artifactId>
+      </plugin>
+
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-surefire-plugin</artifactId>
+        <version>${tycho-version}</version>
+        <executions>
+          <execution>
+            <!-- compiler tests need an OSGI environment, but no UI -->
+            <id>default-test</id>
+            <phase>integration-test</phase>
+            <configuration>
+              <skip>${swtbot.tests.only}</skip>
+              <useUIHarness>false</useUIHarness>
+              <useUIThread>false</useUIThread>
+              <!-- tycho.testArgLine repeated to re-use the configuration 
+                for argLine for jacoco agent -->
+              <argLine>${tycho.testArgLine} ${memoryArgs}</argLine>
+              <includes>
+                <include>**/javamm/tests/*Test.java</include>
+              </includes>
+            </configuration>
+            <goals>
+              <goal>test</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 </project>
