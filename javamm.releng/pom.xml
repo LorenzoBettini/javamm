@@ -27,6 +27,7 @@
     <module>../javamm.requirements.feature</module>
     <module>../javamm.sdk</module>
     <module>../javamm.site</module>
+    <module>../javamm.tests.report</module>
   </modules>
 
 </project>
