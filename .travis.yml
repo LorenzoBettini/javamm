@@ -23,7 +23,7 @@ install: true
 addons:
   apt:
     packages:
-    - metacity
+    - mutter
 
 #before_install:
 # - sudo apt-get update
