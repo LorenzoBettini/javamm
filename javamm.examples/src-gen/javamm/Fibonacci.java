@@ -20,7 +20,6 @@ public class Fibonacci {
   }
   
   public static void main(String[] args) {
-    long _fibonacci = Fibonacci.fibonacci(8);
-    System.out.println(_fibonacci);
+    System.out.println(Fibonacci.fibonacci(8));
   }
 }

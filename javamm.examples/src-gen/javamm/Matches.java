@@ -19,9 +19,7 @@ public class Matches {
   }
   
   public static void main(String[] args) {
-    int _firstMove = Matches.firstMove(15, 3);
-    System.out.println(_firstMove);
-    int _nextMove = Matches.nextMove(1, 3);
-    System.out.println(_nextMove);
+    System.out.println(Matches.firstMove(15, 3));
+    System.out.println(Matches.nextMove(1, 3));
   }
 }

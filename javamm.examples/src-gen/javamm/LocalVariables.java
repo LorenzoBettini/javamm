@@ -19,10 +19,8 @@ public class LocalVariables {
     int b = 10;
     int a = 10;
     System.out.println(((("a: " + Integer.valueOf(a)) + ", b: ") + Integer.valueOf(b)));
-    int _f1 = LocalVariables.f1(a);
-    b = _f1;
-    int _f2 = LocalVariables.f2(b);
-    a = _f2;
+    b = LocalVariables.f1(a);
+    a = LocalVariables.f2(b);
     System.out.println(((("a: " + Integer.valueOf(a)) + ", b: ") + Integer.valueOf(b)));
   }
 }

@@ -54,8 +54,7 @@ public class Sudoku {
   public static boolean[] feasibleDigits(int[] c, int n, int[][] s) {
     boolean[] r = new boolean[(n * n)];
     for (int d = 1; (d <= (n * n)); d++) {
-      boolean _feasible = Sudoku.feasible(d, c, n, s);
-      r[(d - 1)] = _feasible;
+      r[(d - 1)] = Sudoku.feasible(d, c, n, s);
     }
     return r;
   }
@@ -81,8 +80,7 @@ public class Sudoku {
     int n = 2;
     Sudoku.printBoard(s);
     int[] p = Sudoku.nextCell(new int[] { 0, -1 }, s);
-    boolean _solvable = Sudoku.solvable(p, n, s);
-    System.out.println(_solvable);
+    System.out.println(Sudoku.solvable(p, n, s));
     Sudoku.printBoard(s);
   }
   

@@ -23,7 +23,6 @@ public class RPSSwitch {
   }
   
   public static void main(String[] args) {
-    int _move = RPSSwitch.move(2);
-    System.out.println(_move);
+    System.out.println(RPSSwitch.move(2));
   }
 }

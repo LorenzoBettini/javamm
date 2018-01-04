@@ -25,8 +25,7 @@ public class Factorization {
     } else {
       while ((number > 1)) {
         {
-          int _firstFactor_1 = Factorization.firstFactor(number);
-          factor = _firstFactor_1;
+          factor = Factorization.firstFactor(number);
           System.out.println(("Factor: " + Integer.valueOf(factor)));
           number = (number / factor);
         }
