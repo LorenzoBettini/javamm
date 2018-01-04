@@ -13,4 +13,6 @@
       name="javamm.targetplatform.plain.project"/>
   <requirement
       name="javamm.releng.plain.project"/>
+  <requirement
+      name="javamm.parent.plain.project"/>
 </targlets:ComponentExtension>
