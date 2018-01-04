@@ -115,7 +115,7 @@
       not in the git repository (since Sonarqube 5) -->
     <sonar.scm.disabled>true</sonar.scm.disabled>
 
-    <findbugs.skip>false</findbugs.skip>
+    <findbugs.skip>true</findbugs.skip>
     <swtbot.tests.only>false</swtbot.tests.only>
     <swtbot.tests.skip>false</swtbot.tests.skip>
 
