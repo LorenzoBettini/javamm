@@ -58,6 +58,7 @@
             </executions>
             <configuration>
               <excludes>
+                <exclude>**/*Activator*</exclude>
                 <exclude>**/*RuntimeModule*</exclude>
                 <exclude>**/*StandaloneSetup*</exclude>
                 <exclude>**/*Internal*</exclude>
@@ -74,6 +75,8 @@
                 <exclude>**/javamm/javamm/impl/*.*</exclude>
                 <exclude>**/JavammProjectCreator.*</exclude>
                 <exclude>**/JavammNewProjectWizard.class</exclude>
+                <exclude>**/JavammProjectCreator.*</exclude>
+                <exclude>**/*SelfAssessmentNature*</exclude>
               </excludes>
             </configuration>
           </plugin>

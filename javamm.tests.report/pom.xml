@@ -54,6 +54,12 @@
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
+      <artifactId>javamm.selfassessment.builder</artifactId>
+      <version>${project.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
       <artifactId>javamm.tests</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
