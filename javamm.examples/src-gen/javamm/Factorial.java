@@ -14,7 +14,6 @@ public class Factorial {
   }
   
   public static void main(String[] args) {
-    long _factorial = Factorial.factorial(5);
-    System.out.println(_factorial);
+    System.out.println(Factorial.factorial(5));
   }
 }

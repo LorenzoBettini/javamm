@@ -16,7 +16,6 @@ public class RPSWinner {
   }
   
   public static void main(String[] args) {
-    int _winner = RPSWinner.winner(0, 1);
-    System.out.println(_winner);
+    System.out.println(RPSWinner.winner(0, 1));
   }
 }

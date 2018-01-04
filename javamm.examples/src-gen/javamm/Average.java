@@ -17,7 +17,6 @@ public class Average {
   
   public static void main(String[] args) {
     int[] a = { 1, 2, 3, 4 };
-    double _avg = Average.avg(a);
-    System.out.println(_avg);
+    System.out.println(Average.avg(a));
   }
 }

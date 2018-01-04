@@ -20,7 +20,6 @@ public class Nepero {
   }
   
   public static void main(String[] args) {
-    double _nepero = Nepero.nepero(0.000000001);
-    System.out.println(_nepero);
+    System.out.println(Nepero.nepero(0.000000001));
   }
 }

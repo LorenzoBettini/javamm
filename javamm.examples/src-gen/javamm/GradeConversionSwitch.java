@@ -36,7 +36,6 @@ public class GradeConversionSwitch {
   }
   
   public static void main(String[] args) {
-    char _convert = GradeConversionSwitch.convert(23);
-    System.out.println(_convert);
+    System.out.println(GradeConversionSwitch.convert(23));
   }
 }

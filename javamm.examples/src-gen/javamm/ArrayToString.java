@@ -21,7 +21,6 @@ public class ArrayToString {
   }
   
   public static void main(String[] args) {
-    String _arrayToString = ArrayToString.arrayToString(new int[] { 1, 2, 3 });
-    System.out.println(_arrayToString);
+    System.out.println(ArrayToString.arrayToString(new int[] { 1, 2, 3 }));
   }
 }

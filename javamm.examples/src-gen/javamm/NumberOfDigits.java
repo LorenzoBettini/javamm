@@ -17,7 +17,6 @@ public class NumberOfDigits {
   }
   
   public static void main(String[] args) {
-    int _digitNumber = NumberOfDigits.digitNumber(1234567);
-    System.out.println(_digitNumber);
+    System.out.println(NumberOfDigits.digitNumber(1234567));
   }
 }

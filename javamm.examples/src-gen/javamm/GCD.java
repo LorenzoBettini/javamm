@@ -21,9 +21,7 @@ public class GCD {
   }
   
   public static void main(String[] args) {
-    int _gcd = GCD.gcd(21, 7);
-    System.out.println(_gcd);
-    int _gcd_1 = GCD.gcd(69, 21);
-    System.out.println(_gcd_1);
+    System.out.println(GCD.gcd(21, 7));
+    System.out.println(GCD.gcd(69, 21));
   }
 }

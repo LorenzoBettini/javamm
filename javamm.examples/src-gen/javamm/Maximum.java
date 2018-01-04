@@ -18,7 +18,6 @@ public class Maximum {
   
   public static void main(String[] args) {
     int[] a = { 2, 4, 7, 12, 1, 9 };
-    int _max = Maximum.max(a);
-    System.out.println(_max);
+    System.out.println(Maximum.max(a));
   }
 }

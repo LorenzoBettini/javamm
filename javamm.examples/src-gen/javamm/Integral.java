@@ -22,7 +22,6 @@ public class Integral {
   }
   
   public static void main(String[] args) {
-    double _integral = Integral.integral(0, 1, 16384);
-    System.out.println(_integral);
+    System.out.println(Integral.integral(0, 1, 16384));
   }
 }
