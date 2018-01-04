@@ -5,11 +5,14 @@ language: java
 matrix:
   fast_finish: true
   include:
+    # always build this environment
     - os: linux
       jdk: oraclejdk8
-      env: DISPLAY=:99.0
+      env: DISPLAY=:99.0 ADDITIONAL="-Pjacoco-report coveralls:report"
+    # only on PR
     - os: osx
-      osx_image: xcode8
+      # default: osx_image: xcode8
+      if: type IN (pull_request)
 
 cache:
   directories:
