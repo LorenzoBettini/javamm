@@ -30,4 +30,29 @@
     <module>../javamm.tests.report</module>
   </modules>
 
+  <profiles>
+    <profile>
+      <id>ide-tests</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <modules>
+        <module>../javamm.eclipse.sdk</module>
+        <module>../javamm.product.ui.feature</module>
+        <module>../javamm.product.site</module>
+        <module>../javamm.swtbot.tests</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>build-ide</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <modules>
+        <module>../javamm.eclipse.sdk</module>
+        <module>../javamm.product.ui.feature</module>
+        <module>../javamm.product.site</module>
+      </modules>
+    </profile>
+  </profiles>
 </project>
