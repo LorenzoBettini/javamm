@@ -15,7 +15,6 @@ public class RecursiveFactorial {
   }
   
   public static void main(String[] args) {
-    int _factorial = RecursiveFactorial.factorial(5);
-    System.out.println(_factorial);
+    System.out.println(RecursiveFactorial.factorial(5));
   }
 }

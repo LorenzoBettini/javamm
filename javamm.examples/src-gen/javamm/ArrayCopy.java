@@ -49,7 +49,6 @@ public class ArrayCopy {
     String[] a = { "one", "two", "three" };
     ArrayCopy.printArray(a);
     System.out.println("COPY: ");
-    String[] _copyArray = ArrayCopy.copyArray(a);
-    ArrayCopy.printArray(_copyArray);
+    ArrayCopy.printArray(ArrayCopy.copyArray(a));
   }
 }

@@ -14,7 +14,6 @@ public class Token {
   }
   
   public static void main(String[] args) {
-    int _move = Token.move(0);
-    System.out.println(_move);
+    System.out.println(Token.move(0));
   }
 }
