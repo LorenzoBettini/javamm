@@ -17,6 +17,9 @@
   <properties>
     <jacoco-version>0.7.9</jacoco-version>
     <additionalTestArgLine></additionalTestArgLine>
+    <!-- Workaround for https://bugs.eclipse.org/bugs/show_bug.cgi?id=397015 -->
+    <sonar.sources></sonar.sources>
+    <sonar.tests>src,xtend-gen</sonar.tests>
   </properties>
 
   <profiles>
@@ -44,25 +47,22 @@
             </executions>
             <configuration>
               <excludes>
-                <exclude>**/org/eclipse/**/*.class</exclude>
-                <exclude>**/antlr/**/*.class</exclude>
-                <exclude>**Abstract*RuntimeModule.class</exclude>
-                <exclude>**/*SetupGenerated*.class</exclude>
-                <exclude>**/Abstract*Validator.class</exclude>
-                <exclude>**/*GrammarAccess*.class</exclude>
-                <exclude>**/*UiModule.class</exclude>
-                <exclude>**/Abstract*ProposalProvider.class</exclude>
-                <exclude>**/*Test.class</exclude>
-                <exclude>**/*Internal*</exclude>
-                <exclude>**/*Sequencer*</exclude>
-                <exclude>**/internal/*</exclude>
-                <exclude>**/jbase/jbase/util/*</exclude>
-                <exclude>**/jbase/jbase/impl/*</exclude>
-                <exclude>**/*ExtensionFactory*</exclude>
-                <exclude>**/*LabelProvider*</exclude>
-                <exclude>**/*TreeProvider*</exclude>
                 <exclude>**/*RuntimeModule*</exclude>
                 <exclude>**/*StandaloneSetup*</exclude>
+                <exclude>**/*Internal*</exclude>
+                <exclude>**/*Sequencer*</exclude>
+                <exclude>**/*Abstract*</exclude>
+                <exclude>**/*GrammarAccess*</exclude>
+                <exclude>**/antlr/*.*</exclude>
+                <exclude>**/internal/*.*</exclude>
+                <exclude>**/*ExtensionFactory*</exclude>
+                <exclude>**/*UiModule*</exclude>
+                <exclude>**/ui/launch/*.*</exclude>
+                <exclude>**/ui/wizard/file/*.*</exclude>
+                <exclude>**/javamm/javamm/util/*.*</exclude>
+                <exclude>**/javamm/javamm/impl/*.*</exclude>
+                <exclude>**/JavammProjectCreator.*</exclude>
+                <exclude>**/JavammNewProjectWizard.class</exclude>
               </excludes>
             </configuration>
           </plugin>
