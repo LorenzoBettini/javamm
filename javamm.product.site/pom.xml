@@ -38,6 +38,8 @@
             <product>
               <id>javamm.eclipse.ide.product</id>
               <archiveFileName>javamm-ide-${unqualifiedVersion}-${buildQualifier}</archiveFileName>
+              <!-- The path where the installed product shall be stored in the archive -->
+              <rootFolder>javamm</rootFolder>
             </product>
           </products>
         </configuration>

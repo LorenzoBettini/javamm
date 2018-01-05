@@ -14,7 +14,7 @@
   <packaging>eclipse-test-plugin</packaging>
 
   <properties>
-    <test-work-directory>${project.build.directory}/work</test-work-directory>
+    <test-work-directory>${project.build.directory}/work/javamm</test-work-directory>
     <!-- Workaround for https://bugs.eclipse.org/bugs/show_bug.cgi?id=397015 -->
     <sonar.sources></sonar.sources>
     <sonar.tests>src</sonar.tests>
@@ -31,7 +31,7 @@
       <properties>
         <!-- Tycho surefire should install additional bundles in the actual 
           installation directory of the unpacked Eclipse; for Mac it is different: -->
-        <test-work-directory>${project.build.directory}/work/Eclipse.app/Contents/Eclipse/</test-work-directory>
+        <test-work-directory>${project.build.directory}/work/javamm.app/Contents/Eclipse/</test-work-directory>
       </properties>
     </profile>
   </profiles>
