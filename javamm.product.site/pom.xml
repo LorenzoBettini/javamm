@@ -38,6 +38,7 @@
             <product>
               <id>javamm.eclipse.ide.product</id>
               <archiveFileName>javamm-ide-${unqualifiedVersion}-${buildQualifier}</archiveFileName>
+              <rootFolder>javamm</rootFolder>
             </product>
           </products>
         </configuration>
