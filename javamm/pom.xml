@@ -4,14 +4,18 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<relativePath>../javamm.releng/pom.xml</relativePath>
+		<relativePath>../javamm.parent/pom.xml</relativePath>
 		<groupId>javamm</groupId>
-		<artifactId>javamm.releng</artifactId>
+		<artifactId>javamm.parent</artifactId>
 		<version>1.8.1-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>javamm</artifactId>
 	<packaging>eclipse-plugin</packaging>
+
+  <properties>
+    <sonar.skip>false</sonar.skip>
+  </properties>
 
 	<build>
 		<!-- The following is required so that the mwe2 workflow finds the .xtext 
@@ -191,11 +195,6 @@
 			<plugin>
 				<groupId>org.eclipse.xtend</groupId>
 				<artifactId>xtend-maven-plugin</artifactId>
-			</plugin>
-
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>findbugs-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</build>

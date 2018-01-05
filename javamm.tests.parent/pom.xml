@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <relativePath>../javamm.parent/pom.xml</relativePath>
+    <groupId>javamm</groupId>
+    <artifactId>javamm.parent</artifactId>
+    <version>1.8.1-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>javamm.tests.parent</artifactId>
+  <packaging>pom</packaging>
+
+  <properties>
+    <jacoco-version>0.7.9</jacoco-version>
+    <additionalTestArgLine></additionalTestArgLine>
+    <!-- Workaround for https://bugs.eclipse.org/bugs/show_bug.cgi?id=397015 -->
+    <sonar.sources></sonar.sources>
+    <sonar.tests>src,xtend-gen</sonar.tests>
+    <!-- To enable JUnit test collection, sonarqube analysis must be enabled. -->
+    <sonar.skip>false</sonar.skip>
+  </properties>
+
+  <profiles>
+    <profile>
+      <id>macosx-jvm-flags</id>
+      <activation>
+        <os>
+          <family>mac</family>
+        </os>
+      </activation>
+      <properties>
+        <os-jvm-flags>-XstartOnFirstThread</os-jvm-flags>
+      </properties>
+    </profile>
+    <profile>
+      <id>jacoco-report</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <properties>
+        <additionalTestArgLine>${tycho.testArgLine}</additionalTestArgLine>
+      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>${jacoco-version}</version>
+            <executions>
+              <execution>
+                <goals>
+                  <!-- binds by default to the phase "initialize" -->
+                  <goal>prepare-agent</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <excludes>
+                <exclude>**/*Activator*</exclude>
+                <exclude>**/*RuntimeModule*</exclude>
+                <exclude>**/*StandaloneSetup*</exclude>
+                <exclude>**/*Internal*</exclude>
+                <exclude>**/*Sequencer*</exclude>
+                <exclude>**/*Abstract*</exclude>
+                <exclude>**/*GrammarAccess*</exclude>
+                <exclude>**/antlr/*.*</exclude>
+                <exclude>**/internal/*.*</exclude>
+                <exclude>**/*ExtensionFactory*</exclude>
+                <exclude>**/*UiModule*</exclude>
+                <exclude>**/ui/launch/*.*</exclude>
+                <exclude>**/ui/wizard/file/*.*</exclude>
+                <exclude>**/javamm/javamm/util/*.*</exclude>
+                <exclude>**/javamm/javamm/impl/*.*</exclude>
+                <exclude>**/JavammProjectCreator.*</exclude>
+                <exclude>**/JavammNewProjectWizard.class</exclude>
+                <exclude>**/JavammProjectCreator.*</exclude>
+                <exclude>**/*SelfAssessmentNature*</exclude>
+              </excludes>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+</project>

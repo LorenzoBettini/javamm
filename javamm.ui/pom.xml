@@ -4,25 +4,24 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<relativePath>../javamm.releng/pom.xml</relativePath>
+		<relativePath>../javamm.parent/pom.xml</relativePath>
 		<groupId>javamm</groupId>
-		<artifactId>javamm.releng</artifactId>
+		<artifactId>javamm.parent</artifactId>
 		<version>1.8.1-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>javamm.ui</artifactId>
 	<packaging>eclipse-plugin</packaging>
 
+  <properties>
+    <sonar.skip>false</sonar.skip>
+  </properties>
+
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.eclipse.xtend</groupId>
 				<artifactId>xtend-maven-plugin</artifactId>
-			</plugin>
-
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>findbugs-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</build>
