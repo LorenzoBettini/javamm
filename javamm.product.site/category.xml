@@ -6,12 +6,12 @@
    <feature id="javamm.sdk.source" version="0.0.0">
       <category name="main.source"/>
    </feature>
-   <category-def name="main" label="Javamm 1.8.x">
+   <category-def name="main" label="Javamm 1.9.x">
       <description>
          Javamm
       </description>
    </category-def>
-   <category-def name="main.source" label="Javamm 1.8.x (Sources)">
+   <category-def name="main.source" label="Javamm 1.9.x (Sources)">
       <description>
          Javamm
       </description>
