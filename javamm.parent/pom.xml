@@ -48,6 +48,7 @@
       **/New*FileWizard*.java,
       **/New*Initial*.java,
       **/*ProjectFiles.java,
+      **/*Swtbot*.java,
       **/src-gen/**,
       **/emf-gen/**,
       **/impl/*ImplCustom.java,
