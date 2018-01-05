@@ -119,7 +119,7 @@
 
     <!-- Otherwise we'll have problems due to generated sources, which are 
       not in the git repository (since Sonarqube 5) -->
-    <!--  <sonar.scm.disabled>true</sonar.scm.disabled>  -->
+    <!-- <sonar.scm.disabled>true</sonar.scm.disabled> -->
 
     <swtbot.tests.only>false</swtbot.tests.only>
     <swtbot.tests.skip>false</swtbot.tests.skip>
@@ -395,6 +395,17 @@
           </configuration>
         </plugin>
 
+        <plugin>
+          <groupId>org.eluder.coveralls</groupId>
+          <artifactId>coveralls-maven-plugin</artifactId>
+          <version>4.3.0</version>
+          <configuration>
+            <jacocoReports>
+              <!-- by default Jacoco generates its report here -->
+              <jacocoReport>${project.basedir}/../javamm.tests.report/target/site/jacoco-aggregate/jacoco.xml</jacocoReport>
+            </jacocoReports>
+          </configuration>
+        </plugin>
       </plugins>
     </pluginManagement>
 
@@ -501,18 +512,6 @@
         <version>${tycho-version}</version>
         <configuration>
           <finalName>${project.artifactId}-${qualifiedVersion}</finalName>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.eluder.coveralls</groupId>
-        <artifactId>coveralls-maven-plugin</artifactId>
-        <version>4.3.0</version>
-        <configuration>
-          <jacocoReports>
-            <!-- by default Jacoco generates its report here -->
-            <jacocoReport>${project.basedir}/../javamm.tests.report/target/site/jacoco-aggregate/jacoco.xml</jacocoReport>
-          </jacocoReports>
         </configuration>
       </plugin>
     </plugins>
