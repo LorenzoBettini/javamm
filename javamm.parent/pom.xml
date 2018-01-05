@@ -48,11 +48,9 @@
       **/New*FileWizard*.java,
       **/New*Initial*.java,
       **/*ProjectFiles.java,
-      **/*Swtbot*.java,
       **/src-gen/**,
       **/emf-gen/**,
       **/impl/*ImplCustom.java,
-      **/tests/**,
       **/*RuntimeModule.java,
       **/*UiModule.java,
       **/*XcoreReader.java,
@@ -61,6 +59,10 @@
       **/*StandaloneSetup*.java,
       **/*Activator.java
     </sonar.exclusions>
+
+    <sonar.test.exclusions>
+      **/*Swtbot*.java
+    </sonar.test.exclusions>
 
     <!-- see http://sonarqube.15.x6.nabble.com/sonar-issue-ignore-multicriteria-td5021722.html 
       and http://stackoverflow.com/questions/21825469/configure-sonar-sonar-issue-ignore-multicriteria-through-maven 
