@@ -15,6 +15,9 @@ matrix:
       if: type IN (pull_request)
 
 addons:
+  apt:
+    packages:
+    - mutter
   sonarcloud:
     branches:
       - sonarcloud
@@ -31,11 +34,6 @@ cache:
     - '$HOME/.sonar/cache'
 
 install: true
-
-addons:
-  apt:
-    packages:
-    - mutter
 
 #before_install:
 # - sudo apt-get update
