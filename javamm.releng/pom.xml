@@ -13,6 +13,12 @@
   <artifactId>javamm.releng</artifactId>
   <packaging>pom</packaging>
 
+  <!-- The aggregator project must have this property set to false otherwise 
+    nothing will be analyzed. -->
+  <properties>
+    <sonar.skip>false</sonar.skip>
+  </properties>
+
   <modules>
     <module>../javamm.targetplatform</module>
     <module>../javamm.runtime</module>

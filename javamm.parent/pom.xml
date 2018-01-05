@@ -27,10 +27,39 @@
 
     <target-file-name>oxygen-xtext-2.13</target-file-name>
 
-    <!-- Sonar -->
-    <!-- <sonar.junit.reportsPath>../${project.artifactId}.tests/target/surefire-reports/</sonar.junit.reportsPath> -->
-    <sonar.exclusions>file:**/ui/launch/*.java,file:**/*SelfAssessmentNature.java,file:**/*JvmModelGenerator.java,file:**/New*FileWizard*.java,file:**/New*Initial*.java,file:**/*ProjectFiles.java,file:**/src-gen/**,file:**/emf-gen/**,file:**/impl/*ImplCustom.java,file:**/tests/**,**/*RuntimeModule.java,**/*UiModule.java,**/*XcoreReader.java,**/*UiExamples.java,**/*TypeSystemGen*.java,**/*StandaloneSetup*.java,**/*Activator.java</sonar.exclusions>
-    <sonar.coverage.exclusions>**/Input.*</sonar.coverage.exclusions>
+    <!-- Sonarqube -->
+
+    <!-- Always refer to the corresponding tests project (if it exists) otherwise 
+      Sonarqube won't be able to collect code coverage. For example, when analyzing 
+      project foo it wouldn't find code coverage information if it doesn't use 
+      foo.tests jacoco.exec. -->
+    <sonar.jacoco.reportPaths>
+      ../${project.artifactId}.tests/target/jacoco.exec
+    </sonar.jacoco.reportPaths>
+
+    <!-- By default we exclude all projects from Sonarqube analysis, and 
+      we explicitly enable the ones we want to analyze. -->
+    <sonar.skip>true</sonar.skip>
+
+    <sonar.exclusions>
+      **/ui/launch/*.java,
+      **/*SelfAssessmentNature.java,
+      **/*JvmModelGenerator.java,
+      **/New*FileWizard*.java,
+      **/New*Initial*.java,
+      **/*ProjectFiles.java,
+      **/src-gen/**,
+      **/emf-gen/**,
+      **/impl/*ImplCustom.java,
+      **/tests/**,
+      **/*RuntimeModule.java,
+      **/*UiModule.java,
+      **/*XcoreReader.java,
+      **/*UiExamples.java,
+      **/*TypeSystemGen*.java,
+      **/*StandaloneSetup*.java,
+      **/*Activator.java
+    </sonar.exclusions>
 
     <!-- see http://sonarqube.15.x6.nabble.com/sonar-issue-ignore-multicriteria-td5021722.html 
       and http://stackoverflow.com/questions/21825469/configure-sonar-sonar-issue-ignore-multicriteria-through-maven 
@@ -87,7 +116,7 @@
 
     <!-- Otherwise we'll have problems due to generated sources, which are 
       not in the git repository (since Sonarqube 5) -->
-    <sonar.scm.disabled>true</sonar.scm.disabled>
+    <!--  <sonar.scm.disabled>true</sonar.scm.disabled>  -->
 
     <swtbot.tests.only>false</swtbot.tests.only>
     <swtbot.tests.skip>false</swtbot.tests.skip>
@@ -361,12 +390,6 @@
               </fileset>
             </filesets>
           </configuration>
-        </plugin>
-
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>sonar-maven-plugin</artifactId>
-          <version>2.5</version>
         </plugin>
 
       </plugins>

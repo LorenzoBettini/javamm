@@ -8,22 +8,32 @@ matrix:
     # always build this environment
     - os: linux
       jdk: oraclejdk8
-      env: DISPLAY=:99.0 ADDITIONAL="-Pjacoco-report coveralls:report"
+      env: DISPLAY=:99.0 ADDITIONAL="-Pjacoco-report coveralls:report sonar:sonar"
     # only on PR
     - os: osx
       # default: osx_image: xcode8
       if: type IN (pull_request)
 
-cache:
-  directories:
-  - $HOME/.m2
-
-install: true
-
 addons:
   apt:
     packages:
     - mutter
+  sonarcloud:
+    branches:
+      - sonarcloud
+      - master
+    organization: "lorenzobettini-github"
+    token:
+      secure: "WUtUSiEUaNF+pfeKmbLOzi4tZ0adxS+Img3ilj12hD3dC435ic5mva5Sv5UerEtbrtPGIHCxEwllet60ZFtTcXwQb2fsH16mjOm9BmC4YTuhYb94amFxxt4fYYmSiKSuG0YrhDsCAI9mtzbFQlj2IMTtxnF30O8vLmKR8m9N/G6p2IiCO6y2kcjuISXDsA1+37cUfD5QuLaKwyJ/qSIDsw2EHQB3tAhnwkzXtJos4/K5IkHBEZ8+5lyiI+meiqXR92e6AgaMouDpwYk5VXI3eJjcYKRpMn/xtSrF7qXx3hqVCduOiviYF6PjOEqCWphTF3S0gxYoWpoaintjvUPyxMz0XHG1s1RzppV73VLq6QzH9hB87PXn9d4CfCEV9fSMWZ+cMy8OHdNkQ8ztOokcdNCUjG6SgvMxh84s2M/ereZKZMkLGedrhZoQEFvrbJa07Qgovw2M2/5JbJQG/5ETfs312R6P4EhwDeQsvQpQFLi3RwgCtWDQoUKgvXkT6KgEXwp2bGmvGQuo3M/HxnTVwqiEz7Qh5UZZx+Oub/9EoWpFia/w6KnUP0B7KPPlIPehsO2xB8Sq7V55MmpsACde1RSwNwU3dcmeDo77o3bSuSEartqojrhzKObnkUx3tHxOh4ydnsJkauMXTyVJ0abljwJqftFhdM4Hbn/ASljpp+Q="
+    github_token:
+      secure: "j06HGYAOrM8lkWg6arWFzb4HEr4MzmSy4odQ0fayXlsatktw/0OQUqeN1YWZ1CQa7EppRKf9GFp8dHEVE1xGlMHmJ31bl5DbCK+uA4SJHdaw42OxN3Pp+nU3hQTnYSPTLRDZbPf46S9BFjthTTaENpDTgx0JJNsrDwcgEp8Uszv0jD2HE5sJhj6gdLtovovQXZhz1aZTxtHp69YQ8HIxtBn4HDCxMXPKOenUcvy8+z0ZCc6zC5xLzuvn7L2N4+4y0m5zQUjR5Gficp7FUUUFQMXzPyLeSw47vhSgvA9WJUtuiIJQufbqWqSk4vdAHQCZECytRcklqMcJ6bu5Zy4dJb8In4DnbEieCzBJdwJbDYK9PC5/LbjE5ZZ8xh5B9SLcoeT9c324+ET9Xfb3ACtdHED0UuQ7JIsZINwViCgb1sDrqoiAjDfi8XVOePAMHYzE7e4K6VKoespK0RWVug8l/rktyltgyRR7jkwimaowN11N6nwy0RPCN46btfCrDZRWKiN/wVfCik+zxDJNnUNiYr4R7sM5qONvHP2CPtpYcHmpprVt8I2F5PRw5sEVya2ZLDLh5MjlHT3cPeFN1IMyBz597Cuy6fenkvFgNw1orfHAdED66hOjEw+pl2uBel3OichyiAcgytn9cf47KwpBS8Y5FcekkwlOX1O6NX1ia1s="
+
+cache:
+  directories:
+    - '$HOME/.m2'
+    - '$HOME/.sonar/cache'
+
+install: true
 
 #before_install:
 # - sudo apt-get update
@@ -45,5 +55,5 @@ script:
 after_success:
  - ls -lR javamm.site/target/repository/
 
-after_failure:
- - ls -lR javamm.swtbot.tests/target/work/
+#after_failure:
+# - ls -lR javamm.swtbot.tests/target/work/
