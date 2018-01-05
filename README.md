@@ -32,4 +32,4 @@ Update site: https://dl.bintray.com/lorenzobettini/javamm/snapshots/updates
 
 Eclipse distributions: https://dl.bintray.com/lorenzobettini/javamm/snapshots/products/
 
-[![Build Status](https://travis-ci.org/LorenzoBettini/javamm.svg?branch=master)](https://travis-ci.org/LorenzoBettini/javamm) [![Coverage Status](https://coveralls.io/repos/github/LorenzoBettini/javamm/badge.svg?branch=master)](https://coveralls.io/github/LorenzoBettini/javamm?branch=master)
+[![Build Status](https://travis-ci.org/LorenzoBettini/javamm.svg?branch=master)](https://travis-ci.org/LorenzoBettini/javamm) [![Coverage Status](https://coveralls.io/repos/github/LorenzoBettini/javamm/badge.svg?branch=master)](https://coveralls.io/github/LorenzoBettini/javamm?branch=master) [![Quality Gate](https://sonarcloud.io/api/badges/gate?key=javamm%3Ajavamm.releng)](https://sonarcloud.io/dashboard?id=javamm%3Ajavamm.releng)
