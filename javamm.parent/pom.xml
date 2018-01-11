@@ -127,6 +127,7 @@
 
     <!-- properties for deploying the composite update site and zipped products 
       on Sourceforge -->
+    <remote.dir>lbettini@frs.sourceforge.net:/home/frs/project/javamm</remote.dir>
 
     <!-- since this could be used in the pluginManagement section, we need 
       to make sure the path always points to this pom's directory; project.basedir 
