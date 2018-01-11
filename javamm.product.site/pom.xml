@@ -61,7 +61,6 @@
             <artifactId>tycho-p2-repository-plugin</artifactId>
             <version>${tycho-version}</version>
             <configuration>
-              <includeAllDependencies>true</includeAllDependencies>
               <finalName>${project.artifactId}-${qualifiedVersion}</finalName>
             </configuration>
           </plugin>
