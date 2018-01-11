@@ -106,6 +106,13 @@
 		<antcall target="push-main-composite-to-bintray" />
 	</target>
 
+	<target name="push-to-bintray-no-zip" >
+		<antcall target="postprocess-metadata" />
+		<antcall target="push-p2-repo-to-bintray" />
+		<antcall target="push-composite-to-bintray" />
+		<antcall target="push-main-composite-to-bintray" />
+	</target>
+
 	<target name="push-ide-to-bintray" >
 		<antcall target="postprocess-metadata" />
 		<antcall target="push-p2-repo-to-bintray" />
