@@ -1,0 +1,23 @@
+          <plugin>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <version>${maven-antrun-plugin.version}</version>
+            <!-- we add the execution for copying zipped products -->
+            <executions>
+              <execution>
+                <id>deploy-ides</id>
+                <phase>verify</phase>
+                <configuration>
+                  <target>
+                    <ant antfile="${ant-files-path}/bintray.ant"
+                      target="push-products-zipped-to-bintray">
+                      <property name="bintray.products.path"
+                        value="${bintray.base.path}products/${unqualifiedVersion}" />
+                    </ant>
+                  </target>
+                </configuration>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
