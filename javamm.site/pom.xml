@@ -54,6 +54,25 @@
                   <goal>run</goal>
                 </goals>
               </execution>
+
+              <execution>
+                <!-- Deploy p2 repository, p2 composite updated metadata 
+                  but no zipped p2 repository -->
+                <id>deploy-repository</id>
+                <phase>verify</phase>
+                <configuration>
+                  <target>
+                    <ant antfile="${ant-files-path}/bintray.ant"
+                      target="push-to-bintray-no-zip">
+                      <property name="bintray.zip.path"
+                        value="${bintray.base.path}zipped/${unqualifiedVersion}" />
+                    </ant>
+                  </target>
+                </configuration>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+              </execution>
             </executions>
           </plugin>
 
