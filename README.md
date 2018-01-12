@@ -11,7 +11,7 @@ You can either install Java-- SDK into an existing Eclipse or download a pre-con
 
 ### Eclipse update site
 
-Copy the following URL and paste it into your Eclipse "Install New Software" dialog ("Help" => "Install New Software..."), wait for the list of available features to show and select the latest version of "Java-- SDK feature". (The URL is NOT meant to be opened with a browser)
+Copy the following URL and paste it into your Eclipse "Install New Software" dialog ("Help" => "Install New Software..."), wait for the list of available features to show and select the latest version of "Javamm SDK feature". (The URL is NOT meant to be opened with a browser). TIP: use the "type filter text" to quickly filter the features, e.g., start typing "Javamm".
 
 **https<span></span>://dl.bintray.com/lorenzobettini/javamm/updates/**
 
@@ -22,6 +22,6 @@ IMPORTANT: Java-- requires Xtext, if this is not already installed, all dependen
 ### Pre-configured Eclipse distributions with Java-- installed, for several architectures.
 
 Download a complete Eclipse distribution with Java-- installed; choose the one for your OS and architecture:
-https://dl.bintray.com/lorenzobettini/javamm/products/
+https://sourceforge.net/projects/javamm/files/products/
 
 [![Build Status](https://travis-ci.org/LorenzoBettini/javamm.svg?branch=master)](https://travis-ci.org/LorenzoBettini/javamm) [![Coverage Status](https://coveralls.io/repos/github/LorenzoBettini/javamm/badge.svg?branch=master)](https://coveralls.io/github/LorenzoBettini/javamm?branch=master) [![Quality Gate](https://sonarcloud.io/api/badges/gate?key=javamm%3Ajavamm.releng)](https://sonarcloud.io/dashboard?id=javamm%3Ajavamm.releng)
