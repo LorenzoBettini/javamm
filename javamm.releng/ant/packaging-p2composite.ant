@@ -27,6 +27,7 @@
 										child repo, e.g., if child repo is in /updates/1.0 and
 										the p2 repo is in /releases/1.0.0.something then this property
 										should be "../../releases/"
+		child.repo						An external repository to be added as a child
 	-->
 	<target name="compute.child.repository.data" depends="getMajorMinorVersion">
 		<property name="full.version" value="${unqualifiedVersion}.${buildQualifier}" />
@@ -46,8 +47,21 @@
 	</target>
 
 	<target name="p2.composite.add" depends="compute.child.repository.data">
-		<add.composite.repository.internal composite.repository.location="${main.composite.repository.directory}" composite.repository.name="${main.site.composite.name}" composite.repository.child="${majorMinorVersion}" />
-		<add.composite.repository.internal composite.repository.location="${composite.repository.directory}" composite.repository.name="${site.composite.name}" composite.repository.child="${child.repository}" />
+		<add.composite.repository.internal
+			composite.repository.location="${main.composite.repository.directory}"
+			composite.repository.name="${main.site.composite.name}"
+			composite.repository.child="${majorMinorVersion}" />
+		<add.composite.repository.internal
+			composite.repository.location="${composite.repository.directory}"
+			composite.repository.name="${site.composite.name}"
+			composite.repository.child="${child.repository}" />
+	</target>
+
+	<target name="p2.composite.add.external" depends="compute.child.repository.data">
+		<add.external.repository.internal
+			composite.repository.location="${composite.repository.directory}"
+			composite.repository.name="${site.composite.name}"
+			composite.repository.child="${child.repo}" />
 	</target>
 
 	<!-- = = = = = = = = = = = = = = = = =
@@ -65,7 +79,11 @@
 			<echo message="Adding child repository    : @{composite.repository.child}" />
 
 			<p2.composite.repository>
-				<repository compressed="false" location="@{composite.repository.location}" name="@{composite.repository.name}" />
+				<repository
+					compressed="false"
+					location="@{composite.repository.location}"
+					name="@{composite.repository.name}"
+					atomic="false" />
 				<add>
 					<repository location="@{composite.repository.child}" />
 				</add>
@@ -75,6 +93,34 @@
 metadata.repository.factory.order=compositeContent.xml,\!
 artifact.repository.factory.order=compositeArtifacts.xml,\!
 </echo>
+
+		</sequential>
+	</macrodef>
+
+	<!-- = = = = = = = = = = = = = = = = =
+          macrodef: add.external.repository.internal          
+         = = = = = = = = = = = = = = = = = -->
+	<macrodef name="add.external.repository.internal">
+		<attribute name="composite.repository.location" />
+		<attribute name="composite.repository.name" />
+		<attribute name="composite.repository.child" />
+		<sequential>
+
+			<echo message=" " />
+			<echo message="Composite repository       : @{composite.repository.location}" />
+			<echo message="Composite name             : @{composite.repository.name}" />
+			<echo message="Adding child repository    : @{composite.repository.child}" />
+
+			<p2.composite.repository>
+				<repository
+					compressed="false"
+					location="@{composite.repository.location}"
+					name="@{composite.repository.name}"
+					atomic="false" />
+				<add>
+					<repository location="@{composite.repository.child}" />
+				</add>
+			</p2.composite.repository>
 
 		</sequential>
 	</macrodef>

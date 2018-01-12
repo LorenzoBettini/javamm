@@ -20,12 +20,13 @@
     <xtext.version>2.13.0</xtext.version>
     <xtext-version>${xtext.version}</xtext-version>
     <xtextVersion>${xtext.version}</xtextVersion>
+    <eclipseVersion>oxygen</eclipseVersion>
     <mwe2Version>2.9.1.201705291010</mwe2Version>
     <jbase-version>0.8.0</jbase-version>
     <platform-version>[3.9,4.0)</platform-version>
     <fornax-oaw-m2-plugin-version>3.5.1</fornax-oaw-m2-plugin-version>
 
-    <target-file-name>oxygen-xtext-2.13</target-file-name>
+    <target-file-name>${eclipseVersion}-xtext-${xtextVersion}</target-file-name>
 
     <!-- Sonarqube -->
 
@@ -126,6 +127,7 @@
 
     <!-- properties for deploying the composite update site and zipped products 
       on Sourceforge -->
+    <remote.dir>lbettini@frs.sourceforge.net:/home/frs/project/javamm</remote.dir>
 
     <!-- since this could be used in the pluginManagement section, we need 
       to make sure the path always points to this pom's directory; project.basedir 
@@ -286,7 +288,6 @@
         <activeByDefault>false</activeByDefault>
       </activation>
       <properties>
-        <includeAllDependencies>false</includeAllDependencies>
         <!-- Old properties for Sourceforge -->
         <!-- <updates.dir>javamm-snapshots</updates.dir> <remote.updates.dir>snapshots/updates/releases</remote.updates.dir> 
           <remote.zips.dir>snapshots/zips</remote.zips.dir> -->
