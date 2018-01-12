@@ -64,8 +64,6 @@
                   <target>
                     <ant antfile="${ant-files-path}/bintray.ant"
                       target="push-to-bintray-no-zip">
-                      <property name="bintray.zip.path"
-                        value="${bintray.base.path}zipped/${unqualifiedVersion}" />
                     </ant>
                   </target>
                 </configuration>
