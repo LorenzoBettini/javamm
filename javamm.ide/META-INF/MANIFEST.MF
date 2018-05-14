@@ -13,4 +13,5 @@ Require-Bundle: javamm,
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: javamm.ide.contentassist.antlr,
  javamm.ide.contentassist.antlr.internal
+Automatic-Module-Name: javamm.ide
 

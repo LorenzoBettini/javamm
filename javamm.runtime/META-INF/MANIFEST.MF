@@ -8,3 +8,4 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Require-Bundle: org.eclipse.xtext.xbase.lib;visibility:=reexport,
  jbase.lib;visibility:=reexport
 Export-Package: javamm.util
+Automatic-Module-Name: javamm.runtime

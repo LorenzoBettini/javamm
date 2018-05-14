@@ -25,3 +25,4 @@ Import-Package: org.apache.log4j,
  org.hamcrest.core
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: javamm.tests;x-internal=true
+Automatic-Module-Name: javamm.tests

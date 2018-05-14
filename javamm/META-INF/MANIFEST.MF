@@ -39,3 +39,4 @@ Export-Package: javamm,
  javamm.util,
  javamm.validation,
  javamm.scoping
+Automatic-Module-Name: javamm
