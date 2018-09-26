@@ -35,6 +35,7 @@ Export-Package: javamm.ui.contentassist,
  javamm.ui.quickfix,
  javamm.ui.wizard,
  javamm.ui.wizard.file,
- javamm.ui.wizard.selfassessment
+ javamm.ui.wizard.selfassessment,
+ javamm.ui.editor
 Bundle-Activator: javamm.ui.internal.JavammActivator
 Automatic-Module-Name: javamm.ui
