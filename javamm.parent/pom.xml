@@ -8,7 +8,7 @@
   <packaging>pom</packaging>
 
   <properties>
-    <tycho-version>1.0.0</tycho-version>
+    <tycho-version>1.2.0</tycho-version>
     <tycho-extras-version>${tycho-version}</tycho-extras-version>
     <maven-surefire-plugin.version>2.17</maven-surefire-plugin.version>
     <maven-antrun-plugin.version>1.7</maven-antrun-plugin.version>
@@ -17,16 +17,19 @@
     <os-jvm-flags />
     <memoryArgs>-Xms256M -Xmx1024M -XX:PermSize=256M
       -XX:MaxPermSize=256M -XX:+HeapDumpOnOutOfMemoryError</memoryArgs>
-    <xtext.version>2.13.0</xtext.version>
+    <xtext.version>2.15.0</xtext.version>
     <xtext-version>${xtext.version}</xtext-version>
     <xtextVersion>${xtext.version}</xtextVersion>
-    <eclipseVersion>oxygen</eclipseVersion>
+    <eclipseVersion>2018-09</eclipseVersion>
     <mwe2Version>2.9.1.201705291010</mwe2Version>
-    <jbase-version>0.8.0</jbase-version>
+    <jbase-version>0.9.0</jbase-version>
     <platform-version>[3.9,4.0)</platform-version>
     <fornax-oaw-m2-plugin-version>3.5.1</fornax-oaw-m2-plugin-version>
 
     <target-file-name>${eclipseVersion}-xtext-${xtextVersion}</target-file-name>
+
+    <!-- For tests for Java 9 and above -->
+    <moduleProperties></moduleProperties>
 
     <!-- Sonarqube -->
 
@@ -168,17 +171,6 @@
   </properties>
 
   <profiles>
-    <profile>
-      <id>luna</id>
-      <activation>
-        <activeByDefault>false</activeByDefault>
-      </activation>
-
-      <properties>
-        <target-file-name>luna</target-file-name>
-      </properties>
-    </profile>
-
     <profile>
       <id>local</id>
       <activation>
@@ -354,6 +346,15 @@
       </build>
     </profile>
 
+    <profile>
+      <id>jdk9-or-newer</id>
+      <activation>
+        <jdk>[9,)</jdk>
+      </activation>
+      <properties>
+        <moduleProperties>--add-modules=ALL-SYSTEM</moduleProperties>
+      </properties>
+    </profile>
   </profiles>
 
   <build>

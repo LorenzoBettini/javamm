@@ -801,6 +801,42 @@ class JavammValidatorTest extends JavammAbstractTest {
 		)
 	}
 
+	@Test def void testLocalVariabilesAreUnusedWhenOnlyLeftOperandOfAnAssignmentOperator() {
+		// local variables are used when they are not used as the left operand of an assignment operator.
+		'''
+		{
+			int i = 0;
+			i = 1;
+		}
+		'''.parse.assertIssuesAsStrings(
+		'''
+		The value of the local variable i is not used
+		'''
+		)
+	}
+
+	@Test def void testArrayIsUnusedWhenOnlyLeftOperandOfAnAssignmentOperator() {
+		'''
+		{
+			int[] i;
+			i = new int[] { 0 };
+		}
+		'''.parse.assertIssuesAsStrings(
+		'''
+		The value of the local variable i is not used
+		'''
+		)
+	}
+
+	@Test def void testArrayUsedWhenAssigningToItsElements() {
+		'''
+		{
+			int[] i = { 0 };
+			i[0] = 1;
+		}
+		'''.parseAndAssertNoIssues
+	}
+
 	@Test def void testPostfixOnWrongExpression() {
 		'''
 		"a"++;
@@ -1057,6 +1093,8 @@ class JavammValidatorTest extends JavammAbstractTest {
 		'''
 		final int i = 0;
 		i = 1;
+		// to avoid warning of unused variable
+		System.out.println(i);
 		'''.parse.assertIssuesAsStrings("Assignment to final variable")
 	}
 
@@ -1064,6 +1102,8 @@ class JavammValidatorTest extends JavammAbstractTest {
 		'''
 		final int[] i = {0};
 		i = {0};
+		// to avoid warning of unused variable
+		System.out.println(i);
 		'''.parse.assertIssuesAsStrings("Assignment to final variable")
 	}
 

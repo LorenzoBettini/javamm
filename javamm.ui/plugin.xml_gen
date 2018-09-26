@@ -484,7 +484,7 @@
 	</extension>
 	<extension point="org.eclipse.core.runtime.adapters">
 		<factory class="javamm.ui.JavammExecutableExtensionFactory:org.eclipse.xtext.builder.smap.StratumBreakpointAdapterFactory"
-			adaptableType="org.eclipse.xtext.ui.editor.XtextEditor">
+			adaptableType="javamm.ui.editor.JavammEditor">
 			<adapter type="org.eclipse.debug.ui.actions.IToggleBreakpointsTarget"/>
 		</factory> 
 	</extension>
@@ -578,12 +578,18 @@
 			class="javamm.ui.JavammExecutableExtensionFactory:org.eclipse.xtext.ui.compare.InjectableViewerCreator"
 			extensions="javamm">
 		</viewer>
+		<contentTypeBinding
+			contentTypeId="javamm.Javamm.contenttype"
+			contentViewerId="javamm.Javamm.compare.contentViewers" />
 	</extension>
 	<extension point="org.eclipse.compare.contentMergeViewers">
 		<viewer id="javamm.Javamm.compare.contentMergeViewers"
 			class="javamm.ui.JavammExecutableExtensionFactory:org.eclipse.xtext.ui.compare.InjectableViewerCreator"
 			extensions="javamm" label="Javamm Compare">
 		</viewer>
+		<contentTypeBinding
+			contentTypeId="javamm.Javamm.contenttype"
+			contentMergeViewerId="javamm.Javamm.compare.contentMergeViewers" />
 	</extension>
 	<extension point="org.eclipse.ui.editors.documentProviders">
 		<provider id="javamm.Javamm.editors.documentProviders"
