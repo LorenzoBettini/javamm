@@ -254,7 +254,7 @@
       <requirement
           name="org.eclipse.cbi.p2repo.aggregator.editor.feature.feature.group"/>
       <repository
-          url="http://download.eclipse.org/cbi/updates/aggregator/ide/4.7/"/>
+          url="http://download.eclipse.org/cbi/updates/aggregator/ide/4.8/"/>
     </setupTask>
   </setupTask>
   <setupTask
