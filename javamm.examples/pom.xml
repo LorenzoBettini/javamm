@@ -64,6 +64,12 @@
 						<version>${project.version}</version>
 					</dependency>
 					<dependency>
+						<groupId>net.sf.xtext-jbase</groupId>
+						<artifactId>jbase</artifactId>
+						<version>${jbase-version}</version>
+					</dependency>
+					<!-- See https://github.com/eclipse/xtext-xtend/issues/493 -->
+					<dependency>
 						<groupId>org.eclipse.jdt</groupId>
 						<artifactId>org.eclipse.jdt.core</artifactId>
 						<version>3.15.0</version>
@@ -78,16 +84,8 @@
 						<artifactId>org.eclipse.jdt.compiler.tool</artifactId>
 						<version>1.2.300</version>
 					</dependency>
-					<!--
-					<dependency>
-						<groupId>net.sf.xtext-jbase</groupId>
-						<artifactId>jbase</artifactId>
-						<version>${jbase-version}</version>
-					</dependency>
-					 -->
 				</dependencies>
 			</plugin>
-
 		</plugins>
 	</build>
 </project>
