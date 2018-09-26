@@ -63,11 +63,13 @@
 						<artifactId>javamm</artifactId>
 						<version>${project.version}</version>
 					</dependency>
+					<!--
 					<dependency>
 						<groupId>net.sf.xtext-jbase</groupId>
 						<artifactId>jbase</artifactId>
 						<version>${jbase-version}</version>
 					</dependency>
+					 -->
 				</dependencies>
 			</plugin>
 
