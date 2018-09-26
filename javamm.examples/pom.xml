@@ -68,6 +68,11 @@
 						<artifactId>jbase</artifactId>
 						<version>${jbase-version}</version>
 					</dependency>
+					<dependency>
+						<groupId>org.eclipse.xtend</groupId>
+						<artifactId>org.eclipse.xtend.core</artifactId>
+						<version>${xtextVersion}</version>
+					</dependency>
 				</dependencies>
 			</plugin>
 
