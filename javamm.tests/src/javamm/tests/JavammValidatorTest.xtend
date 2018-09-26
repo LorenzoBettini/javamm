@@ -1057,6 +1057,8 @@ class JavammValidatorTest extends JavammAbstractTest {
 		'''
 		final int i = 0;
 		i = 1;
+		// to avoid warning of unused variable
+		System.out.println(i);
 		'''.parse.assertIssuesAsStrings("Assignment to final variable")
 	}
 
@@ -1064,6 +1066,8 @@ class JavammValidatorTest extends JavammAbstractTest {
 		'''
 		final int[] i = {0};
 		i = {0};
+		// to avoid warning of unused variable
+		System.out.println(i);
 		'''.parse.assertIssuesAsStrings("Assignment to final variable")
 	}
 
