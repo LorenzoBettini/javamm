@@ -28,6 +28,9 @@
 
     <target-file-name>${eclipseVersion}-xtext-${xtextVersion}</target-file-name>
 
+    <!-- For tests for Java 9 and above -->
+    <moduleProperties></moduleProperties>
+
     <!-- Sonarqube -->
 
     <!-- Always refer to the corresponding tests project (if it exists) otherwise 
@@ -168,17 +171,6 @@
   </properties>
 
   <profiles>
-    <profile>
-      <id>luna</id>
-      <activation>
-        <activeByDefault>false</activeByDefault>
-      </activation>
-
-      <properties>
-        <target-file-name>luna</target-file-name>
-      </properties>
-    </profile>
-
     <profile>
       <id>local</id>
       <activation>
@@ -354,6 +346,15 @@
       </build>
     </profile>
 
+    <profile>
+      <id>jdk9-or-newer</id>
+      <activation>
+        <jdk>[9,)</jdk>
+      </activation>
+      <properties>
+        <moduleProperties>--add-modules=ALL-SYSTEM</moduleProperties>
+      </properties>
+    </profile>
   </profiles>
 
   <build>

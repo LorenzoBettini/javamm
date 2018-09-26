@@ -16,7 +16,7 @@
 
   <properties>
     <jacoco-version>0.7.9</jacoco-version>
-    <additionalTestArgLine></additionalTestArgLine>
+    <additionalTestArgLine>${moduleProperties}</additionalTestArgLine>
     <!-- Workaround for https://bugs.eclipse.org/bugs/show_bug.cgi?id=397015 -->
     <sonar.sources></sonar.sources>
     <sonar.tests>src,xtend-gen</sonar.tests>
@@ -42,7 +42,7 @@
         <activeByDefault>false</activeByDefault>
       </activation>
       <properties>
-        <additionalTestArgLine>${tycho.testArgLine}</additionalTestArgLine>
+        <additionalTestArgLine>${tycho.testArgLine} ${moduleProperties}</additionalTestArgLine>
       </properties>
       <build>
         <plugins>
