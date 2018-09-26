@@ -17,12 +17,12 @@
     <os-jvm-flags />
     <memoryArgs>-Xms256M -Xmx1024M -XX:PermSize=256M
       -XX:MaxPermSize=256M -XX:+HeapDumpOnOutOfMemoryError</memoryArgs>
-    <xtext.version>2.13.0</xtext.version>
+    <xtext.version>2.15.0</xtext.version>
     <xtext-version>${xtext.version}</xtext-version>
     <xtextVersion>${xtext.version}</xtextVersion>
-    <eclipseVersion>oxygen</eclipseVersion>
+    <eclipseVersion>2018-09</eclipseVersion>
     <mwe2Version>2.9.1.201705291010</mwe2Version>
-    <jbase-version>0.8.0</jbase-version>
+    <jbase-version>0.9.0</jbase-version>
     <platform-version>[3.9,4.0)</platform-version>
     <fornax-oaw-m2-plugin-version>3.5.1</fornax-oaw-m2-plugin-version>
 
