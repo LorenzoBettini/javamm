@@ -30,4 +30,9 @@ jobs:
       run: >
         xvfb-run
         mvn -f javamm.releng/pom.xml
-        verify -Pide-tests
+        verify -Pide-tests -Pjacoco-report
+        -DrepoToken=$COVERALLS_REPO_TOKEN
+        -DpullRequest=${{ github.event.pull_request.number }}
+        coveralls:report
+      env: 
+        COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_TOKEN }}
