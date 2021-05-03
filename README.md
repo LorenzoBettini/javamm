@@ -9,11 +9,13 @@ Starting from version 1.7.0, Java-- **requires Java 8**.
 
 You can either install Java-- SDK into an existing Eclipse or download a pre-configured Eclipse distribution with Java-- installed (choosing the one for your operating system).
 
-### Eclipse update site
+### Eclipse update site (updated)
+
+**IMPORTANT**: _the old Bintray update site does not work anymore, make sure you use the new one and remove the old one_.
 
 Copy the following URL and paste it into your Eclipse "Install New Software" dialog ("Help" => "Install New Software..."), wait for the list of available features to show and select the latest version of "Javamm SDK feature". (The URL is NOT meant to be opened with a browser). TIP: use the "type filter text" to quickly filter the features, e.g., start typing "Javamm".
 
-**https<span></span>://dl.bintray.com/lorenzobettini/javamm/updates/**
+**https<span></span>://lorenzobettini.github.io/javamm-releases/**
 
 ![Install New Software Screenshot](images/javamm-installation.png)
 
