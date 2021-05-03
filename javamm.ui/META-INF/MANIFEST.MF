@@ -29,7 +29,7 @@ Require-Bundle: javamm;visibility:=reexport,
  javamm.ide,
  jbase.ui
 Import-Package: org.apache.log4j
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: javamm.ui.contentassist,
  javamm.ui.internal,
  javamm.ui.quickfix,
