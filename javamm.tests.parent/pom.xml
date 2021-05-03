@@ -15,7 +15,7 @@
   <packaging>pom</packaging>
 
   <properties>
-    <jacoco-version>0.7.9</jacoco-version>
+    <jacoco-version>0.8.6</jacoco-version>
     <additionalTestArgLine>${moduleProperties}</additionalTestArgLine>
     <!-- Workaround for https://bugs.eclipse.org/bugs/show_bug.cgi?id=397015 -->
     <sonar.sources></sonar.sources>
