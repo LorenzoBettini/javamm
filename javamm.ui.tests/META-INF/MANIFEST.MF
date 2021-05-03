@@ -20,7 +20,7 @@ Require-Bundle: javamm.ui,
  org.eclipse.xtext.xbase.testing,
  org.eclipse.xtext.ui.testing,
  org.eclipse.xtext.xbase.ui.testing
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: javamm.ui.tests;x-internal=true
 Import-Package: org.junit.runners;version="4.5.0",
  org.junit.runners.model;version="4.5.0",

@@ -10,7 +10,7 @@ Require-Bundle: javamm,
  org.eclipse.xtext.xbase.ide,
  jbase,
  org.antlr.runtime;bundle-version="[3.2.0,3.2.1)"
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: javamm.ide.contentassist.antlr,
  javamm.ide.contentassist.antlr.internal
 Automatic-Module-Name: javamm.ide
