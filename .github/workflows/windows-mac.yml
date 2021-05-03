@@ -36,4 +36,7 @@ jobs:
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml', '**/*.yml', '**/*.target') }}
         restore-keys: ${{ runner.os }}-m2-
     - name: Build with Maven
-      run: mvn -f javamm.releng/pom.xml '-Dtycho.disableP2Mirrors=true' verify
+      run: >
+        mvn -f javamm.releng/pom.xml
+        '-Dtycho.disableP2Mirrors=true'
+        verify -Pide-tests
