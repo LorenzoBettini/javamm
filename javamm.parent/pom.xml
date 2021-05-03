@@ -26,7 +26,7 @@
     <platform-version>[3.9,4.0)</platform-version>
     <fornax-oaw-m2-plugin-version>3.5.1</fornax-oaw-m2-plugin-version>
 
-    <target-file-name>${eclipseVersion}-xtext-${xtextVersion}</target-file-name>
+    <target-file-name>javamm.target</target-file-name>
 
     <!-- For tests for Java 9 and above -->
     <moduleProperties></moduleProperties>
