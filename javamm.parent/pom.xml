@@ -11,7 +11,7 @@
     <tycho-version>1.2.0</tycho-version>
     <tycho-extras-version>${tycho-version}</tycho-extras-version>
     <maven-surefire-plugin.version>2.17</maven-surefire-plugin.version>
-    <maven-antrun-plugin.version>1.7</maven-antrun-plugin.version>
+    <maven-antrun-plugin.version>1.8</maven-antrun-plugin.version>
     <junit-version>4.12</junit-version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <os-jvm-flags />
