@@ -179,7 +179,9 @@
     <module>../javamm.ui.tests</module>
     <module>../javamm.requirements.feature</module>
     <module>../javamm.sdk</module>
-    <module>../javamm.site</module>
+    <module>../javamm.eclipse.sdk</module>
+    <module>../javamm.product.ui.feature</module>
+    <module>../javamm.product.site</module>
     <module>../javamm.tests.report</module>
   </modules>
 
@@ -190,21 +192,7 @@
         <activeByDefault>false</activeByDefault>
       </activation>
       <modules>
-        <module>../javamm.eclipse.sdk</module>
-        <module>../javamm.product.ui.feature</module>
-        <module>../javamm.product.site</module>
         <module>../javamm.swtbot.tests</module>
-      </modules>
-    </profile>
-    <profile>
-      <id>build-ide</id>
-      <activation>
-        <activeByDefault>false</activeByDefault>
-      </activation>
-      <modules>
-        <module>../javamm.eclipse.sdk</module>
-        <module>../javamm.product.ui.feature</module>
-        <module>../javamm.product.site</module>
       </modules>
     </profile>
 
