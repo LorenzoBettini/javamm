@@ -8,8 +8,6 @@
   <requirement
       name="javamm.site.plain.project"/>
   <requirement
-      name="javamm.product.site.plain.project"/>
-  <requirement
       name="javamm.targetplatform.plain.project"/>
   <requirement
       name="javamm.parent.plain.project"/>

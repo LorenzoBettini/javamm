@@ -181,7 +181,7 @@
     <module>../javamm.sdk</module>
     <module>../javamm.eclipse.sdk</module>
     <module>../javamm.product.ui.feature</module>
-    <module>../javamm.product.site</module>
+    <module>../javamm.site</module>
     <module>../javamm.tests.report</module>
   </modules>
 
