@@ -20,7 +20,7 @@
     <xtext.version>2.15.0</xtext.version>
     <xtext-version>${xtext.version}</xtext-version>
     <xtextVersion>${xtext.version}</xtextVersion>
-    <eclipseVersion>2018-09</eclipseVersion>
+    <eclipse-version>2018-09</eclipse-version>
     <mwe2Version>2.9.1.201705291010</mwe2Version>
     <jbase-version>0.9.0</jbase-version>
     <platform-version>[3.9,4.0)</platform-version>
@@ -124,46 +124,31 @@
     <swtbot.tests.only>false</swtbot.tests.only>
     <swtbot.tests.skip>false</swtbot.tests.skip>
 
-    <!-- properties for deploying the composite update site and zipped products 
-      on Sourceforge -->
-    <remote.dir>lbettini@frs.sourceforge.net:/home/frs/project/javamm</remote.dir>
-
     <!-- since this could be used in the pluginManagement section, we need 
       to make sure the path always points to this pom's directory; project.basedir 
       will always point to the directory of the pom where the pluginManagement's 
       plugins are used -->
     <ant-files-path>${project.basedir}/../javamm.parent/ant</ant-files-path>
 
-    <!-- pass "-n" to perform a trial run with no changes made -->
-    <dryrun></dryrun>
-
-    <!-- for deployment on bintray -->
-    <!-- The name of your own Bintray repository -->
-    <bintray.repo>javamm</bintray.repo>
-    <!-- The name of your own Bintray repository's package for releases -->
-    <bintray.package>releases</bintray.package>
-    <!-- The label for the Composite sites -->
-    <site.label>Java-- Site</site.label>
-
-    <!-- If the Bintray repository is owned by someone different from your 
-      user, then specify the bintray.owner explicitly -->
-    <bintray.owner>${bintray.user}</bintray.owner>
-    <!-- Define bintray.user and bintray.apikey in some secret place, like 
-      .m2/settings.xml -->
-
-    <!-- Default values for remote directories -->
-    <bintray.base.path></bintray.base.path>
-    <bintray.releases.path>${bintray.base.path}releases</bintray.releases.path>
-    <bintray.composite.path>${bintray.base.path}updates</bintray.composite.path>
-    <bintray.zip.path>${bintray.base.path}zipped</bintray.zip.path>
-    <bintray.products.path>${bintray.base.path}products</bintray.products.path>
-    <!-- note that the following must be consistent with the path schema 
-      used to publish child composite repositories and actual released p2 repositories -->
-    <child.repository.path.prefix>../../releases/</child.repository.path.prefix>
-
     <!-- set it to true to have a self contained p2 repository https://wiki.eclipse.org/Tycho/eclipse-repository#Creating_a_self-contained_p2_repository -->
     <!-- We handle that at .site and .ide.site level -->
     <!-- <includeAllDependencies>true</includeAllDependencies> -->
+
+    <!-- pass "-n" to perform a trial run with no changes made -->
+    <dryrun></dryrun>
+
+    <!-- properties for deploying the composite update site
+      on GitHub Pages -->
+    <github-update-repo>git@github.com:LorenzoBettini/javamm-releases.git</github-update-repo>
+    <github-local-clone>${project.build.directory}/checkout</github-local-clone>
+    <releases-directory>${github-local-clone}/releases</releases-directory>
+    <current-release-directory>${releases-directory}/${qualifiedVersion}</current-release-directory>
+    <!-- The label for the Composite sites -->
+    <site.label>Java-- Site</site.label>
+
+    <!-- properties for deploying the composite update site and zipped products 
+      on Sourceforge -->
+    <remote.dir>lbettini@frs.sourceforge.net:/home/frs/project/javamm</remote.dir>
   </properties>
 
   <modules>
@@ -208,12 +193,11 @@
     </profile>
 
     <profile>
-      <id>release-composite</id>
+      <id>release-composite</id> <!-- release composite update site on GitHub Pages -->
       <activation>
         <activeByDefault>false</activeByDefault>
       </activation>
       <properties>
-        <xtext.maven.skip>true</xtext.maven.skip>
         <skipTests>true</skipTests>
       </properties>
       <build>
@@ -235,14 +219,9 @@
           <plugin>
             <groupId>org.eclipse.tycho</groupId>
             <artifactId>tycho-p2-plugin</artifactId>
-            <version>${tycho-version}</version>
             <executions>
               <execution>
-                <id>p2-metadata</id>
-                <goals>
-                  <goal>p2-metadata</goal>
-                </goals>
-                <phase>package</phase>
+                <id>attach-p2-metadata</id>
               </execution>
             </executions>
             <configuration>
@@ -252,64 +231,48 @@
         </plugins>
       </build>
     </profile>
-
     <profile>
-      <id>release-ide-composite</id>
+      <id>release-ide</id> <!-- release IDE products on Sourceforge -->
       <activation>
         <activeByDefault>false</activeByDefault>
       </activation>
       <properties>
-        <xtext.maven.skip>true</xtext.maven.skip>
         <skipTests>true</skipTests>
       </properties>
       <build>
-        <plugins>
-          <plugin>
-            <groupId>org.eclipse.tycho.extras</groupId>
-            <artifactId>tycho-pack200b-plugin</artifactId>
-            <version>${tycho-version}</version>
-            <executions>
-              <execution>
-                <id>pack200-pack</id>
-                <goals>
-                  <goal>pack</goal>
-                </goals>
-                <phase>package</phase>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin>
-            <groupId>org.eclipse.tycho</groupId>
-            <artifactId>tycho-p2-plugin</artifactId>
-            <version>${tycho-version}</version>
-            <executions>
-              <execution>
-                <id>p2-metadata</id>
-                <goals>
-                  <goal>p2-metadata</goal>
-                </goals>
-                <phase>package</phase>
-              </execution>
-            </executions>
-            <configuration>
-              <defaultP2Metadata>false</defaultP2Metadata>
-            </configuration>
-          </plugin>
-        </plugins>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <artifactId>maven-install-plugin</artifactId>
+              <executions>
+                <execution>
+                  <id>default-install</id>
+                  <phase>none</phase>
+                </execution>
+              </executions>
+            </plugin>
+            <plugin>
+              <artifactId>maven-deploy-plugin</artifactId>
+              <configuration>
+                <skip>true</skip>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
       </build>
     </profile>
-
     <profile>
+      <!--
+        This assumes that release-composite is enabled as well
+        ATTENTION: the snapshot GitHub repository is not yet setup
+        DON'T USE THIS PROFILE YET!
+      -->
       <id>release-snapshots</id>
       <activation>
         <activeByDefault>false</activeByDefault>
       </activation>
       <properties>
-        <!-- Old properties for Sourceforge -->
-        <!-- <updates.dir>javamm-snapshots</updates.dir> <remote.updates.dir>snapshots/updates/releases</remote.updates.dir> 
-          <remote.zips.dir>snapshots/zips</remote.zips.dir> -->
-        <bintray.package>snapshots</bintray.package>
-        <bintray.base.path>snapshots/</bintray.base.path>
+        <github-update-repo>git@github.com:LorenzoBettini/javamm-snapshots.git</github-update-repo>
         <site.label>Java-- Snapshot Site</site.label>
       </properties>
     </profile>
@@ -328,10 +291,19 @@
   <build>
     <pluginManagement>
       <plugins>
+        <plugin>
+          <groupId>org.eclipse.tycho.extras</groupId>
+          <artifactId>tycho-eclipserun-plugin</artifactId>
+          <version>${tycho-version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>3.2.0</version>
+        </plugin>
         <!-- xtend-maven-plugin is in pluginManagement instead of in plugins 
           so that it doesn't run before the exec-maven-plugin's *.mwe2 gen; this way 
           we can list it after. -->
-
         <plugin>
           <groupId>org.eclipse.xtend</groupId>
           <artifactId>xtend-maven-plugin</artifactId>
