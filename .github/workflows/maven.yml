@@ -29,7 +29,7 @@ jobs:
     - name: Build with Maven
       run: >
         xvfb-run
-        mvn -f javamm.releng/pom.xml
+        mvn -f javamm.parent/pom.xml
         verify -Pide-tests -Pjacoco-report
         -DrepoToken=$COVERALLS_REPO_TOKEN
         -DpullRequest=${{ github.event.pull_request.number }}

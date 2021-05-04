@@ -12,8 +12,6 @@
   <requirement
       name="javamm.targetplatform.plain.project"/>
   <requirement
-      name="javamm.releng.plain.project"/>
-  <requirement
       name="javamm.parent.plain.project"/>
   <requirement
       name="javamm.tests.parent.plain.project"/>

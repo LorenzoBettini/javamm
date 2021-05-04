@@ -117,10 +117,6 @@
     <sonar.issue.ignore.multicriteria.e8.ruleKey>squid:UndocumentedApi</sonar.issue.ignore.multicriteria.e8.ruleKey>
     <sonar.issue.ignore.multicriteria.e8.resourceKey>**/*.java</sonar.issue.ignore.multicriteria.e8.resourceKey>
 
-    <!-- sonar.skippedModules is deprecated: https://jira.codehaus.org/browse/SONAR-5109 -->
-    <!-- instead we must use advanced reactor options: https://jira.codehaus.org/browse/MSONAR-61 -->
-    <!-- Example: mvn sonar:sonar -pl :javamm.releng,:javamm.runtime,:javamm,:javamm.ui -->
-
     <!-- Otherwise we'll have problems due to generated sources, which are 
       not in the git repository (since Sonarqube 5) -->
     <!-- <sonar.scm.disabled>true</sonar.scm.disabled> -->
@@ -136,7 +132,7 @@
       to make sure the path always points to this pom's directory; project.basedir 
       will always point to the directory of the pom where the pluginManagement's 
       plugins are used -->
-    <ant-files-path>${project.basedir}/../javamm.releng/ant</ant-files-path>
+    <ant-files-path>${project.basedir}/../javamm.parent/ant</ant-files-path>
 
     <!-- pass "-n" to perform a trial run with no changes made -->
     <dryrun></dryrun>
@@ -170,7 +166,98 @@
     <!-- <includeAllDependencies>true</includeAllDependencies> -->
   </properties>
 
+  <modules>
+    <module>../javamm.targetplatform</module>
+    <module>../javamm.runtime</module>
+    <module>../javamm</module>
+    <module>../javamm.selfassessment.builder</module>
+    <module>../javamm.ide</module>
+    <module>../javamm.ui</module>
+    <module>../javamm.examples</module>
+    <module>../javamm.ui.examples</module>
+    <module>../javamm.tests</module>
+    <module>../javamm.ui.tests</module>
+    <module>../javamm.requirements.feature</module>
+    <module>../javamm.sdk</module>
+    <module>../javamm.site</module>
+    <module>../javamm.tests.report</module>
+  </modules>
+
   <profiles>
+    <profile>
+      <id>ide-tests</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <modules>
+        <module>../javamm.eclipse.sdk</module>
+        <module>../javamm.product.ui.feature</module>
+        <module>../javamm.product.site</module>
+        <module>../javamm.swtbot.tests</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>build-ide</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <modules>
+        <module>../javamm.eclipse.sdk</module>
+        <module>../javamm.product.ui.feature</module>
+        <module>../javamm.product.site</module>
+      </modules>
+      <build>
+        <plugins>
+          <!-- specify all environments when building the IDE -->
+          <plugin>
+            <groupId>org.eclipse.tycho</groupId>
+            <artifactId>target-platform-configuration</artifactId>
+            <version>${tycho-version}</version>
+            <configuration>
+              <target>
+                <artifact>
+                  <groupId>javamm</groupId>
+                  <artifactId>javamm.targetplatform</artifactId>
+                  <version>${project.version}</version>
+                  <classifier>${target-file-name}</classifier>
+                </artifact>
+              </target>
+              <environments>
+                <environment>
+                  <os>win32</os>
+                  <ws>win32</ws>
+                  <arch>x86</arch>
+                </environment>
+                <environment>
+                  <os>win32</os>
+                  <ws>win32</ws>
+                  <arch>x86_64</arch>
+                </environment>
+                <environment>
+                  <os>macosx</os>
+                  <ws>cocoa</ws>
+                  <arch>x86_64</arch>
+                </environment>
+                <!-- This is not present in Mars <environment> <os>macosx</os> 
+                  <ws>cocoa</ws> <arch>x86</arch> </environment> -->
+                <environment>
+                  <os>linux</os>
+                  <ws>gtk</ws>
+                  <arch>x86</arch>
+                </environment>
+                <environment>
+                  <os>linux</os>
+                  <ws>gtk</ws>
+                  <arch>x86_64</arch>
+                </environment>
+              </environments>
+              <includePackedArtifacts>true</includePackedArtifacts>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
     <profile>
       <id>local</id>
       <activation>
@@ -287,63 +374,6 @@
         <bintray.base.path>snapshots/</bintray.base.path>
         <site.label>Java-- Snapshot Site</site.label>
       </properties>
-    </profile>
-
-    <profile>
-      <id>build-ide</id>
-      <activation>
-        <activeByDefault>false</activeByDefault>
-      </activation>
-      <build>
-        <plugins>
-          <!-- specify all environments when building the IDE -->
-          <plugin>
-            <groupId>org.eclipse.tycho</groupId>
-            <artifactId>target-platform-configuration</artifactId>
-            <version>${tycho-version}</version>
-            <configuration>
-              <target>
-                <artifact>
-                  <groupId>javamm</groupId>
-                  <artifactId>javamm.targetplatform</artifactId>
-                  <version>${project.version}</version>
-                  <classifier>${target-file-name}</classifier>
-                </artifact>
-              </target>
-              <environments>
-                <environment>
-                  <os>win32</os>
-                  <ws>win32</ws>
-                  <arch>x86</arch>
-                </environment>
-                <environment>
-                  <os>win32</os>
-                  <ws>win32</ws>
-                  <arch>x86_64</arch>
-                </environment>
-                <environment>
-                  <os>macosx</os>
-                  <ws>cocoa</ws>
-                  <arch>x86_64</arch>
-                </environment>
-                <!-- This is not present in Mars <environment> <os>macosx</os> 
-                  <ws>cocoa</ws> <arch>x86</arch> </environment> -->
-                <environment>
-                  <os>linux</os>
-                  <ws>gtk</ws>
-                  <arch>x86</arch>
-                </environment>
-                <environment>
-                  <os>linux</os>
-                  <ws>gtk</ws>
-                  <arch>x86_64</arch>
-                </environment>
-              </environments>
-              <includePackedArtifacts>true</includePackedArtifacts>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
     </profile>
 
     <profile>
