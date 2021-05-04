@@ -1,0 +1,2 @@
+instructions.configure=org.eclipse.equinox.p2.touchpoint.eclipse.addRepository(location:https${#58}//lorenzobettini.github.io/javamm-releases/,type:0,name:Javamm,enabled:true); \
+  org.eclipse.equinox.p2.touchpoint.eclipse.addRepository(location:https${#58}//lorenzobettini.github.io/javamm-releases/,type:1,name:Javamm,enabled:true);

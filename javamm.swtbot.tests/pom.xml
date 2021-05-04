@@ -41,7 +41,6 @@
       <plugin>
         <groupId>org.eclipse.tycho</groupId>
         <artifactId>tycho-surefire-plugin</artifactId>
-        <version>${tycho-version}</version>
         <configuration>
           <useUIHarness>true</useUIHarness>
           <useUIThread>false</useUIThread>
@@ -67,7 +66,7 @@
               <artifactItems>
                 <artifactItem>
                   <groupId>${project.groupId}</groupId>
-                  <artifactId>javamm.product.site</artifactId>
+                  <artifactId>javamm.site</artifactId>
                   <version>${project.version}</version>
                   <type>zip</type>
                   <classifier>${tycho.env.osgi.os}.${tycho.env.osgi.ws}.${tycho.env.osgi.arch}</classifier>
