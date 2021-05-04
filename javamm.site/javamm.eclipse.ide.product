@@ -30,7 +30,6 @@
    <launcher name="eclipse">
       <linux icon="../javamm.eclipse.sdk/images/javamm-64.xpm"/>
       <macosx icon="../javamm.eclipse.sdk/images/javamm.icns"/>
-      <solaris/>
       <win useIco="true">
          <ico path="../javamm.eclipse.sdk/images/javamm.ico"/>
          <bmp/>
@@ -51,15 +50,15 @@
    </features>
 
    <configurations>
+      <plugin id="org.apache.felix.scr" autoStart="true" startLevel="2" />
       <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="4" />
       <plugin id="org.eclipse.equinox.common" autoStart="true" startLevel="2" />
-      <plugin id="org.eclipse.equinox.ds" autoStart="true" startLevel="2" />
       <plugin id="org.eclipse.equinox.event" autoStart="true" startLevel="2" />
       <plugin id="org.eclipse.equinox.p2.reconciler.dropins" autoStart="true" startLevel="0" />
       <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" />
-      <property name="org.eclipse.core.resources/encoding" value="UTF-8" />
-      <property name="org.eclipse.ui/org.eclipse.ui.edit.text.encoding" value="UTF-8" />
       <property name="osgi.instance.area.default" value="@user.home/workspace-javamm" />
+      <property name="org.eclipse.ui/org.eclipse.ui.edit.text.encoding" value="UTF-8" />
+      <property name="org.eclipse.core.resources/encoding" value="UTF-8" />
    </configurations>
 
 </product>
