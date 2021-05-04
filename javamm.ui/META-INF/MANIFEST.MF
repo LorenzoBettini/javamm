@@ -25,7 +25,7 @@ Require-Bundle: javamm;visibility:=reexport,
  org.eclipse.jdt.ui,
  org.eclipse.jdt.launching,
  javamm.selfassessment.builder,
- org.eclipse.xtend.lib;resolution:=optional,
+ org.eclipse.xtend.lib;bundle-version="2.14.0";resolution:=optional,
  javamm.ide,
  jbase.ui
 Import-Package: org.apache.log4j

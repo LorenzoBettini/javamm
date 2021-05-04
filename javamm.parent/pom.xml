@@ -12,19 +12,15 @@
     <tycho-extras-version>${tycho-version}</tycho-extras-version>
     <maven-surefire-plugin.version>2.17</maven-surefire-plugin.version>
     <maven-antrun-plugin.version>1.8</maven-antrun-plugin.version>
-    <junit-version>4.12</junit-version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <os-jvm-flags />
-    <memoryArgs>-Xms256M -Xmx1024M -XX:PermSize=256M
-      -XX:MaxPermSize=256M -XX:+HeapDumpOnOutOfMemoryError</memoryArgs>
-    <xtext.version>2.15.0</xtext.version>
+    <memoryArgs></memoryArgs>
+    <xtext.version>2.25.0</xtext.version>
     <xtext-version>${xtext.version}</xtext-version>
     <xtextVersion>${xtext.version}</xtextVersion>
-    <eclipse-version>2018-09</eclipse-version>
-    <mwe2Version>2.9.1.201705291010</mwe2Version>
-    <jbase-version>0.9.0</jbase-version>
-    <platform-version>[3.9,4.0)</platform-version>
-    <fornax-oaw-m2-plugin-version>3.5.1</fornax-oaw-m2-plugin-version>
+    <eclipse-version>2020-06</eclipse-version>
+    <mwe2Version>2.12.1</mwe2Version>
+    <jbase-version>0.10.0</jbase-version>
 
     <target-file-name>javamm.target</target-file-name>
 
