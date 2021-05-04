@@ -36,3 +36,9 @@ jobs:
         coveralls:report
       env: 
         COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_TOKEN }}
+    - name: Archive Test Results
+      uses: actions/upload-artifact@v2
+      if: ${{ failure() }}
+      with:
+        name: test-results-${{ runner.os }}
+        path: '**/*.tests/target'
