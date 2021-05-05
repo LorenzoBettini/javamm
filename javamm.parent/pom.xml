@@ -11,7 +11,7 @@
     <tycho-version>1.4.0</tycho-version>
     <tycho-extras-version>${tycho-version}</tycho-extras-version>
     <maven-surefire-plugin.version>2.17</maven-surefire-plugin.version>
-    <maven-antrun-plugin.version>1.8</maven-antrun-plugin.version>
+    <maven-antrun-plugin.version>3.0.0</maven-antrun-plugin.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <os-jvm-flags />
     <memoryArgs></memoryArgs>
@@ -287,6 +287,11 @@
   <build>
     <pluginManagement>
       <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-antrun-plugin</artifactId>
+          <version>${maven-antrun-plugin.version}</version>
+        </plugin>
         <plugin>
           <groupId>org.eclipse.tycho.extras</groupId>
           <artifactId>tycho-eclipserun-plugin</artifactId>
