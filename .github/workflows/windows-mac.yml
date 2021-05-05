@@ -40,3 +40,9 @@ jobs:
         mvn -f javamm.parent/pom.xml
         '-Dtycho.disableP2Mirrors=true'
         verify -Pide-tests
+    - name: Archive Test Results
+      uses: actions/upload-artifact@v2
+      if: ${{ failure() }}
+      with:
+        name: test-results-${{ runner.os }}
+        path: '**/*.tests/target'

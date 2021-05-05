@@ -11,33 +11,26 @@
 <unit id="org.eclipse.equinox.executable.feature.group" version="0.0.0"/>
 <unit id="org.eclipse.sdk.feature.group" version="0.0.0"/>
 <unit id="org.eclipse.emf.sdk.feature.group" version="0.0.0"/>
-<unit id="org.eclipse.xpand" version="0.0.0"/>
-<unit id="org.eclipse.xtend" version="0.0.0"/>
-<unit id="org.eclipse.xtend.typesystem.emf" version="0.0.0"/>
-<repository location="https://download.eclipse.org/releases/2018-09/"/>
+<unit id="org.eclipse.swtbot.forms.feature.group" version="0.0.0"/>
+<unit id="org.eclipse.swtbot.ide.feature.group" version="0.0.0"/>
+<unit id="org.eclipse.swtbot.eclipse.feature.group" version="0.0.0"/>
+<unit id="org.eclipse.swtbot.generator.feature.feature.group" version="0.0.0"/>
+<repository location="https://download.eclipse.org/releases/2020-06/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.emf.mwe2.language.sdk.feature.group" version="0.0.0"/>
 <unit id="org.eclipse.emf.mwe2.runtime.sdk.feature.group" version="0.0.0"/>
-<repository location="https://download.eclipse.org/modeling/emft/mwe/updates/releases/2.9.1/"/>
+<repository location="https://download.eclipse.org/modeling/emft/mwe/updates/releases/2.12.1/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.xtext.sdk.feature.group" version="0.0.0"/>
 <unit id="org.eclipse.xtext.redist.feature.group" version="0.0.0"/>
-<repository location="https://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.15.0/"/>
+<repository location="https://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.25.0/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="jbase.sdk.feature.group" version="0.0.0"/>
 <unit id="jbase.sdk.source.feature.group" version="0.0.0"/>
-<repository location="https://lorenzobettini.github.io/jbase-releases/updates/0.x/0.9.x/"/>
-</location>
-<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.swtbot.forms.feature.group" version="0.0.0"/>
-<unit id="org.hamcrest.library" version="0.0.0"/>
-<unit id="org.eclipse.swtbot.ide.feature.group" version="0.0.0"/>
-<unit id="org.eclipse.swtbot.eclipse.feature.group" version="0.0.0"/>
-<unit id="org.eclipse.swtbot.generator.feature.feature.group" version="0.0.0"/>
-<repository location="https://download.eclipse.org/technology/swtbot/releases/latest"/>
+<repository location="https://lorenzobettini.github.io/jbase-releases/updates/0.x/0.10.x/"/>
 </location>
 </locations>
 </target>
