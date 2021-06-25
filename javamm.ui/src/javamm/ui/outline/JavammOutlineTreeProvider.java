@@ -16,11 +16,11 @@ import javamm.javamm.Main;
  * @author Lorenzo Bettini
  */
 public class JavammOutlineTreeProvider extends DefaultOutlineTreeProvider {
-	public boolean _isLeaf(final JavammMethod m) {
+	public boolean _isLeaf(final JavammMethod m) { // NOSONAR required by polymorphic dispatch
 		return true;
 	}
 
-	public boolean _isLeaf(final Main m) {
+	public boolean _isLeaf(final Main m) { // NOSONAR required by polymorphic dispatch
 		return true;
 	}
 }

@@ -59,7 +59,8 @@
       **/*UiExamples.java,
       **/*TypeSystemGen*.java,
       **/*StandaloneSetup*.java,
-      **/*Activator.java
+      **/*Activator.java,
+      **/ide/**,
     </sonar.exclusions>
 
     <!-- To make SonarQube detect JUnit tests in generated Java code from Xtend -->
