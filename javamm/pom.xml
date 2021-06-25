@@ -78,12 +78,4 @@
 		</plugins>
 	</build>
 
-<!-- 	<dependencies> -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>javamm</groupId> -->
-<!-- 			<artifactId>javamm.mwe2</artifactId> -->
-<!-- 			<version>${project.version}</version> -->
-<!-- 		</dependency> -->
-<!-- 	</dependencies> -->
-
 </project>

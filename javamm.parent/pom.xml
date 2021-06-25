@@ -110,10 +110,6 @@
     <sonar.issue.ignore.multicriteria.e8.ruleKey>squid:UndocumentedApi</sonar.issue.ignore.multicriteria.e8.ruleKey>
     <sonar.issue.ignore.multicriteria.e8.resourceKey>**/*.java</sonar.issue.ignore.multicriteria.e8.resourceKey>
 
-    <!-- Otherwise we'll have problems due to generated sources, which are 
-      not in the git repository (since Sonarqube 5) -->
-    <!-- <sonar.scm.disabled>true</sonar.scm.disabled> -->
-
     <swtbot.tests.only>false</swtbot.tests.only>
     <swtbot.tests.skip>false</swtbot.tests.skip>
 
