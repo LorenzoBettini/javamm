@@ -23,13 +23,7 @@ public class JavammDiagnosticConverter extends DiagnosticConverterImpl {
 	@Override
 	public void convertResourceDiagnostic(Diagnostic diagnostic, Severity severity, IAcceptor<Issue> acceptor) {
 		final Wrapper<Issue> issueWrapper = Wrapper.forType(Issue.class);
-		super.convertResourceDiagnostic(diagnostic, severity, new IAcceptor<Issue>() {
-			@Override
-			public void accept(Issue t) {
-				// save the issue for message convertion
-				issueWrapper.set(t);
-			}
-		});
+		super.convertResourceDiagnostic(diagnostic, severity, issueWrapper::set);
 
 		String message = diagnostic.getMessage();
 
