@@ -97,7 +97,7 @@ public class JavammSelfAssessmentBuilder extends IncrementalProjectBuilder {
 			workspaceRoot().getProject(fromTeacherProjectNameToStudentProjectName())
 					.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 		}
-		return null;
+		return null; // NOSONAR null is part of the contract
 	}
 
 	private boolean isClassFile(IResource resource) {
