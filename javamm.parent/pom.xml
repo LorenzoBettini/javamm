@@ -38,6 +38,11 @@
     <!-- Exclude Xtend generated files from code coverage:
       we cover the original Xtend files, using xtendAsPrimaryDebugSource.
       -->
+    <sonar.coverage.exclusions>
+      **/Input.java,
+      **/xtend-gen/**/*.java,
+    </sonar.coverage.exclusions>
+
     <sonar.exclusions>
       **/ui/launch/*.java,
       **/*SelfAssessmentNature.java,
@@ -47,7 +52,6 @@
       **/*ProjectFiles.java,
       **/src-gen/**,
       **/emf-gen/**,
-      **/xtend-gen/**/*.java,
       **/impl/*ImplCustom.java,
       **/*RuntimeModule.java,
       **/*UiModule.java,
