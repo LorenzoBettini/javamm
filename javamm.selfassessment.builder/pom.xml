@@ -13,12 +13,4 @@
   <artifactId>javamm.selfassessment.builder</artifactId>
   <packaging>eclipse-plugin</packaging>
 
-  <properties>
-    <sonar.skip>false</sonar.skip>
-    <!-- This is covered by javamm.ui.tests -->
-    <sonar.jacoco.reportPaths>
-      ../javamm.ui.tests/target/jacoco.exec
-    </sonar.jacoco.reportPaths>
-  </properties>
-
 </project>
