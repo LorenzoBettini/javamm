@@ -8,8 +8,6 @@ import javamm.ui.syntaxcoloring.JavammTokenToAttributeIdMapper
 import javamm.ui.wizard.JavammProjectCreatorCustom
 import javamm.ui.wizard.PluginProjectFactoryCustom
 import org.eclipse.ui.plugin.AbstractUIPlugin
-import org.eclipse.xtext.common.types.xtext.ui.TypeAwareHyperlinkHelper
-import org.eclipse.xtext.ui.editor.hyperlinking.IHyperlinkHelper
 import org.eclipse.xtext.ui.editor.syntaxcoloring.AbstractAntlrTokenToAttributeIdMapper
 import org.eclipse.xtext.ui.editor.syntaxcoloring.IHighlightingConfiguration
 import org.eclipse.xtext.ui.util.PluginProjectFactory
@@ -18,7 +16,7 @@ import org.eclipse.xtext.ui.wizard.IProjectCreator
 /** 
  * Use this class to register components to be used within the IDE.
  */
-class JavammUiModule extends javamm.ui.AbstractJavammUiModule {
+class JavammUiModule extends AbstractJavammUiModule {
 	new(AbstractUIPlugin plugin) {
 		super(plugin)
 	}
@@ -29,11 +27,6 @@ class JavammUiModule extends javamm.ui.AbstractJavammUiModule {
 
 	def Class<? extends PluginProjectFactory> bindPluginProjectFactory() {
 		return PluginProjectFactoryCustom
-	}
-
-	override Class<? extends IHyperlinkHelper> bindIHyperlinkHelper() {
-		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=454791
-		return TypeAwareHyperlinkHelper
 	}
 
 	override Class<? extends IHighlightingConfiguration> bindIHighlightingConfiguration() {
