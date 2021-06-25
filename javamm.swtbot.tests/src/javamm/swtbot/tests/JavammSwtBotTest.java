@@ -27,7 +27,7 @@ public class JavammSwtBotTest extends AbstractJavammSwtbotTest {
 	private static final String HELLO_WORLD_JAVAMM = "HelloWorld.javamm";
 
 	@Test
-	public void canCreateANewJavammProject() throws CoreException {
+	public void canCreateANewJavammProject() throws CoreException { // NOSONAR the called method also asserts
 		createProjectAndAssertNoErrorMarker(PROJECT_TYPE);
 	}
 
@@ -50,7 +50,7 @@ public class JavammSwtBotTest extends AbstractJavammSwtbotTest {
 	}
 
 	@Test
-	public void canImportJavammExamples() throws CoreException {
+	public void canImportJavammExamples() throws CoreException { // NOSONAR the called method also asserts
 		importExampleProjectAndAssertNoErrorMarker(
 			"Some Java-- Examples", "javamm.examples");
 	}

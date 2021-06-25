@@ -29,7 +29,7 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
-public class AbstractJavammSwtbotTest {
+public abstract class AbstractJavammSwtbotTest {
 
 	public static final String PACKAGE_EXPLORER = "Package Explorer";
 	public static final String CATEGORY_NAME = "Java--";
@@ -272,7 +272,7 @@ public class AbstractJavammSwtbotTest {
 				treeItem.collapse();
 				System.out.println("No chilren... retrying in " + msecs + " milliseconds..."); //$NON-NLS-1$
 				try {
-					Thread.sleep(msecs);
+					Thread.sleep(msecs); // NOSONAR
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
@@ -281,7 +281,7 @@ public class AbstractJavammSwtbotTest {
 				treeItem.collapse();
 				System.out.println("Only one child with empty text... retrying in " + msecs + " milliseconds..."); //$NON-NLS-1$
 				try {
-					Thread.sleep(msecs);
+					Thread.sleep(msecs); // NOSONAR
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
