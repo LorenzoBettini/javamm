@@ -61,7 +61,7 @@ public class JavammValidator extends AbstractJavammValidator {
 						it -> javammModelUtil.getOriginalSource(it));
 				final Iterator<EObject> sources = originalSources.iterator();
 				if (exists(originalSources, Main.class::isInstance)) {
-					for (final JvmOperation d : duplicates) {
+					for (Iterator<JvmOperation> iterator = duplicates.iterator(); iterator.hasNext(); iterator.next()) {
 						final EObject source = sources.next();
 						if (!(source instanceof Main)) {
 							error(entry.getKey() + " is a reserved method",
