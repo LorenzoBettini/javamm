@@ -42,7 +42,7 @@ Workflow {
 			}
 			validator = {
 				// composedCheck = "org.eclipse.xtext.validation.NamesAreUniqueValidator"
-				generateXtendStub = true
+				generateXtendStub = false
 			}
 
 			newProjectWizardForEclipse = {
