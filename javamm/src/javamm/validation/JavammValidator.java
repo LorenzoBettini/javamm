@@ -3,16 +3,13 @@
  */
 package javamm.validation;
 
-import static org.eclipse.xtext.xbase.lib.IterableExtensions.exists;
-import static org.eclipse.xtext.xbase.lib.IterableExtensions.map;
 import static org.eclipse.xtext.xbase.typesystem.util.Multimaps2.newLinkedHashListMultimap;
 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.common.types.JvmGenericType;
 import org.eclipse.xtext.common.types.JvmOperation;
 import org.eclipse.xtext.validation.Check;
@@ -57,25 +54,24 @@ public class JavammValidator extends AbstractJavammValidator {
 		for (final Map.Entry<String, Collection<JvmOperation>> entry : map.asMap().entrySet()) {
 			final Collection<JvmOperation> duplicates = entry.getValue();
 			if (duplicates.size() > 1) {
-				final Iterable<EObject> originalSources = map(duplicates,
-						it -> javammModelUtil.getOriginalSource(it));
-				final Iterator<EObject> sources = originalSources.iterator();
-				if (exists(originalSources, Main.class::isInstance)) {
-					for (Iterator<JvmOperation> iterator = duplicates.iterator(); iterator.hasNext(); iterator.next()) {
-						final EObject source = sources.next();
-						if (!(source instanceof Main)) {
-							error(entry.getKey() + " is a reserved method",
-								source,
-								JavammPackage.eINSTANCE.getJavammMethod_Name(),
-								JavammValidator.DUPLICATE_METHOD);
-						}
+				Map<Boolean, List<JvmOperation>> groups = duplicates.stream()
+					.collect(Collectors
+						.groupingBy(it -> javammModelUtil.getOriginalSource(it) instanceof Main));
+				boolean mainHasBeenGenerated = groups.get(true) != null;
+				if (mainHasBeenGenerated) {
+					List<JvmOperation> methodsWithNameMain = groups.get(false);
+					for (JvmOperation m : methodsWithNameMain) {
+						error(entry.getKey() + " is a reserved method",
+							javammModelUtil.getOriginalSource(m),
+							JavammPackage.eINSTANCE.getJavammMethod_Name(),
+							JavammValidator.DUPLICATE_METHOD);
 					}
 				} else {
 					for (final JvmOperation d : duplicates) {
-							final EObject source = sources.next();
-							error("Duplicate definition \'" + d.getSimpleName() + "\'",
-								source, JavammPackage.eINSTANCE.getJavammMethod_Name(),
-								JavammValidator.DUPLICATE_METHOD);
+						error("Duplicate definition \'" + d.getSimpleName() + "\'",
+							javammModelUtil.getOriginalSource(d),
+							JavammPackage.eINSTANCE.getJavammMethod_Name(),
+							JavammValidator.DUPLICATE_METHOD);
 					}
 				}
 			}
