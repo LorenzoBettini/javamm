@@ -54,26 +54,31 @@ public class JavammValidator extends AbstractJavammValidator {
 		for (final Map.Entry<String, Collection<JvmOperation>> entry : map.asMap().entrySet()) {
 			final Collection<JvmOperation> duplicates = entry.getValue();
 			if (duplicates.size() > 1) {
-				Map<Boolean, List<JvmOperation>> groups = duplicates.stream()
-					.collect(Collectors
-						.groupingBy(it -> javammModelUtil.getOriginalSource(it) instanceof Main));
-				boolean mainHasBeenGenerated = groups.get(true) != null;
-				if (mainHasBeenGenerated) {
-					List<JvmOperation> methodsWithNameMain = groups.get(false);
-					for (JvmOperation m : methodsWithNameMain) {
-						error(entry.getKey() + " is a reserved method",
-							javammModelUtil.getOriginalSource(m),
-							JavammPackage.eINSTANCE.getJavammMethod_Name(),
-							JavammValidator.DUPLICATE_METHOD);
-					}
-				} else {
-					for (final JvmOperation d : duplicates) {
-						error("Duplicate definition \'" + d.getSimpleName() + "\'",
-							javammModelUtil.getOriginalSource(d),
-							JavammPackage.eINSTANCE.getJavammMethod_Name(),
-							JavammValidator.DUPLICATE_METHOD);
-					}
-				}
+				reportErrorForDuplicates(entry, duplicates);
+			}
+		}
+	}
+
+	private void reportErrorForDuplicates(final Map.Entry<String, Collection<JvmOperation>> entry,
+			final Collection<JvmOperation> duplicates) {
+		Map<Boolean, List<JvmOperation>> groups = duplicates.stream()
+			.collect(Collectors
+				.groupingBy(it -> javammModelUtil.getOriginalSource(it) instanceof Main));
+		boolean mainHasBeenGenerated = groups.get(true) != null;
+		if (mainHasBeenGenerated) {
+			List<JvmOperation> methodsWithNameMain = groups.get(false);
+			for (JvmOperation m : methodsWithNameMain) {
+				error(entry.getKey() + " is a reserved method",
+					javammModelUtil.getOriginalSource(m),
+					JavammPackage.eINSTANCE.getJavammMethod_Name(),
+					JavammValidator.DUPLICATE_METHOD);
+			}
+		} else {
+			for (final JvmOperation d : duplicates) {
+				error("Duplicate definition \'" + d.getSimpleName() + "\'",
+					javammModelUtil.getOriginalSource(d),
+					JavammPackage.eINSTANCE.getJavammMethod_Name(),
+					JavammValidator.DUPLICATE_METHOD);
 			}
 		}
 	}
