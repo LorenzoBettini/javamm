@@ -3,12 +3,13 @@
  */
 package javamm.validation;
 
-import static org.eclipse.xtext.xbase.typesystem.util.Multimaps2.newLinkedHashListMultimap;
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.mapping;
+import static java.util.stream.Collectors.toList;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Map.Entry;
 
 import org.eclipse.xtext.common.types.JvmGenericType;
 import org.eclipse.xtext.common.types.JvmOperation;
@@ -17,7 +18,6 @@ import org.eclipse.xtext.xbase.XBlockExpression;
 import org.eclipse.xtext.xbase.typesystem.override.IResolvedOperation;
 import org.eclipse.xtext.xbase.typesystem.override.OverrideHelper;
 
-import com.google.common.collect.ListMultimap;
 import com.google.inject.Inject;
 
 import javamm.javamm.JavammMethod;
@@ -44,26 +44,21 @@ public class JavammValidator extends AbstractJavammValidator {
 
 	@Check
 	public void checkDuplicateMethods(final JavammProgram p) {
-		final JvmGenericType javaClass = javammModelUtil.getInferredJavaClass(p);
-		final List<IResolvedOperation> methods = overrideHelper.getResolvedFeatures(javaClass)
+		JvmGenericType javaClass = javammModelUtil.getInferredJavaClass(p);
+		List<IResolvedOperation> methods = overrideHelper.getResolvedFeatures(javaClass)
 				.getDeclaredOperations();
-		final ListMultimap<String, JvmOperation> map = duplicatesMultimap();
-		for (final IResolvedOperation d : methods) {
-			map.put(d.getResolvedErasureSignature(), d.getDeclaration());
-		}
-		for (final Map.Entry<String, Collection<JvmOperation>> entry : map.asMap().entrySet()) {
-			final Collection<JvmOperation> duplicates = entry.getValue();
-			if (duplicates.size() > 1) {
-				reportErrorForDuplicates(entry, duplicates);
-			}
-		}
+		Map<String, List<JvmOperation>> operationsByEraseSignature = methods.stream()
+			.collect(groupingBy(IResolvedOperation::getResolvedErasureSignature,
+				mapping(IResolvedOperation::getDeclaration, toList())));
+		operationsByEraseSignature.entrySet().stream()
+			.filter(entry -> entry.getValue().size() > 1)
+			.forEach(this::reportErrorForDuplicates);
 	}
 
-	private void reportErrorForDuplicates(final Map.Entry<String, Collection<JvmOperation>> entry,
-			final Collection<JvmOperation> duplicates) {
+	private void reportErrorForDuplicates(final Entry<String, List<JvmOperation>> entry) {
+		List<JvmOperation> duplicates = entry.getValue();
 		Map<Boolean, List<JvmOperation>> groups = duplicates.stream()
-			.collect(Collectors
-				.groupingBy(it -> javammModelUtil.getOriginalSource(it) instanceof Main));
+			.collect(groupingBy(it -> javammModelUtil.getOriginalSource(it) instanceof Main));
 		boolean mainHasBeenGenerated = groups.get(true) != null;
 		if (mainHasBeenGenerated) {
 			List<JvmOperation> methodsWithNameMain = groups.get(false);
@@ -74,7 +69,7 @@ public class JavammValidator extends AbstractJavammValidator {
 					JavammValidator.DUPLICATE_METHOD);
 			}
 		} else {
-			for (final JvmOperation d : duplicates) {
+			for (JvmOperation d : duplicates) {
 				error("Duplicate definition \'" + d.getSimpleName() + "\'",
 					javammModelUtil.getOriginalSource(d),
 					JavammPackage.eINSTANCE.getJavammMethod_Name(),
@@ -93,9 +88,5 @@ public class JavammValidator extends AbstractJavammValidator {
 		final XBlockExpression body = ((XBlockExpression) method.getBody());
 		checkVariableInitialization(body);
 		checkMissingReturn(body);
-	}
-
-	private <K extends Object, T extends Object> ListMultimap<K, T> duplicatesMultimap() {
-		return newLinkedHashListMultimap();
 	}
 }
