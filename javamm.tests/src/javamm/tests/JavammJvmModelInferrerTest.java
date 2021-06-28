@@ -17,7 +17,7 @@ public class JavammJvmModelInferrerTest {
 	private JavammJvmModelInferrer inferrer;
 
 	@Test
-	public void testWithANonJavammProgram() {
+	public void testWithANonJavammProgram() { // NOSONAR just check it does not throw
 		inferrer.infer(JavammFactory.eINSTANCE.createJavammMethod(), null, false);
 	}
 
