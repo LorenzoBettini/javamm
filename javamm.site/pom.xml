@@ -19,7 +19,6 @@
         <plugin>
           <groupId>org.eclipse.tycho</groupId>
           <artifactId>tycho-p2-director-plugin</artifactId>
-          <version>${tycho-version}</version>
           <executions>
             <execution>
               <id>materialize-products</id>
@@ -51,7 +50,6 @@
       <plugin>
         <groupId>org.eclipse.tycho</groupId>
         <artifactId>tycho-p2-repository-plugin</artifactId>
-        <version>${tycho-version}</version>
         <configuration>
           <finalName>${project.artifactId}-${qualifiedVersion}</finalName>
         </configuration>
@@ -84,7 +82,6 @@
           <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>build-helper-maven-plugin</artifactId>
-            <version>3.0.0</version>
             <executions>
               <!-- sets the following properties that we use in our Ant scripts
                 parsedVersion.majorVersion

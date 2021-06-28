@@ -1,0 +1,2 @@
+The presence of this file activates the profile ui-tests that sets
+<useUIHarness>true</useUIHarness>

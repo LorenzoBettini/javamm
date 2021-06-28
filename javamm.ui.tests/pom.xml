@@ -13,59 +13,62 @@
   <artifactId>javamm.ui.tests</artifactId>
   <packaging>eclipse-test-plugin</packaging>
 
+  <profiles>
+    <profile>
+      <id>macos</id>
+      <activation>
+        <os>
+          <family>mac</family>
+        </os>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.eclipse.tycho</groupId>
+            <artifactId>target-platform-configuration</artifactId>
+            <configuration>
+              <dependency-resolution>
+                <extraRequirements combine.children="append">
+                  <!-- This allows us to take the fragment org.eclipse.jdt.launching.macosx
+                    See https://github.com/LorenzoBettini/jbase/issues/3 
+                    https://www.eclipse.org/forums/index.php/t/1073366/ -->
+                  <requirement>
+                    <type>eclipse-feature</type>
+                    <id>org.eclipse.jdt</id>
+                    <versionRange>0.0.0</versionRange>
+                  </requirement>
+                </extraRequirements>
+              </dependency-resolution>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
   <build>
     <plugins>
-      <plugin>
-        <groupId>org.eclipse.xtend</groupId>
-        <artifactId>xtend-maven-plugin</artifactId>
-      </plugin>
-
-      <plugin>
-        <groupId>org.eclipse.tycho</groupId>
-        <artifactId>tycho-surefire-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>default-test</id>
-            <phase>integration-test</phase>
-            <configuration>
-              <skip>${swtbot.tests.only}</skip>
-              <useUIHarness>true</useUIHarness>
-              <useUIThread>true</useUIThread>
-              <argLine>${additionalTestArgLine} ${os-jvm-flags} ${memoryArgs} -DbuildingWithTycho=true</argLine>
-              <includes>
-                <include>**/javamm/ui/tests/*Test.java</include>
-              </includes>
-            </configuration>
-            <goals>
-              <goal>test</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
       <plugin>
         <groupId>org.eclipse.tycho</groupId>
         <artifactId>target-platform-configuration</artifactId>
         <configuration>
           <dependency-resolution>
-            <extraRequirements combine.children="append">
-              <!-- to get the org.eclipse.osgi.compatibility.state plugin 
-                iff the targeted Eclipse version (e.g., Luna) has it (backwards compatible 
-                with kepler and previous versions) -->
+            <extraRequirements
+              combine.children="append">
+              <!-- We specify our feature so that we're sure we're using 
+                also all the required software -->
               <requirement>
                 <type>eclipse-feature</type>
-                <id>org.eclipse.rcp</id>
-                <versionRange>0.0.0</versionRange>
-              </requirement>
-              <!-- See https://github.com/LorenzoBettini/jbase/issues/3 https://www.eclipse.org/forums/index.php/t/1073366/ -->
-              <requirement>
-                <type>eclipse-feature</type>
-                <id>org.eclipse.jdt</id>
+                <id>javamm.sdk</id>
                 <versionRange>0.0.0</versionRange>
               </requirement>
             </extraRequirements>
           </dependency-resolution>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.eclipse.xtend</groupId>
+        <artifactId>xtend-maven-plugin</artifactId>
       </plugin>
     </plugins>
   </build>
