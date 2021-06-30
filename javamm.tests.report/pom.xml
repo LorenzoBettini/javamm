@@ -16,7 +16,7 @@
 
   <profiles>
     <profile>
-      <id>jacoco-report</id>
+      <id>jacoco</id>
       <activation>
         <activeByDefault>false</activeByDefault>
       </activation>
@@ -25,6 +25,19 @@
           <plugin>
             <groupId>org.jacoco</groupId>
             <artifactId>jacoco-maven-plugin</artifactId>
+            <configuration>
+              <excludes combine.children="append">
+                <exclude>**/Activator.class</exclude>
+                <exclude>**/ui/launch/*.*</exclude>
+                <exclude>**/ui/wizard/file/*.*</exclude>
+                <exclude>**/javamm/javamm/util/*.*</exclude>
+                <exclude>**/javamm/javamm/impl/*.*</exclude>
+                <exclude>**/JavammProjectCreator.*</exclude>
+                <exclude>**/JavammNewProjectWizard.class</exclude>
+                <exclude>**/JavammProjectCreator.*</exclude>
+                <exclude>**/*SelfAssessmentNature*</exclude>
+              </excludes>
+            </configuration>
             <executions>
               <execution>
                 <phase>verify</phase>

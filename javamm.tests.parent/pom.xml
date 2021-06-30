@@ -15,8 +15,6 @@
   <packaging>pom</packaging>
 
   <properties>
-    <jacoco-version>0.8.6</jacoco-version>
-    <additionalTestArgLine>${moduleProperties}</additionalTestArgLine>
     <!-- Workaround for https://bugs.eclipse.org/bugs/show_bug.cgi?id=397015 -->
     <sonar.sources></sonar.sources>
     <sonar.tests>src,xtend-gen</sonar.tests>
@@ -24,64 +22,17 @@
 
   <profiles>
     <profile>
-      <id>macosx-jvm-flags</id>
-      <activation>
-        <os>
-          <family>mac</family>
-        </os>
-      </activation>
-      <properties>
-        <os-jvm-flags>-XstartOnFirstThread</os-jvm-flags>
-      </properties>
-    </profile>
-    <profile>
-      <id>jacoco-report</id>
-      <activation>
-        <activeByDefault>false</activeByDefault>
-      </activation>
-      <properties>
-        <additionalTestArgLine>${tycho.testArgLine} ${moduleProperties}</additionalTestArgLine>
-      </properties>
+      <!-- We enable jacoco-maven-plugin, already configured in the xtext-build-utils parent -->
+      <id>jacoco</id>
       <build>
         <plugins>
           <plugin>
             <groupId>org.jacoco</groupId>
             <artifactId>jacoco-maven-plugin</artifactId>
-            <version>${jacoco-version}</version>
-            <executions>
-              <execution>
-                <goals>
-                  <!-- binds by default to the phase "initialize" -->
-                  <goal>prepare-agent</goal>
-                </goals>
-              </execution>
-            </executions>
-            <configuration>
-              <excludes>
-                <exclude>**/*Activator*</exclude>
-                <exclude>**/*RuntimeModule*</exclude>
-                <exclude>**/*StandaloneSetup*</exclude>
-                <exclude>**/*Internal*</exclude>
-                <exclude>**/*Sequencer*</exclude>
-                <exclude>**/*Abstract*</exclude>
-                <exclude>**/*GrammarAccess*</exclude>
-                <exclude>**/antlr/*.*</exclude>
-                <exclude>**/internal/*.*</exclude>
-                <exclude>**/*ExtensionFactory*</exclude>
-                <exclude>**/*UiModule*</exclude>
-                <exclude>**/ui/launch/*.*</exclude>
-                <exclude>**/ui/wizard/file/*.*</exclude>
-                <exclude>**/javamm/javamm/util/*.*</exclude>
-                <exclude>**/javamm/javamm/impl/*.*</exclude>
-                <exclude>**/JavammProjectCreator.*</exclude>
-                <exclude>**/JavammNewProjectWizard.class</exclude>
-                <exclude>**/JavammProjectCreator.*</exclude>
-                <exclude>**/*SelfAssessmentNature*</exclude>
-              </excludes>
-            </configuration>
           </plugin>
         </plugins>
       </build>
     </profile>
   </profiles>
+
 </project>

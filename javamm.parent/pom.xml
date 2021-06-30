@@ -6,29 +6,25 @@
   <artifactId>javamm.parent</artifactId>
   <version>1.11.0-SNAPSHOT</version>
   <packaging>pom</packaging>
+    <!-- IMPORTANT: the parent's version (unrelated to this artifact's version) 
+    must come after this artifact's version to make the increment_version.ant behave 
+    correctly. -->
+  <parent>
+    <groupId>io.github.lorenzobettini.xtextutils</groupId>
+    <artifactId>xtext-tycho-parent</artifactId>
+    <version>0.6.2</version>
+    <relativePath></relativePath>
+  </parent>
 
   <properties>
-    <tycho-version>2.3.0</tycho-version>
-    <tycho-extras-version>${tycho-version}</tycho-extras-version>
-    <maven-surefire-plugin.version>2.22.1</maven-surefire-plugin.version>
-    <maven-antrun-plugin.version>3.0.0</maven-antrun-plugin.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <os-jvm-flags />
-    <memoryArgs></memoryArgs>
-    <xtext.version>2.25.0</xtext.version>
-    <xtext-version>${xtext.version}</xtext-version>
-    <xtextVersion>${xtext.version}</xtextVersion>
+    <xtext-version>${xtextVersion}</xtext-version>
     <eclipse-version>2020-06</eclipse-version>
-    <mwe2Version>2.12.1</mwe2Version>
     <jbase-version>0.10.0</jbase-version>
 
     <target-file-name>javamm.target</target-file-name>
 
-    <!-- For tests for Java 9 and above -->
-    <moduleProperties></moduleProperties>
-
     <!-- Sonarqube -->
-
     <jacoco-aggregate-report>javamm.tests.report/target/site/jacoco-aggregate/jacoco.xml</jacoco-aggregate-report>
 
     <sonar.coverage.jacoco.xmlReportPaths>
@@ -174,55 +170,31 @@
         <module>../javamm.swtbot.tests</module>
       </modules>
     </profile>
-
-    <profile>
-      <id>local</id>
-      <activation>
-        <activeByDefault>false</activeByDefault>
-      </activation>
-
-      <properties>
-        <target-file-name>local</target-file-name>
-      </properties>
-    </profile>
-
     <profile>
       <id>release-composite</id> <!-- release composite update site on GitHub Pages -->
-      <activation>
-        <activeByDefault>false</activeByDefault>
-      </activation>
       <properties>
         <skipTests>true</skipTests>
       </properties>
       <build>
-        <plugins>
-          <plugin>
-            <groupId>org.eclipse.tycho.extras</groupId>
-            <artifactId>tycho-pack200b-plugin</artifactId>
-            <version>${tycho-version}</version>
-            <executions>
-              <execution>
-                <id>pack200-pack</id>
-                <goals>
-                  <goal>pack</goal>
-                </goals>
-                <phase>package</phase>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin>
-            <groupId>org.eclipse.tycho</groupId>
-            <artifactId>tycho-p2-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>attach-p2-metadata</id>
-              </execution>
-            </executions>
-            <configuration>
-              <defaultP2Metadata>false</defaultP2Metadata>
-            </configuration>
-          </plugin>
-        </plugins>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <artifactId>maven-install-plugin</artifactId>
+              <executions>
+                <execution>
+                  <id>default-install</id>
+                  <phase>none</phase>
+                </execution>
+              </executions>
+            </plugin>
+            <plugin>
+              <artifactId>maven-deploy-plugin</artifactId>
+              <configuration>
+                <skip>true</skip>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
       </build>
     </profile>
     <profile>
@@ -270,92 +242,19 @@
         <site.label>Java-- Snapshot Site</site.label>
       </properties>
     </profile>
-
-    <profile>
-      <id>jdk9-or-newer</id>
-      <activation>
-        <jdk>[9,)</jdk>
-      </activation>
-      <properties>
-        <moduleProperties>--add-modules=ALL-SYSTEM</moduleProperties>
-      </properties>
-    </profile>
   </profiles>
 
   <build>
     <pluginManagement>
       <plugins>
         <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-antrun-plugin</artifactId>
-          <version>${maven-antrun-plugin.version}</version>
-        </plugin>
-        <plugin>
-          <groupId>org.eclipse.tycho.extras</groupId>
-          <artifactId>tycho-eclipserun-plugin</artifactId>
-          <version>${tycho-version}</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-resources-plugin</artifactId>
-          <version>3.2.0</version>
-        </plugin>
-        <!-- xtend-maven-plugin is in pluginManagement instead of in plugins 
-          so that it doesn't run before the exec-maven-plugin's *.mwe2 gen; this way 
-          we can list it after. -->
-        <plugin>
-          <groupId>org.eclipse.xtend</groupId>
-          <artifactId>xtend-maven-plugin</artifactId>
-          <version>${xtext.version}</version>
-          <executions>
-            <execution>
-              <goals>
-                <goal>compile</goal>
-                <goal>xtend-install-debug-info</goal>
-                <goal>testCompile</goal>
-                <goal>xtend-test-install-debug-info</goal>
-              </goals>
-            </execution>
-          </executions>
-          <configuration>
-            <outputDirectory>xtend-gen</outputDirectory>
-            <xtendAsPrimaryDebugSource>true</xtendAsPrimaryDebugSource>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>exec-maven-plugin</artifactId>
-          <version>1.6.0</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-clean-plugin</artifactId>
-          <version>2.5</version>
-          <configuration>
-            <filesets>
-              <fileset>
-                <directory>${basedir}/xtend-gen</directory>
-              </fileset>
-            </filesets>
-          </configuration>
-        </plugin>
-
-        <!-- to skip running (and compiling) tests use commandline flag: -Dmaven.test.skip
-          To skip tests, but still compile them, use: -DskipTests
-          To allow all tests in a pom to pass/fail, use commandline flag: -fae (fail
-          at end) -->
-        <plugin>
           <groupId>org.eclipse.tycho</groupId>
-          <artifactId>tycho-surefire-plugin</artifactId>
+          <artifactId>tycho-packaging-plugin</artifactId>
           <version>${tycho-version}</version>
           <configuration>
-            <!-- THE FOLLOWING LINE MUST NOT BE BROKEN BY AUTOFORMATTING -->
-            <argLine>${moduleProperties}</argLine>
-            <failIfNoTests>false</failIfNoTests>
-            <useUIHarness>false</useUIHarness>
+            <format>'v'yyyyMMdd'-'HHmm</format>
           </configuration>
         </plugin>
-
         <plugin>
           <groupId>org.eluder.coveralls</groupId>
           <artifactId>coveralls-maven-plugin</artifactId>
@@ -383,81 +282,10 @@
         </plugin>
       </plugins>
     </pluginManagement>
-
     <plugins>
       <plugin>
         <groupId>org.eclipse.tycho</groupId>
-        <artifactId>tycho-maven-plugin</artifactId>
-        <version>${tycho-version}</version>
-        <extensions>true</extensions>
-      </plugin>
-
-      <plugin>
-        <groupId>org.eclipse.tycho</groupId>
-        <artifactId>tycho-source-plugin</artifactId>
-        <version>${tycho-version}</version>
-        <executions>
-          <execution>
-            <id>plugin-source</id>
-            <goals>
-              <goal>plugin-source</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
-        <groupId>org.eclipse.tycho.extras</groupId>
-        <artifactId>tycho-source-feature-plugin</artifactId>
-        <version>${tycho-extras-version}</version>
-        <executions>
-          <execution>
-            <id>source-feature</id>
-            <phase>package</phase>
-            <goals>
-              <goal>source-feature</goal>
-            </goals>
-            <configuration>
-              <excludes>
-                <!-- These are bundles and feature that do not have a corresponding 
-                  source version; NOT the ones that we do not want source versions -->
-                <plugin id="javamm.runtime" />
-                <plugin id="javamm.ui.examples" />
-                <plugin id="javamm.eclipse.sdk" />
-
-                <feature id="javamm.swtbot.tests.feature" />
-
-                <feature id="org.eclipse.swtbot.ide" />
-                <feature id="org.eclipse.xtext.sdk" />
-                <feature id="org.eclipse.xtend.sdk" />
-                <feature id="org.eclipse.pde" />
-                <feature id="org.eclipse.emf.mwe2.language.sdk" />
-                <feature id="org.eclipse.emf.mwe2.runtime.sdk" />
-              </excludes>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
-        <groupId>org.eclipse.tycho</groupId>
-        <artifactId>tycho-p2-plugin</artifactId>
-        <version>${tycho-version}</version>
-        <executions>
-          <execution>
-            <id>attach-p2-metadata</id>
-            <phase>package</phase>
-            <goals>
-              <goal>p2-metadata</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
-        <groupId>org.eclipse.tycho</groupId>
         <artifactId>target-platform-configuration</artifactId>
-        <version>${tycho-version}</version>
         <configuration>
           <target>
             <artifact>
@@ -467,149 +295,20 @@
               <classifier>${target-file-name}</classifier>
             </artifact>
           </target>
-          <environments>
-            <environment>
-              <os>win32</os>
-              <ws>win32</ws>
-              <arch>x86_64</arch>
-            </environment>
-            <environment>
-              <os>macosx</os>
-              <ws>cocoa</ws>
-              <arch>x86_64</arch>
-            </environment>
-            <environment>
-              <os>linux</os>
-              <ws>gtk</ws>
-              <arch>x86_64</arch>
-            </environment>
-          </environments>
-          <includePackedArtifacts>true</includePackedArtifacts>
           <dependency-resolution>
-            <extraRequirements>
+            <extraRequirements combine.children="append">
+              <!-- to force the same version of jdt.compiler.apt and jdt.core
+                (for xtext-maven-plugin) -->
               <requirement>
                 <type>eclipse-plugin</type>
-                <id>org.eclipse.xtext.ui.codemining</id>
+                <id>org.eclipse.jdt.compiler.apt</id>
                 <versionRange>0.0.0</versionRange>
-              </requirement>
-              <requirement>
-                <type>eclipse-plugin</type>
-                <id>org.eclipse.xtext.logging</id>
-                <versionRange>1.2.15</versionRange>
               </requirement>
             </extraRequirements>
           </dependency-resolution>
         </configuration>
       </plugin>
-
-      <plugin>
-        <groupId>org.eclipse.tycho</groupId>
-        <artifactId>tycho-packaging-plugin</artifactId>
-        <version>${tycho-version}</version>
-        <configuration>
-          <format>'v'yyyyMMdd'-'HHmm</format>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.eclipse.tycho</groupId>
-        <artifactId>tycho-p2-repository-plugin</artifactId>
-        <version>${tycho-version}</version>
-        <configuration>
-          <finalName>${project.artifactId}-${qualifiedVersion}</finalName>
-        </configuration>
-      </plugin>
     </plugins>
   </build>
-
-  <repositories>
-    <repository>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-      <id>codehaus-snapshots</id>
-      <name>disable dead 'Codehaus Snapshots' repository, see https://bugs.eclipse.org/bugs/show_bug.cgi?id=481478</name>
-      <url>http://nexus.codehaus.org/snapshots/</url>
-    </repository>
-    <repository>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-      <id>ossrh-snapshots</id>
-      <name>ossrh-snapshots</name>
-      <url>http://oss.sonatype.org/content/repositories/snapshots</url>
-    </repository>
-    <repository>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-      <id>sonatype-nexus-snapshots</id>
-      <name>Sonatype Nexus Snapshots</name>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-    </repository>
-    <repository>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-      <id>central</id>
-      <name>Central Repository</name>
-      <url>https://repo.maven.apache.org/maven2</url>
-    </repository>
-  </repositories>
-  <pluginRepositories>
-    <pluginRepository>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-      <id>codehaus-snapshots</id>
-      <name>disable dead 'Codehaus Snapshots' repository, see https://bugs.eclipse.org/bugs/show_bug.cgi?id=481478</name>
-      <url>http://nexus.codehaus.org/snapshots/</url>
-    </pluginRepository>
-    <pluginRepository>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-      <id>ossrh-snapshots</id>
-      <name>ossrh-snapshots</name>
-      <url>http://oss.sonatype.org/content/repositories/snapshots</url>
-    </pluginRepository>
-    <pluginRepository>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-      <id>sonatype-nexus-snapshots</id>
-      <name>Sonatype Nexus Snapshots</name>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-    </pluginRepository>
-    <pluginRepository>
-      <releases>
-        <updatePolicy>never</updatePolicy>
-      </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-      <id>central</id>
-      <name>Central Repository</name>
-      <url>https://repo.maven.apache.org/maven2</url>
-    </pluginRepository>
-  </pluginRepositories>
 
 </project>

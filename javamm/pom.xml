@@ -14,6 +14,11 @@
   <artifactId>javamm</artifactId>
   <packaging>eclipse-plugin</packaging>
 
+  <properties>
+    <!-- required to run MWE2 -->
+    <mwe2-file>src/javamm/GenerateJavamm.mwe2</mwe2-file>
+  </properties>
+
   <build>
     <plugins>
       <plugin>
@@ -23,52 +28,9 @@
           <execution>
             <id>mwe2Launcher</id>
             <phase>generate-sources</phase>
-            <goals>
-              <goal>java</goal>
-            </goals>
-            <configuration>
-              <mainClass>org.eclipse.emf.mwe2.launch.runtime.Mwe2Launcher</mainClass>
-              <arguments>
-                <argument>/${project.basedir}/src/javamm/GenerateJavamm.mwe2</argument>
-                <argument>-p</argument>
-                <argument>rootPath=/${project.basedir}/..</argument>
-              </arguments>
-              <classpathScope>compile</classpathScope>
-              <includePluginDependencies>true</includePluginDependencies>
-              <cleanupDaemonThreads>false</cleanupDaemonThreads><!-- see 
-                https://bugs.eclipse.org/bugs/show_bug.cgi?id=475098#c3 -->
-            </configuration>
           </execution>
         </executions>
-        <dependencies>
-          <dependency>
-            <groupId>org.eclipse.emf</groupId>
-            <artifactId>org.eclipse.emf.mwe2.launch</artifactId>
-            <version>${mwe2Version}</version>
-          </dependency>
-          <dependency>
-            <groupId>org.eclipse.xtext</groupId>
-            <artifactId>org.eclipse.xtext.common.types</artifactId>
-            <version>${xtextVersion}</version>
-          </dependency>
-          <dependency>
-            <groupId>org.eclipse.xtext</groupId>
-            <artifactId>org.eclipse.xtext.xtext.generator</artifactId>
-            <version>${xtextVersion}</version>
-          </dependency>
-          <dependency>
-            <groupId>org.eclipse.xtext</groupId>
-            <artifactId>org.eclipse.xtext.xbase</artifactId>
-            <version>${xtextVersion}</version>
-          </dependency>
-          <dependency>
-            <groupId>org.eclipse.xtext</groupId>
-            <artifactId>xtext-antlr-generator</artifactId>
-            <version>2.1.1</version>
-          </dependency>
-        </dependencies>
       </plugin>
-
       <plugin>
         <groupId>org.eclipse.xtend</groupId>
         <artifactId>xtend-maven-plugin</artifactId>

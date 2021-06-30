@@ -19,30 +19,6 @@
         <groupId>org.eclipse.xtend</groupId>
         <artifactId>xtend-maven-plugin</artifactId>
       </plugin>
-
-      <plugin>
-        <groupId>org.eclipse.tycho</groupId>
-        <artifactId>tycho-surefire-plugin</artifactId>
-        <executions>
-          <execution>
-            <!-- compiler tests need an OSGI environment, but no UI -->
-            <id>default-test</id>
-            <phase>integration-test</phase>
-            <configuration>
-              <skip>${swtbot.tests.only}</skip>
-              <useUIHarness>false</useUIHarness>
-              <useUIThread>false</useUIThread>
-              <argLine>${additionalTestArgLine} ${memoryArgs}</argLine>
-              <includes>
-                <include>**/javamm/tests/*Test.java</include>
-              </includes>
-            </configuration>
-            <goals>
-              <goal>test</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
     </plugins>
   </build>
 </project>
