@@ -247,6 +247,26 @@
   <build>
     <pluginManagement>
       <plugins>
+        <!-- Avoid xtend-gen to be automatically set also as test directory
+          see https://github.com/LorenzoBettini/xtext-build-utils/issues/53 -->
+        <plugin>
+          <groupId>org.eclipse.xtend</groupId>
+          <artifactId>xtend-maven-plugin</artifactId>
+          <version>${xtextVersion}</version>
+          <executions>
+            <execution>
+              <goals>
+                <goal>compile</goal>
+                <goal>xtend-install-debug-info</goal>
+              </goals>
+            </execution>
+          </executions>
+          <configuration>
+            <outputDirectory>${basedir}/xtend-gen</outputDirectory>
+            <!-- fake test output directory -->
+            <testOutputDirectory>${basedir}/src/test/xtend-gen</testOutputDirectory>
+          </configuration>
+        </plugin>
         <plugin>
           <groupId>org.eclipse.tycho</groupId>
           <artifactId>tycho-packaging-plugin</artifactId>
