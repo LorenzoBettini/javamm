@@ -14,11 +14,6 @@
   <artifactId>javamm.ui</artifactId>
   <packaging>eclipse-plugin</packaging>
 
-  <properties>
-    <!-- Otherwise Sonar will scan xtend-gen both as source and as test -->
-    <sonar.tests></sonar.tests>
-  </properties>
-
   <build>
     <plugins>
       <plugin>

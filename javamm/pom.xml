@@ -17,8 +17,6 @@
   <properties>
     <!-- required to run MWE2 -->
     <mwe2-file>src/javamm/GenerateJavamm.mwe2</mwe2-file>
-    <!-- Otherwise Sonar will scan xtend-gen both as source and as test -->
-    <sonar.tests></sonar.tests>
   </properties>
 
   <build>
