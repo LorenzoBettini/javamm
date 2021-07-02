@@ -1,5 +1,7 @@
 package javamm.ui.tests;
 
+import static javamm.tests.utils.ui.JavammUiTestUtils.handleLineSeparator;
+
 import org.eclipse.xtext.testing.InjectWith;
 import org.eclipse.xtext.testing.XtextRunner;
 import org.eclipse.xtext.ui.testing.AbstractContentAssistTest;
@@ -151,8 +153,10 @@ public class JavammContentAssistTest extends AbstractContentAssistTest {
 		newBuilder()
 			.append("int m(LinkedL")
 			.applyProposal("LinkedList")
-			.expectContent("import java.util.LinkedList;\n"
+			.expectContent(
+				handleLineSeparator(
+					"import java.util.LinkedList;\n"
 					+ "\n"
-					+ "int m(LinkedList");
+					+ "int m(LinkedList"));
 	}
 }
