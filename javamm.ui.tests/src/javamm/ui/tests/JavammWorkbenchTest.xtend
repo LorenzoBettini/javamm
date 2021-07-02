@@ -5,29 +5,32 @@ import javamm.tests.utils.ui.PluginProjectHelper
 import org.eclipse.core.resources.IProject
 import org.eclipse.xtext.testing.InjectWith
 import org.eclipse.xtext.testing.XtextRunner
-import org.eclipse.xtext.ui.testing.AbstractWorkbenchTest
-import org.junit.Before
+import org.junit.BeforeClass
 import org.junit.Test
 import org.junit.runner.RunWith
 
-import static org.eclipse.xtext.ui.testing.util.IResourcesSetupUtil.*
+import static org.eclipse.xtext.ui.testing.util.IResourcesSetupUtil.cleanWorkspace
+import static org.eclipse.xtext.ui.testing.util.IResourcesSetupUtil.createFile
+import static org.eclipse.xtext.ui.testing.util.IResourcesSetupUtil.waitForBuild
+import javamm.tests.utils.ui.ProjectImportUtil
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammUiInjectorProvider))
-class JavammWorkbenchTest extends AbstractWorkbenchTest {
+class JavammWorkbenchTest extends CustomAbstractWorkbenchTest {
 
 	@Inject PluginProjectHelper projectHelper
 
-	val TEST_PROJECT = "mytestproject"
+	val static TEST_PROJECT = "javamm.ui.tests.project"
 
-	val TEST_FILE = "TestFile"
+	val static TEST_FILE = "TestFile"
 
-	var IProject project
+	var static IProject project
 
-	@Before
-	override void setUp() {
-		super.setUp
-		project = projectHelper.createJavammPluginProject(TEST_PROJECT).project
+	@BeforeClass
+	def static void importTestProject() throws Exception {
+		cleanWorkspace();
+		project = ProjectImportUtil.importProject(TEST_PROJECT);
+		waitForBuild();
 	}
 
 	def createTestFile(CharSequence contents) {
@@ -38,19 +41,13 @@ class JavammWorkbenchTest extends AbstractWorkbenchTest {
 	def void testJavaFileIsGeneratedInSrcGen() {
 		createTestFile(
 			'''
-System.out.println("Hello " + "world!");
-'''
+			System.out.println("Hello " + "world!");
+			'''
 		)
 
 		waitForBuild
 		projectHelper.assertNoErrors
-		reallyWaitForAutoBuild
 		var srcGenFolder = project.getFolder("src-gen/javamm")
-		if (!srcGenFolder.exists) {
-			println("pausing since src-gen/javamm folder does not exist yet...")
-			Thread.sleep(5000)
-		}
-		srcGenFolder = project.getFolder("src-gen/javamm")
 		assertTrue("src-gen/javamm does not exist", srcGenFolder.exists)
 		val genfile = srcGenFolder.getFile(TEST_FILE + ".java")
 		assertTrue(TEST_FILE + ".java does not exist", genfile.exists())
@@ -60,13 +57,13 @@ System.out.println("Hello " + "world!");
 	def void testErrorInGeneratedJavaCode() {
 		createTestFile(
 			'''
-int a = 2;
-int b = 2;
-int c = 2;
-if (a==b==c==2) {
-	System.out.println("TRUE");
-}
-'''
+			int a = 2;
+			int b = 2;
+			int c = 2;
+			if (a==b==c==2) {
+				System.out.println("TRUE");
+			}
+			'''
 		)
 
 		waitForBuild
