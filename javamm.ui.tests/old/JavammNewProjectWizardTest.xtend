@@ -11,6 +11,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import static org.eclipse.xtext.ui.testing.util.IResourcesSetupUtil.*
+import javamm.tests.utils.ui.PluginProjectHelper
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammUiInjectorProvider))
@@ -28,7 +29,7 @@ class JavammNewProjectWizardTest extends JavammAbstractWizardTest {
 		assertTrue(project.exists())
 		println("Waiting for build...")
 		waitForBuild
-		projectHelper.assertNoErrors
+		PluginProjectHelper.assertNoErrors
 		println("No errors in project, OK!")
 	}
 

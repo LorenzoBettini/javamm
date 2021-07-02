@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: javamm.ui.tests.project
+Bundle-ManifestVersion: 2
+Bundle-Name: javamm.ui.tests.project
+Bundle-Vendor: Lorenzo Bettini
+Bundle-Version: 1.11.0.qualifier
+Bundle-SymbolicName: javamm.ui.tests.project; singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: javamm.runtime
+Import-Package: org.apache.log4j,
+ org.apache.commons.logging
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

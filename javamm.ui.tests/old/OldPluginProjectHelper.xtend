@@ -17,7 +17,7 @@ import org.eclipse.xtext.ui.util.PluginProjectFactory
 import static org.eclipse.xtext.ui.testing.util.IResourcesSetupUtil.*
 import static org.junit.Assert.*
 
-class PluginProjectHelper {
+class OldPluginProjectHelper {
 
 	@Inject Provider<PluginProjectFactory> projectFactoryProvider
 
