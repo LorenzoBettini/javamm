@@ -13,20 +13,21 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import static org.eclipse.xtext.ui.testing.util.IResourcesSetupUtil.*
+import javamm.tests.utils.ui.ProjectImportUtil
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammUiInjectorProvider))
 class JavammSelfAssessmentBuilderTest extends AbstractWorkbenchTest {
 
 	@Inject PluginProjectHelper projectHelper
-	
-	val TEST_PROJECT = "mytestproject"
 
-	val TEST_TEACHER_PROJECT = TEST_PROJECT + JavammSelfAssessmentNature.TEACHER_PROJECT_SUFFIX
+	val static TEST_PROJECT = "javamm.ui.tests.selfassessment.project"
 
-	val TEST_STUDENT_PROJECT = TEST_PROJECT + JavammSelfAssessmentNature.STUDENT_PROJECT_SUFFIX
+	val static TEST_TEACHER_PROJECT = TEST_PROJECT + JavammSelfAssessmentNature.TEACHER_PROJECT_SUFFIX
 
-	val SOLUTION = JavammSelfAssessmentNature.STUDENT_PROJECT_SOLUTION_PATH
+	val static TEST_STUDENT_PROJECT = TEST_PROJECT + JavammSelfAssessmentNature.STUDENT_PROJECT_SUFFIX
+
+	val static SOLUTION = JavammSelfAssessmentNature.STUDENT_PROJECT_SOLUTION_PATH
 
 	var IProject studentProject
 
@@ -35,8 +36,8 @@ class JavammSelfAssessmentBuilderTest extends AbstractWorkbenchTest {
 	@Before
 	override void setUp() {
 		super.setUp
-		studentProject = projectHelper.createJavammStudentProject(TEST_PROJECT).project
-		teacherProject = projectHelper.createJavammTeacherProject(TEST_PROJECT).project
+		studentProject = ProjectImportUtil.importProject(TEST_STUDENT_PROJECT)
+		teacherProject = ProjectImportUtil.importProject(TEST_TEACHER_PROJECT)
 	}
 
 	@Test
