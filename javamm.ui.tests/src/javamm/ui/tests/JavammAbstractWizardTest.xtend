@@ -1,7 +1,5 @@
 package javamm.ui.tests
 
-import com.google.inject.Inject
-import javamm.tests.utils.ui.PluginProjectHelper
 import org.eclipse.jface.wizard.Wizard
 import org.eclipse.jface.wizard.WizardDialog
 import org.eclipse.xtext.testing.InjectWith
@@ -13,8 +11,6 @@ import org.junit.runner.RunWith
 @InjectWith(typeof(JavammUiInjectorProvider))
 abstract class JavammAbstractWizardTest extends AbstractWorkbenchTest {
 
-	@Inject protected PluginProjectHelper projectHelper
-	
 	/**
 	 * Create the wizard dialog, open it and press Finish.
 	 */

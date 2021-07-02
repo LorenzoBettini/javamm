@@ -13,6 +13,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import static org.eclipse.xtext.ui.testing.util.IResourcesSetupUtil.*
+import javamm.tests.utils.ui.PluginProjectHelper
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammUiInjectorProvider))
@@ -37,7 +38,7 @@ class JavammNewSelfAssessmentProjectWizardTest extends JavammAbstractWizardTest 
 		waitForBuild
 		// we wait for the student's project to be recompiled
 		waitForBuild
-		projectHelper.assertNoErrors
+		PluginProjectHelper.assertNoErrors
 		println("No errors in project, OK!")
 	}
 

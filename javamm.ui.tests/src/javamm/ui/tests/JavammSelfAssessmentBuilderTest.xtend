@@ -1,8 +1,8 @@
 package javamm.ui.tests
 
-import com.google.inject.Inject
 import javamm.selfassessment.builder.builder.JavammSelfAssessmentNature
 import javamm.tests.utils.ui.PluginProjectHelper
+import javamm.tests.utils.ui.ProjectImportUtil
 import org.eclipse.core.resources.IFile
 import org.eclipse.core.resources.IProject
 import org.eclipse.xtext.testing.InjectWith
@@ -13,14 +13,10 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import static org.eclipse.xtext.ui.testing.util.IResourcesSetupUtil.*
-import javamm.tests.utils.ui.ProjectImportUtil
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammUiInjectorProvider))
 class JavammSelfAssessmentBuilderTest extends AbstractWorkbenchTest {
-
-	@Inject PluginProjectHelper projectHelper
-
 	val static TEST_PROJECT = "javamm.ui.tests.selfassessment.project"
 
 	val static TEST_TEACHER_PROJECT = TEST_PROJECT + JavammSelfAssessmentNature.TEACHER_PROJECT_SUFFIX
@@ -152,7 +148,7 @@ class JavammSelfAssessmentBuilderTest extends AbstractWorkbenchTest {
 		
 		waitForBuild
 		// ExampleSolution is not yet defined
-		assertErrors("example cannot be resolved to a type")
+		PluginProjectHelper.assertErrors("example cannot be resolved to a type")
 		
 		// create the solution in the teacher's project
 		createSimpleJavaFile(TEST_TEACHER_PROJECT, "example", "ExampleSolution", "")
@@ -162,7 +158,7 @@ class JavammSelfAssessmentBuilderTest extends AbstractWorkbenchTest {
 		// we wait for the student's project to be recompiled
 		waitForBuild
 		// now the solution .class should have been copied in the student's project
-		assertNoErrors
+		PluginProjectHelper.assertNoErrors
 	}
 
 	@Test
@@ -182,7 +178,7 @@ class JavammSelfAssessmentBuilderTest extends AbstractWorkbenchTest {
 		// javamm
 		// when running from Eclipse is the other way round
 		// by only checking the last part of the error we should be fine in both cases
-		assertErrorsContains("cannot be resolved to a type")
+		PluginProjectHelper.assertErrorsContains("cannot be resolved to a type")
 		
 		// create the solution in the teacher's project
 		createSimpleJavammFile(TEST_TEACHER_PROJECT, "javamm", "ExampleSolution", "")
@@ -192,7 +188,7 @@ class JavammSelfAssessmentBuilderTest extends AbstractWorkbenchTest {
 		// we wait for the student's project to be recompiled
 		waitForBuild
 		// now the solution .class should have been copied in the student's project
-		assertNoErrors
+		PluginProjectHelper.assertNoErrors
 	}
 
 	def private createSimpleJavaFile(String projectName, String packageName, String className, CharSequence contents) {
@@ -235,15 +231,4 @@ class JavammSelfAssessmentBuilderTest extends AbstractWorkbenchTest {
 		assertFalse("file does exist: " + file.fullPath, file.exists)	
 	}
 
-	def private assertErrors(CharSequence expected) {
-		projectHelper.assertErrors(expected)
-	}
-
-	def private assertErrorsContains(CharSequence expected) {
-		projectHelper.assertErrorsContains(expected)
-	}
-
-	def private assertNoErrors() {
-		projectHelper.assertNoErrors
-	}
 }

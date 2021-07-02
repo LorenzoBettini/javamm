@@ -15,6 +15,7 @@ import static org.eclipse.xtext.ui.testing.util.IResourcesSetupUtil.*
 import org.junit.Before
 import org.eclipse.core.resources.IProject
 import org.eclipse.core.runtime.Path
+import javamm.tests.utils.ui.PluginProjectHelper
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammUiInjectorProvider))
@@ -46,14 +47,14 @@ class JavammNewFileWizardTest extends JavammAbstractWizardTest {
 		assertTrue(file.exists())
 		println("Waiting for build...")
 		waitForBuild
-		projectHelper.assertNoErrors
+		PluginProjectHelper.assertNoErrors
 		println("Waiting for build...")
 		waitForBuild
 		val srcGenFolder = project.getFolder("src-gen/javamm")
 		assertTrue("src-gen/javamm does not exist", srcGenFolder.exists)
 		val genfile = srcGenFolder.getFile(JavammTestableNewFileWizard.TEST_FILE + ".java")
 		assertTrue(JavammTestableNewFileWizard.TEST_FILE + ".java does not exist", genfile.exists())
-		projectHelper.assertNoErrors
+		PluginProjectHelper.assertNoErrors
 		println("No errors in project, OK!")
 	}
 

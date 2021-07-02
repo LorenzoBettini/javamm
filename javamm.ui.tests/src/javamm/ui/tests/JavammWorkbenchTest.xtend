@@ -1,7 +1,7 @@
 package javamm.ui.tests
 
-import com.google.inject.Inject
 import javamm.tests.utils.ui.PluginProjectHelper
+import javamm.tests.utils.ui.ProjectImportUtil
 import org.eclipse.core.resources.IProject
 import org.eclipse.xtext.testing.InjectWith
 import org.eclipse.xtext.testing.XtextRunner
@@ -12,13 +12,10 @@ import org.junit.runner.RunWith
 import static org.eclipse.xtext.ui.testing.util.IResourcesSetupUtil.cleanWorkspace
 import static org.eclipse.xtext.ui.testing.util.IResourcesSetupUtil.createFile
 import static org.eclipse.xtext.ui.testing.util.IResourcesSetupUtil.waitForBuild
-import javamm.tests.utils.ui.ProjectImportUtil
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(JavammUiInjectorProvider))
 class JavammWorkbenchTest extends CustomAbstractWorkbenchTest {
-
-	@Inject PluginProjectHelper projectHelper
 
 	val static TEST_PROJECT = "javamm.ui.tests.project"
 
@@ -46,7 +43,7 @@ class JavammWorkbenchTest extends CustomAbstractWorkbenchTest {
 		)
 
 		waitForBuild
-		projectHelper.assertNoErrors
+		PluginProjectHelper.assertNoErrors
 		var srcGenFolder = project.getFolder("src-gen/javamm")
 		assertTrue("src-gen/javamm does not exist", srcGenFolder.exists)
 		val genfile = srcGenFolder.getFile(TEST_FILE + ".java")
@@ -68,7 +65,7 @@ class JavammWorkbenchTest extends CustomAbstractWorkbenchTest {
 
 		waitForBuild
 		// one error in the generated Java file, and one in the original file
-		projectHelper.assertErrors(
+		PluginProjectHelper.assertErrors(
 			'''
 			Java problem: Incompatible operand types Boolean and Integer
 			Incompatible operand types Boolean and Integer'''
