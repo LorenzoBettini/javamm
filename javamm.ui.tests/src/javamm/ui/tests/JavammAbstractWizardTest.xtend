@@ -1,14 +1,12 @@
 package javamm.ui.tests
 
 import com.google.inject.Inject
-import javamm.tests.utils.ui.PDETargetPlatformUtils
 import javamm.tests.utils.ui.PluginProjectHelper
 import org.eclipse.jface.wizard.Wizard
 import org.eclipse.jface.wizard.WizardDialog
 import org.eclipse.xtext.testing.InjectWith
 import org.eclipse.xtext.testing.XtextRunner
 import org.eclipse.xtext.ui.testing.AbstractWorkbenchTest
-import org.junit.BeforeClass
 import org.junit.runner.RunWith
 
 @RunWith(typeof(XtextRunner))
@@ -51,11 +49,6 @@ abstract class JavammAbstractWizardTest extends AbstractWorkbenchTest {
 			}
 		};
 		return dialog.open();
-	}
-
-	@BeforeClass
-	def static void beforeClass() {
-		PDETargetPlatformUtils.setTargetPlatform();
 	}
 
 }
