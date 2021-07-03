@@ -306,19 +306,6 @@
       <sourceLocator
           rootFolder="${git.clone.location}"/>
       <repositoryList
-          name="2018-09">
-        <repository
-            url="https://download.eclipse.org/releases/2018-09"/>
-        <repository
-            url="https://download.itemis.com/updates/releases/2.1.1/"/>
-        <repository
-            url="${xtext.site}"/>
-        <repository
-            url="${mwe2.site}"/>
-        <repository
-            url="${jbase.site}"/>
-      </repositoryList>
-      <repositoryList
           name="2020-06">
         <repository
             url="https://download.eclipse.org/releases/2020-06"/>
@@ -477,7 +464,7 @@
     <setupTask
         xsi:type="setup:VariableTask"
         name="jbase.site"
-        value="https://lorenzobettini.github.io/jbase-releases/updates/0.x/0.10.x/"/>
+        value="https://lorenzobettini.github.io/jbase-releases/updates/0.x/0.12.x/"/>
     <setupTask
         xsi:type="setup.p2:P2Task"
         id="p2.org.eclipse.xtext"

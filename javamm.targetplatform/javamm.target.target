@@ -30,7 +30,7 @@
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="jbase.sdk.feature.group" version="0.0.0"/>
 <unit id="jbase.sdk.source.feature.group" version="0.0.0"/>
-<repository location="https://lorenzobettini.github.io/jbase-releases/updates/0.x/0.10.x/"/>
+<repository location="https://lorenzobettini.github.io/jbase-releases/updates/0.x/0.12.x/"/>
 </location>
 </locations>
 </target>
