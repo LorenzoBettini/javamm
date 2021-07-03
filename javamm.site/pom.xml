@@ -13,6 +13,13 @@
   <artifactId>javamm.site</artifactId>
   <packaging>eclipse-repository</packaging>
 
+  <properties>
+    <!-- for verifying our p2 repository and its references -->
+    <build.destination>${project.build.directory}/installed-plugins</build.destination>
+    <features>javamm.sdk.feature.group</features>
+    <sites>file:/${project.build.directory}/repository</sites>
+  </properties>
+
   <build>
     <pluginManagement>
       <plugins>
