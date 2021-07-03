@@ -230,8 +230,6 @@
     <profile>
       <!--
         This assumes that release-composite is enabled as well
-        ATTENTION: the snapshot GitHub repository is not yet setup
-        DON'T USE THIS PROFILE YET!
       -->
       <id>release-snapshots</id>
       <activation>

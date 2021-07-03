@@ -170,6 +170,142 @@
             </executions>
           </plugin>
           <plugin>
+            <groupId>org.codehaus.gmavenplus</groupId>
+            <artifactId>gmavenplus-plugin</artifactId>
+            <version>1.12.1</version>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>execute</goal>
+                </goals>
+                <phase>package</phase>
+              </execution>
+            </executions>
+            <configuration>
+              <scripts>
+                <script><![CDATA[
+                // Add copies of all referenced <repository> elements with type=1
+                // See https://www.eclipse.org/lists/epsilon-dev/msg00522.html for context
+                // See https://bugs.eclipse.org/bugs/show_bug.cgi?id=565859
+                // See https://bugs.eclipse.org/bugs/show_bug.cgi?id=453708
+                // See https://github.com/eclipse/tycho/issues/141
+                
+                File contentXml = new File(project.build.directory, "repository/content.xml")
+                def patchedContentXml = new File(project.build.directory, "repository/content.xml")
+                
+                def document = new XmlParser().parse(contentXml)
+                def references = document.references[0]
+                
+                for (repository in references.repository) {
+                  def type1Repository = references.appendNode("repository");
+                  type1Repository.@uri = repository.@uri
+                  type1Repository.@url = repository.@url
+                  type1Repository.@options = "1"
+                  type1Repository.@type = "1"
+                }
+                
+                references.@size = (references.@size as Integer) * 2
+                
+                new XmlNodePrinter(new PrintWriter(new FileWriter(patchedContentXml))).print(document)
+                ]]></script>
+              </scripts>
+            </configuration>
+            <dependencies>
+              <dependency>
+                <groupId>org.codehaus.groovy</groupId>
+                <artifactId>groovy-all</artifactId>
+                <version>3.0.8</version>
+                <type>pom</type>
+              </dependency>
+            </dependencies>
+          </plugin>
+          <plugin>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <dependencies>
+              <!-- Needed for XZ compression -->
+              <dependency>
+                <groupId>org.apache.ant</groupId>
+                <artifactId>ant-compress</artifactId>
+                <version>1.5</version>
+              </dependency>
+            </dependencies>
+            <executions>
+              <execution>
+                <id>jar-artifacts-content</id>
+                <phase>package</phase>
+                <configuration>
+                  <target>
+                    <zip
+                      destfile="${project.build.directory}/repository/artifacts.jar"
+                      basedir="${project.build.directory}/repository/"
+                      includes="artifacts.xml" />
+                    <zip
+                      destfile="${project.build.directory}/repository/content.jar"
+                      basedir="${project.build.directory}/repository/"
+                      includes="content.xml" />
+                  </target>
+                </configuration>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>xz-artifacts-content</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+                <configuration>
+                  <target name="xz-artifacts-xml">
+                    <taskdef
+                      resource="org/apache/ant/compress/antlib.xml"
+                      classpathref="maven.plugin.classpath" />
+                    <xz
+                      srcfile="${project.build.directory}/repository/artifacts.xml"
+                      destfile="${project.build.directory}/repository/artifacts.xml.xz" />
+                    <xz
+                      srcfile="${project.build.directory}/repository/content.xml"
+                      destfile="${project.build.directory}/repository/content.xml.xz" />
+                  </target>
+                </configuration>
+              </execution>
+              <execution>
+                <!--Remove artifacts.xml and content.xml (we don't need them 
+                  anymore) -->
+                <id>remove-artifacts-content-xml</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+                <configuration>
+                  <target>
+                    <delete
+                      file="${project.build.directory}/repository/artifacts.xml" />
+                    <delete
+                      file="${project.build.directory}/repository/content.xml" />
+                  </target>
+                </configuration>
+              </execution>
+              <execution>
+                <id>create p2.index</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+                <configuration>
+                  <target>
+                    <echo
+                      file="${project.build.directory}/repository/p2.index">
+artifact.repository.factory.order=artifacts.xml.xz,artifacts.xml,\!
+version=1
+metadata.repository.factory.order=content.xml.xz,content.xml,\!
+</echo>
+                  </target>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
             <artifactId>maven-resources-plugin</artifactId>
             <executions>
               <execution>
@@ -241,61 +377,21 @@
                   <type>eclipse-feature</type>
                 </dependency>
                 <dependency>
+                  <artifactId>org.eclipse.osgi.compatibility.state</artifactId>
+                  <type>eclipse-plugin</type>
+                </dependency>
+                <dependency>
                   <artifactId>org.eclipse.equinox.ds</artifactId>
+                  <type>eclipse-plugin</type>
+                </dependency>
+                <dependency>
+                  <artifactId>org.eclipse.core.net</artifactId>
                   <type>eclipse-plugin</type>
                 </dependency>
               </dependencies>
             </configuration>
             <executions>
-              <!-- First add composite of required software update sites... 
-                (if already present they won't be added again) -->
-              <execution>
-                <id>add-xtext-repository</id>
-                <phase>package</phase>
-                <goals>
-                  <goal>eclipse-run</goal>
-                </goals>
-                <configuration>
-                  <applicationsArgs>
-                    <args>-application</args>
-                    <args>org.eclipse.ant.core.antRunner</args>
-                    <args>-buildfile</args>
-                    <args>${ant-files-path}/packaging-p2composite.ant</args>
-                    <args>p2.composite.add.external</args>
-                    <args>-Dsite.label="${site.label}"</args>
-                    <args>-Dcomposite.base.dir=${github-local-clone}</args>
-                    <args>-DunqualifiedVersion=${unqualifiedVersion}</args>
-                    <args>-DbuildQualifier=${buildQualifier}</args>
-                    <args>-DparsedVersion.majorVersion=${parsedVersion.majorVersion}</args>
-                    <args>-DparsedVersion.minorVersion=${parsedVersion.minorVersion}</args>
-                    <args>-Dchild.repo="https://download.eclipse.org/modeling/tmf/xtext/updates/releases/${xtextVersion}/"</args>
-                  </applicationsArgs>
-                </configuration>
-              </execution>
-              <execution>
-                <id>add-eclipse-repository</id>
-                <phase>package</phase>
-                <goals>
-                  <goal>eclipse-run</goal>
-                </goals>
-                <configuration>
-                  <applicationsArgs>
-                    <args>-application</args>
-                    <args>org.eclipse.ant.core.antRunner</args>
-                    <args>-buildfile</args>
-                    <args>${ant-files-path}/packaging-p2composite.ant</args>
-                    <args>p2.composite.add.external</args>
-                    <args>-Dsite.label="${site.label}"</args>
-                    <args>-Dcomposite.base.dir=${github-local-clone}</args>
-                    <args>-DunqualifiedVersion=${unqualifiedVersion}</args>
-                    <args>-DbuildQualifier=${buildQualifier}</args>
-                    <args>-DparsedVersion.majorVersion=${parsedVersion.majorVersion}</args>
-                    <args>-DparsedVersion.minorVersion=${parsedVersion.minorVersion}</args>
-                    <args>-Dchild.repo="https://download.eclipse.org/releases/${eclipse-version}/"</args>
-                  </applicationsArgs>
-                </configuration>
-              </execution>
-              <!-- ... then add our new child repository -->
+              <!-- Add our new child repository -->
               <execution>
                 <id>add-p2-composite-repository</id>
                 <phase>package</phase>
@@ -317,6 +413,29 @@
                     <args>-DparsedVersion.minorVersion=${parsedVersion.minorVersion}</args>
                   </applicationsArgs>
                 </configuration>
+              </execution>
+              <execution>
+                <id>verify-feature-installation</id>
+                <configuration>
+                  <jvmArgs>-Declipse.p2.mirrors=true</jvmArgs>
+                  <applicationsArgs>
+                    <args>-consoleLog</args>
+                    <args>-application</args>
+                    <args>org.eclipse.equinox.p2.director</args>
+                    <args>-nosplash</args>
+                    <args>-followReferences</args>
+                    <args>-destination</args>
+                    <args>${build.destination}</args>
+                    <args>-repository</args>
+                    <args>${sites}</args>
+                    <args>-installIUs</args>
+                    <args>${features}</args>
+                  </applicationsArgs>
+                </configuration>
+                <goals>
+                  <goal>eclipse-run</goal>
+                </goals>
+                <phase>verify</phase>
               </execution>
             </executions>
           </plugin>
