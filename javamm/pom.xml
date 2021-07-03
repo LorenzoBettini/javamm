@@ -30,7 +30,18 @@
             <phase>generate-sources</phase>
           </execution>
         </executions>
+        <dependencies>
+          <!-- This is required only for code generation. Might be removed 
+            when Tycho 2.4.0 is released, since it will be found in the additional.bundles 
+            of build.properties -->
+          <dependency>
+            <groupId>net.sf.xtext-jbase</groupId>
+            <artifactId>jbase.mwe2</artifactId>
+            <version>${jbase-version}</version>
+          </dependency>
+        </dependencies>
       </plugin>
+      <!-- Explicitly call xtend-maven-plugin after mwe2 -->
       <plugin>
         <groupId>org.eclipse.xtend</groupId>
         <artifactId>xtend-maven-plugin</artifactId>
