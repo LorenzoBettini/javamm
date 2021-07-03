@@ -16,6 +16,7 @@
          Javamm
       </description>
    </category-def>
+   <repository-reference location="https://lorenzobettini.github.io/jbase-releases/updates/${jbase-major-version}.x/${jbase-major-version}.${jbase-minor-version}.x/" enabled="true" />
    <repository-reference location="https://download.eclipse.org/modeling/tmf/xtext/updates/releases/${xtextVersion}/" enabled="true" />
    <repository-reference location="https://download.eclipse.org/releases/${eclipse-version}/" enabled="true" />
 </site>
