@@ -21,7 +21,7 @@ Require-Bundle: org.eclipse.xtext;visibility:=reexport,
  org.eclipse.xtext.ecore,
  org.eclipse.equinox.common,
  org.eclipse.xtend.lib;bundle-version="2.13.0",
- jbase;bundle-version="[0.10.0,0.11.0)";visibility:=reexport,
+ jbase;bundle-version="[0.12.0,0.13.0)";visibility:=reexport,
  jbase.mwe2;resolution:=optional,
  org.objectweb.asm;bundle-version="9.1.0";resolution:=optional
 Import-Package: org.apache.log4j
