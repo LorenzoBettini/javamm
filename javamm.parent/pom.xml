@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>javamm</groupId>
   <artifactId>javamm.parent</artifactId>
-  <version>1.11.0-SNAPSHOT</version>
+  <version>1.12.0-SNAPSHOT</version>
   <packaging>pom</packaging>
     <!-- IMPORTANT: the parent's version (unrelated to this artifact's version) 
     must come after this artifact's version to make the increment_version.ant behave 
