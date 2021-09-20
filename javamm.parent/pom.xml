@@ -22,7 +22,7 @@
     <eclipse-version>2020-06</eclipse-version>
     <jbase-major-version>0</jbase-major-version>
     <jbase-minor-version>12</jbase-minor-version>
-    <jbase-version>${jbase-major-version}.${jbase-minor-version}.0</jbase-version>
+    <jbase-version>${jbase-major-version}.${jbase-minor-version}.1</jbase-version>
 
     <target-file-name>javamm.target</target-file-name>
 
