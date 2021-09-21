@@ -12,7 +12,7 @@
   <parent>
     <groupId>io.github.lorenzobettini.xtextutils</groupId>
     <artifactId>xtext-tycho-parent</artifactId>
-    <version>0.6.2</version>
+    <version>0.6.4</version>
     <relativePath></relativePath>
   </parent>
 
@@ -295,17 +295,6 @@
               <classifier>${target-file-name}</classifier>
             </artifact>
           </target>
-          <dependency-resolution>
-            <extraRequirements combine.children="append">
-              <!-- to force the same version of jdt.compiler.apt and jdt.core
-                (for xtext-maven-plugin) -->
-              <requirement>
-                <type>eclipse-plugin</type>
-                <id>org.eclipse.jdt.compiler.apt</id>
-                <versionRange>0.0.0</versionRange>
-              </requirement>
-            </extraRequirements>
-          </dependency-resolution>
         </configuration>
       </plugin>
     </plugins>
