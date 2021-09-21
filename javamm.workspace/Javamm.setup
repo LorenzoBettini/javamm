@@ -97,7 +97,7 @@
   <setupTask
       xsi:type="setup:VariableTask"
       name="eclipse.target.platform"
-      defaultValue="2020-06"
+      defaultValue="2021-09"
       storageURI="scope://Workspace"/>
   <setupTask
       xsi:type="setup:ResourceCreationTask"
@@ -306,9 +306,9 @@
       <sourceLocator
           rootFolder="${git.clone.location}"/>
       <repositoryList
-          name="2020-06">
+          name="2021-09">
         <repository
-            url="https://download.eclipse.org/releases/2020-06"/>
+            url="https://download.eclipse.org/releases/2021-09"/>
         <repository
             url="https://download.itemis.com/updates/releases/2.1.1/"/>
         <repository
