@@ -59,12 +59,6 @@
         <artifactId>tycho-p2-repository-plugin</artifactId>
         <configuration>
           <finalName>${project.artifactId}-${qualifiedVersion}</finalName>
-          <!-- don't compress because we need to patch content.xml;
-             we'll compress content.xml later with ant (see below).
-             Don't create zip of repository since we don't need it anyway. -->
-          <compress>false</compress>
-          <xzCompress>false</xzCompress>
-          <skipArchive>true</skipArchive>
         </configuration>
       </plugin>
     </plugins>
