@@ -40,35 +40,10 @@ public abstract class AbstractJavammSwtbotTest {
 
 	@BeforeClass
 	public static void beforeClass() throws Exception {
-//		PDETargetPlatformUtils.setTargetPlatform();
-		
 		bot = new SWTWorkbenchBot();
-//		try {
-//			bot.viewByTitle("Welcome").close();
-//		} catch (WidgetNotFoundException e) {
-//			// OK, no Welcome view, that's fine :)
-//		}
 
 		closeWelcomePage();
 
-		// Change the perspective via the Open Perspective dialog
-		bot.menu("Open Perspective").menu("Other...").click();
-		SWTBotShell openPerspectiveShell = bot.shell("Open Perspective");
-		openPerspectiveShell.activate();
-
-		// select the dialog
-		bot.table().select("Plug-in Development");
-		bot.button("Open").click();
-
-		// in SwtBot 2.2.0 we must use part name since the title
-		// of the problems view also contains the items count
-		// see also http://www.eclipse.org/forums/index.php/t/640194/
-		
-		// In Luna Error Log is not visible by default in Plug-in Perspective
-		//bot.viewByPartName("Error Log").close();
-		bot.viewByPartName("Problems").show();
-
-		// In Neon the Package Explorer is not part of the Plug-in Development perspective
 		bot.menu("Window").menu("Show View").menu(PACKAGE_EXPLORER).click();
 	}
 
@@ -232,7 +207,7 @@ public abstract class AbstractJavammSwtbotTest {
 			String mainProjectId) throws CoreException {
 		bot.menu("File").menu("New").menu("Other...").click();
 
-		SWTBotShell shell = bot.shell("New");
+		SWTBotShell shell = bot.shell("Select a wizard");
 		shell.activate();
 		SWTBotTreeItem categoryNode = bot.tree().expandNode(CATEGORY_NAME);
 		waitForNodes(categoryNode);

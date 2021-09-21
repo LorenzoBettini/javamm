@@ -18,5 +18,5 @@
    </category-def>
    <repository-reference location="https://lorenzobettini.github.io/jbase-releases/updates/0.x/0.12.x/" enabled="true" />
    <repository-reference location="https://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.25.0/" enabled="true" />
-   <repository-reference location="https://download.eclipse.org/releases/2020-06/" enabled="true" />
+   <repository-reference location="https://download.eclipse.org/releases/2021-09/" enabled="true" />
 </site>
