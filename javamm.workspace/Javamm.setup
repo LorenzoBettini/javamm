@@ -483,19 +483,6 @@
           url="https://download.itemis.com/updates/releases/2.1.1/"/>
       <description>Xtext &amp; Xtend</description>
     </setupTask>
-    <setupTask
-        xsi:type="setup.p2:P2Task"
-        id="p2.org.eclipse.jbase"
-        label="Jbase Releases"
-        licenseConfirmationDisabled="true">
-      <requirement
-          name="jbase.sdk.feature.group"/>
-      <requirement
-          name="jbase.sdk.source.feature.group"/>
-      <repository
-          url="${jbase.site}"/>
-      <description>Jbase</description>
-    </setupTask>
   </stream>
   <logicalProjectContainer
       xsi:type="setup:ProjectCatalog"
