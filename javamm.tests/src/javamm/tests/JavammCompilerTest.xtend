@@ -3150,7 +3150,7 @@ public class MyFile {
 		val backup = System.out
 		System.setOut(new PrintStream(out))
 		try {
-			val instance = clazz.newInstance
+			val instance = clazz.getConstructor().newInstance
 			clazz.declaredMethods.findFirst[name == 'testMe'] => [
 				accessible = true
 				invoke(instance, null) // just to pass an argument	
