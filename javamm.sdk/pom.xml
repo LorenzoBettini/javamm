@@ -7,7 +7,7 @@
 		<relativePath>../javamm.parent/pom.xml</relativePath>
 		<groupId>javamm</groupId>
 		<artifactId>javamm.parent</artifactId>
-		<version>1.13.0-SNAPSHOT</version>
+		<version>1.13.1-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>javamm.sdk</artifactId>
