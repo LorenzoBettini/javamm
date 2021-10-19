@@ -104,7 +104,7 @@ This Agreement is governed by the laws of the State of New York and the intellec
    </license>
 
    <requires>
-      <import feature="jbase.ui.feature" version="0.12.1" match="compatible"/>
+      <import feature="jbase.ui.feature" version="0.12.1.v20210915-1300" match="perfect"/>
    </requires>
 
 </feature>
