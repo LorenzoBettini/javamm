@@ -1,5 +1,7 @@
 package javamm.ui.tests;
 
+import static javamm.tests.utils.ui.PluginProjectHelper.assertErrors;
+import static javamm.tests.utils.ui.PluginProjectHelper.assertNoErrors;
 import static org.eclipse.xtext.ui.testing.util.IResourcesSetupUtil.cleanWorkspace;
 import static org.eclipse.xtext.ui.testing.util.IResourcesSetupUtil.createFile;
 import static org.eclipse.xtext.ui.testing.util.IResourcesSetupUtil.waitForBuild;
@@ -9,12 +11,10 @@ import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.xtext.testing.InjectWith;
 import org.eclipse.xtext.testing.XtextRunner;
-import org.eclipse.xtext.ui.testing.util.IResourcesSetupUtil;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import javamm.tests.utils.ui.PluginProjectHelper;
 import javamm.tests.utils.ui.ProjectImportUtil;
 
 @RunWith(XtextRunner.class)
@@ -29,7 +29,7 @@ public class JavammWorkbenchTest extends CustomAbstractWorkbenchTest {
 	@BeforeClass
 	public static void importTestProject() throws Exception {
 		cleanWorkspace();
-		JavammWorkbenchTest.project = ProjectImportUtil.importProject(JavammWorkbenchTest.TEST_PROJECT);
+		project = ProjectImportUtil.importProject(TEST_PROJECT);
 		waitForBuild();
 	}
 
@@ -42,8 +42,8 @@ public class JavammWorkbenchTest extends CustomAbstractWorkbenchTest {
 	@Test
 	public void testJavaFileIsGeneratedInSrcGen() throws Exception {
 		createTestFile("System.out.println(\"Hello \" + \"world!\");");
-		IResourcesSetupUtil.waitForBuild();
-		PluginProjectHelper.assertNoErrors();
+		waitForBuild();
+		assertNoErrors();
 		IFolder srcGenFolder = project.getFolder("src-gen/javamm");
 		assertTrue("src-gen/javamm does not exist", srcGenFolder.exists());
 		IFile genfile = srcGenFolder.getFile(TEST_FILE + ".java");
@@ -60,7 +60,7 @@ public class JavammWorkbenchTest extends CustomAbstractWorkbenchTest {
 				+ "}");
 		waitForBuild();
 		// one error in the generated Java file, and one in the original file
-		PluginProjectHelper.assertErrors(
+		assertErrors(
 				"Java problem: Incompatible operand types Boolean and Integer\n"
 				+ "Incompatible operand types Boolean and Integer");
 	}
