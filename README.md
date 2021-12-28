@@ -28,6 +28,6 @@ IMPORTANT: Java-- requires Xtext, if this is not already installed, all dependen
 Download a complete Eclipse distribution with Java-- installed; choose the one for your OS and architecture:
 https://sourceforge.net/projects/javamm/files/products/
 
-**For macOS users**: depending on the version of your macOS, when you try to run the `javamm.app` you may run into an error that says "the application is damaged and can't be opened". This problem can be overcome by running the following command from the terminal (from the directory where the `javamm.app` is located): `xattr -d javamm.app`.
+**For macOS users**: depending on the version of your macOS, when you try to run the `javamm.app` you may run into an error that says "the application is damaged and can't be opened". This problem can be overcome by running the following command from the terminal (from the directory where the `javamm.app` is located): `xattr -c javamm.app`.
 
 [![Java CI with Maven](https://github.com/LorenzoBettini/javamm/actions/workflows/maven.yml/badge.svg)](https://github.com/LorenzoBettini/javamm/actions/workflows/maven.yml) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=javamm%3Ajavamm.parent&metric=alert_status)](https://sonarcloud.io/dashboard?id=javamm%3Ajavamm.parent)
