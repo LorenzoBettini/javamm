@@ -6,17 +6,17 @@
    <feature id="javamm.sdk.source" version="0.0.0">
       <category name="main.source"/>
    </feature>
-   <category-def name="main" label="Javamm 1.13.x">
+   <category-def name="main" label="Javamm 1.14.x">
       <description>
          Javamm
       </description>
    </category-def>
-   <category-def name="main.source" label="Javamm 1.13.x (Sources)">
+   <category-def name="main.source" label="Javamm 1.14.x (Sources)">
       <description>
          Javamm
       </description>
    </category-def>
-   <repository-reference location="https://lorenzobettini.github.io/jbase-releases/updates/0.x/0.12.x/" enabled="true" />
+   <repository-reference location="https://lorenzobettini.github.io/jbase-releases/updates/1.x/1.0.x/" enabled="true" />
    <repository-reference location="https://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.25.0/" enabled="true" />
    <repository-reference location="https://download.eclipse.org/releases/2021-12/" enabled="true" />
 </site>

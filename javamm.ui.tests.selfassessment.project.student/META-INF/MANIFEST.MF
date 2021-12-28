@@ -3,7 +3,7 @@ Automatic-Module-Name: javamm.ui.tests.selfassessment.project.student
 Bundle-ManifestVersion: 2
 Bundle-Name: javamm.ui.tests.selfassessment.project.student
 Bundle-Vendor: My Company
-Bundle-Version: 1.13.1.qualifier
+Bundle-Version: 1.14.0.qualifier
 Bundle-SymbolicName: javamm.ui.tests.selfassessment.project.student; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: javamm.runtime,
