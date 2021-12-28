@@ -64,7 +64,7 @@
 						<version>${project.version}</version>
 					</dependency>
 					<dependency>
-						<groupId>net.sf.xtext-jbase</groupId>
+						<groupId>io.github.lorenzobettini.jbase</groupId>
 						<artifactId>jbase</artifactId>
 						<version>${jbase-version}</version>
 					</dependency>
