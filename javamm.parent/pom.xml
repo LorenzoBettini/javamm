@@ -20,9 +20,9 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <xtext-version>${xtextVersion}</xtext-version>
     <eclipse-version>2021-12</eclipse-version>
-    <jbase-major-version>0</jbase-major-version>
-    <jbase-minor-version>12</jbase-minor-version>
-    <jbase-version>${jbase-major-version}.${jbase-minor-version}.2</jbase-version>
+    <jbase-major-version>1</jbase-major-version>
+    <jbase-minor-version>0</jbase-minor-version>
+    <jbase-version>${jbase-major-version}.${jbase-minor-version}.0</jbase-version>
 
     <target-file-name>javamm.target</target-file-name>
 

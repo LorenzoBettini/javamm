@@ -464,7 +464,7 @@
     <setupTask
         xsi:type="setup:VariableTask"
         name="jbase.site"
-        value="https://lorenzobettini.github.io/jbase-releases/updates/0.x/0.12.x/"/>
+        value="https://lorenzobettini.github.io/jbase-releases/updates/1.x/1.0.x/"/>
     <setupTask
         xsi:type="setup.p2:P2Task"
         id="p2.org.eclipse.xtext"
