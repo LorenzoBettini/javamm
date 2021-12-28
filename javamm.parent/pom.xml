@@ -295,6 +295,18 @@
               <classifier>${target-file-name}</classifier>
             </artifact>
           </target>
+          <environments combine.children="append">
+            <environment>
+              <os>macosx</os>
+              <ws>cocoa</ws>
+              <arch>aarch64</arch>
+            </environment>
+            <environment>
+              <os>linux</os>
+              <ws>gtk</ws>
+              <arch>aarch64</arch>
+            </environment>
+          </environments>
         </configuration>
       </plugin>
     </plugins>
