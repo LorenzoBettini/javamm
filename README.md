@@ -25,7 +25,7 @@ IMPORTANT: Java-- requires Xtext, if this is not already installed, all dependen
 
 ### Pre-configured Eclipse distributions with Java-- installed, for several architectures.
 
-Download a complete Eclipse distribution with Java-- installed; choose the one for your OS and architecture:
+Download a complete Eclipse distribution with Java-- installed; choose the one for your OS and architecture (since version 1.14, we also provide a version for the `aarch64` architecture, for Linux and macOS):
 https://sourceforge.net/projects/javamm/files/products/
 
 **For macOS users**: depending on the version of your macOS, when you try to run the `javamm.app` you may run into an error that says "the application is damaged and can't be opened". This problem can be overcome by running the following command from the terminal (from the directory where the `javamm.app` is located): `xattr -c javamm.app`.
