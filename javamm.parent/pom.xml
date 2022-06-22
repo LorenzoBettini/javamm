@@ -12,16 +12,16 @@
   <parent>
     <groupId>io.github.lorenzobettini.xtextutils</groupId>
     <artifactId>xtext-tycho-parent</artifactId>
-    <version>0.6.7</version>
+    <version>0.8.0</version>
     <relativePath></relativePath>
   </parent>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <xtext-version>${xtextVersion}</xtext-version>
-    <eclipse-version>2021-12</eclipse-version>
+    <eclipse-version>2022-06</eclipse-version>
     <jbase-major-version>1</jbase-major-version>
-    <jbase-minor-version>0</jbase-minor-version>
+    <jbase-minor-version>1</jbase-minor-version>
     <jbase-version>${jbase-major-version}.${jbase-minor-version}.0</jbase-version>
 
     <target-file-name>javamm.target</target-file-name>
