@@ -3,7 +3,7 @@ Automatic-Module-Name: javamm.ui.tests.project
 Bundle-ManifestVersion: 2
 Bundle-Name: javamm.ui.tests.project
 Bundle-Vendor: Lorenzo Bettini
-Bundle-Version: 1.14.0.qualifier
+Bundle-Version: 1.15.0.qualifier
 Bundle-SymbolicName: javamm.ui.tests.project; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: javamm.runtime
