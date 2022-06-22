@@ -22,7 +22,7 @@ public class Sudoku {
     }
     return new int[] { -1, -1 };
   }
-  
+
   public static boolean feasible(int d, int[] c, int n, int[][] s) {
     for (int i = 0; (i < (n * n)); i++) {
       boolean _tripleEquals = (s[c[0]][i] == d);
@@ -50,7 +50,7 @@ public class Sudoku {
     }
     return true;
   }
-  
+
   public static boolean[] feasibleDigits(int[] c, int n, int[][] s) {
     boolean[] r = new boolean[(n * n)];
     for (int d = 1; (d <= (n * n)); d++) {
@@ -58,7 +58,7 @@ public class Sudoku {
     }
     return r;
   }
-  
+
   public static boolean solvable(int[] c, int n, int[][] s) {
     boolean[] a = Sudoku.feasibleDigits(c, n, s);
     for (int d = 1; (d <= (n * n)); d++) {
@@ -74,7 +74,7 @@ public class Sudoku {
     }
     return false;
   }
-  
+
   public static void main() {
     int[][] s = { new int[] { 4, 0, 0, 0 }, new int[] { 0, 0, 0, 3 }, new int[] { 0, 1, 3, 0 }, new int[] { 0, 0, 0, 2 } };
     int n = 2;
@@ -83,7 +83,7 @@ public class Sudoku {
     System.out.println(Sudoku.solvable(p, n, s));
     Sudoku.printBoard(s);
   }
-  
+
   public static void printBoard(int[][] s) {
     for (int i = 0; (i < s.length); i++) {
       {
@@ -95,7 +95,7 @@ public class Sudoku {
       }
     }
   }
-  
+
   public static void main(String[] args) {
     Sudoku.main();
   }

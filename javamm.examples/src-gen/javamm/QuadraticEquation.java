@@ -17,7 +17,7 @@ public class QuadraticEquation {
       }
     }
   }
-  
+
   public static void main(String[] args) {
     QuadraticEquation.solve(1, 4, 3);
   }

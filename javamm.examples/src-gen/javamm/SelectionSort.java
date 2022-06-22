@@ -28,7 +28,7 @@ public class SelectionSort {
       }
     }
   }
-  
+
   public static void printArray(int[] number) {
     System.out.print("Array: ");
     for (int i = 0; (i < number.length); i++) {
@@ -37,7 +37,7 @@ public class SelectionSort {
     }
     System.out.println();
   }
-  
+
   public static void main(String[] args) {
     int[] number = { 7, 6, 11, 17, 3, 15, 5, 19, 30, 14 };
     SelectionSort.printArray(number);

@@ -34,7 +34,7 @@ public class GradeConversionSwitch {
     }
     return letter;
   }
-  
+
   public static void main(String[] args) {
     System.out.println(GradeConversionSwitch.convert(23));
   }

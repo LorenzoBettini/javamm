@@ -13,11 +13,11 @@ public class Matches {
       return (x - 1);
     }
   }
-  
+
   public static int nextMove(int b, int k) {
     return ((k + 1) - b);
   }
-  
+
   public static void main(String[] args) {
     System.out.println(Matches.firstMove(15, 3));
     System.out.println(Matches.nextMove(1, 3));

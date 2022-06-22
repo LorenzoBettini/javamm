@@ -9,12 +9,12 @@ public class LocalVariables {
     int a = (b + 1);
     return (a + 1);
   }
-  
+
   public static int f2(int a) {
     int b = (a - 2);
     return (b - 2);
   }
-  
+
   public static void main(String[] args) {
     int b = 10;
     int a = 10;

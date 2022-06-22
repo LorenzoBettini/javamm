@@ -13,7 +13,7 @@ public class BinaryStrings {
     }
     System.out.println();
   }
-  
+
   public static void generate(int[] a, int b) {
     if ((b == 0)) {
       BinaryStrings.printArray(a);
@@ -24,7 +24,7 @@ public class BinaryStrings {
       BinaryStrings.generate(a, (b - 1));
     }
   }
-  
+
   public static void main(String[] args) {
     int[] a = { 0, 0, 0, 0 };
     BinaryStrings.generate(a, 4);

@@ -15,7 +15,7 @@ public class NumberOfDigits {
     }
     return digitNumber;
   }
-  
+
   public static void main(String[] args) {
     System.out.println(NumberOfDigits.digitNumber(1234567));
   }

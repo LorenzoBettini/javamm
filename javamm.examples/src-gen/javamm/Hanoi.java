@@ -12,7 +12,7 @@ public class Hanoi {
       Hanoi.solve((n - 1), ((6 - s) - d), d);
     }
   }
-  
+
   public static void main(String[] args) {
     Hanoi.solve(3, 1, 3);
   }

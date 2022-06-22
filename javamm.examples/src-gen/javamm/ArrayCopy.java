@@ -24,7 +24,7 @@ public class ArrayCopy {
     }
     return copy;
   }
-  
+
   /**
    * Prints the passed array to the standard output
    */
@@ -43,7 +43,7 @@ public class ArrayCopy {
       _while = _lessThan_1;
     }
   }
-  
+
   public static void main(String[] args) {
     System.out.println("ORIGINAL: ");
     String[] a = { "one", "two", "three" };

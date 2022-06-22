@@ -19,7 +19,7 @@ public class GCD {
       return a;
     }
   }
-  
+
   public static void main(String[] args) {
     System.out.println(GCD.gcd(21, 7));
     System.out.println(GCD.gcd(69, 21));

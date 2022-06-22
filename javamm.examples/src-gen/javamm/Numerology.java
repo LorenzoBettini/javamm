@@ -16,7 +16,7 @@ public class Numerology {
     }
     return result;
   }
-  
+
   public static int destiny(int number) {
     int temp = Numerology.digitSum(number);
     if ((number > 9)) {
@@ -25,14 +25,14 @@ public class Numerology {
       return temp;
     }
   }
-  
+
   public static void main() {
     int number = 21061961;
     int _destiny = Numerology.destiny(number);
     String _plus = ("Destiny: " + Integer.valueOf(_destiny));
     System.out.println(_plus);
   }
-  
+
   public static void main(String[] args) {
     Numerology.main();
   }

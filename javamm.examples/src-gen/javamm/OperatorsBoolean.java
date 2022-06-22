@@ -6,12 +6,12 @@ public class OperatorsBoolean {
     System.out.println("mTrue called");
     return true;
   }
-  
+
   public static boolean mFalse() {
     System.out.println("mFalse called");
     return false;
   }
-  
+
   public static void main(String[] args) {
     String _plus = ("mFalse() && mTrue() = " + Boolean.valueOf((OperatorsBoolean.mFalse() && OperatorsBoolean.mTrue())));
     System.out.println(_plus);

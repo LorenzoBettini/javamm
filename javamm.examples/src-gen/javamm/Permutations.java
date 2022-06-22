@@ -13,7 +13,7 @@ public class Permutations {
     }
     System.out.println();
   }
-  
+
   public static void generate(char[] a, int p) {
     char temp = 0;
     if ((p == 0)) {
@@ -32,7 +32,7 @@ public class Permutations {
       }
     }
   }
-  
+
   public static void main(String[] args) {
     char[] a = { 'a', 'b', 'c', 'd' };
     Permutations.generate(a, 4);

@@ -20,7 +20,7 @@ public class EqualArrays {
     }
     return true;
   }
-  
+
   public static void main(String[] args) {
     int[] a1 = { 0, 1, 2 };
     int[] a2 = { 0, 1, 2 };

@@ -15,7 +15,7 @@ public class Maximum {
     }
     return max;
   }
-  
+
   public static void main(String[] args) {
     int[] a = { 2, 4, 7, 12, 1, 9 };
     System.out.println(Maximum.max(a));

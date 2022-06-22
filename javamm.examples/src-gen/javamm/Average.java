@@ -14,7 +14,7 @@ public class Average {
     int _length = a.length;
     return (r / _length);
   }
-  
+
   public static void main(String[] args) {
     int[] a = { 1, 2, 3, 4 };
     System.out.println(Average.avg(a));

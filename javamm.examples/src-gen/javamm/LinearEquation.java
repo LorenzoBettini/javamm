@@ -21,7 +21,7 @@ public class LinearEquation {
       System.out.println(_plus);
     }
   }
-  
+
   public static void main(String[] args) {
     LinearEquation.solve(0.5, -1);
   }
