@@ -100,7 +100,7 @@ public class MyFile {
   public static void sayHelloWorld(String m) {
     System.out.println(m);
   }
-  
+
   public static void main(String[] args) {
   }
 }
@@ -118,7 +118,7 @@ public class MyFile {
   public static void sayHelloWorld(String m) {
     System.out.println(m);
   }
-  
+
   public static void main(String[] args) {
     MyFile.sayHelloWorld("Hello world!");
   }
@@ -140,7 +140,7 @@ public class MyFile {
     j = 1;
     return (i > 0);
   }
-  
+
   public static void main(String[] args) {
     int i = 0;
     boolean b = false;
@@ -196,7 +196,7 @@ public class MyFile {
   public static int getIndex() {
     return 0;
   }
-  
+
   public static void main(String[] args) {
     String[] a = null;
     int i = 0;
@@ -236,7 +236,7 @@ public class MyFile {
   public static void m(int[] a) {
     a[0] = 1;
   }
-  
+
   public static void main(String[] args) {
   }
 }
@@ -271,7 +271,7 @@ public class MyFile {
   public static int[] getArray() {
     return null;
   }
-  
+
   public static void main(String[] args) {
     int i = 0;
     i = MyFile.getArray()[0];
@@ -345,7 +345,7 @@ public class MyFile {
   public static int getArg(int i) {
     return i;
   }
-  
+
   public static void main(String[] args) {
     int[] j = null;
     MyFile.getArg(j[0]);
@@ -669,7 +669,7 @@ public class MyFile {
   public static void m() {
     return;
   }
-  
+
   public static void main(String[] args) {
     int i = 0;;;
     while ((i < 10)) {
@@ -691,7 +691,7 @@ public class MyFile {
   public static void m(int a) {
     a = 1;
   }
-  
+
   public static void main(String[] args) {
   }
 }
@@ -713,7 +713,7 @@ public class MyFile {
   public static int m(final int i) {
     return i;
   }
-  
+
   public static void main(String[] args) {
   }
 }
@@ -1591,7 +1591,7 @@ public class MyFile {
         return -1;
     }
   }
-  
+
   public static void main(String[] args) {
   }
 }
@@ -1621,7 +1621,7 @@ public class MyFile {
         return -1;
     }
   }
-  
+
   public static void main(String[] args) {
   }
 }
@@ -1646,7 +1646,7 @@ public class MyFile {
     }
     return numOfDigits;
   }
-  
+
   public static void main(String[] args) {
     int _numOfDigits = MyFile.numOfDigits(3456);
     String _plus = ("numOfDigits(3456): " + Integer.valueOf(_numOfDigits));
@@ -2036,7 +2036,7 @@ public class MyFile {
   public static int m(char c) {
     return 0;
   }
-  
+
   public static void main(String[] args) {
     int i = 0;
     char c = 'c';
@@ -2416,7 +2416,7 @@ public class MyFile {
       System.out.println(a[i]);
     }
   }
-  
+
   public static void main(String[] args) {
   }
 }
@@ -2441,7 +2441,7 @@ public class MyFile {
       System.out.println(a[i]);
     }
   }
-  
+
   public static void main(String[] args) {
   }
 }
@@ -2515,7 +2515,7 @@ public class MyFile {
     String s1 = null;
     MyFile.m(s1 = s);
   }
-  
+
   public static void main(String[] args) {
   }
 }
@@ -2566,10 +2566,10 @@ package javamm;
 public class MyFile {
   public static void m(String s) {
   }
-  
+
   public static void m(String[] a) {
   }
-  
+
   public static void main(String[] args) {
     MyFile.m(new String[] { "1", "2" });
   }
@@ -2595,11 +2595,11 @@ package javamm;
 public class MyFile {
   public static void m(String s) {
   }
-  
+
   public static int m(String[] a) {
     return 0;
   }
-  
+
   public static void main(String[] args) {
     MyFile.m(new String[] { "1", "2" });
   }
@@ -2891,17 +2891,17 @@ public class MyFile {
 			    System.out.println("mTrue called");
 			    return true;
 			  }
-			  
+			
 			  public static boolean mFalse() {
 			    System.out.println("mFalse called");
 			    return false;
 			  }
-			  
+			
 			  public static void testMe() {
 			    String _plus = ("mFalse() && mTrue() = " + Boolean.valueOf((MyFile.mFalse() && MyFile.mTrue())));
 			    System.out.println(_plus);
 			  }
-			  
+			
 			  public static void main(String[] args) {
 			  }
 			}
@@ -2944,12 +2944,12 @@ public class MyFile {
 			    System.out.println("mTrue called");
 			    return true;
 			  }
-			  
+			
 			  public static boolean mFalse() {
 			    System.out.println("mFalse called");
 			    return false;
 			  }
-			  
+			
 			  public static void testMe() {
 			    boolean _mFalse = MyFile.mFalse();
 			    boolean _mTrue = MyFile.mTrue();
@@ -2967,7 +2967,7 @@ public class MyFile {
 			    String _plus_2 = ("mTrue() | mFalse() = " + Boolean.valueOf(_bitwiseOr));
 			    System.out.println(_plus_2);
 			  }
-			  
+			
 			  public static void main(String[] args) {
 			  }
 			}
@@ -3016,7 +3016,7 @@ public class MyFile {
       }
     }
   }
-  
+
   public static void main(String[] args) {
   }
 }
