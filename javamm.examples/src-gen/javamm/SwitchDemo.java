@@ -50,7 +50,7 @@ public class SwitchDemo {
     }
     System.out.println(monthString);
   }
-  
+
   public static void main(String[] args) {
     SwitchDemo.printMonthString(1);
     SwitchDemo.printMonthString(8);

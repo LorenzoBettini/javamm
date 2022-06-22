@@ -12,7 +12,7 @@ public class Token {
       return (5 - p);
     }
   }
-  
+
   public static void main(String[] args) {
     System.out.println(Token.move(0));
   }

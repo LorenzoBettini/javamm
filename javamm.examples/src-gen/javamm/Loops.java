@@ -20,7 +20,7 @@ public class Loops {
       _while = _lessThan_1;
     }
   }
-  
+
   /**
    * Prints the passed array to the standard output using a while loop
    */
@@ -34,7 +34,7 @@ public class Loops {
       }
     }
   }
-  
+
   /**
    * Prints the passed array to the standard output using a do..while loop
    */
@@ -53,7 +53,7 @@ public class Loops {
       }
     } while((i < a.length));
   }
-  
+
   public static void main(String[] args) {
     String[] a = { "one", "two", "three" };
     String[] empty = {};

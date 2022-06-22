@@ -29,7 +29,7 @@ public class PrintingBoard {
     }
     System.out.println(column);
   }
-  
+
   public static void main(String[] args) {
     char[][] board = { new char[] { 'n', '*', 'n', '*', 'n', '*', 'n', '*' }, new char[] { '*', 'n', '*', 'n', '*', 'n', '*', 'n' }, new char[] { 'n', '*', 'n', '*', 'n', '*', 'n', '*' }, new char[] { '*', ' ', '*', ' ', '*', ' ', '*', ' ' }, new char[] { ' ', '*', ' ', '*', ' ', '*', ' ', '*' }, new char[] { '*', 'b', '*', 'b', '*', 'b', '*', 'b' }, new char[] { 'b', '*', 'b', '*', 'b', '*', 'b', '*' }, new char[] { '*', 'b', '*', 'b', '*', 'b', '*', 'b' } };
     PrintingBoard.printBoard(board);

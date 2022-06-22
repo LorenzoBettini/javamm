@@ -21,7 +21,7 @@ public class RPSSwitch {
         return -1;
     }
   }
-  
+
   public static void main(String[] args) {
     System.out.println(RPSSwitch.move(2));
   }

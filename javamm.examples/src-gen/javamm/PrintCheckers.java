@@ -29,7 +29,7 @@ public class PrintCheckers {
     }
     System.out.println(c);
   }
-  
+
   public static void main(String[] args) {
     PrintCheckers.printCheckers(
       new char[][] { new char[] { '1', '2', '3', '4', '5', '6', '7', '8' }, new char[] { '1', '2', '3', '4', '5', '6', '7', '8' }, new char[] { '1', '2', '3', '4', '5', '6', '7', '8' }, new char[] { '1', '2', '3', '4', '5', '6', '7', '8' }, new char[] { '1', '2', '3', '4', '5', '6', '7', '8' }, new char[] { '1', '2', '3', '4', '5', '6', '7', '8' }, new char[] { '1', '2', '3', '4', '5', '6', '7', '8' }, new char[] { '1', '2', '3', '4', '5', '6', '7', '8' } });

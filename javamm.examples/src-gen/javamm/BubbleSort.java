@@ -25,7 +25,7 @@ public class BubbleSort {
       }
     }
   }
-  
+
   /**
    * Prints the passed array to the standard output
    */
@@ -47,7 +47,7 @@ public class BubbleSort {
     }
     System.out.println("");
   }
-  
+
   public static void main(String[] args) {
     int[] test = { 10, 4, 2, 8, 1 };
     BubbleSort.printArray(test);

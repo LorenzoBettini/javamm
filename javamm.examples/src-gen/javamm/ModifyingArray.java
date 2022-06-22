@@ -11,7 +11,7 @@ public class ModifyingArray {
       number[i] = _multiply;
     }
   }
-  
+
   public static void printArray(int[] number) {
     System.out.print("Array: ");
     for (int i = 0; (i < number.length); i++) {
@@ -20,7 +20,7 @@ public class ModifyingArray {
     }
     System.out.println();
   }
-  
+
   public static void main(String[] args) {
     int[] number = { 1, 2, 3, 4, 5 };
     ModifyingArray.printArray(number);

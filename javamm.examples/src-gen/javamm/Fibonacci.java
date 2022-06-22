@@ -18,7 +18,7 @@ public class Fibonacci {
     }
     return x;
   }
-  
+
   public static void main(String[] args) {
     System.out.println(Fibonacci.fibonacci(8));
   }

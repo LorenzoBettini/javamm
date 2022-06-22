@@ -16,11 +16,11 @@ public class Integral {
     }
     return area;
   }
-  
+
   public static double f(double x) {
     return (4 / (1 + (x * x)));
   }
-  
+
   public static void main(String[] args) {
     System.out.println(Integral.integral(0, 1, 16384));
   }

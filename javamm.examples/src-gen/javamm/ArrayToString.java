@@ -19,7 +19,7 @@ public class ArrayToString {
     }
     return buffer;
   }
-  
+
   public static void main(String[] args) {
     System.out.println(ArrayToString.arrayToString(new int[] { 1, 2, 3 }));
   }

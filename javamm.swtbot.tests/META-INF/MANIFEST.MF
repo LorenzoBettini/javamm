@@ -7,6 +7,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.swtbot.go;bundle-version="2.3.0",
  org.eclipse.core.resources,
  javamm.selfassessment.builder,
- org.eclipse.xtext.ui.testing
+ org.eclipse.xtext.ui.testing,
+ org.slf4j.api;bundle-version="1.7.30"
 Bundle-Vendor: Lorenzo Bettini
 Automatic-Module-Name: javamm.swtbot.tests

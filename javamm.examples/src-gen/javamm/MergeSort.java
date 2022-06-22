@@ -13,7 +13,7 @@ public class MergeSort {
     }
     System.out.println();
   }
-  
+
   public static void sort(int[] a, int left, int right) {
     if ((left < right)) {
       int middle = ((left + right) / 2);
@@ -22,7 +22,7 @@ public class MergeSort {
       MergeSort.merge(a, left, middle, right);
     }
   }
-  
+
   public static void merge(int[] a, int left, int middle, int right) {
     int[] b = new int[((right - left) + 1)];
     int i = left;
@@ -58,7 +58,7 @@ public class MergeSort {
       a[i] = b[(i - left)];
     }
   }
-  
+
   public static void main() {
     int[] a = { 7, 11, 9, 6, 12, 15, 8, 10, 14, 13 };
     MergeSort.printArray(a);
@@ -67,7 +67,7 @@ public class MergeSort {
     MergeSort.sort(a, 0, _minus);
     MergeSort.printArray(a);
   }
-  
+
   public static void main(String[] args) {
     MergeSort.main();
   }

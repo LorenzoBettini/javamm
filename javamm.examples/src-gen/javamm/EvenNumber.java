@@ -10,7 +10,7 @@ public class EvenNumber {
       System.out.println((("Number " + Integer.valueOf(n)) + " is even."));
     }
   }
-  
+
   public static void main(String[] args) {
     EvenNumber.isEven(10);
   }

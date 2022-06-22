@@ -12,7 +12,7 @@ public class EvenOddNumber {
       System.out.println((("Number " + Integer.valueOf(n)) + " is odd."));
     }
   }
-  
+
   public static void main(String[] args) {
     EvenOddNumber.evenOdd(9);
     EvenOddNumber.evenOdd(10);

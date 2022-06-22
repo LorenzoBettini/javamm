@@ -13,7 +13,7 @@ public class Factorization {
     }
     return n;
   }
-  
+
   public static void main() {
     int number = 750;
     int factor = 0;
@@ -32,7 +32,7 @@ public class Factorization {
       }
     }
   }
-  
+
   public static void main(String[] args) {
     Factorization.main();
   }
